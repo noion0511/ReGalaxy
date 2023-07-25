@@ -1,6 +1,6 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: mysql://stg-yswa-kr-practice-db-master.mariadb.database.azure.com:3306/S09P12D102
+    url: jdbc:mysql://stg-yswa-kr-practice-db-master.mariadb.database.azure.com:3306/S09P12D102
     username: S09P12D102@stg-yswa-kr-practice-db-master.mariadb.database.azure.com
     password: 11jBMoEHvm
