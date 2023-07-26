@@ -25,5 +25,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:itemIconTint="@drawable/nav_selector_color"
+        app:itemTextColor="@drawable/nav_selector_color"
+        app:labelVisibilityMode="labeled"
+        android:background="@color/white"
+        app:itemActiveIndicatorStyle="@null"
         app:menu="@menu/navigation_menu" />
 </androidx.constraintlayout.widget.ConstraintLayout>
