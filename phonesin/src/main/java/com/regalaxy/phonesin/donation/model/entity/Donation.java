@@ -14,6 +14,7 @@ import static javax.persistence.FetchType.LAZY;
 @Entity(name = "donation")
 @EntityListeners(AuditingEntityListener.class)
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "donation")
 public class Donation {
