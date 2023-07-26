@@ -5,10 +5,10 @@
     android:layout_height="match_parent">
 
     <SurfaceView
-        android:id="@+id/svCamera"
+        android:id="@+id/surfaceViewCamera"
         android:layout_width="300dp"
         android:layout_height="400dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnTakePicture"
+        app:layout_constraintBottom_toTopOf="@+id/buttonTakePicture"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -16,7 +16,7 @@
         app:layout_constraintVertical_weight="1" />
 
     <Button
-        android:id="@+id/btnTakePicture"
+        android:id="@+id/buttonTakePicture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Take Picture"
@@ -24,7 +24,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/svCamera" />
+        app:layout_constraintTop_toBottomOf="@+id/surfaceViewCamera" />
+
+    <ImageView
+        android:id="@+id/buttonChangeView"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:src="@drawable/switch_camera"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonTakePicture"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/surfaceViewCamera" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

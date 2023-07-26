@@ -25,6 +25,7 @@ class CameraActivity : Activity() {
     private lateinit var surfaceHolder: SurfaceHolder
     private var isSafeToTakePicture = false
 
+    private var cameraId = Camera.CameraInfo.CAMERA_FACING_BACK
     private val pictureCallback = Camera.PictureCallback { data, _ ->
         savePictureToPublicDir(data)
         restartPreview()
@@ -42,19 +43,35 @@ class CameraActivity : Activity() {
             finish()
         }
 
-        surfaceHolder = binding.svCamera.holder
+        surfaceHolder = binding.surfaceViewCamera.holder
         surfaceHolder.addCallback(surfaceHolderCallback)
 
-        binding.btnTakePicture.setOnClickListener {
+        binding.buttonTakePicture.setOnClickListener {
             if (isSafeToTakePicture) {
                 startCountdownAndTakePicture()
             }
         }
+
+        binding.buttonChangeView.setOnClickListener {
+            changeCamera()
+        }
     }
 
     private fun initCamera() {
-        camera = getCameraInstance() ?: return
+        releaseCamera()
+        camera = getCameraInstance(cameraId) ?: return
         camera.setDisplayOrientation(90)
+    }
+
+    private fun changeCamera() {
+        // 카메라 ID를 변경합니다. 후면이면 전면으로, 전면이면 후면으로 변경합니다.
+        cameraId = if (cameraId == Camera.CameraInfo.CAMERA_FACING_BACK) {
+            Camera.CameraInfo.CAMERA_FACING_FRONT
+        } else {
+            Camera.CameraInfo.CAMERA_FACING_BACK
+        }
+        initCamera() // 카메라를 다시 초기화합니다.
+        startCameraPreview() // 카메라 프리뷰를 시작합니다.
     }
 
     private fun showToast(message: String) {
@@ -62,7 +79,7 @@ class CameraActivity : Activity() {
     }
 
     private fun startCountdownAndTakePicture() {
-        binding.btnTakePicture.isEnabled = false
+        binding.buttonTakePicture.isEnabled = false
 
         object : CountDownTimer(3000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
@@ -76,6 +93,15 @@ class CameraActivity : Activity() {
         }.start()
     }
 
+    private fun startCameraPreview() {
+        try {
+            camera.setPreviewDisplay(surfaceHolder)
+            camera.startPreview()
+            isSafeToTakePicture = true
+        } catch (e: Exception) {
+            Log.d("CameraActivity", "Failed to start camera preview: ${e.message}")
+        }
+    }
     private fun takePicture() {
         if (isSafeToTakePicture) {
             camera.takePicture(null, null, pictureCallback)
@@ -89,7 +115,7 @@ class CameraActivity : Activity() {
         if (checkCameraHardware(this)) {
             initCamera()
 
-            surfaceHolder = binding.svCamera.holder
+            surfaceHolder = binding.surfaceViewCamera.holder
             surfaceHolder.addCallback(surfaceHolderCallback)
 
             try {
@@ -105,10 +131,15 @@ class CameraActivity : Activity() {
         }
     }
 
+    private fun releaseCamera() {
+        if (::camera.isInitialized) {
+            camera.release() // 카메라 인스턴스를 해제합니다.
+        }
+    }
 
     override fun onPause() {
         super.onPause()
-        camera.release()
+        releaseCamera()
     }
 
 
@@ -134,7 +165,7 @@ class CameraActivity : Activity() {
     private fun restartPreview() {
         camera.startPreview()
         isSafeToTakePicture = true
-        binding.btnTakePicture.isEnabled = true
+        binding.buttonTakePicture.isEnabled = true
     }
 
     private fun savePictureToPublicDir(data: ByteArray) {
@@ -159,9 +190,9 @@ class CameraActivity : Activity() {
             return context.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)
         }
 
-        fun getCameraInstance(): Camera? {
+        fun getCameraInstance(cameraId: Int): Camera? {
             return try {
-                Camera.open()
+                Camera.open(cameraId)
             } catch (e: Exception) {
                 null
             }
