@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Environment
 import android.util.Log
+import android.view.Display
 import android.view.SurfaceHolder
 import android.widget.Toast
 import androidx.core.net.toUri

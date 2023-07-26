@@ -15,11 +15,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_weight="1" />
 
-    <Button
+    <ImageView
         android:id="@+id/buttonTakePicture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Take Picture"
+        android:layout_width="43dp"
+        android:layout_height="43dp"
+        android:background="@drawable/border_button_take_camera"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -31,6 +31,7 @@
         android:layout_width="42dp"
         android:layout_height="42dp"
         android:src="@drawable/switch_camera"
+        android:background="@drawable/border_button_turn_camera"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonTakePicture"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +41,8 @@
         android:id="@+id/buttonTurnLight"
         android:layout_width="42dp"
         android:layout_height="42dp"
-        android:src="@drawable/switch_camera"
+        android:src="@drawable/flashlight"
+        android:background="@drawable/border_button_turn_camera"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/buttonTakePicture"
