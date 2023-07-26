@@ -1,15 +1,12 @@
-package com.regalaxy.phonesin.donation.model;
+package com.regalaxy.phonesin.donation.model.dto;
 
 import com.regalaxy.phonesin.donation.model.entity.Donation;
-import com.regalaxy.phonesin.donation.model.repository.DonationRepository;
 import com.regalaxy.phonesin.member.model.entity.Member;
-import com.regalaxy.phonesin.member.model.repository.MemberRepository;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Optional;
+import java.time.LocalDateTime;
 
 @Data
 @Getter
@@ -25,7 +22,7 @@ public class DonationDto {
     private int donation_status;
 
     @ApiModelProperty(value = "기증 날짜")
-    private String donation_created_at;
+    private LocalDateTime donation_created_at;
 
     @ApiModelProperty(value = "기증 배송 신청 날짜")
     private String donation_delivery_date;
@@ -36,10 +33,9 @@ public class DonationDto {
     @ApiModelProperty(value = "기증 배송 장소")
     private String donation_delivery_location;
 
-    @Builder
-    public Donation toEntity() throws Exception {
+    public Donation toEntity(Member member) throws Exception {
         return Donation.builder()
-                .member_id(this.member_id)
+                .member(member)
                 .donation_status(this.donation_status)
                 .donation_delivery_date(this.donation_delivery_date)
                 .donation_delivery_location_type(this.donation_delivery_location_type)
