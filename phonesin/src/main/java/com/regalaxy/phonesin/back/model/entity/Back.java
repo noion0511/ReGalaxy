@@ -42,6 +42,13 @@ public class Back {
 
     public static Back toBackEntity(BackDto BackDto) {
         Back back = new Back();
-        back.();
+        back.setBack_id(BackDto.getBack_id());
+        back.setBack_status(back.getBack_status());
+        back.setBack_delivery_date(back.getBack_delivery_date());
+        back.setApply_date(back.getApply_date());
+        back.setBack_delivery_location_type(back.getBack_delivery_location_type());
+        back.setBack_zipcode(back.getBack_zipcode());
+        back.setReview(back.getReview());
+        return back;
     }
 }
