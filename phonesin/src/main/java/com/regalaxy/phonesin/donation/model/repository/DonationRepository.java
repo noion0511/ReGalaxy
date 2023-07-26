@@ -1,4 +1,8 @@
 package com.regalaxy.phonesin.donation.model.repository;
 
-public class DonationRepository {
+import com.regalaxy.phonesin.donation.model.DonationDto;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface DonationRepository extends JpaRepository<DonationDto, Long> {
+
 }
