@@ -1,5 +1,6 @@
 package com.regalaxy.phonesin.back.model.service;
 
+import com.regalaxy.phonesin.back.model.BackDto;
 import com.regalaxy.phonesin.back.model.entity.Back;
 import com.regalaxy.phonesin.back.model.repository.BackRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +15,13 @@ public class BackService {
 
     private final BackRepository backRepository;
 
+    @Transactional
+    public void saveBack(BackDto backDto) {
+        backRepository.save(backDto);
+    }
+
     // backId인 반납 신청서 read
-    public Back findOne(Long backId) {
+    public BackDto findOne(Long backId) {
         return backRepository.findOne(backId);
     }
 }

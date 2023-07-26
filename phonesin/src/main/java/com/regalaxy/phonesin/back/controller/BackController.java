@@ -17,14 +17,16 @@ public class BackController {
     private final BackService backService;
 
     @PostMapping("/back/apply")
-    public String create(BackDto backDto) {
-        Back back = new Back();
+    public String backApply(BackDto backDto) {
+        System.out.println(backDto.getBackZipcode());
+        backService.saveBack(backDto);
+        return null;
     }
 
     // 반납 신청서 상세 정보보기
     @GetMapping("/back/info")
     public String finding(Model model) {
-        Back back = backService.findOne(1L);
+        BackDto backDto = backService.findOne(1L);
         return null; // 반납 신청서 상세 정보보기 url 들어오면 적어주기
     }
 }

@@ -10,19 +10,27 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @ToString
 public class BackDto {
-    private int back_status;
-    private LocalDate back_delivery_date;
-    private LocalDateTime apply_date;
-    private String back_delivery_location_type;
-    private String back_delivery_location;
+    private Long backId;
+    private Long rentalId;
+    private int backStatus;
+    private LocalDate backDeliveryDate;
+    private LocalDateTime applyDate;
+    private String backDeliveryLocationType;
+    private String backDeliveryLocation;
+    private String backZipcode;
+    private String review;
 
     public static BackDto toBackDto(Back back) {
         BackDto backDto = new BackDto();
-        backDto.setBack_status(back.getBack_status());
-        backDto.setBack_delivery_date(back.getBack_delivery_date());
-        backDto.setApply_date(back.getApply_date());
-        backDto.setBack_delivery_location_type(back.getBack_delivery_location_type());
-        backDto.setBack_delivery_location(back.getBack_delivery_location());
+        backDto.setBackId(back.getBackId());
+        backDto.setRentalId(back.getRentalId());
+        backDto.setBackStatus(back.getBackStatus());
+        backDto.setBackDeliveryDate(back.getBackDeliveryDate());
+        backDto.setApplyDate(back.getApplyDate());
+        backDto.setBackDeliveryLocationType(back.getBackDeliveryLocationType());
+        backDto.setBackDeliveryLocation(back.getBackDeliveryLocation());
+        backDto.setBackZipcode(back.getBackZipcode());
+        backDto.setReview(back.getReview());
 
         return backDto;
     }
