@@ -1,7 +1,8 @@
-package com.ssafy.phonesin
+package com.ssafy.phonesin.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.ssafy.phonesin.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
