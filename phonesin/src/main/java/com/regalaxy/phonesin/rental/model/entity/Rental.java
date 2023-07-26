@@ -1,10 +1,14 @@
 package com.regalaxy.phonesin.rental.model.entity;
 
+import com.regalaxy.phonesin.address.model.entity.Agency;
+import com.regalaxy.phonesin.member.model.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 
+import javax.persistence.Id;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity(name="rental")
@@ -14,8 +18,13 @@ import javax.persistence.Table;
 public class Rental {
     @Id
     private int rental_id;
-    private int member_id;
-    private int agency_id;
+    @ManyToOne
+    @JoinColumn(name="member_id")
+    private Member member;
+    @ManyToOne
+    @JoinColumn(name="agency_id")
+    private Agency agency;
+
     private String apply_date;
     private String rental_start;
     private String rental_end;
