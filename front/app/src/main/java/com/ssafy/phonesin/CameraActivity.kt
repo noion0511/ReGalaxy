@@ -8,6 +8,7 @@ import android.hardware.Camera
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Environment
+import android.util.Log
 import android.view.SurfaceHolder
 import android.widget.Toast
 import androidx.core.net.toUri
@@ -19,7 +20,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class CameraActivity : Activity() {
-
     private lateinit var binding: ActivityCameraBinding
 
     private lateinit var camera: Camera
@@ -39,7 +39,6 @@ class CameraActivity : Activity() {
         if (checkCameraHardware(this)) {
             initCamera()
         } else {
-            // Handle the case where the device doesn't have a camera
             finish()
         }
 
@@ -84,6 +83,35 @@ class CameraActivity : Activity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        if (checkCameraHardware(this)) {
+            initCamera()
+
+            surfaceHolder = binding.svCamera.holder
+            surfaceHolder.addCallback(surfaceHolderCallback)
+
+            try {
+                camera.setPreviewDisplay(surfaceHolder)
+                camera.startPreview()
+                isSafeToTakePicture = true
+            } catch (e: Exception) {
+                Log.d("CameraActivity", "Failed to start camera preview: ${e.message}")
+            }
+
+        } else {
+            finish()
+        }
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+        camera.release()
+    }
+
+
     private val surfaceHolderCallback = object : SurfaceHolder.Callback {
         override fun surfaceCreated(holder: SurfaceHolder) {
             try {
@@ -91,16 +119,14 @@ class CameraActivity : Activity() {
                 camera.startPreview()
                 isSafeToTakePicture = true
             } catch (e: Exception) {
-                // Handle the error
+                Log.d("surfaceHolderCallback", "surfaceCreated: callback exception")
             }
         }
 
         override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
-            // If your camera can support preview size changes, handle it here
         }
 
         override fun surfaceDestroyed(holder: SurfaceHolder) {
-            // Release the camera resources when the surface is destroyed
             camera.release()
         }
     }
