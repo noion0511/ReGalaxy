@@ -17,7 +17,6 @@ public class BackController {
     @GetMapping("back/findone")
     public String finding(Model model) {
         Back back = backService.findOne(1L);
-        System.out.println(back);
 
         return "redirect:/items";
     }
