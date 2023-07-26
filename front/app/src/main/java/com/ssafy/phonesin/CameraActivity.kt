@@ -27,7 +27,7 @@ class CameraActivity : Activity() {
     private var isSafeToTakePicture = false
 
     private val pictureCallback = Camera.PictureCallback { data, _ ->
-        savePicture(data)
+        savePictureToPublicDir(data)
         restartPreview()
     }
 
@@ -110,18 +110,18 @@ class CameraActivity : Activity() {
         binding.btnTakePicture.isEnabled = true
     }
 
-    private fun savePicture(data: ByteArray) {
+    private fun savePictureToPublicDir(data: ByteArray) {
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val storageDir =
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
         val imageFile = File(storageDir, "IMG_$timeStamp.jpg")
 
         try {
             val fos = FileOutputStream(imageFile)
             fos.write(data)
             fos.close()
-
-            // Add the image to the system's gallery (if needed)
             sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, imageFile.toUri()))
+            Log.d("tag", "사진 저장 ${imageFile.toUri()}")
         } catch (e: Exception) {
             showToast("사진 저장 실패")
         }
