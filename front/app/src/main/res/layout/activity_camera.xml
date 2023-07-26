@@ -35,6 +35,16 @@
         app:layout_constraintEnd_toStartOf="@+id/buttonTakePicture"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/surfaceViewCamera" />
+
+    <ImageView
+        android:id="@+id/buttonTurnLight"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:src="@drawable/switch_camera"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/buttonTakePicture"
+        app:layout_constraintTop_toBottomOf="@+id/surfaceViewCamera" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

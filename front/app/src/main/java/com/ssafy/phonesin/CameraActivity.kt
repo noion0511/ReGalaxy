@@ -25,6 +25,9 @@ class CameraActivity : Activity() {
     private lateinit var surfaceHolder: SurfaceHolder
     private var isSafeToTakePicture = false
 
+    private var isFlashOn = false
+    private lateinit var params: Camera.Parameters
+
     private var cameraId = Camera.CameraInfo.CAMERA_FACING_BACK
     private val pictureCallback = Camera.PictureCallback { data, _ ->
         savePictureToPublicDir(data)
@@ -55,12 +58,17 @@ class CameraActivity : Activity() {
         binding.buttonChangeView.setOnClickListener {
             changeCamera()
         }
+
+        binding.buttonTurnLight.setOnClickListener {
+            toggleFlash()
+        }
     }
 
     private fun initCamera() {
         releaseCamera()
         camera = getCameraInstance(cameraId) ?: return
         camera.setDisplayOrientation(90)
+        params = camera.parameters
     }
 
     private fun changeCamera() {
@@ -72,6 +80,18 @@ class CameraActivity : Activity() {
         }
         initCamera() // 카메라를 다시 초기화합니다.
         startCameraPreview() // 카메라 프리뷰를 시작합니다.
+    }
+
+    private fun toggleFlash() {
+        if (isFlashOn) {
+            params.flashMode = Camera.Parameters.FLASH_MODE_OFF
+            camera.parameters = params
+            isFlashOn = false
+        } else {
+            params.flashMode = Camera.Parameters.FLASH_MODE_TORCH
+            camera.parameters = params
+            isFlashOn = true
+        }
     }
 
     private fun showToast(message: String) {
