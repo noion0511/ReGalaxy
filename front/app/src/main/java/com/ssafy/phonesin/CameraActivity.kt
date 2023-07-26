@@ -55,22 +55,23 @@ class CameraActivity : Activity() {
 
     private fun initCamera() {
         camera = getCameraInstance() ?: return
+        camera.setDisplayOrientation(90)
     }
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
+
     private fun startCountdownAndTakePicture() {
         binding.btnTakePicture.isEnabled = false
 
-        object : CountDownTimer(5000, 1000) {
+        object : CountDownTimer(3000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 val secondsRemaining = millisUntilFinished / 1000
                 showToast((secondsRemaining + 1).toString())
             }
 
             override fun onFinish() {
-                showToast("사진 촬영 중...")
                 takePicture()
             }
         }.start()
