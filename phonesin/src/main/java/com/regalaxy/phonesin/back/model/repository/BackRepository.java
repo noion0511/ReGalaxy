@@ -13,6 +13,7 @@ public class BackRepository {
 
     private final EntityManager em;
 
+    // back_id인 반납 신청서 read
     public Back findOne(Long back_id) {
         return em.find(Back.class, back_id);
     }

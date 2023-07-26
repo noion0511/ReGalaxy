@@ -14,6 +14,7 @@ public class BackService {
 
     private final BackRepository backRepository;
 
+    // backId인 반납 신청서 read
     public Back findOne(Long backId) {
         return backRepository.findOne(backId);
     }
