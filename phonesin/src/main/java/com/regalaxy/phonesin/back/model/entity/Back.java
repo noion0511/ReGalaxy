@@ -1,9 +1,7 @@
 package com.regalaxy.phonesin.back.model.entity;
 
 import com.regalaxy.phonesin.back.model.BackDto;
-import com.regalaxy.phonesin.member.model.entity.Member;
 import com.regalaxy.phonesin.rental.model.entity.Rental;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,8 +9,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -21,10 +17,11 @@ public class Back {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int back_id;
+    private Long back_id;
 
-    @OneToOne(mappedBy = "back")
-    private List<Rental> rentals = new ArrayList<>();
+//    @OneToOne(mappedBy = "back")
+//    private Rental rentals = new Rental();
+    private Long rental_id;
 
     @Column(nullable = false)
     private int back_status;
@@ -42,7 +39,6 @@ public class Back {
 
     public static Back toBackEntity(BackDto BackDto) {
         Back back = new Back();
-        back.setBack_id(BackDto.getBack_id());
         back.setBack_status(back.getBack_status());
         back.setBack_delivery_date(back.getBack_delivery_date());
         back.setApply_date(back.getApply_date());
