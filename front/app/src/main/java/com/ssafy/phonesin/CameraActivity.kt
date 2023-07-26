@@ -12,7 +12,6 @@ import android.util.Log
 import android.view.SurfaceHolder
 import android.widget.Toast
 import androidx.core.net.toUri
-import androidx.databinding.DataBindingUtil
 import com.ssafy.phonesin.databinding.ActivityCameraBinding
 import java.io.File
 import java.io.FileOutputStream
@@ -34,7 +33,8 @@ class CameraActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_camera)
+        binding = ActivityCameraBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         if (checkCameraHardware(this)) {
             initCamera()
