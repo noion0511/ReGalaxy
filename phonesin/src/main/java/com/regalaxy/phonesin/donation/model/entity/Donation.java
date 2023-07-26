@@ -1,24 +1,32 @@
 package com.regalaxy.phonesin.donation.model.entity;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import com.regalaxy.phonesin.member.model.entity.Member;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
-@Entity
-@Getter @Setter
+@Entity(name = "donation")
+@EntityListeners(AuditingEntityListener.class)
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "donation")
 public class Donation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int donation_id;
+    @Column(name = "donation_id")
+    private Long id;
 
-    private int member_id;
+    private Long member_id;
 
     private int donation_status;
 
-    private String donation_created_at;
+    @CreatedDate
+    @Column(name = "donation_created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
     private String donation_delivery_date;
 
@@ -26,8 +34,13 @@ public class Donation {
 
     private String donation_delivery_location;
 
+//    @ManyToOne
+//    @JoinColumn(name = "member_id")
+//    private int member;
+
     @Builder
-    public Donation(int donation_status, String donation_delivery_date, String donation_delivery_location_type, String donation_delivery_location) {
+    public Donation(Long member_id, int donation_status, String donation_delivery_date, String donation_delivery_location_type, String donation_delivery_location) {
+        this.member_id = member_id;
         this.donation_status = donation_status;
         this.donation_delivery_date = donation_delivery_date;
         this.donation_delivery_location_type = donation_delivery_location_type;
