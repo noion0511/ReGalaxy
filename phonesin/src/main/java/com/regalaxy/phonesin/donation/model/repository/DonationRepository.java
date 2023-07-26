@@ -9,7 +9,4 @@ import java.util.Map;
 import java.util.Optional;
 
 public interface DonationRepository extends JpaRepository<Donation, Long> {
-
-    @EntityGraph(attributePaths = {"member"})
-    List<Map<String, Object>> findAllmember();
 }
