@@ -2,4 +2,20 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="backgroundColor1">#FFD0E0F0</color>
+    <color name="keyColorLight1">#FFD7EBFF</color>
+    <color name="keyColorLight2">#FF92C8FE</color>
+    <color name="keyColor1">#FF0080FF</color>
+    <color name="keyColor2">#FF0061C2</color>
+    <color name="keyColorDark1">#FF003161</color>
+
+    <color name="secondaryBackgroundColor1">#FFE6D5D9</color>
+    <color name="secondaryKeyColorLight1">#FFF3CBD4</color>
+    <color name="secondaryKeyColorLight2">#FFED7491</color>
+    <color name="secondaryKeyColor1">#FFE51D4D</color>
+    <color name="secondaryKeyColor2">#FFC51B44</color>
+    <color name="secondaryKeyColorDark1">#FF4A0E1C</color>
+
+    <color name="borderColor">#1A000000</color>
 </resources>
