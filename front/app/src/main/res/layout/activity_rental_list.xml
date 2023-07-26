@@ -64,14 +64,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                tools:listitem="@layout/item_rental_list"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/rentalListDivider" />
             <TextView
                 android:id="@+id/mobileAdd"
-                android:paddingTop="20dp"
+                android:padding="10dp"
                 android:gravity="center"
-                android:text="+물품추가"
+                android:text="@string/add_rental_mobile"
                 app:layout_constraintTop_toBottomOf="@id/rentalListRv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -84,6 +85,7 @@
 
     <Button
         android:id="@+id/postRental"
+        android:text="신청"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -13,5 +13,7 @@
     <string name="mobile">기기</string>
     <string name="module">플러스기능</string>
     <string name="my_page">마이</string>
+    <string name="add_rental_mobile">+물품추가</string>
+    <string name="item_rental_change_option">옵션 변경</string>
 
 </resources>
