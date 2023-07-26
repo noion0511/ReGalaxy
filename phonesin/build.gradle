@@ -30,6 +30,10 @@ dependencies {
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	implementation 'javax.persistence:javax.persistence-api'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	// QueryDSLa
+	implementation 'com.querydsl:querydsl-core'
+	implementation 'com.querydsl:querydsl-jpa'
 }
 
 tasks.named('test') {
