@@ -1,5 +1,6 @@
 package com.regalaxy.phonesin.donation.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.regalaxy.phonesin.member.model.entity.Member;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -34,14 +35,14 @@ public class Donation {
 
     private String donation_delivery_location;
 
-    //    private Long member_id;
+    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @Builder
-    public Donation(Long member_id, int donation_status, String donation_delivery_date, String donation_delivery_location_type, String donation_delivery_location) {
-//        this.member_id = member_id;
+    public Donation(Member member, int donation_status, String donation_delivery_date, String donation_delivery_location_type, String donation_delivery_location) {
+        this.member = member;
         this.donation_status = donation_status;
         this.donation_delivery_date = donation_delivery_date;
         this.donation_delivery_location_type = donation_delivery_location_type;
