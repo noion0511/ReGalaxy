@@ -123,9 +123,10 @@ class CameraActivity : Activity() {
             Log.d("CameraActivity", "Failed to start camera preview: ${e.message}")
         }
     }
+    private val shutterCallback = Camera.ShutterCallback { }
     private fun takePicture() {
         if (isSafeToTakePicture) {
-            camera.takePicture(null, null, pictureCallback)
+            camera.takePicture(shutterCallback, null, pictureCallback)
             isSafeToTakePicture = false
         }
     }
