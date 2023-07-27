@@ -12,6 +12,7 @@ import com.regalaxy.phonesin.rental.model.repository.RentalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -26,6 +27,7 @@ public class RentalService {
 
     public boolean infoApply(RentalDetailDto rentalDetailDto){
         Rental rental = new Rental();
+        rental.setApply_date(LocalDateTime.now());
         rental.setCount(rentalDetailDto.getCount());
         rental.setFund(rentalDetailDto.getFund());
         rental.setHomecam(rentalDetailDto.isHomecam());

@@ -2,10 +2,10 @@ package com.regalaxy.phonesin.rental.model.entity;
 
 import com.regalaxy.phonesin.address.model.entity.Agency;
 import com.regalaxy.phonesin.member.model.entity.Member;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity(name="rental")
 @Getter
@@ -22,7 +22,8 @@ public class Rental {
     @JoinColumn(name="agency_id")
     private Agency agency;
 
-    private String apply_date;
+    private LocalDateTime apply_date;
+
     private String rental_start;
     private String rental_end;
     private int rental_status;
