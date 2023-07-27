@@ -25,11 +25,16 @@ class FrameActivity : AppCompatActivity() {
         setContentView(R.layout.activity_frame)
 
         val imagePath = intent.getStringExtra("imagePath")
+        val cameraFacing = intent.getStringExtra("cameraFacing")
         val imageView = findViewById<ImageView>(R.id.imageView)
         val saveButton = findViewById<TextView>(R.id.textViewTitle)
 
         val originalBitmap = BitmapFactory.decodeFile(imagePath)
-        val matrix = Matrix().apply { postRotate(90f) }
+        Log.d("FrameActivity", "Original Bitmap: $originalBitmap")
+
+        val rotationDegrees = if (cameraFacing == "FRONT") 270f else 90f
+        val matrix = Matrix().apply { postRotate(rotationDegrees) }
+
         val rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.width, originalBitmap.height, matrix, true)
 
         imageView.setImageBitmap(rotatedBitmap)

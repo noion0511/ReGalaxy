@@ -26,16 +26,15 @@ class PhotoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val photoPath = arguments?.getString(ARG_PHOTO_PATH) ?: return
-        showImage(photoPath)
+        val cameraFacing = arguments?.getString(ARG_CAMERA_FACE) ?: return
+        showImage(photoPath, cameraFacing)
     }
 
-    private fun showImage(photoPath: String) {
+    private fun showImage(photoPath: String, cameraFacing: String) {
         val bitmap = BitmapFactory.decodeFile(photoPath)
 
-        val matrix = Matrix().apply {
-            postRotate(90f)
-//            postScale(2f, 2f)
-        }
+        val rotationDegrees = if (cameraFacing == "FRONT") 270f else 90f
+        val matrix = Matrix().apply { postRotate(rotationDegrees) }
 
         val rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
 
@@ -44,11 +43,13 @@ class PhotoFragment : Fragment() {
 
     companion object {
         private const val ARG_PHOTO_PATH = "photo_path"
+        private const val ARG_CAMERA_FACE = "camera_face"
 
-        fun newInstance(photoPath: String): PhotoFragment {
+        fun newInstance(photoPath: String, cameraFacing: String): PhotoFragment {
             val fragment = PhotoFragment()
             val args = Bundle().apply {
                 putString(ARG_PHOTO_PATH, photoPath)
+                putString(ARG_CAMERA_FACE, cameraFacing)
             }
             fragment.arguments = args
             return fragment

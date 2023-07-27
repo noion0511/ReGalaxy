@@ -16,9 +16,10 @@ class CameraViewerActivity : AppCompatActivity() {
         binding = ActivityCameraViewerBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val photoPaths = intent.getStringArrayListExtra("photo_paths") ?: emptyList<String>()
+        val cameraFacing = intent.getStringArrayListExtra("cameraFacing") ?: emptyList<String>()
 
         viewPager = binding.viewPagerPhotoViewer
-        pagerAdapter = CameraPageAdapter(supportFragmentManager, photoPaths)
+        pagerAdapter = CameraPageAdapter(supportFragmentManager, photoPaths, cameraFacing)
         viewPager.adapter = pagerAdapter
 
         val indicator: CircleIndicator = binding.indicator
@@ -27,9 +28,11 @@ class CameraViewerActivity : AppCompatActivity() {
         binding.buttonPrintPicture.setOnClickListener {
             val currentImagePosition = viewPager.currentItem
             val currentImagePath = photoPaths[currentImagePosition]
+            val currentCameraFace = cameraFacing[currentImagePosition]
 
             val intent = Intent(this, FrameActivity::class.java)
             intent.putExtra("imagePath", currentImagePath)
+            intent.putExtra("cameraFacing", currentCameraFace)
             startActivity(intent)
         }
     }

@@ -32,11 +32,14 @@ class CameraActivity : Activity() {
     private var photoCount = 0
     private val maxPhotos = 4
     private var photoPaths = ArrayList<String>()
+    private var cameraFacing = ArrayList<String>()
 
     private var cameraId = Camera.CameraInfo.CAMERA_FACING_BACK
     private val pictureCallback = Camera.PictureCallback { data, _ ->
         val photoPath = savePictureToPublicDir(data)
+        val cameraFaceType = if (cameraId == Camera.CameraInfo.CAMERA_FACING_FRONT) "FRONT" else "BACK"
         photoPaths.add(photoPath)
+        cameraFacing.add(cameraFaceType)
         if (photoCount < maxPhotos) {
             restartPreview()
         } else {
@@ -44,7 +47,9 @@ class CameraActivity : Activity() {
             binding.buttonTakePicture.isEnabled = true
             val intent = Intent(this, CameraViewerActivity::class.java)
             intent.putStringArrayListExtra("photo_paths", photoPaths)
+            intent.putStringArrayListExtra("cameraFacing", cameraFacing)
             photoPaths = ArrayList<String>()
+            cameraFacing = ArrayList<String>()
             startActivity(intent)
         }
     }
