@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.regalaxy.phonesin.back.model.BackDto;
 import com.regalaxy.phonesin.global.BaseTimeEntity;
 import com.regalaxy.phonesin.rental.model.entity.Rental;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -21,7 +18,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "back")
-public class Back {
+public class Back extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,27 +26,31 @@ public class Back {
 
     // 나중에 rental 코드 들어오면 다시 작성하기
     @JsonIgnore
-    @OneToOne(mappedBy = "back", fetch = LAZY)
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name = "rental_id")
     private Rental rental;
 //    private Long rentalId;
 
     @Column(nullable = false)
     private int backStatus; // 반납 상태 : 신청(1), 승인(2), 수거완료(3), 상태확인(4)
     private String backDeliveryDate;
-    private LocalDateTime applyDate;
+
+    @CreatedDate
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
     private String backDeliveryLocationType; // 배달, 서비스센터 제출, 직접 제출
     private String backDeliveryLocation; // 1 배달의 경우 배달지 주소, 서비스센터 제출의 경우 서비스센터 주소
     private String backZipcode; // 주소의 우편번호
     private String review; // 사용 후기 또는 조기 반납 이유
 
-    public static Back toBackEntity(BackDto backDto) {
-        Back back = new Back();
-        back.setBackStatus(backDto.getBackStatus());
-        back.setBackDeliveryDate(backDto.getBackDeliveryDate());
-        back.setBackDeliveryLocationType(backDto.getBackDeliveryLocationType());
-        back.setBackDeliveryLocation(backDto.getBackDeliveryLocation());
-        back.setBackZipcode(backDto.getBackZipcode());
-        back.setReview(backDto.getReview());
-        return back;
+    @Builder
+    public Back(Rental rental, int backStatus, String backDeliveryDate, String backDeliveryLocationType, String backDeliveryLocation, String backZipcode, String review) {
+        this.rental = rental;
+        this.backStatus = backStatus;
+        this.backDeliveryDate = backDeliveryDate;
+        this.backDeliveryLocationType = backDeliveryLocationType;
+        this.backDeliveryLocation = backDeliveryLocation;
+        this.backZipcode = backZipcode;
+        this.review = review;
     }
 }
