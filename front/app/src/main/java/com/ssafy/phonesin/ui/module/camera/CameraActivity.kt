@@ -1,4 +1,4 @@
-package com.ssafy.phonesin
+package com.ssafy.phonesin.ui.module.camera
 
 import android.app.Activity
 import android.content.Context
@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Environment
 import android.util.Log
-import android.view.Display
 import android.view.SurfaceHolder
 import android.widget.Toast
 import androidx.core.net.toUri
@@ -200,10 +199,15 @@ class CameraActivity : Activity() {
             val fos = FileOutputStream(imageFile)
             fos.write(data)
             fos.close()
+
             sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, imageFile.toUri()))
             Log.d("tag", "사진 저장 ${imageFile.toUri()}")
         } catch (e: Exception) {
             showToast("사진 저장 실패")
+        } finally {
+            val intent = Intent(this, CameraViewerActivity::class.java)
+            intent.putExtra("photo_path", imageFile.absolutePath)
+            startActivity(intent)
         }
     }
 

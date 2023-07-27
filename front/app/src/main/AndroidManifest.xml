@@ -33,8 +33,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".CameraActivity"
-            android:exported="true"></activity>
+            android:name=".ui.module.camera.CameraViewerActivity"
+            android:exported="false"/>
+
+        <activity
+            android:name=".ui.module.camera.CameraActivity"
+            android:exported="true">
+        </activity>
     </application>
 </manifest>
