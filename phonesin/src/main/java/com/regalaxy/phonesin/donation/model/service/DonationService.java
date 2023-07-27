@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -47,9 +48,15 @@ public class DonationService {
 
     @Transactional
     public boolean donationUpdate(DonationDto donationDto) throws Exception {
-        if (donationRepository.findById(donationDto.getDonation_id()).isPresent()) {
+        Optional<Donation> optional = donationRepository.findById(donationDto.getDonation_id());
+        if (optional.isPresent()) {
             Member member = memberRepository.findById(donationDto.getMember_id()).get();
-            donationRepository.save(donationDto.toEntity(member));
+            Donation donation = optional.get();
+            donation.setMember(member);
+            donation.setDonation_status(donationDto.getDonation_status());
+            donation.setDonation_delivery_location(donationDto.getDonation_delivery_location());
+            donation.setDonation_delivery_location_type(donationDto.getDonation_delivery_location_type());
+            donation.setDonation_delivery_date(donationDto.getDonation_delivery_date());
             return true;
         }
         return false;
