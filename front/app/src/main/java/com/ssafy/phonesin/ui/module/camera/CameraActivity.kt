@@ -63,9 +63,11 @@ class CameraActivity : Activity() {
 
         surfaceHolder = binding.surfaceViewCamera.holder
         surfaceHolder.addCallback(surfaceHolderCallback)
+        binding.count.text = "1 / 4"
 
         binding.buttonTakePicture.setOnClickListener {
             if (isSafeToTakePicture) {
+                binding.count.text = "1 / 4"
                 startCountdownAndTakePicture()
             }
         }
@@ -119,7 +121,7 @@ class CameraActivity : Activity() {
         object : CountDownTimer(15000, 3000) { // 총 12초 동안 3초마다
             override fun onTick(millisUntilFinished: Long) {
                 val secondsRemaining = millisUntilFinished / 1000
-                showToast(((secondsRemaining)/3).toString())
+                binding.count.text = "${(5 - (secondsRemaining)/3)} / 4"
                 takePicture()
             }
 
