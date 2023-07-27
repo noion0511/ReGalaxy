@@ -8,5 +8,7 @@ import javax.persistence.Table;
 @Table(name="phone")
 public class Phone {
     @Id
-    private Long phone_id;
+    private int phone_id;
+    private int rental_id;
+    private int model_id;
 }

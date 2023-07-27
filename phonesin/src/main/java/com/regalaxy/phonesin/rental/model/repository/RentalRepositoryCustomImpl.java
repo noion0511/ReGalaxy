@@ -21,76 +21,64 @@ public class RentalRepositoryCustomImpl implements RentalRepositoryCustom {
     private final EntityManager em;
     @Override
     public List<RentalDto> search(SearchDto searchDto) {
-//        String s = "select r from rental r";
-//        int n = 0;
-//        if(searchDto.getEmail() != null){//이메일 검색을 했을 경우
-//            if(n==0){
-//                s+=" where ";
-//            }
-//            s += "r.member_id = (select m.member_id from member m where m.email='%"+searchDto.getEmail()+"%'";//서브쿼리로 member_id 찾기
-//            n++;
-//        }
-//        if(searchDto.getIsBlack() == 2){
-//            if(n==0){
-//                s+=" where";
-//            }
-//            else if(n>0){
-//                s+= " and ";
-//            }
-//            s+= "r.isBlack = true";
-//            n++;
-//        }
-//        else if(searchDto.getIsBlack() == 3){
-//            if(n==0){
-//                s+=" where";
-//            }
-//            else if(n>0){
-//                s+= " and ";
-//            }
-//            s+="r.isBlack = false";
-//            n++;
-//        }
-//
-//        if(searchDto.getIsCha() == 2){
-//            if(n==0){
-//                s+=" where";
-//            }
-//            else if(n>0){
-//                s+= " and ";
-//            }
-//            s+= "r.isCha = true";
-//            n++;
-//        }
-//        else if(searchDto.getIsCha() == 3){
-//            if(n==0){
-//                s+=" where";
-//            }
-//            else if(n>0){
-//                s+= " and ";
-//            }
-//            s+="r.isCha = false";
-//            n++;
-//        }
-//
-//        s+= "limit " + (searchDto.getPgno()-1)*10 + ", " + 10;//(페이지-1)*10부터 10개 가져오기
-//
-//        if(searchDto.getPgno() != 0){
-//            if(n==0){
-//                s+=" where";
-//            }
-//            if(n>0){
-//                s+= " and ";
-//            }
-//            s += "r.name = :name";
-//            n++;
-//        }
-//
-//        return em.createQuery(s, RentalDto.class)
-//                .getResultList();
+//        String s = "select new com.regalaxy.phonesin.rental.model.RentalDto(r.rental_id, r.rental_start, r.rental_end, r.rental_status, r.rental_deliverylocation, r.fund) from rental r";
+        String s = "select new com.regalaxy.phonesin.rental.model.RentalDto(r.rental_id, r.rental_start, r.rental_end, r.rental_status, r.rental_deliverylocation, r.fund, m.model_name, p.phone_id, r.waybill_number) "
+            + "from rental r join phone p on r.rental_id = p.rental_id "
+                + "join model m on p.model_id = m.model_id ";
+        int n = 0;
+        if(searchDto.getEmail() != null){//이메일 검색을 했을 경우
+            if(n==0){
+                s+=" where";
+            }
+            s += "r.member_id = (select m.member_id from member m where m.email='%"+searchDto.getEmail()+"%'";//서브쿼리로 member_id 찾기
+            n++;
+        }
+        if(searchDto.getIsBlack() == 2){
+            if(n==0){
+                s+=" where";
+            }
+            if(n>0){
+                s+= " and ";
+            }
+            s+= "r.isBlack = true";
+            n++;
+        }
+        else if(searchDto.getIsBlack() == 3){
+            if(n==0){
+                s+=" where";
+            }
+            if(n>0){
+                s+= " and ";
+            }
+            s+="r.isBlack = false";
+            n++;
+        }
 
-        return em.createQuery("select new com.regalaxy.phonesin.rental.model.RentalDto(r.rental_id, r.rental_start) from rental r", RentalDto.class)
+        if(searchDto.getIsCha() == 2){
+            if(n==0){
+                s+=" where";
+            }
+            if(n>0){
+                s+= " and ";
+            }
+            s+= "r.isCha = true";
+            n++;
+        }
+        else if(searchDto.getIsCha() == 3){
+            if(n==0){
+                s+=" where";
+            }
+            if(n>0){
+                s+= " and ";
+            }
+            s+="r.isCha = false";
+            n++;
+        }
+
+        System.out.println(s);
+
+        return em.createQuery(s, RentalDto.class)
                 .getResultList();
-//        return null;
     }
 
     @Override

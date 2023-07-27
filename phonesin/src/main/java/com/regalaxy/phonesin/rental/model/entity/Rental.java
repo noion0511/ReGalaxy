@@ -5,11 +5,7 @@ import com.regalaxy.phonesin.member.model.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Id;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity(name="rental")
 @Getter
@@ -34,7 +30,8 @@ public class Rental {
     private boolean isHomecam;
     private int count;
     private boolean isExtension;
-    private boolean rental_delivery_location;
+    @Column(name="rental_delibery_location")
+    private String rental_deliverylocation;
     private int rental_zipcode;
     private String waybill_number;
     private int fund;
