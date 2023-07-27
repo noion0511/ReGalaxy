@@ -1,29 +1,38 @@
 package com.regalaxy.phonesin.back.model;
 
 import com.regalaxy.phonesin.back.model.entity.Back;
+import com.regalaxy.phonesin.global.BaseTimeEntity;
+import com.regalaxy.phonesin.rental.model.entity.Rental;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Getter @Setter
-@NoArgsConstructor
-@ToString
+@Getter
+@RequiredArgsConstructor
 public class BackDto {
-    private int back_status;
-    private LocalDate back_delivery_date;
-    private LocalDateTime apply_date;
-    private String back_delivery_location_type;
-    private String back_delivery_location;
+    private Long backId;
+    private Long rentalId;
+    private int backStatus;
+    private LocalDate backDeliveryDate;
+//    private LocalDateTime applyDate;
+    private String backDeliveryLocationType;
+    private String backDeliveryLocation;
+    private String backZipcode;
+    private String review;
+    private LocalDateTime createdAt;
 
-    public static BackDto toBackDto(Back back) {
-        BackDto backDto = new BackDto();
-        backDto.setBack_status(back.getBack_status());
-        backDto.setBack_delivery_date(back.getBack_delivery_date());
-        backDto.setApply_date(back.getApply_date());
-        backDto.setBack_delivery_location_type(back.getBack_delivery_location_type());
-        backDto.setBack_delivery_location(back.getBack_delivery_location());
-
-        return backDto;
+    public Back toEntity(Rental rental){
+        return Back.builder()
+                .rental(rental)
+                .backStatus(this.backStatus)
+                .backDeliveryDate(this.backDeliveryDate)
+                .backDeliveryLocationType(this.backDeliveryLocationType)
+                .backDeliveryLocation(this.backDeliveryLocation)
+                .backZipcode(this.backZipcode)
+                .review(this.review)
+                .build();
     }
 }

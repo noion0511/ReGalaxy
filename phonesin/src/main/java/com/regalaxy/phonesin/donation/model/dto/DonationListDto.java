@@ -36,7 +36,7 @@ public class DonationListDto {
 
     @Builder
     public DonationListDto(Donation donation){
-        this.donation_id = donation.getId();
+        this.donation_id = donation.getDonation_id();
         this.member_id = donation.getMember().getMember_id();
         this.donation_status = donation.getDonation_status();
         this.donation_created_at = donation.getCreatedAt();

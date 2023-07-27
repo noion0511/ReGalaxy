@@ -22,7 +22,7 @@ public class Donation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "donation_id")
-    private Long id;
+    private Long donation_id;
 
     private int donation_status;
 

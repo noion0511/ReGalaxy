@@ -68,7 +68,7 @@ public class DonationService {
     }
 
     public List<DonationListDto> donationKing() throws Exception {
-        List<DonationListDto> result = donationRepository.findTop5ByOrderById()
+        List<DonationListDto> result = donationRepository.findAll()
                 .stream()
                 .map(Object -> DonationListDto.builder().donation(Object).build())
                 .collect(Collectors.toList());
