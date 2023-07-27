@@ -10,6 +10,7 @@ import android.os.CountDownTimer
 import android.os.Environment
 import android.util.Log
 import android.view.SurfaceHolder
+import android.view.View
 import android.widget.Toast
 import androidx.core.net.toUri
 import com.ssafy.phonesin.databinding.ActivityCameraBinding
@@ -28,10 +29,24 @@ class CameraActivity : Activity() {
     private var isFlashOn = false
     private lateinit var params: Camera.Parameters
 
+    private var photoCount = 0
+    private val maxPhotos = 4
+    private var photoPaths = ArrayList<String>()
+
     private var cameraId = Camera.CameraInfo.CAMERA_FACING_BACK
     private val pictureCallback = Camera.PictureCallback { data, _ ->
-        savePictureToPublicDir(data)
-        restartPreview()
+        val photoPath = savePictureToPublicDir(data)
+        photoPaths.add(photoPath)
+        if (photoCount < maxPhotos) {
+            restartPreview()
+        } else {
+            photoCount = 0
+            binding.buttonTakePicture.isEnabled = true
+            val intent = Intent(this, CameraViewerActivity::class.java)
+            intent.putStringArrayListExtra("photo_paths", photoPaths)
+            photoPaths = ArrayList<String>()
+            startActivity(intent)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,16 +114,17 @@ class CameraActivity : Activity() {
     }
 
     private fun startCountdownAndTakePicture() {
-        binding.buttonTakePicture.isEnabled = false
+        binding.buttonTakePicture.visibility = View.INVISIBLE
 
-        object : CountDownTimer(3000, 1000) {
+        object : CountDownTimer(15000, 3000) { // 총 12초 동안 3초마다
             override fun onTick(millisUntilFinished: Long) {
                 val secondsRemaining = millisUntilFinished / 1000
-                showToast((secondsRemaining + 1).toString())
+                showToast(((secondsRemaining)/3).toString())
+                takePicture()
             }
 
             override fun onFinish() {
-                takePicture()
+                binding.buttonTakePicture.visibility = View.VISIBLE
             }
         }.start()
     }
@@ -127,6 +143,7 @@ class CameraActivity : Activity() {
         if (isSafeToTakePicture) {
             camera.takePicture(shutterCallback, null, pictureCallback)
             isSafeToTakePicture = false
+            photoCount++
         }
     }
 
@@ -189,7 +206,7 @@ class CameraActivity : Activity() {
         binding.buttonTakePicture.isEnabled = true
     }
 
-    private fun savePictureToPublicDir(data: ByteArray) {
+    private fun savePictureToPublicDir(data: ByteArray): String {
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
         val storageDir =
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
@@ -204,11 +221,9 @@ class CameraActivity : Activity() {
             Log.d("tag", "사진 저장 ${imageFile.toUri()}")
         } catch (e: Exception) {
             showToast("사진 저장 실패")
-        } finally {
-            val intent = Intent(this, CameraViewerActivity::class.java)
-            intent.putExtra("photo_path", imageFile.absolutePath)
-            startActivity(intent)
         }
+
+        return imageFile.absolutePath
     }
 
     companion object {
