@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddMobileActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:padding="18dp"
+        android:background="@drawable/border_mobile_add_layout"
+        android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/textViewAddRentalAddress"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        android:text="주소"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+        <RadioGroup
+            app:layout_constraintTop_toBottomOf="@id/textViewAddRentalAddress"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:id="@+id/radioButtonExistAddress"
+                android:layout_width="wrap_content"
+                android:text="기존 주소지"
+                android:layout_height="wrap_content"/>
+
+            <RadioButton
+                android:id="@+id/radioButtonNewAddress"
+                android:layout_width="wrap_content"
+                android:text="새 주소지"
+                android:layout_height="wrap_content"/>
+
+
+
+        </RadioGroup>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
