@@ -1,12 +1,27 @@
 package com.ssafy.phonesin.ui.mobile
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
-import com.ssafy.phonesin.R
+import androidx.appcompat.app.AppCompatActivity
+import com.ssafy.phonesin.databinding.ActivityRentalListBinding
 
 class RentalListActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityRentalListBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_rental_list)
+        binding = ActivityRentalListBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        setRentalListUi()
+    }
+
+    private fun setRentalListUi() {
+        binding.mobileAdd.setOnClickListener {
+            startActivity(Intent(this, AddMobileActivity::class.java))
+        }
+        binding.postRental.setOnClickListener {
+            startActivity(Intent(this, PayMobileActivity::class.java))
+        }
     }
 }

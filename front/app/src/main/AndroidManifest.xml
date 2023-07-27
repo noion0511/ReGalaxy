@@ -23,9 +23,11 @@
         android:theme="@style/Theme.Phonesin"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
         <activity
-            android:name=".AddMobileActivity"
+            android:name=".ui.mobile.PayMobileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.mobile.AddMobileActivity"
             android:exported="false" />
         <activity
             android:name=".ui.mobile.RentalListActivity"
@@ -41,6 +43,7 @@
         </activity>
         <activity
             android:name=".CameraActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
     </application>
+
 </manifest>
