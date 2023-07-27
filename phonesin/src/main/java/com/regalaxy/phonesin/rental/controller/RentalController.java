@@ -41,11 +41,6 @@ public class RentalController {
         return new ResponseEntity<List<RentalDto>>(list, HttpStatus.OK);
     }
 
-    @GetMapping("/info/info")
-    public ResponseEntity<?> info(int rental_id){
-        return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-    }
-
     @PutMapping("/info/extension")
     public ResponseEntity<?> extension(int rental_id){
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);

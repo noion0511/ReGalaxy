@@ -19,10 +19,7 @@ public class RentalService {
     @Autowired
     private PhoneRepository phoneRepository;
 
-    public boolean infoApply(RentalDto rentalDto){
-
-        return true;
-    }
+    public boolean infoApply(RentalDto rentalDto){ return true; }
 
     public boolean infoUpdated(RentalDto rentalDto){
         return true;
@@ -37,7 +34,7 @@ public class RentalService {
     }
 
     public RentalDetailDto info(int return_id){
-        return new RentalDetailDto();
+        return rentalrepository.detailInfo(return_id);
     }
 
     public boolean extension(int rental_id){

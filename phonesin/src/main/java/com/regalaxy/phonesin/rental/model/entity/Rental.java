@@ -20,7 +20,6 @@ public class Rental {
     @ManyToOne
     @JoinColumn(name="agency_id")
     private Agency agency;
-
     private String apply_date;
     private String rental_start;
     private String rental_end;

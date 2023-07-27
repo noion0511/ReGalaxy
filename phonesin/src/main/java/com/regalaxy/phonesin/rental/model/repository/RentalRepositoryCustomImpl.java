@@ -2,6 +2,7 @@ package com.regalaxy.phonesin.rental.model.repository;
 
 import com.regalaxy.phonesin.member.model.SearchDto;
 import com.regalaxy.phonesin.rental.model.ApplyDto;
+import com.regalaxy.phonesin.rental.model.RentalDetailDto;
 import com.regalaxy.phonesin.rental.model.RentalDto;
 import com.regalaxy.phonesin.rental.model.entity.Rental;
 import lombok.RequiredArgsConstructor;
@@ -89,5 +90,20 @@ public class RentalRepositoryCustomImpl implements RentalRepositoryCustom {
     @Override
     public boolean apply(ApplyDto applyDto) {
         return false;
+    }
+
+    @Override
+    public RentalDetailDto detailInfo(int rental_id) {
+//        String s = "select new com.regalaxy.phonesin.rental.model.RentalDetailDto(r.rental_id, r.member.member_id, r.isY2K, r.isClimateHumidity, r.isHomecam, r.count, r.rental_start, r.rental_end, r.apply_date, r.rental_status, r.rental_deliverylocation, r.fund, m.model_name, p.phone_id, p.donation_id, r.waybill_number) "
+        String s = "select new com.regalaxy.phonesin.rental.model.RentalDetailDto(r.rental_id, r.member.member_id, r.isY2K, r.isClimateHumidity, r.isHomecam, r.count, r.rental_start, r.rental_end, r.apply_date, r.rental_status, r.rental_deliverylocation, r.fund, m.model_name, p.phone_id, p.donation.donation_id) "
+            + "from rental r join phone p on r.rental_id = p.rental_id "
+            + "join model m on p.model.model_id = m.model_id ";
+
+        List<RentalDetailDto> list = em.createQuery(s, RentalDetailDto.class).getResultList();
+        if(list.size()!=0){
+            return list.get(0);
+        }else{
+            return new RentalDetailDto();
+        }
     }
 }

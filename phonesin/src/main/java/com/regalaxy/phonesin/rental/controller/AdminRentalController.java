@@ -1,14 +1,17 @@
 package com.regalaxy.phonesin.rental.controller;
 
+import com.regalaxy.phonesin.member.model.SearchDto;
 import com.regalaxy.phonesin.rental.model.ApplyDto;
+import com.regalaxy.phonesin.rental.model.RentalDetailDto;
+import com.regalaxy.phonesin.rental.model.RentalDto;
 import com.regalaxy.phonesin.rental.model.service.RentalService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
-@Controller
+import java.util.List;
+
+@RestController
 @RequestMapping("/admin/rental")
 @CrossOrigin("*")
 public class AdminRentalController {
@@ -16,12 +19,19 @@ public class AdminRentalController {
     private RentalService rentalService;
 
     @GetMapping("/info/list")
-    public String infoList(int pgno){
-        return "";
+    public ModelAndView infoList(SearchDto searchDto){
+        ModelAndView mav = new ModelAndView();
+        List<RentalDto> list = rentalService.infoList(searchDto);
+        mav.addObject("list", list);
+        mav.addObject("pgno", searchDto.getPgno());
+        mav.setViewName("");//어디로 이동할지 ex) rental/list
+        return mav;
     }
 
     @GetMapping("/info")
-    public String info(int rental_id){
+    public String info(@RequestParam("rental_id") int rental_id){
+        RentalDetailDto rentalDetailDto = rentalService.info(rental_id);
+        System.out.println("SUCCESS");
         return "";
     }
 
