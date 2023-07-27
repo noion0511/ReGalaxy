@@ -1,12 +1,15 @@
 package com.ssafy.phonesin.ui.module.camera
 
 import android.content.Intent
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import com.ssafy.phonesin.R
@@ -23,30 +26,26 @@ class FrameActivity : AppCompatActivity() {
 
         val imagePath = intent.getStringExtra("imagePath")
         val imageView = findViewById<ImageView>(R.id.imageView)
+        val saveButton = findViewById<TextView>(R.id.textViewTitle)
 
         val originalBitmap = BitmapFactory.decodeFile(imagePath)
         val matrix = Matrix().apply { postRotate(90f) }
         val rotatedBitmap = Bitmap.createBitmap(originalBitmap, 0, 0, originalBitmap.width, originalBitmap.height, matrix, true)
 
-        val viewFrame = findViewById<View>(R.id.viewFrame)
-        viewFrame.post {
+        imageView.setImageBitmap(rotatedBitmap)
+
+        saveButton.setOnClickListener {
+            val viewFrame = findViewById<View>(R.id.rootView)
             val frameBitmap = layoutToBitmap(viewFrame)
 
-            if (frameBitmap != null) {
-                val borderWidth = 10
-                val borderColor = Color.BLACK
-                val rotatedBitmapWithBorder = addBorderToBitmap(rotatedBitmap, borderWidth, borderColor)
-                imageView.setImageBitmap(rotatedBitmapWithBorder)
-
-                val combinedBitmap = combineBitmaps(frameBitmap, rotatedBitmapWithBorder)
-
+            frameBitmap?.let {
                 val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
                 val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
                 val imageFile = File(storageDir, "IMG_$timeStamp.jpg")
 
                 try {
                     val fos = FileOutputStream(imageFile)
-                    combinedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+                    frameBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
                     fos.flush()
                     fos.close()
 
@@ -55,35 +54,10 @@ class FrameActivity : AppCompatActivity() {
                 } catch (e: Exception) {
                     Log.d("tag", "사진 저장 실패 ${imageFile.toUri()}")
                 } finally {
+                    frameBitmap.recycle()
                 }
             }
         }
-    }
-
-
-    private fun addBorderToBitmap(bitmap: Bitmap, borderWidth: Int, color: Int): Bitmap {
-        val borderBitmap = Bitmap.createBitmap(bitmap.width + borderWidth * 2, bitmap.height + borderWidth * 2, bitmap.config)
-        val canvas = Canvas(borderBitmap)
-
-        val paint = Paint()
-        paint.color = color
-        paint.style = Paint.Style.STROKE
-        paint.strokeWidth = borderWidth.toFloat()
-
-        canvas.drawBitmap(bitmap, borderWidth.toFloat(), borderWidth.toFloat(), null)
-        canvas.drawRect(borderWidth.toFloat(), borderWidth.toFloat(), bitmap.width + borderWidth.toFloat(), bitmap.height + borderWidth.toFloat(), paint)
-
-        return borderBitmap
-    }
-
-
-    private fun combineBitmaps(background: Bitmap, overlay: Bitmap): Bitmap {
-        val scaledOverlay = Bitmap.createScaledBitmap(overlay, background.width, background.height, false)
-        val combined = Bitmap.createBitmap(background.width, background.height, background.config)
-        val canvas = Canvas(combined)
-        canvas.drawBitmap(background, Matrix(), null)
-        canvas.drawBitmap(scaledOverlay, Matrix(), null)
-        return combined
     }
 
     private fun layoutToBitmap(layout: View): Bitmap? {
