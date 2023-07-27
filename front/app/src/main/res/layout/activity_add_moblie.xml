@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,43 +8,179 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:padding="18dp"
-        android:background="@drawable/border_mobile_add_layout"
         android:layout_height="wrap_content">
-    <TextView
-        android:id="@+id/textViewAddRentalAddress"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
 
-        android:text="주소"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-        <RadioGroup
-            app:layout_constraintTop_toBottomOf="@id/textViewAddRentalAddress"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="15dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/border_mobile_add_layout"
+            android:padding="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_height="wrap_content">
-            <RadioButton
-                android:id="@+id/radioButtonExistAddress"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/textViewAddRentalAddress"
                 android:layout_width="wrap_content"
-                android:text="기존 주소지"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:text="주소"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <RadioButton
-                android:id="@+id/radioButtonNewAddress"
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textViewAddRentalAddress">
+
+                <RadioButton
+                    android:id="@+id/radioButtonExistAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="기존 주소지" />
+
+                <com.skydoves.powerspinner.PowerSpinnerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:background="@drawable/border_spinner_layout"
+                    android:hint="구미시 진평동 한마음센터 103동"
+                    android:padding="10dp"
+                    app:spinner_arrow_tint="@color/black" />
+
+                <RadioButton
+                    android:id="@+id/radioButtonNewAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="새 주소지" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="20dp"
+                    android:background="@drawable/border_spinner_layout"
+                    android:hint="주소지를 입력해 주세요"
+                    android:padding="10dp" />
+
+            </RadioGroup>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutModule"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/border_mobile_add_layout"
+            android:padding="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutAddress">
+
+            <TextView
+                android:id="@+id/textViewAddModule"
                 android:layout_width="wrap_content"
-                android:text="새 주소지"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:text="기능 선택"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <CheckBox
+                android:id="@+id/checkBoxPicture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="사진 부스 기능"
+                app:layout_constraintStart_toStartOf="@id/textViewAddModule"
+                app:layout_constraintTop_toBottomOf="@id/textViewAddModule" />
 
+            <CheckBox
+                android:id="@+id/checkBoxHomeCam"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="홈캠 기능"
+                app:layout_constraintStart_toStartOf="@id/checkBoxPicture"
+                app:layout_constraintTop_toBottomOf="@id/checkBoxPicture" />
 
-        </RadioGroup>
+            <CheckBox
+                android:id="@+id/checkBoxTemperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="온도계,습도계 기능"
+                app:layout_constraintStart_toStartOf="@id/checkBoxHomeCam"
+                app:layout_constraintTop_toBottomOf="@id/checkBoxHomeCam" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/border_mobile_add_layout"
+            android:padding="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutModule">
+
+            <TextView
+                android:id="@+id/textViewAddDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="날짜"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <RadioGroup
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textViewAddDate">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1개월" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2개월" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3개월" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4개월" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5개월" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="6개월" />
+            </RadioGroup>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/buttonSelectMobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="기기 선택"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutDate" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
