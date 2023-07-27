@@ -31,7 +31,7 @@ public class Rental {
     private boolean isHomecam;
     private int count;
     private boolean isExtension;
-    @Column(name="rental_delibery_location")
+    @Column(name="rental_delivery_location")
     private String rental_deliverylocation;
     private int rental_zipcode;
     private String waybill_number;
