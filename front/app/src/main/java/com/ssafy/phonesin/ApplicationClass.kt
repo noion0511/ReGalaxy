@@ -1,6 +1,7 @@
 package com.ssafy.phonesin
 
 import android.app.Application
+import androidx.multidex.MultiDexApplication
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
@@ -8,7 +9,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-class ApplicationClass : Application() {
+class ApplicationClass : MultiDexApplication() {
     companion object {
         const val SERVER_URL = ""
         lateinit var retrofit: Retrofit
