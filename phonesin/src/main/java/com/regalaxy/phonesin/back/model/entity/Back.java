@@ -11,6 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -24,27 +25,26 @@ public class Back extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long backId;
 
-    // 나중에 rental 코드 들어오면 다시 작성하기
+    // rental과 일대일 매핑
     @JsonIgnore
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "rental_id")
     private Rental rental;
-//    private Long rentalId;
 
     @Column(nullable = false)
     private int backStatus; // 반납 상태 : 신청(1), 승인(2), 수거완료(3), 상태확인(4)
-    private String backDeliveryDate;
+    private LocalDate backDeliveryDate;
 
     @CreatedDate
     @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt; // 신청서 작성 날짜(자동 생성)(BaseTimeEntity)
     private String backDeliveryLocationType; // 배달, 서비스센터 제출, 직접 제출
     private String backDeliveryLocation; // 1 배달의 경우 배달지 주소, 서비스센터 제출의 경우 서비스센터 주소
     private String backZipcode; // 주소의 우편번호
     private String review; // 사용 후기 또는 조기 반납 이유
 
     @Builder
-    public Back(Rental rental, int backStatus, String backDeliveryDate, String backDeliveryLocationType, String backDeliveryLocation, String backZipcode, String review) {
+    public Back(Rental rental, int backStatus, LocalDate backDeliveryDate, String backDeliveryLocationType, String backDeliveryLocation, String backZipcode, String review) {
         this.rental = rental;
         this.backStatus = backStatus;
         this.backDeliveryDate = backDeliveryDate;

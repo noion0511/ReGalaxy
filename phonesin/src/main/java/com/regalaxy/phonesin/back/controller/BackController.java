@@ -20,8 +20,10 @@ public class BackController {
 
     private final BackService backService;
 
+    // 반납 신청서 작성하기
+    // RequestBody로 JSON 데이터로 받기
     @PostMapping("/back/apply")
-    public ResponseEntity<Map<String, Object>> backApply(@RequestBody BackDto backDto) {
+    public ResponseEntity<Map<String, Object>> apply(@RequestBody BackDto backDto) {
         Map<String, Object> resultMap = new HashMap<>();
         backService.saveBack(backDto);
         resultMap.put("back", backDto);
@@ -29,10 +31,11 @@ public class BackController {
     }
 
     // 반납 신청서 상세 정보보기
+    // RequestParam으로 form-data로 받기
     @GetMapping("/back/info")
-    public String finding(Model model) {
-        Back back = backService.findOne(1L);
-//        System.out.println(back.getApplyDate());
-        return null; // 반납 신청서 상세 정보보기 url 들어오면 적어주기
+    public ResponseEntity<Map<String, Object>> backInfo(@RequestParam Long backId) {
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("back", backService.findOne(backId));
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK); // 반납 신청서 상세 정보보기 url 들어오면 적어주기
     }
 }

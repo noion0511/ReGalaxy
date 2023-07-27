@@ -18,17 +18,16 @@ public class BackService {
 
     private final BackRepository backRepository;
     private final RentalRepository rentalRepository;
+
+    // 반납 신청서 저장하기
     @Transactional
     public void saveBack(BackDto backdto) {
-        System.out.println(backdto.getRentalId() + "");
         Rental rental = rentalRepository.findById(backdto.getRentalId()).get();
         backRepository.save(backdto.toEntity(rental));
     }
 
     // backId인 반납 신청서 read
     public Back findOne(Long backId) {
-        Back back = backRepository.findById(backId).get();
-        back.setCreatedAt(LocalDateTime.now());
-        return back;
+        return backRepository.findById(backId).get();
     }
 }
