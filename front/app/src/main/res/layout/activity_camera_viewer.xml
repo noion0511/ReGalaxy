@@ -4,22 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/keyColorDark1"
-    android:paddingStart="30dp"
-    android:paddingTop="50dp"
-    android:paddingEnd="30dp"
-    android:paddingBottom="60dp">
+    android:background="@color/keyColorDark1">
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPagerPhotoViewer"
         android:layout_width="300dp"
         android:layout_height="400dp"
         android:scaleType="centerInside"
-        app:layout_constraintBottom_toTopOf="@+id/buttonTakePicture"
+        app:layout_constraintBottom_toTopOf="@+id/buttonPrintPicture"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="1" />
 
     <me.relex.circleindicator.CircleIndicator
         android:id="@+id/indicator"
@@ -36,15 +33,17 @@
         app:layout_constraintTop_toTopOf="@+id/viewPagerPhotoViewer" />
 
     <ImageView
-        android:id="@+id/buttonTakePicture"
-        android:layout_width="43dp"
-        android:layout_height="43dp"
+        android:id="@+id/buttonPrintPicture"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:background="@drawable/border_button_take_camera"
         android:backgroundTint="@color/white"
+        android:padding="10dp"
+        android:src="@drawable/baseline_navigation_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewPagerPhotoViewer"/>
+        app:layout_constraintTop_toBottomOf="@+id/viewPagerPhotoViewer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
