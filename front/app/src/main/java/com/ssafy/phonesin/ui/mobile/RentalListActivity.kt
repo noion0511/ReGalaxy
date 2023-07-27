@@ -22,6 +22,7 @@ class RentalListActivity : AppCompatActivity() {
         }
         binding.postRental.setOnClickListener {
             startActivity(Intent(this, PayMobileActivity::class.java))
+            finish()
         }
     }
 }
