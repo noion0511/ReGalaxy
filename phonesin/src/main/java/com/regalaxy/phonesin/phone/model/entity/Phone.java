@@ -13,8 +13,8 @@ import javax.persistence.*;
 @Table(name="phone")
 public class Phone {
     @Id
-    private int phone_id;
-    private int rental_id;
+    private Long phone_id;
+    private Long rental_id;
     @ManyToOne
     @JoinColumn(name="model_id")
     private Model model;

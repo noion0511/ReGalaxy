@@ -1,6 +1,7 @@
 package com.regalaxy.phonesin.rental.controller;
 
 import com.regalaxy.phonesin.member.model.SearchDto;
+import com.regalaxy.phonesin.rental.model.RentalDetailDto;
 import com.regalaxy.phonesin.rental.model.RentalDto;
 import com.regalaxy.phonesin.rental.model.service.RentalService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,9 @@ public class RentalController {
     private static final String FAIL = "fail";
 
     @PostMapping("/info/apply")
-    public ResponseEntity<?> infoApply(RentalDto rentalDto){
+    public ResponseEntity<?> infoApply(RentalDetailDto rentalDetailDto){
+        System.out.println("dto출력 : " + rentalDetailDto.getRental_deliverylocation());
+        rentalService.infoApply(rentalDetailDto);
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
 

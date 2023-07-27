@@ -13,13 +13,15 @@ import javax.persistence.*;
 @Table(name="rental")
 public class Rental {
     @Id
-    private int rental_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long rental_id;
     @ManyToOne
     @JoinColumn(name="member_id")
     private Member member;
     @ManyToOne
     @JoinColumn(name="agency_id")
     private Agency agency;
+
     private String apply_date;
     private String rental_start;
     private String rental_end;

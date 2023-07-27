@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RentalDto {
-    private int rental_id;
+    private Long rental_id;
     private String rental_start;
     private String rental_end;
     private int rental_status;

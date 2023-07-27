@@ -11,8 +11,8 @@ import lombok.*;
 @AllArgsConstructor
 public class RentalDetailDto {
 //    private Member member;//rental
-    private int member_id;
-    private int rental_id;//rental
+    private Long member_id;
+    private Long rental_id;//rental
     private boolean isY2K;//rental
     private boolean isClimateHumidity;//rental
     private boolean isHomecam;//rental
@@ -24,7 +24,7 @@ public class RentalDetailDto {
     private String rental_deliverylocation;//rental
     private int fund;//rental
     private String model_name;//model
-    private int phone_id;//phone
-    private int donation_id;//phone
+    private Long phone_id;//phone
+    private Long donation_id;//phone
 //    private String waybill_numbers;//rental
 }
