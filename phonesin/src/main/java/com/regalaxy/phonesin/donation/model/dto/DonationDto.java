@@ -1,5 +1,6 @@
 package com.regalaxy.phonesin.donation.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.regalaxy.phonesin.donation.model.entity.Donation;
 import com.regalaxy.phonesin.member.model.entity.Member;
 import io.swagger.annotations.ApiModel;
@@ -22,6 +23,7 @@ public class DonationDto {
     private int donation_status;
 
     @ApiModelProperty(value = "기증 날짜")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime donation_created_at;
 
     @ApiModelProperty(value = "기증 배송 신청 날짜")
