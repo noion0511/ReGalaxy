@@ -15,6 +15,6 @@ public class RentalDto {
     private String rental_deliverylocation;
     private int fund;
     private String model_name;
-    private int phone_id;
+    private Long phone_id;
     private String waybill_number;
 }

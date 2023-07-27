@@ -20,7 +20,8 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	// lombok
-	implementation 'org.projectlombok:lombok:1.18.26'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
 
 	// swagger
 	implementation 'io.springfox:springfox-swagger2:2.9.2'

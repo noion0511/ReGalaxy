@@ -25,6 +25,7 @@ public class AdminRentalController {
         mav.addObject("list", list);
         mav.addObject("pgno", searchDto.getPgno());
         mav.setViewName("");//어디로 이동할지 ex) rental/list
+        System.out.print("Success");
         return mav;
     }
 

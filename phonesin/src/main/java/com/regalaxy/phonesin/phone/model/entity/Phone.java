@@ -19,6 +19,6 @@ public class Phone {
     @JoinColumn(name="model_id")
     private Model model;
     @OneToOne
-    @JoinColumn(name="donation_id")
+    @JoinColumn(name="id")
     private Donation donation;
 }
