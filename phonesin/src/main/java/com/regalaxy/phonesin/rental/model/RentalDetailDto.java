@@ -4,6 +4,8 @@ import com.regalaxy.phonesin.member.model.MemberDto;
 import com.regalaxy.phonesin.member.model.entity.Member;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Data
@@ -19,7 +21,7 @@ public class RentalDetailDto {
     private int count;//rental
     private String rental_start;//rental
     private String rental_end;//rental
-    private String apply_date;//rental
+    private LocalDateTime apply_date;//rental
     private int rental_status;//rental
     private String rental_deliverylocation;//rental
     private int fund;//rental

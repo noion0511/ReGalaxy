@@ -24,8 +24,8 @@ public class Rental {
 
     private LocalDateTime apply_date;
 
-    private String rental_start;
-    private String rental_end;
+    private LocalDateTime rental_start;
+    private LocalDateTime rental_end;
     private int rental_status;
     private boolean isY2K;
     private boolean isClimateHumidity;
@@ -37,4 +37,8 @@ public class Rental {
     private int rental_zipcode;
     private String waybill_number;
     private int fund;
+
+    public void extension(){
+        this.isExtension = true;
+    }
 }

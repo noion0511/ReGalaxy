@@ -28,7 +28,8 @@ public class RentalController {
     }
 
     @PutMapping("/info/update")
-    public ResponseEntity<?> infoUpdate(RentalDto rentalDto){
+    public ResponseEntity<?> infoUpdate(RentalDetailDto rentalDetailDto){
+        rentalService.infoUpdated(rentalDetailDto);
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
 
@@ -45,7 +46,12 @@ public class RentalController {
     }
 
     @PutMapping("/info/extension")
-    public ResponseEntity<?> extension(int rental_id){
-        return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+    public ResponseEntity<?> extension(Long rental_id){
+        boolean result = rentalService.extension(rental_id);
+        if(result) {
+            return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<String>(FAIL, HttpStatus.OK);
+        }
     }
 }
