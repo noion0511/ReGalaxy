@@ -18,7 +18,7 @@ public class Phone {
     @ManyToOne
     @JoinColumn(name="model_id")
     private Model model;
-//    @OneToOne
-//    @JoinColumn(name="id")
-//    private Donation donation;
+    @OneToOne
+    @JoinColumn(name="donation_id")
+    private Donation donation;
 }

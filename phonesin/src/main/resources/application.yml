@@ -1,12 +1,12 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://stg-yswa-kr-practice-db-master.mariadb.database.azure.com:3306/S09P12D102
-#    username: S09P12D102@stg-yswa-kr-practice-db-master.mariadb.database.azure.com
-#    password: 11jBMoEHvm
-    url: jdbc:mysql://127.0.0.1:3306/S09P12D102
-    username: root
-    password: ssafy
+    url: jdbc:mysql://stg-yswa-kr-practice-db-master.mariadb.database.azure.com:3306/S09P12D102
+    username: S09P12D102@stg-yswa-kr-practice-db-master.mariadb.database.azure.com
+    password: 11jBMoEHvm
+#    url: jdbc:mysql://127.0.0.1:3306/S09P12D102
+#    username: root
+#    password: ssafy
     hikari:
       maximumpoolsize: 150
       connectionTimeout : 30000
