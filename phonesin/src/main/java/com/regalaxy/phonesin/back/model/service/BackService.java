@@ -36,13 +36,38 @@ public class BackService {
         return backRepository.findById(backId).get();
     }
 
+    // 전체 반납 신청서 조회/검색/페이징
     @Transactional
-    public Page<Back> backList(String email, Pageable pageable) {
+    public Page<Back> backList(String email, int isBlack, int isCha, Pageable pageable) {
         Page<Back> findall;
+        boolean isBlackBoolean;
+        boolean isChaBoolean;
 
+        // email로 검색하거나, isBlack으로 검색하거나, isCha로 검색할 수 있도록 개발 (셋 중에 하나만 됨)
+        // isBlack, isCha : 모두(1), Black 또는 Cha가 맞다(2), 아니다(3)
+
+        // email에 아무것도 입력하지 않은 상태면 모든 반납 신청서 return
         if (email == null) {
-            findall = backRepository.findAll(pageable);
+            // 1이면 모두 검색이므로 조건문 넣지 않는다.
+            if (isBlack == 1) {
+                // 1이면 모두 검색이므로 조건문 넣지 않는다.
+                if (isCha == 1) {
+                    // 조건문 없이 모든 값 반환.
+                    findall = backRepository.findAll(pageable);
+                } else {
+                    // isBlack이 2이면 Math.abs(isBlack - 3)은 1
+                    // isBlack이 3이면 Math.abs(isBlack - 3)은 0
+                    isBlackBoolean = (Math.abs(isCha - 3) == 1) ? true : false;
+                    findall = backRepository.findAllByIsCha(isBlackBoolean, pageable);
+                }
+            } else {
+                // isCha가 2이면 Math.abs(isCha - 3)은 1
+                // isCha가 3이면 Math.abs(isCha - 3)은 0
+                isChaBoolean = (Math.abs(isBlack - 3) == 1) ? true : false;
+                findall = backRepository.findAllByIsBlack(isChaBoolean, pageable);
+            }
         } else {
+            // email이 null이 아니라면 email이 쓴 반납 신청서 return
             findall = backRepository.findAllByEmail(email, pageable);
         }
 
