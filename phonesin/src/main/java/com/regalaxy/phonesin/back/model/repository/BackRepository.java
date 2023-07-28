@@ -22,4 +22,10 @@ public interface BackRepository extends JpaRepository<Back, Long> {
 
     @Query("select b from back b join b.rental r join r.member m")
     Page<Back> findAll(Pageable pageable);
+
+    @Query("select b from back b join b.rental r join r.member m where m.isBlackList = :isBlack")
+    Page<Back> findAllByIsBlack(@Param("isBlack") boolean isBlack, Pageable pageable);
+
+    @Query("select b from back b join b.rental r join r.member m where m.isCha = :isCha")
+    Page<Back> findAllByIsCha(@Param("isCha") boolean isCha, Pageable pageable);
 }

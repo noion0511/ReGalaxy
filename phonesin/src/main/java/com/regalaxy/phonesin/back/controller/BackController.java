@@ -35,13 +35,6 @@ public class BackController {
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 
-    @GetMapping("/back/list")
-    public ResponseEntity<Page<Back>> backList(@RequestBody SearchDto searchDto) {
-        Pageable pageable = PageRequest.of(searchDto.getPgno(), 10);
-        Page<Back> backPage = backService.backList(searchDto.getEmail(), pageable);
-        return new ResponseEntity<>(backPage, HttpStatus.OK);
-    }
-
     // 반납 신청서 상세 정보보기
     // RequestParam으로 form-data로 받기
     @GetMapping("/back/info")
