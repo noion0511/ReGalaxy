@@ -25,7 +25,7 @@ public class RentalService {
     @Autowired
     private MemberRepository memberRepository;
 
-    public boolean infoApply(RentalDetailDto rentalDetailDto){
+    public boolean infoApply(RentalDetailDto rentalDetailDto, int using_date){
         Rental rental = new Rental();
         rental.setApply_date(LocalDateTime.now());
         rental.setCount(rentalDetailDto.getCount());
@@ -35,7 +35,8 @@ public class RentalService {
         rental.setY2K(rentalDetailDto.isY2K());
         rental.setRental_deliverylocation(rentalDetailDto.getRental_deliverylocation());
         Member member = memberRepository.findById(rentalDetailDto.getMember_id()).get();
-        rental.setMember(member);
+        rental.setMember(member);//사용자 정보
+        rental.setApply_date(LocalDateTime.now());
         rentalrepository.save(rental);
         return true;
     }
