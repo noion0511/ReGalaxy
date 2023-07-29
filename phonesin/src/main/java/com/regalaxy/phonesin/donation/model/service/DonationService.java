@@ -1,19 +1,17 @@
 package com.regalaxy.phonesin.donation.model.service;
 
-import com.regalaxy.phonesin.donation.model.dto.DonationDto;
-import com.regalaxy.phonesin.donation.model.dto.DonationListDto;
+import com.regalaxy.phonesin.donation.model.dto.DonationDetailResponseDto;
+import com.regalaxy.phonesin.donation.model.dto.DonationRequestDto;
+import com.regalaxy.phonesin.donation.model.dto.DonationResponseDto;
 import com.regalaxy.phonesin.donation.model.entity.Donation;
 import com.regalaxy.phonesin.donation.model.repository.DonationRepository;
 import com.regalaxy.phonesin.member.model.entity.Member;
 import com.regalaxy.phonesin.member.model.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,36 +25,38 @@ public class DonationService {
     private final EntityManager em;
 
     @Transactional
-    public boolean donationApply(DonationDto donationDto) throws Exception {
-        Member member = memberRepository.findById(donationDto.getMember_id()).get();
-        donationRepository.save(donationDto.toEntity(member));
+    public boolean donationApply(DonationRequestDto donationRequestDto) throws Exception {
+        Member member = memberRepository.findById(donationRequestDto.getMember_id()).get();
+        donationRepository.save(donationRequestDto.toEntity(member));
         return true;
     }
 
-    public List<DonationListDto> donationList() throws Exception {
-        List<DonationListDto> result = donationRepository.findAll()
+    public List<DonationResponseDto> donationList() throws Exception {
+        List<DonationResponseDto> result = donationRepository.findAll()
                 .stream()
-                .map(Object -> DonationListDto.builder().donation(Object).build())
+                .map(Object -> DonationResponseDto.builder().donation(Object).build())
                 .collect(Collectors.toList());
         return result;
     }
 
-    public DonationListDto donationInfo(Long id) throws Exception {
-        DonationListDto result = DonationListDto.builder().donation(donationRepository.findById(id).get()).build();
+    public DonationDetailResponseDto donationInfo(Long id) throws Exception {
+        Donation donation = donationRepository.findById(id).get();
+        Member member = donation.getMember();
+        DonationDetailResponseDto result = DonationDetailResponseDto.builder().donation(donation).member(member).build();
         return result;
     }
 
     @Transactional
-    public boolean donationUpdate(DonationDto donationDto) throws Exception {
-        Optional<Donation> optional = donationRepository.findById(donationDto.getDonation_id());
+    public boolean donationUpdate(DonationRequestDto donationRequestDto) throws Exception {
+        Optional<Donation> optional = donationRepository.findById(donationRequestDto.getDonation_id());
         if (optional.isPresent()) {
-            Member member = memberRepository.findById(donationDto.getMember_id()).get();
+            Member member = memberRepository.findById(donationRequestDto.getMember_id()).get();
             Donation donation = optional.get();
             donation.setMember(member);
-            donation.setDonation_status(donationDto.getDonation_status());
-            donation.setDonation_delivery_location(donationDto.getDonation_delivery_location());
-            donation.setDonation_delivery_location_type(donationDto.getDonation_delivery_location_type());
-            donation.setDonation_delivery_date(donationDto.getDonation_delivery_date());
+            donation.setDonation_status(donationRequestDto.getDonation_status());
+            donation.setDonation_delivery_location(donationRequestDto.getDonation_delivery_location());
+            donation.setDonation_delivery_location_type(donationRequestDto.getDonation_delivery_location_type());
+            donation.setDonation_delivery_date(donationRequestDto.getDonation_delivery_date());
             return true;
         }
         return false;
@@ -68,10 +68,10 @@ public class DonationService {
         return true;
     }
 
-    public List<DonationListDto> donationKing() throws Exception {
-        List<DonationListDto> result = donationRepository.findTop5ByOrderById()
+    public List<DonationResponseDto> donationKing() throws Exception {
+        List<DonationResponseDto> result = donationRepository.findAll()
                 .stream()
-                .map(Object -> DonationListDto.builder().donation(Object).build())
+                .map(Object -> DonationResponseDto.builder().donation(Object).build())
                 .collect(Collectors.toList());
         return result;
     }

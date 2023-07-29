@@ -1,6 +1,6 @@
 package com.regalaxy.phonesin.donation.controller;
 
-import com.regalaxy.phonesin.donation.model.dto.DonationDto;
+import com.regalaxy.phonesin.donation.model.dto.DonationRequestDto;
 import com.regalaxy.phonesin.donation.model.service.DonationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -55,10 +55,10 @@ public class DonationController {
 
     @ApiOperation(value = "기기 기부 신청서 작성")
     @PostMapping("/apply")
-    public ResponseEntity<Map<String, Object>> donationApply(@RequestBody DonationDto donationDto) {
+    public ResponseEntity<Map<String, Object>> donationApply(@RequestBody DonationRequestDto donationRequestDto) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         try {
-            if (!DonationService.donationApply(donationDto)) throw new RuntimeException();
+            if (!DonationService.donationApply(donationRequestDto)) throw new RuntimeException();
             resultMap.put("message", SUCCESS);
             return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
         } catch (Exception e) {
@@ -71,10 +71,10 @@ public class DonationController {
 
     @ApiOperation(value = "기기 기부 신청서 수정")
     @PutMapping("/update")
-    public ResponseEntity<Map<String, Object>> donationUpdate(@RequestBody DonationDto donationDto) {
+    public ResponseEntity<Map<String, Object>> donationUpdate(@RequestBody DonationRequestDto donationRequestDto) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         try {
-            resultMap.put("donation", DonationService.donationUpdate(donationDto));
+            resultMap.put("donation", DonationService.donationUpdate(donationRequestDto));
             resultMap.put("message", SUCCESS);
             return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
         } catch (Exception e) {
