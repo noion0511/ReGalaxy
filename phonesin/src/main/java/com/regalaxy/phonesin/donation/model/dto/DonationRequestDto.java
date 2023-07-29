@@ -13,33 +13,33 @@ import java.time.LocalDateTime;
 @ApiModel(value = "기기 기증서 DTO", description = "기기 기증서 DTO")
 public class DonationRequestDto {
     @ApiModelProperty(value = "기증서 ID")
-    private long donation_id;
+    private long donationId;
 
     @ApiModelProperty(value = "기증 멤버 ID")
-    private long member_id;
+    private long memberId;
 
     @ApiModelProperty(value = "기증 상태")
-    private int donation_status;
+    private int donationStatus;
 
     @ApiModelProperty(value = "기증 날짜")
-    private LocalDateTime donation_created_at;
+    private LocalDateTime donationCreatedAt;
 
     @ApiModelProperty(value = "기증 배송 신청 날짜")
-    private String donation_delivery_date;
+    private String donationDeliveryDate;
 
     @ApiModelProperty(value = "기증 배송 장소 타입")
-    private String donation_delivery_location_type;
+    private String donationDeliveryLocationType;
 
     @ApiModelProperty(value = "기증 배송 장소")
-    private String donation_delivery_location;
+    private String donationDeliveryLocation;
 
     public Donation toEntity(Member member) throws Exception {
         return Donation.builder()
                 .member(member)
-                .donation_status(this.donation_status)
-                .donation_delivery_date(this.donation_delivery_date)
-                .donation_delivery_location_type(this.donation_delivery_location_type)
-                .donation_delivery_location(this.donation_delivery_location)
+                .donation_status(this.donationStatus)
+                .donation_delivery_date(this.donationDeliveryDate)
+                .donation_delivery_location_type(this.donationDeliveryLocationType)
+                .donation_delivery_location(this.donationDeliveryLocation)
                 .build();
     }
 }

@@ -26,7 +26,7 @@ public class DonationService {
 
     @Transactional
     public boolean donationApply(DonationRequestDto donationRequestDto) throws Exception {
-        Member member = memberRepository.findById(donationRequestDto.getMember_id()).get();
+        Member member = memberRepository.findById(donationRequestDto.getMemberId()).get();
         donationRepository.save(donationRequestDto.toEntity(member));
         return true;
     }
@@ -39,8 +39,8 @@ public class DonationService {
         return result;
     }
 
-    public DonationDetailResponseDto donationInfo(Long id) throws Exception {
-        Donation donation = donationRepository.findById(id).get();
+    public DonationDetailResponseDto donationInfo(Long donationId) throws Exception {
+        Donation donation = donationRepository.findById(donationId).get();
         Member member = donation.getMember();
         DonationDetailResponseDto result = DonationDetailResponseDto.builder().donation(donation).member(member).build();
         return result;
@@ -48,23 +48,23 @@ public class DonationService {
 
     @Transactional
     public boolean donationUpdate(DonationRequestDto donationRequestDto) throws Exception {
-        Optional<Donation> optional = donationRepository.findById(donationRequestDto.getDonation_id());
+        Optional<Donation> optional = donationRepository.findById(donationRequestDto.getDonationId());
         if (optional.isPresent()) {
-            Member member = memberRepository.findById(donationRequestDto.getMember_id()).get();
+            Member member = memberRepository.findById(donationRequestDto.getMemberId()).get();
             Donation donation = optional.get();
             donation.setMember(member);
-            donation.setDonation_status(donationRequestDto.getDonation_status());
-            donation.setDonation_delivery_location(donationRequestDto.getDonation_delivery_location());
-            donation.setDonation_delivery_location_type(donationRequestDto.getDonation_delivery_location_type());
-            donation.setDonation_delivery_date(donationRequestDto.getDonation_delivery_date());
+            donation.setDonationStatus(donationRequestDto.getDonationStatus());
+            donation.setDonationDeliveryLocation(donationRequestDto.getDonationDeliveryLocation());
+            donation.setDonationDeliveryLocationType(donationRequestDto.getDonationDeliveryLocationType());
+            donation.setDonationDeliveryDate(donationRequestDto.getDonationDeliveryDate());
             return true;
         }
         return false;
     }
 
     @Transactional
-    public boolean donationDelete(Long donation_id) throws Exception {
-        donationRepository.deleteById(donation_id);
+    public boolean donationDelete(Long donationId) throws Exception {
+        donationRepository.deleteById(donationId);
         return true;
     }
 

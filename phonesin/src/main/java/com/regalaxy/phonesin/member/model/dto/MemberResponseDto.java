@@ -9,11 +9,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MemberResponseDto {
-    private Long member_id;
+    private Long memberId;
 
     private String email;
-    private String member_name;
-    private String phone_number;
+    private String memberName;
+    private String phoneNumber;
     private Boolean isCha;
     private Boolean isBlackList;
     private Boolean isDelete;
@@ -21,10 +21,10 @@ public class MemberResponseDto {
 
     @Builder
     public MemberResponseDto(Member member) {
-        this.member_id = member.getMember_id();
+        this.memberId = member.getMemberId();
         this.email = member.getEmail();
-        this.member_name = member.getMember_name();
-        this.phone_number = member.getPhone_number();
+        this.memberName = member.getMemberName();
+        this.phoneNumber = member.getPhoneNumber();
         this.isCha = member.getIsCha();
         this.isBlackList = member.getIsBlackList();
         this.isDelete = member.getIsDelete();
