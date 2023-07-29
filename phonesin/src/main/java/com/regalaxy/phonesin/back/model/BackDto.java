@@ -17,7 +17,6 @@ public class BackDto {
     private Long rentalId;
     private int backStatus;
     private LocalDate backDeliveryDate;
-//    private LocalDateTime applyDate;
     private String backDeliveryLocationType;
     private String backDeliveryLocation;
     private String backZipcode;

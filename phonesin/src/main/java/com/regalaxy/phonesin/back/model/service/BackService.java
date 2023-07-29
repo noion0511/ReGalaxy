@@ -73,4 +73,9 @@ public class BackService {
 
         return findall;
     }
+
+//    @Transactional
+//    public Back update(Long backId) {
+//        return backRepository.findById(backId).get();
+//    }
 }
