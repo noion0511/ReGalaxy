@@ -73,4 +73,13 @@ public class BackService {
 
         return findall;
     }
+
+    @Transactional
+    public BackDto updateBack(BackDto backDto) {
+        Back back = backRepository.findById(backDto.getBackId())
+                .orElseThrow(() -> new IllegalArgumentException(backDto.getBackId() + "인 ID는 존재하지 않습니다."));
+        back.update(backDto);
+        backRepository.save(back);
+        return BackDto.fromEntity(back);
+    }
 }

@@ -36,11 +36,18 @@ public class BackController {
     }
 
     // 반납 신청서 상세 정보보기
-    // RequestParam으로 form-data로 받기
     @GetMapping("/back/info")
-    public ResponseEntity<Map<String, Object>> backInfo(@RequestParam Long backId) {
+    public ResponseEntity<Map<String, Object>> backInfo(@RequestBody BackDto backDto) {
         Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("back", backService.backInfo(backId));
-        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK); // 반납 신청서 상세 정보보기 url 들어오면 적어주기
+        resultMap.put("back", backService.backInfo(backDto.getBackId()));
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+    }
+
+    @PutMapping("/back/update")
+    public ResponseEntity<Map<String, Object>> update(@RequestBody BackDto backDto) {
+        Map<String, Object> resultMap = new HashMap<>();
+        BackDto updatedBackDto = backService.updateBack(backDto);
+        resultMap.put("updatedBack", updatedBackDto);
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 }

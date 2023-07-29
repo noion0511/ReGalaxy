@@ -53,4 +53,13 @@ public class Back extends BaseTimeEntity {
         this.backZipcode = backZipcode;
         this.review = review;
     }
+
+    public void update(BackDto backDto) {
+        this.backStatus = backDto.getBackStatus();
+        this.backDeliveryDate = backDto.getBackDeliveryDate();
+        this.backDeliveryLocationType = backDto.getBackDeliveryLocationType();
+        this.backDeliveryLocation = backDto.getBackDeliveryLocation();
+        this.backZipcode = backDto.getBackZipcode();
+        this.review = backDto.getReview();
+    }
 }
