@@ -43,9 +43,11 @@ public class BackController {
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 
-//    @PutMapping("/back/update")
-//    public ResponseEntity<Map<String, Object>> update(@RequestBody BackDto backDto) {
-//        Map<String, Object> resultMap = new HashMap<>();
-//        return null;
-//    }
+    @PutMapping("/back/update")
+    public ResponseEntity<Map<String, Object>> update(@RequestBody BackDto backDto) {
+        Map<String, Object> resultMap = new HashMap<>();
+        BackDto updatedBackDto = backService.updateBack(backDto);
+        resultMap.put("updatedBack", updatedBackDto);
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+    }
 }

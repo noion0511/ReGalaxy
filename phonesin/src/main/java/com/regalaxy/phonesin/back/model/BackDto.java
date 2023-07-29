@@ -1,16 +1,13 @@
 package com.regalaxy.phonesin.back.model;
 
 import com.regalaxy.phonesin.back.model.entity.Back;
-import com.regalaxy.phonesin.global.BaseTimeEntity;
 import com.regalaxy.phonesin.rental.model.entity.Rental;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Getter
+@Getter @Setter
 @RequiredArgsConstructor
 public class BackDto {
     private Long backId;
@@ -22,6 +19,20 @@ public class BackDto {
     private String backZipcode;
     private String review;
     private LocalDateTime createdAt;
+
+    public static BackDto fromEntity(Back back) {
+        BackDto backDto = new BackDto();
+        backDto.setBackId(back.getBackId());
+        backDto.setRentalId(back.getRental().getRental_id());
+        backDto.setBackStatus(back.getBackStatus());
+        backDto.setBackDeliveryDate(back.getBackDeliveryDate());
+        backDto.setBackDeliveryLocationType(back.getBackDeliveryLocationType());
+        backDto.setBackDeliveryLocation(back.getBackDeliveryLocation());
+        backDto.setBackZipcode(back.getBackZipcode());
+        backDto.setReview(back.getReview());
+        backDto.setCreatedAt(back.getCreatedAt());
+        return backDto;
+    }
 
     public Back toEntity(Rental rental){
         return Back.builder()
