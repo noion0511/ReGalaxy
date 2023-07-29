@@ -8,10 +8,10 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
+
 @Getter
 @ApiModel(value = "기기 기증서 DTO", description = "기기 기증서 DTO")
-public class DonationDto {
+public class DonationRequestDto {
     @ApiModelProperty(value = "기증서 ID")
     private long donation_id;
 
