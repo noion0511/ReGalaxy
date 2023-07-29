@@ -1,6 +1,7 @@
 package com.regalaxy.phonesin.member.model.entity;
 
 import com.regalaxy.phonesin.donation.model.entity.Donation;
+import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -18,7 +19,7 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
-    private Long id;
+    private Long member_id;
 
     private String email;
     private String member_name;
@@ -31,5 +32,4 @@ public class Member {
 
     @OneToMany(mappedBy = "member",cascade = ALL,orphanRemoval = true)
     private List<Donation> donationList = new ArrayList<Donation>();
-
 }
