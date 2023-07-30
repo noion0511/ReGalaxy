@@ -2,6 +2,8 @@ package com.regalaxy.phonesin.rental.model;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Data
@@ -9,8 +11,8 @@ import lombok.*;
 @AllArgsConstructor
 public class RentalDto {
     private Long rental_id;
-    private String rental_start;
-    private String rental_end;
+    private LocalDateTime rental_start;
+    private LocalDateTime rental_end;
     private int rental_status;
     private String rental_deliverylocation;
     private int fund;

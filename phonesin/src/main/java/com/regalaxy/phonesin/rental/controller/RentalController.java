@@ -20,32 +20,37 @@ public class RentalController {
     private static final String SUCCESS = "success";
     private static final String FAIL = "fail";
 
-    @PostMapping("/info/apply")
-    public ResponseEntity<?> infoApply(RentalDetailDto rentalDetailDto){
-        System.out.println("dto출력 : " + rentalDetailDto.getRental_deliverylocation());
-        rentalService.infoApply(rentalDetailDto);
+    @PostMapping("/apply")//신청하기
+    public ResponseEntity<?> infoApply(RentalDetailDto rentalDetailDto, int using_date){
+        rentalService.infoApply(rentalDetailDto, using_date);
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
 
-    @PutMapping("/info/update")
-    public ResponseEntity<?> infoUpdate(RentalDto rentalDto){
+    @PutMapping("/apply/update")//신청수정
+    public ResponseEntity<?> infoUpdate(RentalDetailDto rentalDetailDto){
+        rentalService.infoUpdated(rentalDetailDto);
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
 
-    @DeleteMapping("/info/delete")
-    public ResponseEntity<?> infoDelete(int rental_id){
+    @DeleteMapping("/apply/delete")//신청삭제
+    public ResponseEntity<?> infoDelete(Long rental_id){
+        rentalService.infoDelete(rental_id);
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
 
-    @GetMapping("/info/list")
+    @GetMapping("/apply/list")//신청 리스트
     public ResponseEntity<?> infoList(SearchDto searchDto){
         List<RentalDto> list = rentalService.infoList(searchDto);
-        System.out.println(list.toString());
         return new ResponseEntity<List<RentalDto>>(list, HttpStatus.OK);
     }
 
-    @PutMapping("/info/extension")
-    public ResponseEntity<?> extension(int rental_id){
-        return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+    @PutMapping("/apply/extension")//신청 연장
+    public ResponseEntity<?> extension(Long rental_id){
+        boolean result = rentalService.extension(rental_id);
+        if(result) {
+            return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<String>(FAIL, HttpStatus.OK);
+        }
     }
 }
