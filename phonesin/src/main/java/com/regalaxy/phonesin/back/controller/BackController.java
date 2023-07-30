@@ -1,22 +1,13 @@
 package com.regalaxy.phonesin.back.controller;
 
 import com.regalaxy.phonesin.back.model.BackDto;
-import com.regalaxy.phonesin.back.model.entity.Back;
 import com.regalaxy.phonesin.back.model.service.BackService;
-import com.regalaxy.phonesin.member.model.SearchDto;
-import com.regalaxy.phonesin.phone.model.entity.Model;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -43,6 +34,8 @@ public class BackController {
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 
+    // 반납 신청서 수정
+    // 나중에 유저는 rentalStatus를 수정하지 못하도록 설정.
     @PutMapping("/back/update")
     public ResponseEntity<Map<String, Object>> update(@RequestBody BackDto backDto) {
         Map<String, Object> resultMap = new HashMap<>();

@@ -20,20 +20,20 @@ public class BackDto {
     private String review;
     private LocalDateTime createdAt;
 
+    // Entity를 Dto로 바꾸는 메서드
+    // 혹시 builder 사용할 수 있으면 바꿔보기!!
     public static BackDto fromEntity(Back back) {
         BackDto backDto = new BackDto();
-        backDto.setBackId(back.getBackId());
-        backDto.setRentalId(back.getRental().getRental_id());
         backDto.setBackStatus(back.getBackStatus());
         backDto.setBackDeliveryDate(back.getBackDeliveryDate());
         backDto.setBackDeliveryLocationType(back.getBackDeliveryLocationType());
         backDto.setBackDeliveryLocation(back.getBackDeliveryLocation());
         backDto.setBackZipcode(back.getBackZipcode());
         backDto.setReview(back.getReview());
-        backDto.setCreatedAt(back.getCreatedAt());
         return backDto;
     }
 
+    // Entity에 Rental을 build
     public Back toEntity(Rental rental){
         return Back.builder()
                 .rental(rental)
