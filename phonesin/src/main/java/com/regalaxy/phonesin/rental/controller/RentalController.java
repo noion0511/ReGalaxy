@@ -22,7 +22,6 @@ public class RentalController {
 
     @PostMapping("/apply")//신청하기
     public ResponseEntity<?> infoApply(RentalDetailDto rentalDetailDto, int using_date){
-        System.out.println("dto출력 : " + rentalDetailDto.getRental_deliverylocation());
         rentalService.infoApply(rentalDetailDto, using_date);
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
@@ -34,14 +33,14 @@ public class RentalController {
     }
 
     @DeleteMapping("/apply/delete")//신청삭제
-    public ResponseEntity<?> infoDelete(int rental_id){
+    public ResponseEntity<?> infoDelete(Long rental_id){
+        rentalService.infoDelete(rental_id);
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
 
     @GetMapping("/apply/list")//신청 리스트
     public ResponseEntity<?> infoList(SearchDto searchDto){
         List<RentalDto> list = rentalService.infoList(searchDto);
-        System.out.println(list.toString());
         return new ResponseEntity<List<RentalDto>>(list, HttpStatus.OK);
     }
 

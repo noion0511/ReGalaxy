@@ -30,14 +30,14 @@ public class AdminRentalController {
     }
 
     @GetMapping("/info")
-    public String info(@RequestParam("rental_id") int rental_id){
+    public String info(int rental_id){
         RentalDetailDto rentalDetailDto = rentalService.info(rental_id);
-        System.out.println("SUCCESS");
         return "";
     }
 
     @GetMapping("/apply")
-    public String apply(ApplyDto applyDto){
+    public String apply(Long rental_id, boolean accept){
+        rentalService.apply(rental_id, accept);
         return "";
     }
 }

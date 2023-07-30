@@ -33,19 +33,21 @@ public class Rental {
     private LocalDateTime rental_start;
     private LocalDateTime rental_end;
     private int rental_status;
+    @Column(name="isy2k")
     private boolean isY2K;
+    @Column(name="is_climate_humidity")
     private boolean isClimateHumidity;
+    @Column(name="is_homecam")
     private boolean isHomecam;
     private int count;
+    @Column(name="is_extension")
     private boolean isExtension;
     @Column(name = "rental_delivery_location")
     private String rental_deliverylocation;
     private int rental_zipcode;
     private String waybill_number;
     private int fund;
-    @JsonIgnore
-    @OneToOne(mappedBy = "rental",fetch = LAZY, cascade = CascadeType.ALL)
-    private Back back;
+    private int using_date;
     public void extension(){
         this.isExtension = true;
     }

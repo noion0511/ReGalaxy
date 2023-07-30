@@ -26,10 +26,10 @@ public class Back extends BaseTimeEntity {
     private Long backId;
 
     // rental과 일대일 매핑
-    @JsonIgnore
-    @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "rental_id")
-    private Rental rental;
+//    @JsonIgnore
+//    @OneToOne(fetch = LAZY)
+//    @JoinColumn(name = "rental_id")
+//    private Rental rental;
 
     @Column(nullable = false)
     private int backStatus; // 반납 상태 : 신청(1), 승인(2), 수거완료(3), 상태확인(4)
@@ -45,7 +45,7 @@ public class Back extends BaseTimeEntity {
 
     @Builder
     public Back(Rental rental, int backStatus, LocalDate backDeliveryDate, String backDeliveryLocationType, String backDeliveryLocation, String backZipcode, String review) {
-        this.rental = rental;
+//        this.rental = rental;
         this.backStatus = backStatus;
         this.backDeliveryDate = backDeliveryDate;
         this.backDeliveryLocationType = backDeliveryLocationType;
