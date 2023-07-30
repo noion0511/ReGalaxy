@@ -1,4 +1,4 @@
-package com.regalaxy.phonesin.donation.model.dto;
+package com.regalaxy.phonesin.donation.model;
 
 import com.regalaxy.phonesin.donation.model.entity.Donation;
 import com.regalaxy.phonesin.member.model.entity.Member;

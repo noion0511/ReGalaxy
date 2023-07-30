@@ -1,6 +1,6 @@
 package com.regalaxy.phonesin.donation.controller;
 
-import com.regalaxy.phonesin.donation.model.dto.DonationRequestDto;
+import com.regalaxy.phonesin.donation.model.DonationRequestDto;
 import com.regalaxy.phonesin.donation.model.service.DonationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

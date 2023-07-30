@@ -1,28 +1,31 @@
-package com.regalaxy.phonesin.donation.model.dto;
+package com.regalaxy.phonesin.donation.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.regalaxy.phonesin.donation.model.entity.Donation;
-import com.regalaxy.phonesin.member.model.dto.MemberResponseDto;
+import com.regalaxy.phonesin.member.MemberResponseDto;
 import com.regalaxy.phonesin.member.model.entity.Member;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 
 @Getter
 @ApiModel(value = "기기 기증서 List DTO", description = "기기 기증서 List DTO")
-public class DonationResponseDto {
+public class DonationDetailResponseDto {
 
     @ApiModelProperty(value = "기증서 ID")
     private long donationId;
 
-    @ApiModelProperty(value = "기증 멤버 ID")
-    private long memberId;
+    @ApiModelProperty(value = "기증 멤버")
+    private MemberResponseDto memberResponseDto;
 
     @ApiModelProperty(value = "기증 상태")
     private int donationStatus;
 
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     @ApiModelProperty(value = "기증 날짜")
     private LocalDateTime donationCreatedAt;
 
@@ -36,9 +39,9 @@ public class DonationResponseDto {
     private String donationDeliveryLocation;
 
     @Builder
-    public DonationResponseDto(Donation donation){
+    public DonationDetailResponseDto(Donation donation, Member member){
         this.donationId = donation.getDonationId();
-        this.memberId = donation.getMember().getMemberId();
+        this.memberResponseDto = MemberResponseDto.builder().member(member).build();
         this.donationStatus = donation.getDonationStatus();
         this.donationCreatedAt = donation.getCreatedAt();
         this.donationDeliveryDate = donation.getDonationDeliveryDate();

@@ -1,8 +1,8 @@
 package com.regalaxy.phonesin.donation.model.service;
 
-import com.regalaxy.phonesin.donation.model.dto.DonationDetailResponseDto;
-import com.regalaxy.phonesin.donation.model.dto.DonationRequestDto;
-import com.regalaxy.phonesin.donation.model.dto.DonationResponseDto;
+import com.regalaxy.phonesin.donation.model.DonationDetailResponseDto;
+import com.regalaxy.phonesin.donation.model.DonationRequestDto;
+import com.regalaxy.phonesin.donation.model.DonationResponseDto;
 import com.regalaxy.phonesin.donation.model.entity.Donation;
 import com.regalaxy.phonesin.donation.model.repository.DonationRepository;
 import com.regalaxy.phonesin.member.model.entity.Member;
