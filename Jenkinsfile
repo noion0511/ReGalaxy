@@ -1,5 +1,5 @@
-def dockerRepository = "myanjini"
-def dockerImageName = "myspringbootapp"
+def dockerRepository = "fantdocker"
+def dockerImageName = "spring"
 def deployHost = "3.36.49.178"
 
 pipeline {
