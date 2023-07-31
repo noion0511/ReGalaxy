@@ -1,4 +1,4 @@
-package com.ssafy.phonesin
+package com.ssafy.phonesin.ui.module.camera
 
 import android.app.Activity
 import android.content.Context
@@ -9,8 +9,8 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Environment
 import android.util.Log
-import android.view.Display
 import android.view.SurfaceHolder
+import android.view.View
 import android.widget.Toast
 import androidx.core.net.toUri
 import com.ssafy.phonesin.databinding.ActivityCameraBinding
@@ -29,10 +29,29 @@ class CameraActivity : Activity() {
     private var isFlashOn = false
     private lateinit var params: Camera.Parameters
 
+    private var photoCount = 0
+    private val maxPhotos = 4
+    private var photoPaths = ArrayList<String>()
+    private var cameraFacing = ArrayList<String>()
+
     private var cameraId = Camera.CameraInfo.CAMERA_FACING_BACK
     private val pictureCallback = Camera.PictureCallback { data, _ ->
-        savePictureToPublicDir(data)
-        restartPreview()
+        val photoPath = savePictureToPublicDir(data)
+        val cameraFaceType = if (cameraId == Camera.CameraInfo.CAMERA_FACING_FRONT) "FRONT" else "BACK"
+        photoPaths.add(photoPath)
+        cameraFacing.add(cameraFaceType)
+        if (photoCount < maxPhotos) {
+            restartPreview()
+        } else {
+            photoCount = 0
+            binding.buttonTakePicture.isEnabled = true
+            val intent = Intent(this, CameraViewerActivity::class.java)
+            intent.putStringArrayListExtra("photo_paths", photoPaths)
+            intent.putStringArrayListExtra("cameraFacing", cameraFacing)
+            photoPaths = ArrayList<String>()
+            cameraFacing = ArrayList<String>()
+            startActivity(intent)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,9 +68,11 @@ class CameraActivity : Activity() {
 
         surfaceHolder = binding.surfaceViewCamera.holder
         surfaceHolder.addCallback(surfaceHolderCallback)
+        binding.textViewCount.text = "1 / 4"
 
         binding.buttonTakePicture.setOnClickListener {
             if (isSafeToTakePicture) {
+                binding.textViewCount.text = "1 / 4"
                 startCountdownAndTakePicture()
             }
         }
@@ -100,16 +121,17 @@ class CameraActivity : Activity() {
     }
 
     private fun startCountdownAndTakePicture() {
-        binding.buttonTakePicture.isEnabled = false
+        binding.buttonTakePicture.visibility = View.INVISIBLE
 
-        object : CountDownTimer(3000, 1000) {
+        object : CountDownTimer(15000, 3000) { // 총 12초 동안 3초마다
             override fun onTick(millisUntilFinished: Long) {
                 val secondsRemaining = millisUntilFinished / 1000
-                showToast((secondsRemaining + 1).toString())
+                binding.textViewCount.text = "${(5 - (secondsRemaining)/3)} / 4"
+                takePicture()
             }
 
             override fun onFinish() {
-                takePicture()
+                binding.buttonTakePicture.visibility = View.VISIBLE
             }
         }.start()
     }
@@ -123,10 +145,12 @@ class CameraActivity : Activity() {
             Log.d("CameraActivity", "Failed to start camera preview: ${e.message}")
         }
     }
+    private val shutterCallback = Camera.ShutterCallback { }
     private fun takePicture() {
         if (isSafeToTakePicture) {
-            camera.takePicture(null, null, pictureCallback)
+            camera.takePicture(shutterCallback, null, pictureCallback)
             isSafeToTakePicture = false
+            photoCount++
         }
     }
 
@@ -189,7 +213,7 @@ class CameraActivity : Activity() {
         binding.buttonTakePicture.isEnabled = true
     }
 
-    private fun savePictureToPublicDir(data: ByteArray) {
+    private fun savePictureToPublicDir(data: ByteArray): String {
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
         val storageDir =
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
@@ -199,11 +223,14 @@ class CameraActivity : Activity() {
             val fos = FileOutputStream(imageFile)
             fos.write(data)
             fos.close()
+
             sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, imageFile.toUri()))
             Log.d("tag", "사진 저장 ${imageFile.toUri()}")
         } catch (e: Exception) {
             showToast("사진 저장 실패")
         }
+
+        return imageFile.absolutePath
     }
 
     companion object {
