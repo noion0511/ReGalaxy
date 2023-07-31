@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.ssafy.phonesin.databinding.FragmentMobileBinding
+import com.ssafy.phonesin.ui.mobile.returnmobile.ReturnMobileActivity
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -51,6 +52,9 @@ class MobileFragment : Fragment() {
     private fun setMobileHomeUi() {
         binding.rentalCardView.setOnClickListener {
             startActivity(Intent(activity, RentalListActivity::class.java))
+        }
+        binding.returnCardView.setOnClickListener {
+            startActivity(Intent(activity, ReturnMobileActivity::class.java))
         }
     }
 

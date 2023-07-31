@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.mobile.ReturnFinishActivity">
+    tools:context=".ui.mobile.returnmobile.ReturnFinishActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutReturnFinishSummary"
@@ -86,11 +86,13 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <net.daum.android.map.MapView
+    <net.daum.mf.map.api.MapView
         android:id="@+id/mapViewReturnFinish"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/layoutReturnFinishGuide"
         app:layout_constraintTop_toBottomOf="@id/layoutReturnFinishDetail" />
 
