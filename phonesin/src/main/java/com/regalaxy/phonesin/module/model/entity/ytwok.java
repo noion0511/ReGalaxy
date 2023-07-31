@@ -1,5 +1,6 @@
 package com.regalaxy.phonesin.module.model.entity;
 
+import com.regalaxy.phonesin.global.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,18 +18,15 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class ytwok{
+public class Ytwok extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long ytwokId;
 
-    private String originalFileName;
+    private String SaveFolder;
 
-    private String storedFileName;
+    private String OriginalFile;
 
-    private long fileSize;
-
-    @CreatedDate
-    private LocalDateTime createdAt;
+    private String SaveFile;
 }
