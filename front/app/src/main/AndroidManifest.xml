@@ -24,6 +24,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.mobile.ReturnVisitDeliveryActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.mobile.ReturnMobileActivity"
             android:exported="false" />
         <activity
