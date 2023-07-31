@@ -3,7 +3,9 @@
     <style name="Base.Theme.Phonesin" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-        <item name="colorPrimary">@color/keyColorLight2</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
     </style>
 
     <style name="Theme.Phonesin" parent="Base.Theme.Phonesin" />
