@@ -7,10 +7,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import static javax.persistence.CascadeType.ALL;
@@ -29,6 +33,7 @@ public class Member {
     @Column(unique = true)
     private String email;
 
+    private String authority;
     private String memberName;
     private String password;
     private String phoneNumber;
