@@ -3,8 +3,9 @@ package com.regalaxy.phonesin.member.model.service;
 import com.regalaxy.phonesin.member.model.MemberDto;
 import com.regalaxy.phonesin.member.model.entity.Member;
 import com.regalaxy.phonesin.member.model.repository.MemberRepository;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,36 +13,28 @@ import org.springframework.stereotype.Service;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    public MemberDto signUp(MemberDto memberDto) {
-        Member member = convertToEntity(memberDto);
-        Member savedMember = memberRepository.save(member);
-        return convertToDto(savedMember);
-    }
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    private Member convertToEntity(MemberDto memberDto) {
-        return Member.builder()
+
+    public ResponseEntity<Member> signUp(MemberDto memberDto) {
+        if (memberRepository.existsByEmail(memberDto.getEmail())) {
+            throw new RuntimeException("이미 존재하는 이메일입니다.");
+        }
+        String encodedPassword = passwordEncoder.encode(memberDto.getPassword());
+
+        Member member = Member.builder()
                 .email(memberDto.getEmail())
+                .password(encodedPassword)
                 .memberName(memberDto.getMemberName())
-                .password(memberDto.getPassword())
                 .phoneNumber(memberDto.getPhoneNumber())
                 .isCha(memberDto.getIsCha())
                 .isBlackList(memberDto.getIsBlackList())
                 .isDelete(memberDto.getIsDelete())
                 .isManager(memberDto.getIsManager())
                 .build();
-    }
 
-    private MemberDto convertToDto(Member member) {
-        return MemberDto.builder()
-                .email(member.getEmail())
-                .memberName(member.getMemberName())
-                .password(member.getPassword())
-                .phoneNumber(member.getPhoneNumber())
-                .isCha(member.getIsCha())
-                .isBlackList(member.getIsBlackList())
-                .isDelete(member.getIsDelete())
-                .isManager(member.getIsManager())
-                .build();
+        Member savedMember = memberRepository.save(member);
+        return ResponseEntity.ok(savedMember);
     }
 
 }
