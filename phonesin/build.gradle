@@ -8,7 +8,7 @@ group = 'com.regalaxy'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = '11'
+	sourceCompatibility = '1.8'
 }
 
 repositories {
@@ -39,15 +39,4 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
-}
-
-jib {
-    to {
-        image = project.findProperty("docker.repository") + "/" + project.findProperty("docker.image.name")
-        tags = [project.findProperty("docker.image.tag")]
-        auth {
-            username = project.findProperty("docker.repository.username")
-            password = project.findProperty("docker.repository.password")
-        }
-    }
 }

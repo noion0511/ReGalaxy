@@ -1,6 +1,6 @@
 def dockerRepository = "fantdocker"
 def dockerImageName = "spring"
-def deployHost = "3.36.49.178"
+def deployHost = "i9d102.p.ssafy.io"
 
 pipeline {
     agent any
@@ -48,9 +48,9 @@ pipeline {
             steps {
                 sshagent(credentials: ["deploy-key"]) {
                     sh """
-                        ssh -o StrictHostKeyChecking=no ec2-user@${deployHost} \
+                        ssh -o StrictHostKeyChecking=no ubuntu@${deployHost} \
                         'docker container rm -f springbootapp &&  
-                         docker container run -d -t -p 80:8080 --rm --name springbootapp ${dockerRepository}/${dockerImageName}:${currentBuild.number};'
+                         docker container run -d -t -p 8080:8080 --rm --name springbootapp ${dockerRepository}/${dockerImageName}:${currentBuild.number};'
                     """
                 }
             }
