@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Custom font style 일괄적용 -->
+    <style name="TextViewStyle" parent="@android:style/Widget.DeviceDefault.TextView">
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+    </style>
+
+    <style name="ButtonStyle" parent="@android:style/Widget.DeviceDefault.Button.Borderless">
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+    </style>
+
+    <style name="EditTextStyle" parent="@android:style/Widget.DeviceDefault.EditText">
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+    </style>
+
+    <style name="RadioButtonStyle" parent="@android:style/Widget.DeviceDefault.CompoundButton.RadioButton">
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+    </style>
+
+    <style name="CheckboxStyle" parent="@android:style/Widget.DeviceDefault.CompoundButton.CheckBox">
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+    </style>
+
+
+    <!--  제목 및 컨텐츠 font 지정  -->
+    <style name="textview_content_black">
+        <item name="android:textSize">12dp</item>
+    </style>
+
+    <style name="textview_content_gray">
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:textSize">12dp</item>
+    </style>
+
+    <style name="textview_title_secondary">
+        <item name="android:textSize">16dp</item>
+    </style>
+
+    <style name="textview_title_onboarding">
+        <item name="android:textSize">28dp</item>
+        <item name="android:fontFamily">@font/pretendard_black</item>
+    </style>
+
+    <style name="textview_title">
+        <item name="android:textSize">24dp</item>
+        <item name="android:fontFamily">@font/pretendard_black</item>
+    </style>
+
+</resources>
