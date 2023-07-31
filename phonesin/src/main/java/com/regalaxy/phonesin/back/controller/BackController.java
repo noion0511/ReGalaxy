@@ -1,14 +1,10 @@
 package com.regalaxy.phonesin.back.controller;
 
 import com.regalaxy.phonesin.back.model.BackDto;
-import com.regalaxy.phonesin.back.model.entity.Back;
 import com.regalaxy.phonesin.back.model.service.BackService;
-import com.regalaxy.phonesin.phone.model.entity.Model;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -25,17 +21,26 @@ public class BackController {
     @PostMapping("/back/apply")
     public ResponseEntity<Map<String, Object>> apply(@RequestBody BackDto backDto) {
         Map<String, Object> resultMap = new HashMap<>();
-        backService.saveBack(backDto);
+        backService.apply(backDto);
         resultMap.put("back", backDto);
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 
     // 반납 신청서 상세 정보보기
-    // RequestParam으로 form-data로 받기
     @GetMapping("/back/info")
-    public ResponseEntity<Map<String, Object>> backInfo(@RequestParam Long backId) {
+    public ResponseEntity<Map<String, Object>> backInfo(@RequestBody BackDto backDto) {
         Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("back", backService.findOne(backId));
-        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK); // 반납 신청서 상세 정보보기 url 들어오면 적어주기
+        resultMap.put("back", backService.backInfo(backDto.getBackId()));
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+    }
+
+    // 반납 신청서 수정
+    // 나중에 유저는 rentalStatus를 수정하지 못하도록 설정.
+    @PutMapping("/back/update")
+    public ResponseEntity<Map<String, Object>> update(@RequestBody BackDto backDto) {
+        Map<String, Object> resultMap = new HashMap<>();
+        BackDto updatedBackDto = backService.updateBack(backDto);
+        resultMap.put("updatedBack", updatedBackDto);
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 }

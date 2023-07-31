@@ -4,10 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.regalaxy.phonesin.address.model.entity.Agency;
 import com.regalaxy.phonesin.back.model.entity.Back;
 import com.regalaxy.phonesin.member.model.entity.Member;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -28,22 +28,27 @@ public class Rental {
     @JoinColumn(name = "agency_id")
     private Agency agency;
 
-    private String apply_date;
-    private String rental_start;
-    private String rental_end;
+    private LocalDateTime apply_date;
+
+    private LocalDateTime rental_start;
+    private LocalDateTime rental_end;
     private int rental_status;
+    @Column(name="isy2k")
     private boolean isY2K;
+    @Column(name="is_climate_humidity")
     private boolean isClimateHumidity;
+    @Column(name="is_homecam")
     private boolean isHomecam;
     private int count;
+    @Column(name="is_extension")
     private boolean isExtension;
     @Column(name = "rental_delivery_location")
     private String rental_deliverylocation;
     private int rental_zipcode;
     private String waybill_number;
     private int fund;
-
-    @JsonIgnore
-    @OneToOne(mappedBy = "rental",fetch = LAZY, cascade = CascadeType.ALL)
-    private Back back;
+    private int using_date;
+    public void extension(){
+        this.isExtension = true;
+    }
 }

@@ -6,12 +6,10 @@ import com.regalaxy.phonesin.global.BaseTimeEntity;
 import com.regalaxy.phonesin.rental.model.entity.Rental;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -52,5 +50,14 @@ public class Back extends BaseTimeEntity {
         this.backDeliveryLocation = backDeliveryLocation;
         this.backZipcode = backZipcode;
         this.review = review;
+    }
+
+    public void update(BackDto backDto) {
+        this.backStatus = backDto.getBackStatus();
+        this.backDeliveryDate = backDto.getBackDeliveryDate();
+        this.backDeliveryLocationType = backDto.getBackDeliveryLocationType();
+        this.backDeliveryLocation = backDto.getBackDeliveryLocation();
+        this.backZipcode = backDto.getBackZipcode();
+        this.review = backDto.getReview();
     }
 }

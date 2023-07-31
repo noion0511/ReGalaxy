@@ -4,6 +4,8 @@ import com.regalaxy.phonesin.member.model.MemberDto;
 import com.regalaxy.phonesin.member.model.entity.Member;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Data
@@ -17,14 +19,15 @@ public class RentalDetailDto {
     private boolean isClimateHumidity;//rental
     private boolean isHomecam;//rental
     private int count;//rental
-    private String rental_start;//rental
-    private String rental_end;//rental
-    private String apply_date;//rental
+    private LocalDateTime rental_start;//rental
+    private LocalDateTime rental_end;//rental
+    private LocalDateTime apply_date;//rental
     private int rental_status;//rental
     private String rental_deliverylocation;//rental
     private int fund;//rental
     private String model_name;//model
     private Long phone_id;//phone
     private Long donation_id;//phone
+    private int using_date;
 //    private String waybill_numbers;//rental
 }

@@ -10,24 +10,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface RentalRepository extends JpaRepository<Rental, Long>, RentalRepositoryCustom {
-    @Override
-    Rental getReferenceById(Long aLong);
-
-    @Override
-    <S extends Rental> S save(S entity);
-
-    @Override
-    void deleteById(Long aLong);
-
-    @Override
-    List<RentalDto> search(SearchDto searchDto);
-
-    @Override
-    boolean extension(int rental_id);
-
-    @Override
-    boolean apply(ApplyDto applyDto);
-
-    @Override
-    RentalDetailDto detailInfo(int rental_id);
 }
