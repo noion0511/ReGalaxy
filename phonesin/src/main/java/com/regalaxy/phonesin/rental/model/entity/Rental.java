@@ -18,7 +18,7 @@ import static javax.persistence.FetchType.LAZY;
 public class Rental {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long rental_id;
+    private Long rentalId;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
@@ -28,11 +28,11 @@ public class Rental {
     @JoinColumn(name = "agency_id")
     private Agency agency;
 
-    private LocalDateTime apply_date;
+    private LocalDateTime applyDate;
 
-    private LocalDateTime rental_start;
-    private LocalDateTime rental_end;
-    private int rental_status;
+    private LocalDateTime rentalStart;
+    private LocalDateTime rentalEnd;
+    private int rentalStatus;
     @Column(name="isy2k")
     private boolean isY2K;
     @Column(name="is_climate_humidity")
@@ -43,11 +43,11 @@ public class Rental {
     @Column(name="is_extension")
     private boolean isExtension;
     @Column(name = "rental_delivery_location")
-    private String rental_deliverylocation;
-    private int rental_zipcode;
-    private String waybill_number;
+    private String rentalDeliveryLocation;
+    private int rentalZipcode;
+    private String waybillNumber;
     private int fund;
-    private int using_date;
+    private int usingDate;
     public void extension(){
         this.isExtension = true;
     }

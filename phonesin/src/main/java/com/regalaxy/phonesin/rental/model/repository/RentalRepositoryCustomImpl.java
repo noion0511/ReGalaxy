@@ -23,9 +23,15 @@ public class RentalRepositoryCustomImpl implements RentalRepositoryCustom {
     @Override
     public List<RentalDto> search(SearchDto searchDto) {
 //        String s = "select new com.regalaxy.phonesin.rental.model.RentalDto(r.rental_id, r.rental_start, r.rental_end, r.rental_status, r.rental_deliverylocation, r.fund) from rental r";
+<<<<<<< Updated upstream
         String s = "select new com.regalaxy.phonesin.rental.model.RentalDto(r.rental_id, r.rental_start, r.rental_end, r.rental_status, r.rental_deliverylocation, r.fund, m.model_name, p.phone_id, r.waybill_number) "
             + "from rental r join phone p on r.rental_id = p.rental_id "
                 + "join model m on p.model.model_id = m.model_id";
+=======
+        String s = "select new com.regalaxy.phonesin.rental.model.RentalDto(r.rentalId, r.rentalStart, r.rentalEnd, r.rentalStatus, r.rentalDeliveryLocation, r.fund, m.modelName, p.phoneId, r.waybillNumber) "
+            + "from rental r join phone p on r.rentalId = p.rentalId "
+                + "join model m on p.model.modelId = m.modelId";
+>>>>>>> Stashed changes
         int n = 0;
         if(!searchDto.getEmail().isEmpty()){//이메일 검색을 했을 경우
             if(n==0){
@@ -83,6 +89,7 @@ public class RentalRepositoryCustomImpl implements RentalRepositoryCustom {
     }
 
     @Override
+<<<<<<< Updated upstream
     public boolean extension(int rental_id) {
         return false;
     }
@@ -99,6 +106,14 @@ public class RentalRepositoryCustomImpl implements RentalRepositoryCustom {
             + "from rental r join phone p on r.rental_id = p.rental_id "
             + "join model m on p.model.model_id = m.model_id "
                 + "where r.rental_id=" + rental_id;
+=======
+    public RentalDetailDto detailInfo(Long rental_id) {
+//        String s = "select new com.regalaxy.phonesin.rental.model.RentalDetailDto(r.rental_id, r.member.member_id, r.isY2K, r.isClimateHumidity, r.isHomecam, r.count, r.rental_start, r.rental_end, r.apply_date, r.rental_status, r.rental_deliverylocation, r.fund, m.model_name, p.phone_id, p.donation_id, r.waybill_number) "
+        String s = "select new com.regalaxy.phonesin.rental.model.RentalDetailDto(r.rentalId, r.member.memberId, r.isY2K, r.isClimateHumidity, r.isHomecam, r.count, r.rentalStart, r.rentalEnd, r.applyDate, r.rentalStatus, r.rentalDeliveryLocation, r.fund, m.modelName, p.phoneId, p.donation.donationId, r.usingDate) "
+            + "from rental r join phone p on r.rentalId = p.rentalId "
+            + "join model m on p.model.modelId = m.modelId "
+                + "where r.rentalId=" + rental_id;
+>>>>>>> Stashed changes
 
         List<RentalDetailDto> list = em.createQuery(s, RentalDetailDto.class).getResultList();
         if(list.size()!=0){

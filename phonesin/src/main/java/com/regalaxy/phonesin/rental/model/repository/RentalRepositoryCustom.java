@@ -12,5 +12,5 @@ public interface RentalRepositoryCustom {
     boolean extension(int rental_id);
     boolean apply(ApplyDto applyDto);
 
-    RentalDetailDto detailInfo(int rental_id);
+    RentalDetailDto detailInfo(Long rental_id);
 }

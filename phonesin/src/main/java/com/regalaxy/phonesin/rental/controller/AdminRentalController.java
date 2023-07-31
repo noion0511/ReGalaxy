@@ -22,15 +22,14 @@ public class AdminRentalController {
     public ModelAndView infoList(SearchDto searchDto){
         ModelAndView mav = new ModelAndView();
         List<RentalDto> list = rentalService.infoList(searchDto);
-        mav.addObject("list", list);
-        mav.addObject("pgno", searchDto.getPgno());
-        mav.setViewName("");//어디로 이동할지 ex) rental/list
         System.out.print("Success");
+        mav.addObject("list", list);
+        mav.setViewName("");//어디로 이동할지 ex) rental/list
         return mav;
     }
 
     @GetMapping("/info")
-    public String info(int rental_id){
+    public String info(Long rental_id){
         RentalDetailDto rentalDetailDto = rentalService.info(rental_id);
         return "";
     }
