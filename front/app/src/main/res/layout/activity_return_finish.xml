@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.mobile.ReturnFinishActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutReturnFinishSummary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/border_mobile_add_layout"
+        android:padding="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textViewReturnFinishSummaryMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="신청이 완료되었어요"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewReturnFinishMobiles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/textViewReturnFinishSummaryMessage"
+            app:layout_constraintTop_toBottomOf="@id/textViewReturnFinishSummaryMessage"
+            tools:text="갤럭시 s7" />
+
+        <TextView
+            android:id="@+id/textViewReturnFinishDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/textViewReturnFinishMobiles"
+            app:layout_constraintTop_toBottomOf="@id/textViewReturnFinishMobiles"
+            tools:text="신청 일시 : 2023년 04월 19일 오후 08:14" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutReturnFinishDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/border_mobile_add_layout"
+        android:padding="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutReturnFinishSummary">
+
+        <TextView
+            android:id="@+id/textViewReturnFinishDetailMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="상세 정보"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewReturnFinishDetailDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/textViewReturnFinishDetailMessage"
+            app:layout_constraintTop_toBottomOf="@id/textViewReturnFinishDetailMessage"
+            tools:text=" - 기증날짜 : 2023.12.12" />
+
+        <TextView
+            android:id="@+id/textViewReturnFinishDetailSolve"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/textViewReturnFinishDetailDate"
+            app:layout_constraintTop_toBottomOf="@id/textViewReturnFinishDetailDate"
+            tools:text=" - 수거방법 : 방문 택배" />
+
+        <TextView
+            android:id="@+id/textViewReturnFinishDetailAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/textViewReturnFinishDetailSolve"
+            app:layout_constraintTop_toBottomOf="@id/textViewReturnFinishDetailSolve"
+            tools:text=" - 주소 : 구미시 진평동 한마음센터 103동" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <net.daum.android.map.MapView
+        android:id="@+id/mapViewReturnFinish"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="30dp"
+        app:layout_constraintBottom_toTopOf="@id/layoutReturnFinishGuide"
+        app:layout_constraintTop_toBottomOf="@id/layoutReturnFinishDetail" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutReturnFinishGuide"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/border_mobile_add_layout"
+        android:padding="20dp"
+        app:layout_constraintBottom_toTopOf="@id/buttonReturnHome"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/textViewReturnFinishGuideMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="안내말씀"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewReturnFinishGuideDetailMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="신청해 주셔서 감사합니다.
+방문 택배 신청 시 신청 장소에 꼭 보관해 주시기 바랍니다.
+대리점 신청 시 신청 대리점의 주소를 확인 후 방문해 주시기 바랍니다."
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewReturnFinishGuideMessage" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/buttonReturnHome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="홈으로"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
