@@ -56,6 +56,9 @@
         <activity
             android:name=".CameraActivity"
             android:exported="true" />
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="4c9d659a498fe1b0d16eaadc8b6d0bc9" />
     </application>
 
 </manifest>
