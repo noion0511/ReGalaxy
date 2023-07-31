@@ -1,12 +1,10 @@
 package com.regalaxy.phonesin.rental.model.service;
 
-import com.regalaxy.phonesin.address.model.entity.Agency;
 import com.regalaxy.phonesin.address.model.repository.AgencyRepository;
 import com.regalaxy.phonesin.member.model.SearchDto;
 import com.regalaxy.phonesin.member.model.entity.Member;
 import com.regalaxy.phonesin.member.model.repository.MemberRepository;
 import com.regalaxy.phonesin.phone.model.repository.PhoneRepository;
-import com.regalaxy.phonesin.rental.model.ApplyDto;
 import com.regalaxy.phonesin.rental.model.RentalDetailDto;
 import com.regalaxy.phonesin.rental.model.RentalDto;
 import com.regalaxy.phonesin.rental.model.entity.Rental;
