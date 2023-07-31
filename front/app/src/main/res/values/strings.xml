@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">phonesin</string>
+    <string name="app_name">폰고지신</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="home">홈</string>
