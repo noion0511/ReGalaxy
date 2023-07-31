@@ -24,9 +24,7 @@ public class Ytwok extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long ytwokId;
 
-    private String SaveFolder;
+    private String originalFile;
 
-    private String OriginalFile;
-
-    private String SaveFile;
+    private String saveFile;
 }

@@ -1,5 +1,7 @@
 package com.regalaxy.phonesin.module.model;
 
+import com.regalaxy.phonesin.module.model.entity.Ytwok;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,9 +10,14 @@ import lombok.Setter;
 public class YtwokDto {
     private long ytwokId;
 
-    private String SaveFolder;
+    private String originalFile;
 
-    private String OriginalFile;
+    private String saveFile;
 
-    private String SaveFile;
+    @Builder
+    public YtwokDto (long ytwokId, String saveFile, String originalFile){
+        this.ytwokId = ytwokId;
+        this.saveFile = saveFile;
+        this.originalFile = originalFile;
+    }
 }
