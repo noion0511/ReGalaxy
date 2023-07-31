@@ -1,8 +1,9 @@
 package com.regalaxy.phonesin.donation.model.repository;
 
-import com.regalaxy.phonesin.donation.model.DonationDto;
+import com.regalaxy.phonesin.donation.model.entity.Donation;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface DonationRepository extends JpaRepository<DonationDto, Long> {
+import java.util.List;
 
+public interface DonationRepository extends JpaRepository<Donation, Long> {
 }
