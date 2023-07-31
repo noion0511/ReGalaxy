@@ -1,12 +1,10 @@
 package com.regalaxy.phonesin.rental.model.service;
 
-import com.regalaxy.phonesin.address.model.entity.Agency;
 import com.regalaxy.phonesin.address.model.repository.AgencyRepository;
 import com.regalaxy.phonesin.member.model.SearchDto;
 import com.regalaxy.phonesin.member.model.entity.Member;
 import com.regalaxy.phonesin.member.model.repository.MemberRepository;
 import com.regalaxy.phonesin.phone.model.repository.PhoneRepository;
-import com.regalaxy.phonesin.rental.model.ApplyDto;
 import com.regalaxy.phonesin.rental.model.RentalDetailDto;
 import com.regalaxy.phonesin.rental.model.RentalDto;
 import com.regalaxy.phonesin.rental.model.entity.Rental;
@@ -32,7 +30,7 @@ public class RentalService {
     public boolean infoApply(RentalDetailDto rentalDetailDto, int using_date){
         Rental rental = new Rental();
         rental.setUsingDate(using_date);
-        Member member = memberRepository.findById(rentalDetailDto.getMember_id()).get();
+        Member member = memberRepository.findById(rentalDetailDto.getMemberId()).get();
         rental.setMember(member);//사용자 정보
         rental.setApplyDate(LocalDateTime.now());//신청 날짜
         rental.setRentalStatus(1);//배송 상태 : 1 = 신청 대기
@@ -40,22 +38,22 @@ public class RentalService {
         rental.setHomecam(rentalDetailDto.isHomecam());
         rental.setClimateHumidity(rentalDetailDto.isClimateHumidity());
         rental.setCount(rentalDetailDto.getCount());//갯수
-        rental.setRentalDeliveryLocation(rentalDetailDto.getRental_deliverylocation());//배송지
+        rental.setRentalDeliveryLocation(rentalDetailDto.getRentalDeliveryLocation());//배송지
         rental.setFund(rentalDetailDto.getFund());//가격
-        rental.setUsingDate(rentalDetailDto.getUsing_date());//사용 기간
+        rental.setUsingDate(rentalDetailDto.getUsingDate());//사용 기간
         rentalRepository.save(rental);
         return true;
     }
 
     public boolean infoUpdated(RentalDetailDto rentalDetailDto){
-        Rental rental = rentalRepository.findById(rentalDetailDto.getRental_id()).get();
+        Rental rental = rentalRepository.findById(rentalDetailDto.getRentalId()).get();
         rental.setCount(rentalDetailDto.getCount());//갯수
         rental.setFund(rentalDetailDto.getFund());//가격
         rental.setHomecam(rentalDetailDto.isHomecam());
         rental.setClimateHumidity(rentalDetailDto.isClimateHumidity());
         rental.setY2K(rentalDetailDto.isY2K());
-        rental.setRentalDeliveryLocation(rentalDetailDto.getRental_deliverylocation());//배달 주소
-        rental.setUsingDate(rentalDetailDto.getUsing_date());//사용 기간
+        rental.setRentalDeliveryLocation(rentalDetailDto.getRentalDeliveryLocation());//배달 주소
+        rental.setUsingDate(rentalDetailDto.getUsingDate());//사용 기간
         rentalRepository.save(rental);
         return true;
     }

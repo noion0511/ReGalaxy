@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface RentalRepositoryCustom {
     List<RentalDto> search(SearchDto searchDto);
-    boolean extension(int rental_id);
+    boolean extension(Long rental_id);
     boolean apply(ApplyDto applyDto);
 
     RentalDetailDto detailInfo(Long rental_id);

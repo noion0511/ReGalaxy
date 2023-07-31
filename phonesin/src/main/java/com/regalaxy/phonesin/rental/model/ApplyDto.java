@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ApplyDto {
-    private Long apply_id;
+    private Long applyId;
     private boolean apply;
 }
