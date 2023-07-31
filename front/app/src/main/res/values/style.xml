@@ -4,6 +4,7 @@
     <!-- Custom font style 일괄적용 -->
     <style name="TextViewStyle" parent="@android:style/Widget.DeviceDefault.TextView">
         <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="ButtonStyle" parent="@android:style/Widget.DeviceDefault.Button.Borderless">
