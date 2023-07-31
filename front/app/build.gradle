@@ -46,6 +46,8 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
+    implementation 'com.airbnb.android:lottie:3.0.7'
+
     def nav_version = "2.5.3"
 
     // navigation
@@ -62,4 +64,8 @@ dependencies {
 
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation "androidx.startup:startup-runtime:1.0.0"
+
+
+    implementation "com.github.skydoves:powerspinner:1.2.7"
+
 }
