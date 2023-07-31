@@ -36,6 +36,7 @@
 
     <style name="textview_title_secondary">
         <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/pretendard_bold</item>
     </style>
 
     <style name="textview_title_onboarding">
