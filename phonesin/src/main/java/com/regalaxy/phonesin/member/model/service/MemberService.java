@@ -3,6 +3,7 @@ package com.regalaxy.phonesin.member.model.service;
 import com.regalaxy.phonesin.member.model.LoginRequestDto;
 import com.regalaxy.phonesin.member.model.MemberDto;
 import com.regalaxy.phonesin.member.model.entity.Member;
+import com.regalaxy.phonesin.member.model.jwt.JwtTokenProvider;
 import com.regalaxy.phonesin.member.model.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
 
     public ResponseEntity<Member> signUp(MemberDto memberDto) {
@@ -53,5 +55,11 @@ public class MemberService {
         } else {
             return ResponseEntity.status(404).body("사용자를 찾을 수 없습니다.");
         }
+    }
+
+    public void saveRefreshToken(String email, String token) {
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
+        member.updateRefreshToken(token);
+        memberRepository.save(member);
     }
 }

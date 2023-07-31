@@ -42,11 +42,14 @@ public class MemberController {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, loginRequestDto.getPassword()));
 
             // roles를 빈 리스트로 전달하는데, 이 부분을 적절히 수정.
-            String token = jwtTokenProvider.createToken(email, new ArrayList<>());
+            String access_token = jwtTokenProvider.createToken(email, new ArrayList<>());
+            String refreshToken = jwtTokenProvider.createRefreshToken(email);
+            memberService.saveRefreshToken(email, refreshToken);
 
             Map<String, String> response = new HashMap<>();
             response.put("email", email);
-            response.put("token", token);
+            response.put("accessToken", access_token);
+            response.put("refreshToken", refreshToken);
 
             return ResponseEntity.ok(response);
         } catch (AuthenticationException e) {

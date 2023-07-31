@@ -41,6 +41,7 @@ public class Member {
     private Boolean isBlackList;
     private Boolean isDelete;
     private Boolean isManager;
+    private String refreshToken;
 
     @OneToMany(mappedBy = "member", cascade = ALL, orphanRemoval = true)
     private List<Donation> donationList = new ArrayList<Donation>();
@@ -50,4 +51,8 @@ public class Member {
 
     @OneToMany(mappedBy = "member", cascade = ALL, orphanRemoval = true)
     private List<Address> addressList = new ArrayList<>();
+
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
 }

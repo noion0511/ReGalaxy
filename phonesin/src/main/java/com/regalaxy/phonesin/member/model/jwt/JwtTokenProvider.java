@@ -65,4 +65,19 @@ public class JwtTokenProvider {
         }
         return null;
     }
+
+    public String createRefreshToken(String email) {
+        Claims claims = Jwts.claims().setSubject(email);
+        Date now = new Date();
+
+        // 리프레시 토큰 유효기간 (우선 일주일 잡음)
+        Date validity = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(validity)
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
+    }
 }
