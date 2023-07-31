@@ -19,7 +19,7 @@ public class AddressRepositoryCustomImpl implements AddressRepositoryCustom {
 
     @Override
     public List<AddressDto> addressList(Long member_id) {
-        String s = "select new com.regalaxy.phonesin.address.model.AddressDto(a.address) "
+        String s = "select new com.regalaxy.phonesin.address.model.AddressDto(a.address, a.addressId) "
                 + "from address a "
                 + "where a.member.memberId = " + member_id;
         return em.createQuery(s, AddressDto.class).getResultList();

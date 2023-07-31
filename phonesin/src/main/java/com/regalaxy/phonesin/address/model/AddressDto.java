@@ -11,5 +11,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AddressDto {
+    private Long addressId;
     private String address;
 }

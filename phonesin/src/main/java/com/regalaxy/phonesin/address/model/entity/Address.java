@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long address_id;
+    private Long addressId;
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
