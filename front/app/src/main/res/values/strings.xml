@@ -2,8 +2,18 @@
     <string name="app_name">폰고지신</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="mobile_home_message">SAMSUNG 기기로\n어떤걸 하고 싶으신가요?</string>
+    <string name="rental">대여</string>
+    <string name="give_up">반납</string>
+    <string name="rental_content_message">SAMSUNG 휴대폰 기기를 대여할 수 있습니다.</string>
+    <string name="give_up_content_message">대여한 기기를 반납해 보세요.</string>
+    <string name="donate">기증</string>
+    <string name="donate_content_message">서랍 속 잠들어있는 처치 곤란한 휴대폰들이 있나요? SAUMSUNG에 기증해 주세요. 필요한 이들에게 도움을 필요한 기기로 업사이클링 해줄 거예요.</string>
     <string name="home">홈</string>
     <string name="mobile">기기</string>
     <string name="module">플러스기능</string>
     <string name="my_page">마이</string>
+    <string name="add_rental_mobile">+물품추가</string>
+    <string name="item_rental_change_option">옵션 변경</string>
+
 </resources>
