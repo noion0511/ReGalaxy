@@ -93,4 +93,14 @@ public class Member {
     public void updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
     }
+
+    public void update(MemberDto memberDto) {
+        this.memberName = memberDto.getMemberName();
+        this.email = memberDto.getEmail();
+        this.phoneNumber = memberDto.getPhoneNumber();
+        this.isCha = memberDto.getIsCha();
+        this.isManager = memberDto.getIsManager();
+        this.isBlackList = memberDto.getIsBlackList();
+        this.isDelete = memberDto.getIsDelete();
+    }
 }

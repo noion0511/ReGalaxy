@@ -1,5 +1,6 @@
 package com.regalaxy.phonesin.member.model.service;
 
+import com.regalaxy.phonesin.back.model.BackDto;
 import com.regalaxy.phonesin.back.model.entity.Back;
 import com.regalaxy.phonesin.member.model.LoginRequestDto;
 import com.regalaxy.phonesin.member.model.MemberDto;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -69,5 +71,14 @@ public class MemberService {
 
     public MemberDto Info(String email) {
         return Member.toDto(memberRepository.findByEmail(email).get());
+    }
+
+    public MemberDto updateBack(MemberDto memberDto) {
+        // DB에 없는 ID를 검색하려고 하면 IllegalArgumentException
+        Member member = memberRepository.findById(memberDto.getMemberId())
+                .orElseThrow(() -> new IllegalArgumentException(memberDto.getMemberId() + "인 ID는 존재하지 않습니다."));
+        member.update(memberDto);
+        memberRepository.save(member);
+        return MemberDto.fromEntity(member);
     }
 }

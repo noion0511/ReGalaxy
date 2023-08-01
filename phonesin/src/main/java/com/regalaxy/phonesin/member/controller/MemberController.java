@@ -1,5 +1,6 @@
 package com.regalaxy.phonesin.member.controller;
 
+import com.regalaxy.phonesin.back.model.BackDto;
 import com.regalaxy.phonesin.member.model.LoginRequestDto;
 import com.regalaxy.phonesin.member.model.MemberDto;
 import com.regalaxy.phonesin.member.model.entity.Member;
@@ -90,7 +91,12 @@ public class MemberController {
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 
-//    @ApiOperation(value = "회원 정보 수정")
-//    @PutMapping("/update")
-//    public ResponseEntity<>
+    @ApiOperation(value = "회원 정보 수정")
+    @PutMapping("/update")
+    public ResponseEntity<Map<String, Object>> update(@RequestBody MemberDto memberDto) {
+        Map<String, Object> resultMap = new HashMap<>();
+        MemberDto updatedMemberDto = memberService.updateBack(memberDto);
+        resultMap.put("updatedMember", updatedMemberDto);
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+    }
 }
