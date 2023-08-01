@@ -31,5 +31,10 @@
     <string name="next">다음으로</string>
     <string name="center_time">센터 시간</string>
     <string name="center_run_time">월 ~ 금 (평일) : 09:00 ~ 19:00\n토요일 : 09:00 ~ 13:00 (일요일 · 공휴일 : 휴무)</string>
+    <string name="request_complete">신청이 완료되었어요</string>
+    <string name="detail_info">상세 정보</string>
+    <string name="announce_message">안내말씀</string>
+    <string name="announce_detail_message">신청해 주셔서 감사합니다. 방문 택배 신청 시 신청 장소에 꼭 보관해 주시기 바랍니다. 대리점 신청 시 신청 대리점의 주소를 확인 후 방문해 주시기 바랍니다.</string>
+    <string name="go_home">홈으로</string>
 
 </resources>

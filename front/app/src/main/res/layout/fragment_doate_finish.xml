@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.mobile.donatemobile.DoateFinishFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutDonateFinishSummary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/border_mobile_add_layout"
+        android:padding="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textViewDonateFinishSummaryMessage"
+            style="@style/textview_content_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/request_complete"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewDonateFinishMobiles"
+            style="@style/textview_title_secondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/textViewDonateFinishSummaryMessage"
+            app:layout_constraintTop_toBottomOf="@id/textViewDonateFinishSummaryMessage"
+            tools:text="갤럭시 s7" />
+
+        <TextView
+            android:id="@+id/textViewDonateFinishDate"
+            style="@style/textview_content_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/textViewDonateFinishMobiles"
+            app:layout_constraintTop_toBottomOf="@id/textViewDonateFinishMobiles"
+            tools:text="신청 일시 : 2023년 04월 19일 오후 08:14" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutDonateFinishDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/border_mobile_add_layout"
+        android:padding="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutDonateFinishSummary">
+
+        <TextView
+            android:id="@+id/textViewDonateFinishDetailMessage"
+            style="@style/textview_title_secondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/detail_info"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewDonateFinishDetailDate"
+            style="@style/textview_content_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/textViewDonateFinishDetailMessage"
+            app:layout_constraintTop_toBottomOf="@id/textViewDonateFinishDetailMessage"
+            tools:text=" - 기증날짜 : 2023.12.12" />
+
+        <TextView
+            android:id="@+id/textViewDonateFinishDetailSolve"
+            style="@style/textview_content_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/textViewDonateFinishDetailDate"
+            app:layout_constraintTop_toBottomOf="@id/textViewDonateFinishDetailDate"
+            tools:text=" - 수거방법 : 방문 택배" />
+
+        <TextView
+            android:id="@+id/textViewDonateFinishDetailAddress"
+            style="@style/textview_content_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/textViewDonateFinishDetailSolve"
+            app:layout_constraintTop_toBottomOf="@id/textViewDonateFinishDetailSolve"
+            tools:text=" - 주소 : 구미시 진평동 한마음센터 103동" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <net.daum.mf.map.api.MapView
+        android:id="@+id/mapViewDonateFinish"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="30dp"
+        app:layout_constraintBottom_toTopOf="@id/layoutDonateFinishGuide"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutDonateFinishDetail" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutDonateFinishGuide"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/border_mobile_add_layout"
+        android:padding="20dp"
+        app:layout_constraintBottom_toTopOf="@id/buttonDonateHome"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/textViewDonateFinishGuideMessage"
+            style="@style/textview_title_secondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/announce_message"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewDonateFinishGuideDetailMessage"
+            style="@style/textview_content_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/announce_detail_message"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewDonateFinishGuideMessage" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/buttonDonateHome"
+        style="@style/textview_button_white_big"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_black_corner_0"
+        android:text="@string/go_home"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
