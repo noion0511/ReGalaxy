@@ -30,11 +30,13 @@
         android:layout_height="wrap_content"
         android:paddingStart="30dp"
         android:paddingEnd="30dp"
+        style="@style/textview_title_secondary"
         android:text="@string/module_type_camera_title" />
 
     <TextView
         android:id="@+id/textViewModuleContent"
         android:layout_width="match_parent"
+        style="@style/textview_content_black"
         android:layout_height="wrap_content"
         android:paddingStart="30dp"
         android:paddingEnd="30dp"
