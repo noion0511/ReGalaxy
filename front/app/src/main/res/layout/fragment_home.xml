@@ -127,7 +127,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:text="총 1,251,180대 기증"
+                            android:text="총 130대 기증     ."
                             android:fontFamily="@font/pretendard_semibold"
                             android:textSize="12sp"/>
                     </LinearLayout>
