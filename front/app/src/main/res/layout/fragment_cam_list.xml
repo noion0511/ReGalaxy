@@ -5,14 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <include
         android:id="@+id/textViewPlus"
-        style="@style/textview_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:gravity="center"
-        android:text="@string/moduleHomeCam"
+        layout="@layout/toolbar_back_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -84,6 +79,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
+        style="@style/textview_content_black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"

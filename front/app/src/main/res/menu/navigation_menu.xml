@@ -11,7 +11,7 @@
     <item
         android:id="@+id/module"
         android:icon="@drawable/module"
-        android:title="@string/module" />
+        android:title="@string/modulePlus" />
     <item
         android:id="@+id/my_page"
         android:icon="@drawable/mypage"
