@@ -1,4 +1,4 @@
-package com.ssafy.phonesin.ui.mobile
+package com.ssafy.phonesin.ui.mobile.rentalmobile
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,12 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import com.ssafy.phonesin.R
-import com.ssafy.phonesin.databinding.FragmentMobileBinding
-import com.ssafy.phonesin.ui.MainActivity
-import com.ssafy.phonesin.ui.mobile.rentalmobile.RentalListActivity
-import com.ssafy.phonesin.ui.mobile.returnmobile.ReturnMobileActivity
+import com.ssafy.phonesin.databinding.FragmentRentalMoblieBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -20,15 +15,14 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [MobileFragment.newInstance] factory method to
+ * Use the [RentalMobileFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class MobileFragment : Fragment() {
+class RentalMobileFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
-    private lateinit var binding: FragmentMobileBinding
+    private lateinit var binding: FragmentRentalMoblieBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,36 +37,23 @@ class MobileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentMobileBinding.inflate(inflater, container, false)
+        binding = FragmentRentalMoblieBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setMobileHomeUi()
+        rentalMobileUi()
     }
 
-    private fun setMobileHomeUi() = with(binding) {
-        rentalCardView.setOnClickListener {
-            startActivity(Intent(activity, RentalListActivity::class.java))
+    private fun rentalMobileUi() {
+        binding.mobileAdd.setOnClickListener {
+
         }
-        returnCardView.setOnClickListener {
-            startActivity(Intent(activity, ReturnMobileActivity::class.java))
-        }
-        donateCardView.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_mobile_to_donateMobileFragment,
-            )
+        binding.postRental.setOnClickListener {
+
         }
     }
-
-    override fun onResume() {
-        super.onResume()
-        val mainActivity = activity as MainActivity
-        mainActivity.hideBottomNavi(false)
-    }
-
 
     companion object {
         /**
@@ -81,12 +62,12 @@ class MobileFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment MobileFragment.
+         * @return A new instance of fragment RentalMoblieFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            MobileFragment().apply {
+            RentalMobileFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

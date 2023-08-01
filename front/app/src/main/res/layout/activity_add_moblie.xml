@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.mobile.AddMobileActivity">
+    tools:context=".ui.mobile.rentalmobile.AddMobileActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -181,6 +181,5 @@
             app:layout_constraintTop_toBottomOf="@id/layoutDate" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </ScrollView>

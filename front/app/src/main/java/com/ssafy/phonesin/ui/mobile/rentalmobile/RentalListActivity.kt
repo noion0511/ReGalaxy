@@ -1,4 +1,4 @@
-package com.ssafy.phonesin.ui.mobile
+package com.ssafy.phonesin.ui.mobile.rentalmobile
 
 import android.content.Intent
 import android.os.Bundle

@@ -42,16 +42,16 @@
             android:name=".ui.mobile.returnmobile.ReturnMobileActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.mobile.FinishMobileActivity"
+            android:name=".ui.mobile.rentalmobile.FinishMobileActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.mobile.PayMobileActivity"
+            android:name=".ui.mobile.rentalmobile.PayMobileActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.mobile.AddMobileActivity"
+            android:name=".ui.mobile.rentalmobile.AddMobileActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.mobile.RentalListActivity"
+            android:name=".ui.mobile.rentalmobile.RentalListActivity"
             android:exported="false" />
         <activity
             android:name=".ui.MainActivity"

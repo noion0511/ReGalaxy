@@ -37,5 +37,29 @@
     <string name="announce_detail_message">신청해 주셔서 감사합니다. 방문 택배 신청 시 신청 장소에 꼭 보관해 주시기 바랍니다. 대리점 신청 시 신청 대리점의 주소를 확인 후 방문해 주시기 바랍니다.</string>
     <string name="go_home">홈으로</string>
     <string name="donate_search">대리점 검색</string>
+    <string name="rental_list">대여 리스트</string>
+    <string name="module_select">기능 선택</string>
+    <string name="module_y2k_camera">사진 부스 기능</string>
+    <string name="module_home_cam">홈캠 기능</string>
+    <string name="module_temperature">온도계,습도계 기능</string>
+    <string name="mobile_select">기기 선택</string>
+    <string name="six_months">6개월</string>
+    <string name="five_months">5개월</string>
+    <string name="four_months">4개월</string>
+    <string name="three_months">3개월</string>
+    <string name="two_months">2개월</string>
+    <string name="one_month">1개월</string>
+    <string name="date">날짜</string>
+    <string name="deposit">보증금</string>
+    <string name="saved_cards">Saved Cards</string>
+    <string name="other_payment_options">Other Payment Options</string>
+    <string name="pay">결제하기</string>
+    <string name="check_consent">동의서 확인</string>
+    <string name="kakao_pay">카카오 페이</string>
+    <string name="naver_pay">네이버 페이</string>
+    <string name="general_pay">일반결제</string>
+    <string name="no_passbook_pay">무통장입금</string>
+    <string name="announce_rental_message">신청해 주셔서 감사합니다.\n신청 주소 및 기능을 꼭 확인해주시기 바랍니다.</string>
+    <string name="add_new_card">+ Add New Card</string>
 
 </resources>

@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.mobile.rentalmobile.RentalListActivity">
-
+    tools:context=".ui.mobile.rentalmobile.RentalMobileFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -21,29 +20,32 @@
 
             <TextView
                 android:id="@+id/rentalListMessage"
+                style="@style/textview_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:text="대여 리스트"
+                android:text="@string/rental_list"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/rentalPossibleNum"
+                style="@style/textview_content_black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/rentalListMessage"
                 tools:text="신청가능 갯수 : 3개  " />
 
             <TextView
                 android:id="@+id/rentalNum"
+                style="@style/textview_content_black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/rentalListMessage"
@@ -64,30 +66,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                tools:listitem="@layout/item_rental_list"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rentalListDivider" />
+                app:layout_constraintTop_toBottomOf="@id/rentalListDivider"
+                tools:listitem="@layout/item_rental_list" />
+
             <TextView
                 android:id="@+id/mobileAdd"
-                android:padding="10dp"
-                android:gravity="center"
-                android:text="@string/add_rental_mobile"
-                app:layout_constraintTop_toBottomOf="@id/rentalListRv"
+                style="@style/textview_content_black"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/add_rental_mobile"
+                app:layout_constraintTop_toBottomOf="@id/rentalListRv" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     </androidx.core.widget.NestedScrollView>
 
 
     <Button
         android:id="@+id/postRental"
-        android:text="신청"
+        style="@style/textview_button_white_big"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/button_black_corner_0"
+        android:text="@string/request"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
