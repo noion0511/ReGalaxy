@@ -24,29 +24,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textViewReturnAgentMessage" />
 
-    <androidx.appcompat.widget.SearchView
+    <SearchView
         android:id="@+id/searchViewAgent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:defaultQueryHint="구미"
         android:background="@drawable/border_spinner_layout"
+        app:defaultQueryHint="구미"
         app:layout_constraintTop_toBottomOf="@id/textViewReturnAgentSearchMessage" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="5dp"
-        app:layout_constraintTop_toBottomOf="@id/searchViewAgent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:orientation="vertical"
-        tools:listitem="@layout/item_return_agent"
         android:layout_width="match_parent"
-        android:layout_height="0dp"/>
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchViewAgent"
+        tools:listitem="@layout/item_agent" />
 
     <Button
         android:id="@+id/buttonTemp"
-        android:text="임시"
         android:layout_width="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="wrap_content"
+        android:text="임시"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_height="wrap_content"/>
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

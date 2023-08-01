@@ -15,5 +15,19 @@
     <string name="my_page">마이</string>
     <string name="add_rental_mobile">+물품추가</string>
     <string name="item_rental_change_option">옵션 변경</string>
+    <string name="donate_reuntal">대리점 기증</string>
+    <string name="donate_visit_delivery">방문 택배 기증</string>
+    <string name="address">주소</string>
+    <string name="exist_address">기존 주소지</string>
+    <string name="new_address">새 주소지</string>
+    <string name="hint_edit_address">주소지를 입력해 주세요</string>
+    <string name="request">신청</string>
+    <string name="donate_request">기증 신청</string>
+    <string name="donate_mobile_select">기증 기기 선택</string>
+    <string name="choose_way_select">수거 방법 선택</string>
+    <string name="visit_delivery_select">방문 택배 선택</string>
+    <string name="samsung_agent_select">삼성 대리점 선택</string>
+    <string name="pick_date">수거 날짜</string>
+    <string name="next">다음으로</string>
 
 </resources>

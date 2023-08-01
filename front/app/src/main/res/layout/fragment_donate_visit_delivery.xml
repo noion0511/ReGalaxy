@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="방문 택배 반납"
+        android:text="@string/donate_visit_delivery"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -31,7 +31,7 @@
             style="@style/textview_title_secondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="주소"
+            android:text="@string/address"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -47,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="기존 주소지" />
+                android:text="@string/exist_address" />
 
             <com.skydoves.powerspinner.PowerSpinnerView
                 android:layout_width="match_parent"
@@ -62,14 +62,14 @@
                 android:id="@+id/radioButtonDonateVisitDeliveryNewAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="새 주소지" />
+                android:text="@string/new_address" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="20dp"
                 android:background="@drawable/border_spinner_layout"
-                android:hint="주소지를 입력해 주세요"
+                android:hint="@string/hint_edit_address"
                 android:padding="10dp" />
 
         </RadioGroup>
@@ -81,7 +81,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/button_black_corner_0"
-        android:text="신청"
+        android:text="@string/request"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
