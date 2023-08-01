@@ -36,7 +36,10 @@
         tools:layout="@layout/fragment_donate_finish" >
         <action
             android:id="@+id/action_doateFinishFragment_to_mobile"
-            app:destination="@id/mobile" />
+            app:destination="@id/mobile"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/mobile"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/donateAgentFragment"
