@@ -65,7 +65,12 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation "androidx.startup:startup-runtime:1.0.0"
 
-
     implementation "com.github.skydoves:powerspinner:1.2.7"
 
+    // lottie
+    def lottieVersion = "5.2.0"
+    implementation "com.airbnb.android:lottie:$lottieVersion"
+
+    // circle indicator
+    implementation 'me.relex:circleindicator:2.1.6'
 }
