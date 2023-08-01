@@ -21,11 +21,13 @@ public class MemberService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
 
-
+    // 회원가입
     public ResponseEntity<Member> signUp(MemberDto memberDto) {
         if (memberRepository.existsByEmail(memberDto.getEmail())) {
             throw new RuntimeException("이미 존재하는 이메일입니다.");
         }
+
+        // 비밀번호 암호화
         String encodedPassword = passwordEncoder.encode(memberDto.getPassword());
 
         Member member = Member.builder()
@@ -58,6 +60,7 @@ public class MemberService {
         }
     }
 
+    // 리프레시 토큰을 DB에 저장하는 서비스
     public void saveRefreshToken(String email, String token) {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
         member.updateRefreshToken(token);

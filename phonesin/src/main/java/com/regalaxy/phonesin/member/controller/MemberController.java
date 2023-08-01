@@ -42,16 +42,24 @@ public class MemberController {
     public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequestDto loginRequestDto) {
         try {
             String email = loginRequestDto.getEmail();
+            // 이메일과 비밀번호 인증
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, loginRequestDto.getPassword()));
 
-            // roles를 빈 리스트로 전달하는데, 이 부분을 적절히 수정.
-            String access_token = jwtTokenProvider.createToken(email, new ArrayList<>());
+            String authority;
+            if (memberService.Info(loginRequestDto.getEmail()).getIsManager()) {
+                authority = "ROLE_ADMIN";
+            } else {
+                authority = "ROLE_USER";
+            };
+
+            // 토큰 발급
+            String accessToken = jwtTokenProvider.createAccessToken(email, authority);
             String refreshToken = jwtTokenProvider.createRefreshToken(email);
             memberService.saveRefreshToken(email, refreshToken);
 
             Map<String, String> response = new HashMap<>();
             response.put("email", email);
-            response.put("accessToken", access_token);
+            response.put("accessToken", accessToken);
             response.put("refreshToken", refreshToken);
 
             return ResponseEntity.ok(response);
@@ -63,6 +71,8 @@ public class MemberController {
     @ApiOperation(value = "액세스 토큰 만료시 리프레시 토큰 재발급")
     @PostMapping("/token/refresh")
     public ResponseEntity<Map<String, String>> refresh(@RequestBody Map<String, String> tokenMap) {
+
+        // 현재 리프레시 토큰과 새로운 액세스 토큰
         String refreshToken = tokenMap.get("refreshToken");
         String newAccessToken = jwtTokenProvider.refreshAccessToken(refreshToken);
 
@@ -79,4 +89,8 @@ public class MemberController {
         resultMap.put("member", memberService.Info(memberDto.getEmail()));
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
+
+//    @ApiOperation(value = "회원 정보 수정")
+//    @PutMapping("/update")
+//    public ResponseEntity<>
 }

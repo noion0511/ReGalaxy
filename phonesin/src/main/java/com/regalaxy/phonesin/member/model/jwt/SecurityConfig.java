@@ -17,24 +17,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserDetailsService userDetailsService;
-    private final BCryptPasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
+                .csrf().disable() // csrf 보안 비활성화 (실제 배포환경에서는 위험할 수 있음)
 //                .authorizeRequests()
 //                .antMatchers("/member/signup", "/member/login", "/member/token/refresh").permitAll()
 //                .anyRequest().authenticated()
 //                .and()
                 .apply(jwtConfigure());
-    }
-
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 
     @Bean

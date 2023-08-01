@@ -17,6 +17,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
     private JwtTokenProvider jwtTokenProvider;
 
+    // 토큰이 유효한지 검사
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain) throws IOException, ServletException {
 

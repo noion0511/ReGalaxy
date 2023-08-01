@@ -11,6 +11,7 @@ public class JwtConfigurer extends SecurityConfigurerAdapter<DefaultSecurityFilt
 
     private JwtTokenProvider jwtTokenProvider;
 
+    // 유효성 검사
     public void configure(HttpSecurity http) throws Exception {
         JwtAuthenticationFilter customFilter = new JwtAuthenticationFilter(jwtTokenProvider);
         http.addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class);
