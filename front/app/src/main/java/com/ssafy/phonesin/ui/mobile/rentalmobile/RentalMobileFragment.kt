@@ -6,7 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentRentalMoblieBinding
+import com.ssafy.phonesin.ui.MainActivity
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,6 +33,8 @@ class RentalMobileFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+        val mainActivity = activity as MainActivity
+        mainActivity.hideBottomNavi(true)
     }
 
     override fun onCreateView(
@@ -48,10 +53,14 @@ class RentalMobileFragment : Fragment() {
 
     private fun rentalMobileUi() {
         binding.mobileAdd.setOnClickListener {
-
+            findNavController().navigate(
+                R.id.action_rentalMobileFragment_to_rentalAddFragment,
+            )
         }
         binding.postRental.setOnClickListener {
-
+            findNavController().navigate(
+                R.id.action_rentalMobileFragment_to_rentalPayFragment,
+            )
         }
     }
 

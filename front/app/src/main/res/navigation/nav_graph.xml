@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_mobile_to_donateMobileFragment"
             app:destination="@id/donateMobileFragment" />
+        <action
+            android:id="@+id/action_mobile_to_rentalMobileFragment"
+            app:destination="@id/rentalMobileFragment" />
     </fragment>
     <fragment
         android:id="@+id/my_page"
@@ -79,5 +82,47 @@
         <action
             android:id="@+id/action_donateVisitDeliveryFragment_to_doateFinishFragment"
             app:destination="@id/doateFinishFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/rentalAddFragment"
+        android:name="com.ssafy.phonesin.ui.mobile.rentalmobile.RentalAddFragment"
+        android:label="fragment_rental_add"
+        tools:layout="@layout/fragment_rental_add" >
+        <action
+            android:id="@+id/action_rentalAddFragment_to_rentalMobileFragment2"
+            app:destination="@id/rentalMobileFragment"
+            app:popUpTo="@id/rentalMobileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/rentalFinishFragment"
+        android:name="com.ssafy.phonesin.ui.mobile.rentalmobile.RentalFinishFragment"
+        android:label="fragment_rental_finish"
+        tools:layout="@layout/fragment_rental_finish" >
+        <action
+            android:id="@+id/action_rentalFinishFragment_to_mobile"
+            app:destination="@id/mobile"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/mobile" />
+    </fragment>
+    <fragment
+        android:id="@+id/rentalMobileFragment"
+        android:name="com.ssafy.phonesin.ui.mobile.rentalmobile.RentalMobileFragment"
+        android:label="fragment_rental_moblie"
+        tools:layout="@layout/fragment_rental_moblie" >
+        <action
+            android:id="@+id/action_rentalMobileFragment_to_rentalAddFragment"
+            app:destination="@id/rentalAddFragment" />
+        <action
+            android:id="@+id/action_rentalMobileFragment_to_rentalPayFragment"
+            app:destination="@id/rentalPayFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/rentalPayFragment"
+        android:name="com.ssafy.phonesin.ui.mobile.rentalmobile.RentalPayFragment"
+        android:label="fragment_rental_pay"
+        tools:layout="@layout/fragment_rental_pay" >
+        <action
+            android:id="@+id/action_rentalPayFragment_to_rentalFinishFragment"
+            app:destination="@id/rentalFinishFragment" />
     </fragment>
 </navigation>

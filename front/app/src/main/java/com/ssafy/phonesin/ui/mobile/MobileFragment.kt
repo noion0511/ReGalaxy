@@ -1,6 +1,5 @@
 package com.ssafy.phonesin.ui.mobile
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +9,6 @@ import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentMobileBinding
 import com.ssafy.phonesin.ui.MainActivity
-import com.ssafy.phonesin.ui.mobile.rentalmobile.RentalListActivity
-import com.ssafy.phonesin.ui.mobile.returnmobile.ReturnMobileActivity
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,10 +52,14 @@ class MobileFragment : Fragment() {
 
     private fun setMobileHomeUi() = with(binding) {
         rentalCardView.setOnClickListener {
-            startActivity(Intent(activity, RentalListActivity::class.java))
+            findNavController().navigate(
+                R.id.action_mobile_to_rentalMobileFragment,
+            )
         }
         returnCardView.setOnClickListener {
-            startActivity(Intent(activity, ReturnMobileActivity::class.java))
+//            findNavController().navigate(
+//
+//            )
         }
         donateCardView.setOnClickListener {
             findNavController().navigate(

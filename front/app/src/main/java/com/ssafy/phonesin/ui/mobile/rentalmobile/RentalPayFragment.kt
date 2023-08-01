@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentRentalPayBinding
@@ -57,6 +58,9 @@ class RentalPayFragment : Fragment() {
     private fun setPayUi() {
 
         binding.buttonPayComplete.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_rentalPayFragment_to_rentalFinishFragment,
+            )
         }
 
         //TODO : imageList를 viewmodel에 추가해야한다.
