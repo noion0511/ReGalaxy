@@ -12,6 +12,9 @@
     <string name="home">홈</string>
     <string name="mobile">기기</string>
     <string name="modulePlus">플러스기능</string>
+    <string name="moduleCall">연결하기</string>
+    <string name="moduleCamera">카메라</string>
+    <string name="moduleHomeCam">홈 캠</string>
     <string name="moduleTodayHygrometer">현재 날씨</string>
     <string name="moduleTodayHygrometerExample">18º</string>
     <string name="moduleHygrometer">온습도계</string>
