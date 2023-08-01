@@ -36,5 +36,6 @@
     <string name="announce_message">안내말씀</string>
     <string name="announce_detail_message">신청해 주셔서 감사합니다. 방문 택배 신청 시 신청 장소에 꼭 보관해 주시기 바랍니다. 대리점 신청 시 신청 대리점의 주소를 확인 후 방문해 주시기 바랍니다.</string>
     <string name="go_home">홈으로</string>
+    <string name="donate_search">대리점 검색</string>
 
 </resources>

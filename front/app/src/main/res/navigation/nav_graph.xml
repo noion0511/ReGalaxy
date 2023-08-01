@@ -14,7 +14,11 @@
         android:id="@+id/mobile"
         android:name="com.ssafy.phonesin.ui.mobile.MobileFragment"
         android:label="fragment_mobile"
-        tools:layout="@layout/fragment_mobile" />
+        tools:layout="@layout/fragment_mobile">
+        <action
+            android:id="@+id/action_mobile_to_donateMobileFragment"
+            app:destination="@id/donateMobileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/my_page"
         android:name="com.ssafy.phonesin.ui.mypage.MyPageFragment"
@@ -25,4 +29,52 @@
         android:name="com.ssafy.phonesin.ui.module.ModuleFragment"
         android:label="fragment_module"
         tools:layout="@layout/fragment_module" />
+    <fragment
+        android:id="@+id/doateFinishFragment"
+        android:name="com.ssafy.phonesin.ui.mobile.donatemobile.DonateFinishFragment"
+        android:label="fragment_doate_finish"
+        tools:layout="@layout/fragment_donate_finish" >
+        <action
+            android:id="@+id/action_doateFinishFragment_to_mobile"
+            app:destination="@id/mobile" />
+    </fragment>
+    <fragment
+        android:id="@+id/donateAgentFragment"
+        android:name="com.ssafy.phonesin.ui.mobile.donatemobile.DonateAgentFragment"
+        android:label="fragment_donate_agent"
+        tools:layout="@layout/fragment_donate_agent">
+        <action
+            android:id="@+id/action_donateAgentFragment_to_donateAgentDetailFragment"
+            app:destination="@id/donateAgentDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/donateAgentDetailFragment"
+        android:name="com.ssafy.phonesin.ui.mobile.donatemobile.DonateAgentDetailFragment"
+        android:label="fragment_donate_agent_detail"
+        tools:layout="@layout/fragment_donate_agent_detail" >
+        <action
+            android:id="@+id/action_donateAgentDetailFragment_to_doateFinishFragment"
+            app:destination="@id/doateFinishFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/donateMobileFragment"
+        android:name="com.ssafy.phonesin.ui.mobile.donatemobile.DonateMobileFragment"
+        android:label="fragment_donate_mobile"
+        tools:layout="@layout/fragment_donate_mobile">
+        <action
+            android:id="@+id/action_donateMobileFragment_to_donateVisitDeliveryFragment"
+            app:destination="@id/donateVisitDeliveryFragment" />
+        <action
+            android:id="@+id/action_donateMobileFragment_to_donateAgentFragment"
+            app:destination="@id/donateAgentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/donateVisitDeliveryFragment"
+        android:name="com.ssafy.phonesin.ui.mobile.donatemobile.DonateVisitDeliveryFragment"
+        android:label="fragment_donate_visit_delivery"
+        tools:layout="@layout/fragment_donate_visit_delivery">
+        <action
+            android:id="@+id/action_donateVisitDeliveryFragment_to_doateFinishFragment"
+            app:destination="@id/doateFinishFragment" />
+    </fragment>
 </navigation>

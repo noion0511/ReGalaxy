@@ -6,7 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentMobileBinding
+import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.mobile.returnmobile.ReturnMobileActivity
 
 // TODO: Rename parameter arguments, choose names that match
@@ -49,13 +52,24 @@ class MobileFragment : Fragment() {
         setMobileHomeUi()
     }
 
-    private fun setMobileHomeUi() {
-        binding.rentalCardView.setOnClickListener {
+    private fun setMobileHomeUi() = with(binding) {
+        rentalCardView.setOnClickListener {
             startActivity(Intent(activity, RentalListActivity::class.java))
         }
-        binding.returnCardView.setOnClickListener {
+        returnCardView.setOnClickListener {
             startActivity(Intent(activity, ReturnMobileActivity::class.java))
         }
+        donateCardView.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_mobile_to_donateMobileFragment,
+            )
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val mainActivity = activity as MainActivity
+        mainActivity.hideBottomNavi(false)
     }
 
 

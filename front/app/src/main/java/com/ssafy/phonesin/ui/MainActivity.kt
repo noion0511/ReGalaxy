@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -52,5 +53,8 @@ class MainActivity : AppCompatActivity() {
         navController?.let {
             binding.navigationMain.setupWithNavController(it)
         }
+    }
+    fun hideBottomNavi(state: Boolean){
+        if(state) binding.navigationMain.visibility = View.GONE else binding.navigationMain.visibility = View.VISIBLE
     }
 }

@@ -1,11 +1,14 @@
 package com.ssafy.phonesin.ui.mobile.donatemobile
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
+import com.ssafy.phonesin.databinding.FragmentDonateMobileBinding
+import com.ssafy.phonesin.ui.MainActivity
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,12 +25,16 @@ class DonateMobileFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var binding: FragmentDonateMobileBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+        val mainActivity = activity as MainActivity
+        mainActivity.hideBottomNavi(true)
     }
 
     override fun onCreateView(
@@ -35,8 +42,30 @@ class DonateMobileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_donate_mobile, container, false)
+        binding = FragmentDonateMobileBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setDonateMobileUi()
+    }
+
+    private fun setDonateMobileUi() = with(binding) {
+        buttonDonateNext.setOnClickListener {
+            if(radioButtonDonateVisitDelivery.isChecked){
+                findNavController().navigate(
+                    R.id.action_donateMobileFragment_to_donateVisitDeliveryFragment,
+                )
+            }
+            else{
+                findNavController().navigate(
+                    R.id.action_donateMobileFragment_to_donateAgentFragment,
+                )
+            }
+        }
+    }
+
 
     companion object {
         /**

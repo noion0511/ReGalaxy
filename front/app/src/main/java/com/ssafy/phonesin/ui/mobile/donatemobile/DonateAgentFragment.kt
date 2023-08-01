@@ -1,11 +1,13 @@
 package com.ssafy.phonesin.ui.mobile.donatemobile
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
+import com.ssafy.phonesin.databinding.FragmentDonateAgentBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,6 +24,8 @@ class DonateAgentFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var binding: FragmentDonateAgentBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -35,7 +39,23 @@ class DonateAgentFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_donate_agent, container, false)
+        binding = FragmentDonateAgentBinding.inflate(layoutInflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setDonateAgentUi()
+    }
+
+    private fun setDonateAgentUi() = with(binding) {
+        // TODO: 리사이클러뷰에 클릭이벤트로 바꿔야함
+        buttonTemp.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_donateAgentFragment_to_donateAgentDetailFragment,
+            )
+        }
+
     }
 
     companion object {
