@@ -29,5 +29,7 @@
     <string name="samsung_agent_select">삼성 대리점 선택</string>
     <string name="pick_date">수거 날짜</string>
     <string name="next">다음으로</string>
+    <string name="center_time">센터 시간</string>
+    <string name="center_run_time">월 ~ 금 (평일) : 09:00 ~ 19:00\n토요일 : 09:00 ~ 13:00 (일요일 · 공휴일 : 휴무)</string>
 
 </resources>
