@@ -1,5 +1,7 @@
 @charset "UTF-8";
 @import url(font-awesome.min.css);
+@import url(font-awesome.css.map);
+@import url(font-awesome.css);
 @import "https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600";
 
 /*
@@ -20,6 +22,7 @@
 	}
 
 	article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+	    height: 100%;
 		display: block;
 	}
 
@@ -1792,7 +1795,7 @@
 		}
 
 	section.wrapper, article.wrapper {
-		padding: 6em 0;
+		padding: 12em 0;
 	}
 
 		section.wrapper header, article.wrapper header {
@@ -1815,7 +1818,7 @@
 		@media screen and (max-width: 980px) {
 
 			section.wrapper, article.wrapper {
-				padding: 4em 0;
+				padding: 20em 0;
 			}
 
 		}
@@ -1823,7 +1826,7 @@
 		@media screen and (max-width: 736px) {
 
 			section.wrapper, article.wrapper {
-				padding: 3em 0;
+				padding: 10em 0;
 			}
 
 				section.wrapper header, article.wrapper header {
@@ -2230,7 +2233,7 @@
 			}
 
 		.image.round img {
-			border-radius: 100%;
+			height: 10em;
 		}
 
 		.image.left {
@@ -2515,7 +2518,7 @@
 	input[type="submit"],
 	input[type="reset"],
 	input[type="button"],
-	button,
+	button:not(.blackBtn),
 	.button {
 		-moz-appearance: none;
 		-webkit-appearance: none;
@@ -2525,14 +2528,14 @@
 		-webkit-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 		-ms-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 		transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-		background-color: transparent;
-		box-shadow: inset 0 0 0 3px #6cc091;
-		color: #6cc091 !important;
+		background-color: black;
+		/*box-shadow: inset 0 0 0 3px #0061c1;*/
+		color: white !important;
 		border-radius: 30px;
 		border: 0;
 		cursor: pointer;
 		display: inline-block;
-		font-size: .75em;
+		font-size: 0.8em;
 		font-weight: 400;
 		height: 3.75em;
 		line-height: 3.85em;
@@ -2547,17 +2550,9 @@
 		input[type="submit"]:hover,
 		input[type="reset"]:hover,
 		input[type="button"]:hover,
-		button:hover,
-		.button:hover {
-			background-color: rgba(108, 192, 145, 0.15);
-		}
-
-		input[type="submit"]:active,
-		input[type="reset"]:active,
-		input[type="button"]:active,
-		button:active,
+		button:hover:not(.blackBtn),
 		.button:active {
-			background-color: rgba(108, 192, 145, 0.15);
+			border: 3px dashed #0080ff;
 		}
 
 		input[type="submit"].icon,
@@ -2692,6 +2687,24 @@
 
 /* Header */
 
+    .blackBtn{
+        background: #ffffff;
+        border:none;
+        color: #000000;
+        text-decoration: none;
+        font-size: 1.1em;
+        background-size:10px;
+        padding: 0.55em;
+        margin-top: 1.4em;
+        margin-bottom: 0.7em;
+        border-radius: 40px;
+    }
+
+        .blackBtn:hover{
+            background: #000000;
+            color: #ffffff;
+        }
+
 	.subpage {
 		padding-top: 44px;
 	}
@@ -2707,19 +2720,22 @@
 	#header {
 		color: #fff;
 		cursor: default;
-		height: 3.25em;
+		height: 4em;
 		left: 0;
 		line-height: 3.25em;
-		position: absolute;
 		text-align: right;
 		top: 2em;
 		width: 100%;
 		z-index: 10001;
+        vertical-align:middle;
 	}
 
 		#header .inner {
-			margin: 0 auto;
+			margin-top: 1em;
+			margin-left: 5em;
+			margin-right: 5em;
 			position: relative;
+			height: 5em;
 		}
 
 		#header .logo {
@@ -2733,7 +2749,7 @@
 			padding: 0;
 			position: absolute;
 			top: 0;
-			font-size: 1em;
+			font-size: 2em;
 		}
 
 			#header .logo strong {
@@ -2747,10 +2763,11 @@
 			-ms-transition: color 0.2s ease-in-out;
 			transition: color 0.2s ease-in-out;
 			display: inline-block;
-			padding: 0 0.75em;
-			color: inherit;
+			margin: 0.75em;
+			color: black;
 			text-decoration: none;
-			font-size: 1em;
+			font-size: 1.2em;
+			background-size:10px;
 		}
 
 			#header a:hover {
@@ -2881,7 +2898,7 @@
 			color: #daefe3;
 			cursor: pointer;
 			display: block;
-			height: 4em;
+			height: 5em;
 			padding-right: 1.25em;
 			position: absolute;
 			right: 0;
@@ -2905,7 +2922,6 @@
 				display: block;
 				position: absolute;
 				right: 0;
-				top: 0;
 				text-align: center;
 			}
 
@@ -2916,31 +2932,34 @@
 /* Banner */
 
 	#banner {
-		padding: 8em 0 9em 0;
+		padding: 2em 0 9em 0;
 		background-image: url(../../images/banner.jpg);
 		background-size: cover;
 		background-position: bottom;
 		background-attachment: fixed;
 		background-repeat: no-repeat;
 		text-align: center;
-		position: relative;
+		/*position: relative;*/
 	}
 
 		#banner:before {
 			content: '';
-			background: rgba(75, 75, 93, 0.85);
+			background-image: url("../../images/mainPhone.png");
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-color: rgba(0,0,0, 0.65);
+			background-blend-mode: multiply;
 			position: absolute;
 			width: 100%;
-			height: 100%;
-			top: 0;
+			height: 90%;
 			left: 0;
 		}
 
 		#banner .inner {
-			border-top: 2px solid rgba(255, 255, 255, 0.2);
 			position: relative;
 			z-index: 10005;
 			padding-top: 8em;
+			top: 3em;
 		}
 
 		#banner h1 {
@@ -2960,7 +2979,7 @@
 		}
 
 		#banner .icon {
-			color: #6cc091;
+			color: #0080ff;
 			font-size: 2em;
 		}
 
@@ -3015,13 +3034,13 @@
 		}
 
 		@media screen and (max-width: 1280px) {
-
+/*여기1*/
 			#banner {
-				padding: 7em 0 6em 0;
+				padding: 2em 0 6em 0;
 			}
 
 				#banner .inner {
-					padding-top: 6em;
+					padding-top: 8em;
 				}
 
 				#banner h1 {
@@ -3042,11 +3061,11 @@
 
 			#banner {
 				background-attachment: scroll;
-				padding: 5em 0 4em 0;
+				padding: 2em 0 4em 0;
 			}
 
 				#banner .inner {
-					padding-top: 4em;
+					padding-top: 5em;
 				}
 
 				#banner h1 {
@@ -3067,7 +3086,7 @@
 		@media screen and (max-width: 736px) {
 
 			#banner {
-				padding: 4em 0 3em 0;
+				padding: 2em 0 3em 0;
 			}
 
 				#banner .inner {
@@ -3133,7 +3152,7 @@
 			padding: 0;
 		}
 .copyright {
-	background: #6cc091;
+	background: #000000;
 	text-align: center;
 	color: white;
 	font-weight: 200;
