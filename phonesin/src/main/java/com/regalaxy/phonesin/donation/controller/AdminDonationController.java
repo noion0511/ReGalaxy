@@ -17,7 +17,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/admin/donation")
-@Api(value = "휴대폰 기증 관리자 API", description = "휴대폰 기증 관리자 Controller")
+@Api(value = "관리자 휴대폰 기증 API", description = "관리자 휴대폰 기증 Controller")
 public class AdminDonationController {
 
     private static final String SUCCESS = "success";
@@ -25,7 +25,7 @@ public class AdminDonationController {
 
     private final DonationService DonationService;
 
-    @ApiOperation(value = "기기 기부 신청서 상세조회")
+    @ApiOperation(value = "관리자 기기 기증 신청서 상세조회")
     @GetMapping("/info")
     public ResponseEntity<Map<String, Object>> donationInfo(@RequestBody Long donation_id) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -39,7 +39,7 @@ public class AdminDonationController {
         }
     }
 
-    @ApiOperation(value = "기기 기부 신청서 리스트")
+    @ApiOperation(value = "관리자 기기 기증 신청서 리스트")
     @GetMapping("/list")
     public ResponseEntity<Map<String, Object>> donationList() {
         Map<String, Object> resultMap = new HashMap<String, Object>();

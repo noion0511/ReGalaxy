@@ -24,7 +24,7 @@ public class DonationController {
 
     private final DonationService donationService;
 
-    @ApiOperation(value = "기기 기부 신청서 상세조회")
+    @ApiOperation(value = "기기 기증 신청서 상세 조회")
     @GetMapping("/info")
     public ResponseEntity<Map<String, Object>> donationInfo(@RequestBody Long donationId) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -39,7 +39,7 @@ public class DonationController {
         }
     }
 
-    @ApiOperation(value = "기기 기부 신청서 리스트")
+    @ApiOperation(value = "기기 기증 신청서 리스트 조회")
     @GetMapping("/list")
     public ResponseEntity<Map<String, Object>> donationList() {
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -53,7 +53,7 @@ public class DonationController {
         }
     }
 
-    @ApiOperation(value = "기기 기부 신청서 작성")
+    @ApiOperation(value = "기기 기증 신청서 신청")
     @PostMapping("/apply")
     public ResponseEntity<Map<String, Object>> donationApply(@RequestBody DonationRequestDto donationRequestDto) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -69,7 +69,7 @@ public class DonationController {
     }
 
 
-    @ApiOperation(value = "기기 기부 신청서 수정")
+    @ApiOperation(value = "기기 기증 신청서 수정")
     @PutMapping("/update")
     public ResponseEntity<Map<String, Object>> donationUpdate(@RequestBody DonationRequestDto donationRequestDto) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -83,7 +83,7 @@ public class DonationController {
         }
     }
 
-    @ApiOperation(value = "기기 기부 신청서 삭제")
+    @ApiOperation(value = "기기 기증 신청서 삭제")
     @DeleteMapping("/delete")
     public ResponseEntity<Map<String, Object>> donationDelete(@RequestBody Long donationId) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -97,7 +97,7 @@ public class DonationController {
         }
     }
 
-    @ApiOperation(value = "이달의 기부왕")
+    @ApiOperation(value = "이달의 기증왕")
     @GetMapping("/king")
     public ResponseEntity<Map<String, Object>> donationKing() {
         Map<String, Object> resultMap = new HashMap<String, Object>();
