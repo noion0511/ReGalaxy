@@ -1,6 +1,7 @@
 package com.regalaxy.phonesin.member.model.jwt;
 
 import com.regalaxy.phonesin.member.model.exception.JwtAuthenticationException;
+import com.regalaxy.phonesin.member.model.repository.MemberRepository;
 import com.regalaxy.phonesin.member.model.service.UserDetailsServiceImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -13,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +23,7 @@ import java.util.List;
 public class JwtTokenProvider {
 
     private final UserDetailsServiceImpl userDetailsService;
+    private final MemberRepository memberRepository;
     private String secretKey = "YOUR_SECRET_KEY";
     private long validityInMilliseconds = 3600000; // 1 hour
 
@@ -79,5 +82,30 @@ public class JwtTokenProvider {
                 .setExpiration(validity)
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
+    }
+
+    public String refreshAccessToken(String refreshToken) {
+        String storedRefreshToken = memberRepository.findByEmail(getUsername(refreshToken)).get().getRefreshToken();
+        String authority = memberRepository.findByEmail(getUsername(refreshToken)).get().getAuthority();
+
+        if (storedRefreshToken == null || !refreshToken.equals(storedRefreshToken)) {
+            throw new JwtAuthenticationException("리프레시 토큰이 유효하지 않습니다.");
+        }
+
+        if (isTokenExpired(refreshToken)) {
+            throw new JwtAuthenticationException("리프레시 토큰이 만료되었습니다.");
+        }
+
+        String email = getUsername(refreshToken);
+
+        List<String> authorities = new ArrayList<>();
+        authorities.add(authority);
+
+        return createToken(email, authorities);
+    }
+
+    public boolean isTokenExpired(String token) {
+        Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+        return claims.getExpiration().before(new Date());
     }
 }

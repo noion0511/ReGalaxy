@@ -56,4 +56,16 @@ public class MemberController {
             throw new BadCredentialsException("이메일 또는 비밀번호가 일치하지 않습니다.");
         }
     }
+
+    @PostMapping("/member/token/refresh")
+    public ResponseEntity<Map<String, String>> refresh(@RequestBody Map<String, String> tokenMap) {
+        String refreshToken = tokenMap.get("refreshToken");
+        System.out.println("di");
+        String newAccessToken = jwtTokenProvider.refreshAccessToken(refreshToken);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("accessToken", newAccessToken);
+
+        return ResponseEntity.ok(response);
+    }
 }
