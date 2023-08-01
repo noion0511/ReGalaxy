@@ -86,7 +86,8 @@ public class JwtTokenProvider {
 
     public String refreshAccessToken(String refreshToken) {
         String storedRefreshToken = memberRepository.findByEmail(getUsername(refreshToken)).get().getRefreshToken();
-        String authority = memberRepository.findByEmail(getUsername(refreshToken)).get().getAuthority();
+
+        String authority = memberRepository.findByEmail(getUsername(refreshToken)).get().getIsManager() ? "ROLE_ADMIN":"ROLE_USER";
 
         if (storedRefreshToken == null || !refreshToken.equals(storedRefreshToken)) {
             throw new JwtAuthenticationException("리프레시 토큰이 유효하지 않습니다.");

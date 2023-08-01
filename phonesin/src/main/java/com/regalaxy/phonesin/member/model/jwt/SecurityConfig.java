@@ -25,10 +25,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/member/signup", "/member/login", "/member/token/refresh").permitAll()
-                .anyRequest().authenticated()
-                .and()
+//                .authorizeRequests()
+//                .antMatchers("/member/signup", "/member/login", "/member/token/refresh").permitAll()
+//                .anyRequest().authenticated()
+//                .and()
                 .apply(jwtConfigure());
     }
 

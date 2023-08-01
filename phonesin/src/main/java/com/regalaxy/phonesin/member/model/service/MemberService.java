@@ -1,5 +1,6 @@
 package com.regalaxy.phonesin.member.model.service;
 
+import com.regalaxy.phonesin.back.model.entity.Back;
 import com.regalaxy.phonesin.member.model.LoginRequestDto;
 import com.regalaxy.phonesin.member.model.MemberDto;
 import com.regalaxy.phonesin.member.model.entity.Member;
@@ -61,5 +62,9 @@ public class MemberService {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
         member.updateRefreshToken(token);
         memberRepository.save(member);
+    }
+
+    public MemberDto Info(String email) {
+        return Member.toDto(memberRepository.findByEmail(email).get());
     }
 }
