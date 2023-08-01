@@ -57,9 +57,9 @@ class MobileFragment : Fragment() {
             )
         }
         returnCardView.setOnClickListener {
-//            findNavController().navigate(
-//
-//            )
+            findNavController().navigate(
+                R.id.action_mobile_to_returnMobileFragment
+            )
         }
         donateCardView.setOnClickListener {
             findNavController().navigate(

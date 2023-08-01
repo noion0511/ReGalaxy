@@ -1,13 +1,12 @@
 package com.ssafy.phonesin.ui.mobile.returnmobile
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
-import com.ssafy.phonesin.databinding.ActivityReturnVisitDeliveryBinding
 import com.ssafy.phonesin.databinding.FragmentReturnVisitDeliveryBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -39,7 +38,7 @@ class ReturnVisitDeliveryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentReturnVisitDeliveryBinding.inflate(layoutInflater,container,false)
+        binding = FragmentReturnVisitDeliveryBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -48,9 +47,11 @@ class ReturnVisitDeliveryFragment : Fragment() {
         setReturnVisitDeliveryUi()
     }
 
-    private fun setReturnVisitDeliveryUi() {
-        binding.buttonPostReturnVisitDelivery.setOnClickListener {
-
+    private fun setReturnVisitDeliveryUi() = with(binding) {
+        buttonPostReturnVisitDelivery.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_returnVisitDeliveryFragment_to_returnFinishFragment,
+            )
         }
     }
 

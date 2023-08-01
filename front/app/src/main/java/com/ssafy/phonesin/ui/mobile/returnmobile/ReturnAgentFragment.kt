@@ -1,13 +1,13 @@
 package com.ssafy.phonesin.ui.mobile.returnmobile
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
-import com.ssafy.phonesin.databinding.ActivityReturnAgentBinding
+import com.ssafy.phonesin.databinding.FragmentReturnAgentBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,7 +23,7 @@ class ReturnAgentFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    lateinit var binding: ActivityReturnAgentBinding
+    lateinit var binding: FragmentReturnAgentBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,18 +38,20 @@ class ReturnAgentFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = ActivityReturnAgentBinding.inflate(layoutInflater)
-
-        return inflater.inflate(R.layout.fragment_return_agent, container, false)
+        binding = FragmentReturnAgentBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setReturnAgentUI()
     }
-    private fun setReturnAgentUI() {
-        binding.buttonTemp.setOnClickListener {
 
+    private fun setReturnAgentUI() = with(binding) {
+        buttonTemp.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_returnAgentFragment_to_returnAgentDetailFragment,
+            )
         }
     }
 

@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_mobile_to_rentalMobileFragment"
             app:destination="@id/rentalMobileFragment" />
+        <action
+            android:id="@+id/action_mobile_to_returnMobileFragment"
+            app:destination="@id/returnMobileFragment" />
     </fragment>
     <fragment
         android:id="@+id/my_page"
@@ -91,6 +94,7 @@
         <action
             android:id="@+id/action_rentalAddFragment_to_rentalMobileFragment2"
             app:destination="@id/rentalMobileFragment"
+            app:launchSingleTop="true"
             app:popUpTo="@id/rentalMobileFragment" />
     </fragment>
     <fragment
@@ -124,5 +128,55 @@
         <action
             android:id="@+id/action_rentalPayFragment_to_rentalFinishFragment"
             app:destination="@id/rentalFinishFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/returnAgentFragment"
+        android:name="com.ssafy.phonesin.ui.mobile.returnmobile.ReturnAgentFragment"
+        android:label="fragment_return_agent"
+        tools:layout="@layout/fragment_return_agent" >
+        <action
+            android:id="@+id/action_returnAgentFragment_to_returnAgentDetailFragment"
+            app:destination="@id/returnAgentDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/returnAgentDetailFragment"
+        android:name="com.ssafy.phonesin.ui.mobile.returnmobile.ReturnAgentDetailFragment"
+        android:label="fragment_return_agent_detail"
+        tools:layout="@layout/fragment_return_agent_detail" >
+        <action
+            android:id="@+id/action_returnAgentDetailFragment_to_returnFinishFragment"
+            app:destination="@id/returnFinishFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/returnFinishFragment"
+        android:name="com.ssafy.phonesin.ui.mobile.returnmobile.ReturnFinishFragment"
+        android:label="fragment_return_finish"
+        tools:layout="@layout/fragment_return_finish" >
+        <action
+            android:id="@+id/action_returnFinishFragment_to_mobile"
+            app:destination="@id/mobile"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/mobile" />
+    </fragment>
+    <fragment
+        android:id="@+id/returnMobileFragment"
+        android:name="com.ssafy.phonesin.ui.mobile.returnmobile.ReturnMobileFragment"
+        android:label="fragment_return_mobile"
+        tools:layout="@layout/fragment_return_mobile" >
+        <action
+            android:id="@+id/action_returnMobileFragment_to_returnVisitDeliveryFragment"
+            app:destination="@id/returnVisitDeliveryFragment" />
+        <action
+            android:id="@+id/action_returnMobileFragment_to_returnAgentFragment"
+            app:destination="@id/returnAgentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/returnVisitDeliveryFragment"
+        android:name="com.ssafy.phonesin.ui.mobile.returnmobile.ReturnVisitDeliveryFragment"
+        android:label="fragment_return_visit_delivery"
+        tools:layout="@layout/fragment_return_visit_delivery" >
+        <action
+            android:id="@+id/action_returnVisitDeliveryFragment_to_returnFinishFragment"
+            app:destination="@id/returnFinishFragment" />
     </fragment>
 </navigation>

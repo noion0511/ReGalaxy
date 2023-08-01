@@ -1,12 +1,13 @@
 package com.ssafy.phonesin.ui.mobile.returnmobile
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
-import com.ssafy.phonesin.databinding.ActivityReturnFinishBinding
+import com.ssafy.phonesin.databinding.FragmentReturnFinishBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,7 +23,7 @@ class ReturnFinishFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    lateinit var binding: ActivityReturnFinishBinding
+    lateinit var binding: FragmentReturnFinishBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -36,20 +37,24 @@ class ReturnFinishFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = ActivityReturnFinishBinding.inflate(layoutInflater)
+        binding = FragmentReturnFinishBinding.inflate(layoutInflater, container, false)
 
-        return inflater.inflate(R.layout.fragment_return_finish, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setReturnFinishUi()
     }
-    private fun setReturnFinishUi() {
-        binding.buttonReturnHome.setOnClickListener {
 
+    private fun setReturnFinishUi() = with(binding) {
+        buttonReturnHome.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_returnFinishFragment_to_mobile,
+            )
         }
     }
+
     companion object {
         /**
          * Use this factory method to create a new instance of
