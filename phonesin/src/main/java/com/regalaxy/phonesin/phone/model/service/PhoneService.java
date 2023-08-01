@@ -37,7 +37,7 @@ public class PhoneService {
         return phoneDto;
     }
 
-    public void apply(PhoneApplyDto phoneApplyDto){
+    public void save(PhoneApplyDto phoneApplyDto){
         Phone phone = new Phone();
         phone.setDonation(donationRepository.getReferenceById(phoneApplyDto.getDonation_id()));
         phone.setModel(modelRepository.getReferenceById(phoneApplyDto.getModel_id()));
@@ -45,5 +45,9 @@ public class PhoneService {
         phone.setHomecam(phoneApplyDto.isHomecam());
         phone.setClimateHumidity(phoneApplyDto.isClimateHumidity());
         phoneRepository.save(phone);
+    }
+
+    public void delete(Long phone_id){
+        phoneRepository.deleteById(phone_id);
     }
 }

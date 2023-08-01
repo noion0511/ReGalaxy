@@ -39,7 +39,25 @@ public class PhoneController {
     @PostMapping("/apply")
     public ModelAndView apply(PhoneApplyDto phoneApplyDto){
         ModelAndView mav = new ModelAndView();
-        phoneService.apply(phoneApplyDto);
+        phoneService.save(phoneApplyDto);
+        mav.setViewName("");//어디로 이동할지 ex) rental/list
+        System.out.println("Success");
+        return null;
+    }
+
+    @PutMapping("/update")
+    public ModelAndView update(PhoneApplyDto phoneApplyDto){
+        ModelAndView mav = new ModelAndView();
+        phoneService.save(phoneApplyDto);
+        mav.setViewName("");//어디로 이동할지 ex) rental/list
+        System.out.println("Success");
+        return null;
+    }
+
+    @DeleteMapping("/delete")
+    public ModelAndView delete(Long phone_id){
+        ModelAndView mav = new ModelAndView();
+        phoneService.delete(phone_id);
         mav.setViewName("");//어디로 이동할지 ex) rental/list
         System.out.println("Success");
         return null;
