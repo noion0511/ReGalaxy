@@ -15,7 +15,7 @@
     <string name="my_page">마이</string>
     <string name="add_rental_mobile">+물품추가</string>
     <string name="item_rental_change_option">옵션 변경</string>
-    <string name="donate_reuntal">대리점 기증</string>
+    <string name="donate_agent">대리점 기증</string>
     <string name="donate_visit_delivery">방문 택배 기증</string>
     <string name="address">주소</string>
     <string name="exist_address">기존 주소지</string>
@@ -61,5 +61,10 @@
     <string name="no_passbook_pay">무통장입금</string>
     <string name="announce_rental_message">신청해 주셔서 감사합니다.\n신청 주소 및 기능을 꼭 확인해주시기 바랍니다.</string>
     <string name="add_new_card">+ Add New Card</string>
+    <string name="return_agent">대리점 반납</string>
+    <string name="return_request">반납 신청</string>
+    <string name="return_mobile_select">반납 기기 선택</string>
+    <string name="review">후기</string>
+    <string name="return_visit_delivery">방문 택배 반납</string>
 
 </resources>
