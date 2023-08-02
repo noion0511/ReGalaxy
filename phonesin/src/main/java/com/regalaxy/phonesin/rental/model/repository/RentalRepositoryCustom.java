@@ -9,5 +9,5 @@ import java.util.List;
 public interface RentalRepositoryCustom {
     List<RentalDto> search(SearchDto searchDto);
 
-    RentalDetailDto detailInfo(int rental_id);
+    RentalDetailDto detailInfo(Long rental_id);
 }
