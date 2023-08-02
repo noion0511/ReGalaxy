@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.mobile.rentalmobile.RentalFinishFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutMobileInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/border_mobile_add_layout"
+        android:padding="18dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textViewFinishMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/request_complete"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewMobileInfo"
+            style="@style/textview_title_secondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="@id/textViewFinishMessage"
+            app:layout_constraintTop_toBottomOf="@id/textViewFinishMessage"
+            tools:text="갤럭시 s7" />
+
+        <TextView
+            android:id="@+id/textViewPostDate"
+            style="@style/textview_content_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="@id/textViewMobileInfo"
+            app:layout_constraintTop_toBottomOf="@id/textViewMobileInfo"
+            tools:text="신청 일시 : 2023년 04월 19일 오후 08:14" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutDetailInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/border_mobile_add_layout"
+        android:padding="18dp"
+        app:layout_constraintStart_toStartOf="@id/layoutMobileInfo"
+        app:layout_constraintTop_toBottomOf="@id/layoutMobileInfo">
+
+        <TextView
+            android:id="@+id/textViewDetailInfoMessage"
+            style="@style/textview_title_secondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/detail_info"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewDetailModule"
+            style="@style/textview_content_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="@id/textViewDetailInfoMessage"
+            app:layout_constraintTop_toBottomOf="@id/textViewDetailInfoMessage"
+            tools:text=" - 신청기능 : 홈캠" />
+
+        <TextView
+            android:id="@+id/textViewDetailAddress"
+            style="@style/textview_content_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/textViewDetailModule"
+            app:layout_constraintTop_toBottomOf="@id/textViewDetailModule"
+            tools:text=" - 주소 : 구미시 진평동 한마음센터 103동" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutAnnounce"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/border_mobile_add_layout"
+        android:padding="18dp"
+        app:layout_constraintBottom_toTopOf="@id/buttonMobileHome"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/textViewAnnounceMessage"
+            style="@style/textview_title_secondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/announce_message"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewAnnounceContent"
+            style="@style/textview_content_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/announce_rental_message"
+            app:layout_constraintStart_toStartOf="@id/textViewAnnounceMessage"
+            app:layout_constraintTop_toBottomOf="@id/textViewAnnounceMessage" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/buttonMobileHome"
+        style="@style/textview_button_white_big"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_black_corner_0"
+        android:text="@string/go_home"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

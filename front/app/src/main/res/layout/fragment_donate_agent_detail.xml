@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.mobile.donatemobile.DonateAgentDetailFragment">
+
+    <net.daum.mf.map.api.MapView
+        android:id="@+id/mapViewDonateAgentDetail"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_margin="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewDonateAgentDetailTitle"
+        style="@style/textview_title_secondary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@id/mapViewDonateAgentDetail"
+        app:layout_constraintTop_toBottomOf="@id/mapViewDonateAgentDetail"
+        tools:text="구미 서비스 센터" />
+
+    <TextView
+        android:id="@+id/textViewDonateAgentDetailAddress"
+        style="@style/textview_content_black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@id/textViewDonateAgentDetailTitle"
+        app:layout_constraintTop_toBottomOf="@id/textViewDonateAgentDetailTitle"
+        tools:text="경상북도 구미시 인동가산로 9-3 노블레스타워 1층" />
+
+    <View
+        android:id="@+id/viewDonateAgentDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="20dp"
+        android:background="#eeeff1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDonateAgentDetailAddress" />
+
+    <TextView
+        android:id="@+id/textViewDonateAgentDetailOpenTime"
+        style="@style/textview_title_secondary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/center_time"
+        app:layout_constraintStart_toStartOf="@id/viewDonateAgentDivider"
+        app:layout_constraintTop_toBottomOf="@id/viewDonateAgentDivider" />
+
+    <TextView
+        android:id="@+id/textViewDonateAgentDetailOpenTimeDetail"
+        style="@style/textview_content_black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/center_run_time"
+        app:layout_constraintStart_toStartOf="@id/textViewDonateAgentDetailOpenTime"
+        app:layout_constraintTop_toBottomOf="@id/textViewDonateAgentDetailOpenTime" />
+
+    <Button
+        android:id="@+id/buttonPostDonateAgent"
+        style="@style/textview_button_white_big"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_black_corner_0"
+        android:text="@string/request"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
