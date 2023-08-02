@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--  switch  -->
+    <style name="SwitchThemeAnimation" parent="Theme.AppCompat.Light">
+        <!-- 스위치의 애니메이션 ON 상태일 때의 색상 -->
+        <item name="colorControlActivated">@color/keyColor1</item>
+        <!-- 스위치의 애니메이션 OFF 상태일 때의 색상 -->
+        <item name="colorControlNormal">@color/unselectedLightColor</item>
+    </style>
+
     <!-- Custom font style 일괄적용 -->
     <style name="TextViewStyle" parent="@android:style/Widget.DeviceDefault.TextView">
         <item name="android:fontFamily">@font/pretendard_medium</item>

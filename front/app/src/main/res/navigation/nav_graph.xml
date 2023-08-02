@@ -29,7 +29,11 @@
         android:id="@+id/my_page"
         android:name="com.ssafy.phonesin.ui.mypage.MyPageFragment"
         android:label="fragment_my_page"
-        tools:layout="@layout/fragment_my_page" />
+        tools:layout="@layout/fragment_my_page" >
+        <action
+            android:id="@+id/action_my_page_to_notificationFragment"
+            app:destination="@id/notificationFragment" />
+    </fragment>
     <fragment
         android:id="@+id/module"
         android:name="com.ssafy.phonesin.ui.module.ModuleFragment"
@@ -224,4 +228,12 @@
         android:id="@+id/cameraFragment"
         android:name="com.ssafy.phonesin.ui.module.camera.CameraFragment"
         android:label="CameraFragment" />
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.ssafy.phonesin.ui.mypage.NotificationFragment"
+        android:label="NotificationFragment" >
+        <action
+            android:id="@+id/action_notificationFragment_to_my_page"
+            app:destination="@id/my_page" />
+    </fragment>
 </navigation>
