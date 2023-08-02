@@ -4,23 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.mobile.PayMobileActivity">
+    tools:context=".ui.mobile.rentalmobile.RentalPayFragment">
 
     <TextView
         android:id="@+id/textViewPayDeposit"
+        style="@style/textview_title_secondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:text="보증금"
+        android:text="@string/deposit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textViewPayMoney"
+        style="@style/textview_content_gray"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="70dp"
+        android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@id/textViewPayDeposit"
         app:layout_constraintTop_toTopOf="@id/textViewPayDeposit"
         tools:text="20,000원" />
@@ -37,14 +40,26 @@
 
     <TextView
         android:id="@+id/textViewSavedCard"
+        style="@style/textview_title_secondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:text="Saved Cards"
+        android:text="@string/saved_cards"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/viewPayMobileDivider" />
 
+    <TextView
+        android:id="@+id/textViewAddCard"
+        style="@style/textview_content_black"
+        android:layout_width="wrap_content"
+        android:textColor="@color/keyColor1"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/add_new_card"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewPayMobileDivider" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPagerCardList"
@@ -66,11 +81,12 @@
 
     <TextView
         android:id="@+id/textViewSelectOtherPayment"
+        style="@style/textview_title_secondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:text="Other Payment Options"
+        android:text="@string/other_payment_options"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layoutIndicator" />
 
@@ -85,22 +101,22 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="무통장입금" />
+            android:text="@string/no_passbook_pay" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="일반결제" />
+            android:text="@string/general_pay" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="네이버 페이" />
+            android:text="@string/naver_pay" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="카카오 페이" />
+            android:text="@string/kakao_pay" />
     </RadioGroup>
 
     <TextView
@@ -108,17 +124,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:text="동의서 확인"
+        android:text="@string/check_consent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/radioGroupPayWay" />
 
     <Button
         android:id="@+id/buttonPayComplete"
+        style="@style/textview_button_white_big"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="결제하기"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:background="@drawable/button_black_corner_0"
+        android:text="@string/pay"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

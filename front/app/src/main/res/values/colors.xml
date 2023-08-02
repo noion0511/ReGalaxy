@@ -19,5 +19,11 @@
     <color name="secondaryKeyColorDark1">#FF4A0E1C</color>
 
     <color name="borderColor">#1A000000</color>
-    <color name="indicatorUnselectedColor">#FFB8B8B8</color>
+    <color name="unselectedColor">#B1B1B1</color>
+    <color name="unselectedLightColor">#E6E6E6</color>
+
+    <color name="moduleBackgroundGreen">#F3FCE1</color>
+    <color name="moduleBackgroundBlue">#EBF8FE</color>
+    <color name="moduleBackgroundRed">#FFF2EC</color>
+
 </resources>
