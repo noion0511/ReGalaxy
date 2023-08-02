@@ -1,12 +1,14 @@
 package com.ssafy.phonesin.ui.mobile
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentMobileBinding
+import com.ssafy.phonesin.ui.MainActivity
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -48,10 +50,28 @@ class MobileFragment : Fragment() {
         setMobileHomeUi()
     }
 
-    private fun setMobileHomeUi() {
-        binding.rentalCardView.setOnClickListener {
-            startActivity(Intent(activity, RentalListActivity::class.java))
+    private fun setMobileHomeUi() = with(binding) {
+        rentalCardView.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_mobile_to_rentalMobileFragment,
+            )
         }
+        returnCardView.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_mobile_to_returnMobileFragment
+            )
+        }
+        donateCardView.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_mobile_to_donateMobileFragment,
+            )
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val mainActivity = activity as MainActivity
+        mainActivity.hideBottomNavi(false)
     }
 
 

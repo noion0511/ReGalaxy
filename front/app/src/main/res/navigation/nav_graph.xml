@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+ <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
@@ -14,7 +14,17 @@
         android:id="@+id/mobile"
         android:name="com.ssafy.phonesin.ui.mobile.MobileFragment"
         android:label="fragment_mobile"
-        tools:layout="@layout/fragment_mobile" />
+        tools:layout="@layout/fragment_mobile">
+        <action
+            android:id="@+id/action_mobile_to_donateMobileFragment"
+            app:destination="@id/donateMobileFragment" />
+        <action
+            android:id="@+id/action_mobile_to_rentalMobileFragment"
+            app:destination="@id/rentalMobileFragment" />
+        <action
+            android:id="@+id/action_mobile_to_returnMobileFragment"
+            app:destination="@id/returnMobileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/my_page"
         android:name="com.ssafy.phonesin.ui.mypage.MyPageFragment"
@@ -24,5 +34,194 @@
         android:id="@+id/module"
         android:name="com.ssafy.phonesin.ui.module.ModuleFragment"
         android:label="fragment_module"
-        tools:layout="@layout/fragment_module" />
+        tools:layout="@layout/fragment_module" >
+        <action
+            android:id="@+id/action_module_to_camListFragment"
+            app:destination="@id/camListFragment" />
+        <action
+            android:id="@+id/action_module_to_hygrometerFragment"
+            app:destination="@id/hygrometerFragment" />
+        <action
+            android:id="@+id/action_module_to_cameraFragment"
+            app:destination="@id/cameraFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/doateFinishFragment"
+        android:name="com.ssafy.phonesin.ui.mobile.donatemobile.DonateFinishFragment"
+        android:label="fragment_doate_finish"
+        tools:layout="@layout/fragment_donate_finish" >
+        <action
+            android:id="@+id/action_doateFinishFragment_to_mobile"
+            app:destination="@id/mobile"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/mobile"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/donateAgentFragment"
+        android:name="com.ssafy.phonesin.ui.mobile.donatemobile.DonateAgentFragment"
+        android:label="fragment_donate_agent"
+        tools:layout="@layout/fragment_donate_agent">
+        <action
+            android:id="@+id/action_donateAgentFragment_to_donateAgentDetailFragment"
+            app:destination="@id/donateAgentDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/donateAgentDetailFragment"
+        android:name="com.ssafy.phonesin.ui.mobile.donatemobile.DonateAgentDetailFragment"
+        android:label="fragment_donate_agent_detail"
+        tools:layout="@layout/fragment_donate_agent_detail" >
+        <action
+            android:id="@+id/action_donateAgentDetailFragment_to_doateFinishFragment"
+            app:destination="@id/doateFinishFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/donateMobileFragment"
+        android:name="com.ssafy.phonesin.ui.mobile.donatemobile.DonateMobileFragment"
+        android:label="fragment_donate_mobile"
+        tools:layout="@layout/fragment_donate_mobile">
+        <action
+            android:id="@+id/action_donateMobileFragment_to_donateVisitDeliveryFragment"
+            app:destination="@id/donateVisitDeliveryFragment" />
+        <action
+            android:id="@+id/action_donateMobileFragment_to_donateAgentFragment"
+            app:destination="@id/donateAgentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/donateVisitDeliveryFragment"
+        android:name="com.ssafy.phonesin.ui.mobile.donatemobile.DonateVisitDeliveryFragment"
+        android:label="fragment_donate_visit_delivery"
+        tools:layout="@layout/fragment_donate_visit_delivery">
+        <action
+            android:id="@+id/action_donateVisitDeliveryFragment_to_doateFinishFragment"
+            app:destination="@id/doateFinishFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/rentalAddFragment"
+        android:name="com.ssafy.phonesin.ui.mobile.rentalmobile.RentalAddFragment"
+        android:label="fragment_rental_add"
+        tools:layout="@layout/fragment_rental_add" >
+        <action
+            android:id="@+id/action_rentalAddFragment_to_rentalMobileFragment2"
+            app:destination="@id/rentalMobileFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/rentalMobileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/rentalFinishFragment"
+        android:name="com.ssafy.phonesin.ui.mobile.rentalmobile.RentalFinishFragment"
+        android:label="fragment_rental_finish"
+        tools:layout="@layout/fragment_rental_finish" >
+        <action
+            android:id="@+id/action_rentalFinishFragment_to_mobile"
+            app:destination="@id/mobile"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/mobile" />
+    </fragment>
+    <fragment
+        android:id="@+id/rentalMobileFragment"
+        android:name="com.ssafy.phonesin.ui.mobile.rentalmobile.RentalMobileFragment"
+        android:label="fragment_rental_moblie"
+        tools:layout="@layout/fragment_rental_moblie" >
+        <action
+            android:id="@+id/action_rentalMobileFragment_to_rentalAddFragment"
+            app:destination="@id/rentalAddFragment" />
+        <action
+            android:id="@+id/action_rentalMobileFragment_to_rentalPayFragment"
+            app:destination="@id/rentalPayFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/rentalPayFragment"
+        android:name="com.ssafy.phonesin.ui.mobile.rentalmobile.RentalPayFragment"
+        android:label="fragment_rental_pay"
+        tools:layout="@layout/fragment_rental_pay" >
+        <action
+            android:id="@+id/action_rentalPayFragment_to_rentalFinishFragment"
+            app:destination="@id/rentalFinishFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/returnAgentFragment"
+        android:name="com.ssafy.phonesin.ui.mobile.returnmobile.ReturnAgentFragment"
+        android:label="fragment_return_agent"
+        tools:layout="@layout/fragment_return_agent" >
+        <action
+            android:id="@+id/action_returnAgentFragment_to_returnAgentDetailFragment"
+            app:destination="@id/returnAgentDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/returnAgentDetailFragment"
+        android:name="com.ssafy.phonesin.ui.mobile.returnmobile.ReturnAgentDetailFragment"
+        android:label="fragment_return_agent_detail"
+        tools:layout="@layout/fragment_return_agent_detail" >
+        <action
+            android:id="@+id/action_returnAgentDetailFragment_to_returnFinishFragment"
+            app:destination="@id/returnFinishFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/returnFinishFragment"
+        android:name="com.ssafy.phonesin.ui.mobile.returnmobile.ReturnFinishFragment"
+        android:label="fragment_return_finish"
+        tools:layout="@layout/fragment_return_finish" >
+        <action
+            android:id="@+id/action_returnFinishFragment_to_mobile"
+            app:destination="@id/mobile"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/mobile" />
+    </fragment>
+    <fragment
+        android:id="@+id/returnMobileFragment"
+        android:name="com.ssafy.phonesin.ui.mobile.returnmobile.ReturnMobileFragment"
+        android:label="fragment_return_mobile"
+        tools:layout="@layout/fragment_return_mobile" >
+        <action
+            android:id="@+id/action_returnMobileFragment_to_returnVisitDeliveryFragment"
+            app:destination="@id/returnVisitDeliveryFragment" />
+        <action
+            android:id="@+id/action_returnMobileFragment_to_returnAgentFragment"
+            app:destination="@id/returnAgentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/returnVisitDeliveryFragment"
+        android:name="com.ssafy.phonesin.ui.mobile.returnmobile.ReturnVisitDeliveryFragment"
+        android:label="fragment_return_visit_delivery"
+        tools:layout="@layout/fragment_return_visit_delivery" >
+        <action
+            android:id="@+id/action_returnVisitDeliveryFragment_to_returnFinishFragment"
+            app:destination="@id/returnFinishFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/camListFragment"
+        android:name="com.ssafy.phonesin.ui.module.homecam.CamListFragment"
+        android:label="CamListFragment"
+        tools:layout="@layout/fragment_cam_list">
+        <action
+            android:id="@+id/action_camListFragment_to_homeCamFragment"
+            app:destination="@id/homeCamFragment"/>
+        <action
+            android:id="@+id/action_camListFragment_to_module"
+            app:destination="@id/module"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/module" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeCamFragment"
+        android:name="com.ssafy.phonesin.ui.module.homecam.HomeCamFragment"
+        android:label="HomeCamFragment"
+        tools:layout="@layout/fragment_home_cam">
+        <action
+            android:id="@+id/action_homeCamFragment_to_camListFragment"
+            app:destination="@id/camListFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/camListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/hygrometerFragment"
+        android:name="com.ssafy.phonesin.ui.module.hygrometer.HygrometerFragment"
+        android:label="HygrometerFragment"
+        tools:layout="@layout/fragment_hygrometer">
+    </fragment>
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="com.ssafy.phonesin.ui.module.camera.CameraFragment"
+        android:label="CameraFragment" />
 </navigation>

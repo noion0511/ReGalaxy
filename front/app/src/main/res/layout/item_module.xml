@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/linearLayoutModule"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        app:cardCornerRadius="10dp"
+        tools:cardBackgroundColor="@color/moduleBackgroundGreen">
+
+        <ImageView
+            android:id="@+id/moduleImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            tools:src="@drawable/camera" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/textViewModuleTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
+        style="@style/textview_title_secondary"
+        android:text="@string/module_type_camera_title" />
+
+    <TextView
+        android:id="@+id/textViewModuleContent"
+        android:layout_width="match_parent"
+        style="@style/textview_content_black"
+        android:layout_height="wrap_content"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
+        android:text="@string/module_type_camera_content" />
+</LinearLayout>
