@@ -4,10 +4,10 @@ import com.regalaxy.phonesin.module.model.YtwokDto;
 import com.regalaxy.phonesin.module.model.entity.Ytwok;
 import com.regalaxy.phonesin.module.model.repository.YtwokRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,6 +15,9 @@ import org.springframework.web.util.UriUtils;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 @Service
@@ -99,8 +102,21 @@ public class YtwokService {
         String absolutePath = new File("").getAbsolutePath() + "\\" + "images/y2k/" + SaveFileName;
 
         Resource resource = new UrlResource("file:" + absolutePath);
+
+
+//        Path path = Paths.get(absolutePath);
+//        Resource resource2 = new InputStreamResource(Files.newInputStream(path)); // 파일 resource 얻기
+//
+//        File file2 = new File(absolutePath);
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentDisposition(ContentDisposition.builder("attachment").filename(file2.getName()).build());  // 다운로드 되거나 로컬에 저장되는 용도로 쓰이는지를 알려주는 헤더
+//
+//        return new ResponseEntity<Object>(resource2, headers, HttpStatus.OK);
+//        File file = new File(path);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
+                .header(HttpHeaders.CONTENT_TYPE, "file/png")
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(resource);
     }
 

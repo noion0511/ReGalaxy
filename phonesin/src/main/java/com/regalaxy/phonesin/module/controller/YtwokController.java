@@ -47,7 +47,8 @@ public class YtwokController {
     @GetMapping(value = "images/{fileId}")
     public ResponseEntity<Resource> getImage(@PathVariable("fileId") long fileId) {
         try {
-            return ytwokService.loadImage(fileId);
+            ResponseEntity<Resource> result = ytwokService.loadImage(fileId);
+            return result;
         } catch (Exception e) {
             return null;
         }
