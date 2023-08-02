@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://3.36.49.178:3306/s09p12d102
+    username: ReGalaxy
+    password: s1s2a3f4y@
+#    url: jdbc:mysql://stg-yswa-kr-practice-db-master.mariadb.database.azure.com:3306/S09P12D102
+#    username: S09P12D102@stg-yswa-kr-practice-db-master.mariadb.database.azure.com
+#    password: 11jBMoEHvm
+#    url: jdbc:mysql://127.0.0.1:3306/S09P12D102
+#    username: root
+#    password: ssafy
+    hikari:
+      maximumpoolsize: 150
+      connectionTimeout : 30000
+      maxLifetime : 1800000
+      minimum-idle: 10
