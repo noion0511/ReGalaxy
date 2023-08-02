@@ -33,6 +33,9 @@
         <action
             android:id="@+id/action_my_page_to_notificationFragment"
             app:destination="@id/notificationFragment" />
+        <action
+            android:id="@+id/action_my_page_to_registChaFragment"
+            app:destination="@id/registChaFragment" />
     </fragment>
     <fragment
         android:id="@+id/module"
@@ -234,6 +237,14 @@
         android:label="NotificationFragment" >
         <action
             android:id="@+id/action_notificationFragment_to_my_page"
+            app:destination="@id/my_page" />
+    </fragment>
+    <fragment
+        android:id="@+id/registChaFragment"
+        android:name="com.ssafy.phonesin.ui.mypage.RegistChaFragment"
+        android:label="RegistChaFragment" >
+        <action
+            android:id="@+id/action_registChaFragment_to_my_page"
             app:destination="@id/my_page" />
     </fragment>
 </navigation>

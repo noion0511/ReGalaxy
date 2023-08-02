@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentMyPageBinding
@@ -110,7 +111,10 @@ class MyPageFragment : Fragment() {
         shape.setColor(Color.WHITE)
         dialog.window?.setBackgroundDrawable(shape)
 
-
+        dialog.findViewById<TextView>(R.id.textViewRegistCha).setOnClickListener {
+            dialog.dismiss()
+            findNavController().navigate(R.id.registChaFragment)
+        }
 
         dialog.show()
     }
