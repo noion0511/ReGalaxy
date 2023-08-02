@@ -52,4 +52,19 @@ public class YtwokController {
         }
     }
 
+    @ApiOperation(value = "QR 이미지 링크")
+    @GetMapping(value = "qr/{fileId}")
+    public ResponseEntity<Map<String, Object>> QRUrl(@PathVariable("fileId") long fileId) {
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        try {
+            resultMap.put("QR url", "https://chart.apis.google.com/chart?cht=qr&chs=300x300&chl=http://i9d102.p.ssafy.io:8080/ytwok/images/" + fileId);
+            resultMap.put("message", SUCCESS);
+            return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            resultMap.put("message", FAIL);
+            return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+        }
+    }
+
 }
