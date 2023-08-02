@@ -1,22 +1,24 @@
 package com.regalaxy.phonesin.address.model.entity;
 
-import com.regalaxy.phonesin.rental.model.entity.Rental;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.Id;
-
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import javax.persistence.*;
 
 @Entity(name="agency")
+@Getter
+@Setter
 @Table(name="agency")
 public class Agency {
     @Id
-    private int agency_id;
-    @OneToMany(mappedBy = "agency")
-    private List<Rental> rental;
-//    private List<Agency> agency_id = new ArrayList<>();
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long agencyId;
+    @Column(name="agency_x")
+    private double agencyX;
+    @Column(name="agency_y")
+    private double agencyY;
+    private String agencyPhoneNum;
+    private String agencyLocation;
+    private String agencyName;
+    private String agencyPhotoUrl;
 }

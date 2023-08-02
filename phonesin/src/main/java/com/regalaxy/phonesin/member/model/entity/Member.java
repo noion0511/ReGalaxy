@@ -1,5 +1,6 @@
 package com.regalaxy.phonesin.member.model.entity;
 
+import com.regalaxy.phonesin.address.model.entity.Address;
 import com.regalaxy.phonesin.donation.model.entity.Donation;
 import com.regalaxy.phonesin.rental.model.entity.Rental;
 import lombok.AllArgsConstructor;
@@ -41,4 +42,7 @@ public class Member {
 
     @OneToMany(mappedBy = "member", cascade = ALL, orphanRemoval = true)
     private List<Rental> rentalList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = ALL, orphanRemoval = true)
+    private List<Address> addressList = new ArrayList<>();
 }

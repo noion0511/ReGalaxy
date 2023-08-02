@@ -35,3 +35,9 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### security ###
+application-db.yml
+
+### y2k images ###
+images

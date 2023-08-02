@@ -1,13 +1,9 @@
 package com.regalaxy.phonesin.rental.model.repository;
 
 import com.regalaxy.phonesin.member.model.SearchDto;
-import com.regalaxy.phonesin.rental.model.ApplyDto;
 import com.regalaxy.phonesin.rental.model.RentalDetailDto;
 import com.regalaxy.phonesin.rental.model.RentalDto;
-import com.regalaxy.phonesin.rental.model.entity.Rental;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.query.NativeQuery;
-import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -22,7 +18,6 @@ public class RentalRepositoryCustomImpl implements RentalRepositoryCustom {
     private final EntityManager em;
     @Override
     public List<RentalDto> search(SearchDto searchDto) {
-//        String s = "select new com.regalaxy.phonesin.rental.model.RentalDto(r.rental_id, r.rental_start, r.rental_end, r.rental_status, r.rental_deliverylocation, r.fund) from rental r";
         String s = "select new com.regalaxy.phonesin.rental.model.RentalDto(r.rentalId, r.rentalStart, r.rentalEnd, r.rentalStatus, r.rentalDeliveryLocation, r.fund, m.modelName, p.phoneId, r.waybillNumber) "
             + "from rental r join phone p on r.rentalId = p.rentalId "
                 + "join model m on p.model.modelId = m.modelId";
@@ -31,7 +26,7 @@ public class RentalRepositoryCustomImpl implements RentalRepositoryCustom {
             if(n==0){
                 s+=" where ";
             }
-            s += "r.member.member_id = (select m.memberId from member m where m.email='%"+searchDto.getEmail()+"%')";//서브쿼리로 member_id 찾기
+            s += "r.member.memberId = (select m.memberId from member m where m.email='%"+searchDto.getEmail()+"%')";//서브쿼리로 member_id 찾기
             n++;
         }
         if(searchDto.getIsBlack() == 2){
@@ -80,16 +75,6 @@ public class RentalRepositoryCustomImpl implements RentalRepositoryCustom {
 
         return em.createQuery(s, RentalDto.class)
                 .getResultList();
-    }
-
-    @Override
-    public boolean extension(Long rental_id) {
-        return false;
-    }
-
-    @Override
-    public boolean apply(ApplyDto applyDto) {
-        return false;
     }
 
     @Override
