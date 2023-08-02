@@ -1,35 +1,48 @@
 package com.regalaxy.phonesin.member.model.entity;
 
+import com.regalaxy.phonesin.address.model.entity.Address;
 import com.regalaxy.phonesin.donation.model.entity.Donation;
+import com.regalaxy.phonesin.rental.model.entity.Rental;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import org.springframework.data.annotation.CreatedDate;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import static javax.persistence.CascadeType.ALL;
 
 @Entity
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
-    private Long id;
+    private Long memberId;
 
+    @Column(unique = true)
     private String email;
-    private String member_name;
+
+    private String memberName;
     private String password;
-    private String phone_number;
+    private String phoneNumber;
     private Boolean isCha;
     private Boolean isBlackList;
     private Boolean isDelete;
     private Boolean isManager;
 
-    @OneToMany(mappedBy = "member",cascade = ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "member", cascade = ALL, orphanRemoval = true)
     private List<Donation> donationList = new ArrayList<Donation>();
 
+    @OneToMany(mappedBy = "member", cascade = ALL, orphanRemoval = true)
+    private List<Rental> rentalList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = ALL, orphanRemoval = true)
+    private List<Address> addressList = new ArrayList<>();
 }

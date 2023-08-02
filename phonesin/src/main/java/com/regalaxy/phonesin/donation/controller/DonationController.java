@@ -1,6 +1,6 @@
 package com.regalaxy.phonesin.donation.controller;
 
-import com.regalaxy.phonesin.donation.model.dto.DonationDto;
+import com.regalaxy.phonesin.donation.model.DonationRequestDto;
 import com.regalaxy.phonesin.donation.model.service.DonationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,15 +22,15 @@ public class DonationController {
     private static final String SUCCESS = "success";
     private static final String FAIL = "fail";
 
-    private final DonationService DonationService;
+    private final DonationService donationService;
 
-    @ApiOperation(value = "기기 기부 신청서 상세조회")
+    @ApiOperation(value = "기기 기증 신청서 상세 조회")
     @GetMapping("/info")
-    public ResponseEntity<Map<String, Object>> donationInfo(@RequestBody Long donation_id) {
+    public ResponseEntity<Map<String, Object>> donationInfo(@RequestBody Long donationId) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        System.out.println(donation_id);
+        System.out.println(donationId);
         try {
-            resultMap.put("donation", DonationService.donationInfo(donation_id));
+            resultMap.put("donation", donationService.donationInfo(donationId));
             resultMap.put("message", SUCCESS);
             return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
         } catch (Exception e) {
@@ -39,12 +39,12 @@ public class DonationController {
         }
     }
 
-    @ApiOperation(value = "기기 기부 신청서 리스트")
+    @ApiOperation(value = "기기 기증 신청서 리스트 조회")
     @GetMapping("/list")
     public ResponseEntity<Map<String, Object>> donationList() {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         try {
-            resultMap.put("donation", DonationService.donationList());
+            resultMap.put("donation", donationService.donationList());
             resultMap.put("message", SUCCESS);
             return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
         } catch (Exception e) {
@@ -53,12 +53,12 @@ public class DonationController {
         }
     }
 
-    @ApiOperation(value = "기기 기부 신청서 작성")
+    @ApiOperation(value = "기기 기증 신청서 신청")
     @PostMapping("/apply")
-    public ResponseEntity<Map<String, Object>> donationApply(@RequestBody DonationDto donationDto) {
+    public ResponseEntity<Map<String, Object>> donationApply(@RequestBody DonationRequestDto donationRequestDto) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         try {
-            if (!DonationService.donationApply(donationDto)) throw new RuntimeException();
+            if (!donationService.donationApply(donationRequestDto)) throw new RuntimeException();
             resultMap.put("message", SUCCESS);
             return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
         } catch (Exception e) {
@@ -69,12 +69,12 @@ public class DonationController {
     }
 
 
-    @ApiOperation(value = "기기 기부 신청서 수정")
+    @ApiOperation(value = "기기 기증 신청서 수정")
     @PutMapping("/update")
-    public ResponseEntity<Map<String, Object>> donationUpdate(@RequestBody DonationDto donationDto) {
+    public ResponseEntity<Map<String, Object>> donationUpdate(@RequestBody DonationRequestDto donationRequestDto) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         try {
-            resultMap.put("donation", DonationService.donationUpdate(donationDto));
+            resultMap.put("donation", donationService.donationUpdate(donationRequestDto));
             resultMap.put("message", SUCCESS);
             return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
         } catch (Exception e) {
@@ -83,12 +83,12 @@ public class DonationController {
         }
     }
 
-    @ApiOperation(value = "기기 기부 신청서 삭제")
+    @ApiOperation(value = "기기 기증 신청서 삭제")
     @DeleteMapping("/delete")
-    public ResponseEntity<Map<String, Object>> donationDelete(@RequestBody Long donation_id) {
+    public ResponseEntity<Map<String, Object>> donationDelete(@RequestBody Long donationId) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         try {
-            resultMap.put("donation", DonationService.donationDelete(donation_id));
+            resultMap.put("donation", donationService.donationDelete(donationId));
             resultMap.put("message", SUCCESS);
             return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
         } catch (Exception e) {
@@ -97,12 +97,12 @@ public class DonationController {
         }
     }
 
-    @ApiOperation(value = "이달의 기부왕")
+    @ApiOperation(value = "이달의 기증왕")
     @GetMapping("/king")
     public ResponseEntity<Map<String, Object>> donationKing() {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         try {
-            resultMap.put("donation", DonationService.donationKing());
+            resultMap.put("donation", donationService.donationKing());
             resultMap.put("message", SUCCESS);
             return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
         } catch (Exception e) {

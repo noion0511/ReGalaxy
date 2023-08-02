@@ -1,4 +1,7 @@
 package com.regalaxy.phonesin.address.model.repository;
 
-public class AddressRepository {
+import com.regalaxy.phonesin.address.model.entity.Address;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AddressRepository extends JpaRepository<Address, Long>, AddressRepositoryCustom {
 }

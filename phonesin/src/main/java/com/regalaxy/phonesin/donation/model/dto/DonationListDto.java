@@ -36,13 +36,13 @@ public class DonationListDto {
 
     @Builder
     public DonationListDto(Donation donation){
-        this.donation_id = donation.getId();
-        this.member_id = donation.getMember().getId();
-        this.donation_status = donation.getDonation_status();
+        this.donation_id = donation.getDonationId();
+        this.member_id = donation.getMember().getMemberId();
+        this.donation_status = donation.getDonationStatus();
         this.donation_created_at = donation.getCreatedAt();
-        this.donation_delivery_date = donation.getDonation_delivery_date();
-        this.donation_delivery_location_type = donation.getDonation_delivery_location_type();
-        this.donation_delivery_location = donation.getDonation_delivery_location();
+        this.donation_delivery_date = donation.getDonationDeliveryDate();
+        this.donation_delivery_location_type = donation.getDonationDeliveryLocationType();
+        this.donation_delivery_location = donation.getDonationDeliveryLocation();
     }
 
     public Donation toEntity(Member member) throws Exception {

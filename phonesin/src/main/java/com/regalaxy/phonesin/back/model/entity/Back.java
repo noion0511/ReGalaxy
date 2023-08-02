@@ -1,50 +1,63 @@
 package com.regalaxy.phonesin.back.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.regalaxy.phonesin.back.model.BackDto;
+import com.regalaxy.phonesin.global.BaseTimeEntity;
 import com.regalaxy.phonesin.rental.model.entity.Rental;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity
+import static javax.persistence.FetchType.LAZY;
+
+@Entity(name = "back")
 @Getter @Setter
-@NoArgsConstructor
-public class Back {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "back")
+public class Back extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long back_id;
+    private Long backId;
 
-//    @OneToOne(mappedBy = "back")
-//    private Rental rentals = new Rental();
-    private Long rental_id;
-
-    @Column(nullable = false)
-    private int back_status;
-
-    @Column(nullable = false)
-    private LocalDate back_delivery_date;
+    // rental과 일대일 매핑
+    @JsonIgnore
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name = "rental_id")
+    private Rental rental;
 
     @Column(nullable = false)
-    private LocalDateTime apply_date;
+    private int backStatus; // 반납 상태 : 신청(1), 승인(2), 수거완료(3), 상태확인(4)
+    private LocalDate backDeliveryDate;
 
-    private String back_delivery_location_type;
-    private String back_delivery_location;
-    private String back_zipcode;
-    private String review;
+    @CreatedDate
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt; // 신청서 작성 날짜(자동 생성)(BaseTimeEntity)
+    private String backDeliveryLocationType; // 배달, 서비스센터 제출, 직접 제출
+    private String backDeliveryLocation; // 1 배달의 경우 배달지 주소, 서비스센터 제출의 경우 서비스센터 주소
+    private String backZipcode; // 주소의 우편번호
+    private String review; // 사용 후기 또는 조기 반납 이유
 
-    public static Back toBackEntity(BackDto BackDto) {
-        Back back = new Back();
-        back.setBack_status(back.getBack_status());
-        back.setBack_delivery_date(back.getBack_delivery_date());
-        back.setApply_date(back.getApply_date());
-        back.setBack_delivery_location_type(back.getBack_delivery_location_type());
-        back.setBack_zipcode(back.getBack_zipcode());
-        back.setReview(back.getReview());
-        return back;
+    @Builder
+    public Back(Rental rental, int backStatus, LocalDate backDeliveryDate, String backDeliveryLocationType, String backDeliveryLocation, String backZipcode, String review) {
+        this.rental = rental;
+        this.backStatus = backStatus;
+        this.backDeliveryDate = backDeliveryDate;
+        this.backDeliveryLocationType = backDeliveryLocationType;
+        this.backDeliveryLocation = backDeliveryLocation;
+        this.backZipcode = backZipcode;
+        this.review = review;
+    }
+
+    public void update(BackDto backDto) {
+        this.backStatus = backDto.getBackStatus();
+        this.backDeliveryDate = backDto.getBackDeliveryDate();
+        this.backDeliveryLocationType = backDto.getBackDeliveryLocationType();
+        this.backDeliveryLocation = backDto.getBackDeliveryLocation();
+        this.backZipcode = backDto.getBackZipcode();
+        this.review = backDto.getReview();
     }
 }
