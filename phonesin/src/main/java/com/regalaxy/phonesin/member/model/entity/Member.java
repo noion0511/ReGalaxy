@@ -24,7 +24,6 @@ import static javax.persistence.CascadeType.ALL;
 
 @Entity
 @Getter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Member {
@@ -61,6 +60,19 @@ public class Member {
 
     @ApiModelProperty(value = "리프레시 토큰")
     private String refreshToken;
+
+    @Builder
+    public Member(Long memberId, String email, String memberName, String password, String phoneNumber, Boolean isCha, Boolean isBlackList, Boolean isDelete, Boolean isManager) {
+        this.memberId = memberId;
+        this.email = email;
+        this.memberName = memberName;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.isCha = isCha;
+        this.isBlackList = isBlackList;
+        this.isDelete = isDelete;
+        this.isManager = isManager;
+    }
 
     @ApiModelProperty(value = "기부 리스트")
     @OneToMany(mappedBy = "member", cascade = ALL, orphanRemoval = true)
