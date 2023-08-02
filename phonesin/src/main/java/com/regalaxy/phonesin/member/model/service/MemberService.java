@@ -47,18 +47,25 @@ public class MemberService {
         return ResponseEntity.ok(savedMember);
     }
 
-    public ResponseEntity<String> signIn(LoginRequestDto loginRequestDto) {
+    // 로그인 및 토큰 발급
+    public ResponseEntity<String> signIn(LoginRequestDto loginRequestDto, String refreshToken) {
         Optional<Member> memberOptional = memberRepository.findByEmail(loginRequestDto.getEmail());
+        memberOptional.get().updateRefreshToken(refreshToken);
+        memberRepository.save(memberOptional.get());
 
-        if (memberOptional.isPresent()) {
-            Member member = memberOptional.get();
-            if (passwordEncoder.matches(loginRequestDto.getPassword(), member.getPassword())) {
-                return ResponseEntity.ok("로그인에 성공하였습니다.");
+        if (!memberOptional.get().getIsDelete()) {
+            if (memberOptional.isPresent()) {
+                Member member = memberOptional.get();
+                if (passwordEncoder.matches(loginRequestDto.getPassword(), member.getPassword())) {
+                    return ResponseEntity.ok("로그인에 성공하였습니다.");
+                } else {
+                    return ResponseEntity.status(401).body("비밀번호가 일치하지 않습니다.");
+                }
             } else {
-                return ResponseEntity.status(401).body("비밀번호가 일치하지 않습니다.");
+                return ResponseEntity.status(404).body("사용자를 찾을 수 없습니다.");
             }
         } else {
-            return ResponseEntity.status(404).body("사용자를 찾을 수 없습니다.");
+            return ResponseEntity.status(404).body("탈퇴한 유저입니다.");
         }
     }
 
@@ -73,12 +80,21 @@ public class MemberService {
         return Member.toDto(memberRepository.findByEmail(email).get());
     }
 
-    public MemberDto updateBack(MemberDto memberDto) {
+    // 회원 정보 수정
+    public MemberDto updateMember(MemberDto memberDto) {
         // DB에 없는 ID를 검색하려고 하면 IllegalArgumentException
         Member member = memberRepository.findById(memberDto.getMemberId())
                 .orElseThrow(() -> new IllegalArgumentException(memberDto.getMemberId() + "인 ID는 존재하지 않습니다."));
         member.update(memberDto);
         memberRepository.save(member);
         return MemberDto.fromEntity(member);
+    }
+
+    // 회원 탈퇴
+    public void deleteMember(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException(memberId + "인 ID는 존재하지 않습니다."));
+        member.delete();
+        memberRepository.save(member);
     }
 }

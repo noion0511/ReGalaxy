@@ -46,6 +46,7 @@ public class MemberController {
             // 이메일과 비밀번호 인증
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, loginRequestDto.getPassword()));
 
+            // 권한 설정
             String authority;
             if (memberService.Info(loginRequestDto.getEmail()).getIsManager()) {
                 authority = "ROLE_ADMIN";
@@ -56,7 +57,7 @@ public class MemberController {
             // 토큰 발급
             String accessToken = jwtTokenProvider.createAccessToken(email, authority);
             String refreshToken = jwtTokenProvider.createRefreshToken(email);
-            memberService.saveRefreshToken(email, refreshToken);
+            memberService.signIn(loginRequestDto, refreshToken);
 
             Map<String, String> response = new HashMap<>();
             response.put("email", email);
@@ -95,8 +96,15 @@ public class MemberController {
     @PutMapping("/update")
     public ResponseEntity<Map<String, Object>> update(@RequestBody MemberDto memberDto) {
         Map<String, Object> resultMap = new HashMap<>();
-        MemberDto updatedMemberDto = memberService.updateBack(memberDto);
+        MemberDto updatedMemberDto = memberService.updateMember(memberDto);
         resultMap.put("updatedMember", updatedMemberDto);
-        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "회원 탈퇴")
+    @PutMapping("/delete")
+    public String delete(Long memberId) {
+        memberService.deleteMember(memberId);
+        return "성공적으로 삭제되었습니다.";
     }
 }

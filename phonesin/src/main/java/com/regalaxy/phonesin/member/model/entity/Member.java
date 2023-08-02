@@ -34,7 +34,6 @@ public class Member {
     @ApiModelProperty(value = "멤버 ID")
     private Long memberId;
 
-
     @Column(unique = true)
     @ApiModelProperty(value = "사용자 이메일")
     private String email;
@@ -102,5 +101,11 @@ public class Member {
         this.isManager = memberDto.getIsManager();
         this.isBlackList = memberDto.getIsBlackList();
         this.isDelete = memberDto.getIsDelete();
+    }
+
+    // isDelete, 리프레시 토큰 초기화
+    public void delete() {
+        this.isDelete = true;
+        this.refreshToken = null;
     }
 }
