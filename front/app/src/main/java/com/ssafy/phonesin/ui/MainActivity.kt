@@ -1,18 +1,13 @@
 package com.ssafy.phonesin.ui
 
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
-import android.util.Base64
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.ActivityMainBinding
-import com.ssafy.phonesin.ui.util.SSLConnect
-import java.security.MessageDigest
+import com.ssafy.phonesin.network.SSLConnect
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
