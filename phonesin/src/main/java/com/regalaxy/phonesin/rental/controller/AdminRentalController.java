@@ -7,10 +7,7 @@ import com.regalaxy.phonesin.rental.model.service.RentalService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -26,7 +23,7 @@ public class AdminRentalController {
 
     @ApiOperation(value = "관리자 기기 대여 신청서 리스트 조회")
     @GetMapping("/info/list")
-    public ModelAndView infoList(SearchDto searchDto) {
+    public ModelAndView infoList(@RequestBody SearchDto searchDto) {
         ModelAndView mav = new ModelAndView();
         List<RentalDto> list = rentalService.infoList(searchDto);
         System.out.print("Success");
