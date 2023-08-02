@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
+    <color name="gray">#FF808080</color>
     <color name="white">#FFFFFFFF</color>
 
     <color name="backgroundColor1">#FFD0E0F0</color>
@@ -18,4 +19,8 @@
     <color name="secondaryKeyColorDark1">#FF4A0E1C</color>
 
     <color name="borderColor">#1A000000</color>
+
+    <color name="moduleBackgroundGreen">#F3FCE1</color>
+    <color name="moduleBackgroundBlue">#EBF8FE</color>
+    <color name="moduleBackgroundRed">#FFF2EC</color>
 </resources>
