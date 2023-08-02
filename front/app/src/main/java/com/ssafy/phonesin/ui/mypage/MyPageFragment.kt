@@ -8,7 +8,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import com.ssafy.phonesin.R
+import com.ssafy.phonesin.databinding.DialogMyModifyInfoBinding
 import com.ssafy.phonesin.databinding.FragmentMyPageBinding
 
 private const val ARG_PARAM1 = "param1"
@@ -28,22 +31,80 @@ class MyPageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.my.setOnClickListener {
-            showModifyInfoDialog()
-        }
+        setOnClick()
     }
 
-    private fun showModifyInfoDialog() {
+    private fun setOnClick() {
+        binding.textViewModifyInfo.setOnClickListener {
+            showModifyInfoDialog()
+        }
+
+        binding.textViewWithdrawal.setOnClickListener {
+            showWithdrawalDialog()
+        }
+
+        binding.textViewLogout.setOnClickListener {
+            showLogoutDialog()
+        }
+
+    }
+
+    private fun showLogoutDialog() {
         val dialog = Dialog(requireContext())
 
-        dialog.setContentView(R.layout.dialog_my_modify_info)
-        dialog.window?.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog.setContentView(R.layout.dialog_my_logout)
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
 
         val cornerRadius = resources.getDimension(R.dimen.dialog_corner_radius)
         val shape = GradientDrawable()
         shape.cornerRadius = cornerRadius
         shape.setColor(Color.WHITE)
         dialog.window?.setBackgroundDrawable(shape)
+
+
+
+        dialog.show()
+    }
+
+    private fun showWithdrawalDialog() {
+        val dialog = Dialog(requireContext())
+
+        dialog.setContentView(R.layout.diolog_my_withdrawal)
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+
+        val cornerRadius = resources.getDimension(R.dimen.dialog_corner_radius)
+        val shape = GradientDrawable()
+        shape.cornerRadius = cornerRadius
+        shape.setColor(Color.WHITE)
+        dialog.window?.setBackgroundDrawable(shape)
+
+
+
+        dialog.show()
+    }
+
+    private fun showModifyInfoDialog() {
+        val dialog = Dialog(requireContext())
+
+        dialog.setContentView(R.layout.dialog_my_modify_info)
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+
+        val cornerRadius = resources.getDimension(R.dimen.dialog_corner_radius)
+        val shape = GradientDrawable()
+        shape.cornerRadius = cornerRadius
+        shape.setColor(Color.WHITE)
+        dialog.window?.setBackgroundDrawable(shape)
+
+
 
         dialog.show()
     }
