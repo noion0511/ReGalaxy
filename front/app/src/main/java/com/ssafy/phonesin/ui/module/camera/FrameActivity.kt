@@ -60,9 +60,9 @@ class FrameActivity : AppCompatActivity() {
                     Log.d("tag", "사진 저장 실패 ${imageFile.toUri()}")
                 } finally {
                     frameBitmap.recycle()
-    //                    val intent = Intent(this, CameraActivity::class.java)
-    //                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-    //                    startActivity(intent)
+
+
+
                 }
             }
         }
