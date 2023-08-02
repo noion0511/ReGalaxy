@@ -23,7 +23,6 @@ public class RentalDetailDto {
     private int rentalStatus;//rental
     private String rentalDeliveryLocation;//rental
     private int fund;//rental
-    private String modelName;//model
     private Long phoneId;//phone
     private Long donationId;//phone
     private int usingDate;
