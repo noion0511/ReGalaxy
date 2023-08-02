@@ -14,7 +14,7 @@ public class SearchDto {
     private int isCha;//1: 전체, 2:블랙인 사람, 3:블랙이 아닌 사람
 
     private int isRental;
-    private String model_name;
+    private String modelName;
     private int isY2K;
     private int isClimateHumidity;
     private int isHomecam;

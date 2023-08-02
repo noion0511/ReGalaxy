@@ -23,8 +23,7 @@ public class PhoneService {
     private ModelRepository modelRepository;
 
     public List<PhoneDto> list(SearchDto searchDto){
-        phoneRepository.search(searchDto);
-        return null;
+        return phoneRepository.search(searchDto);
     }
 
     public PhoneDto info(Long phone_id){
@@ -37,13 +36,26 @@ public class PhoneService {
         return phoneDto;
     }
 
-    public void save(PhoneApplyDto phoneApplyDto){
+    public void apply(PhoneApplyDto phoneApplyDto){
         Phone phone = new Phone();
-        phone.setDonation(donationRepository.getReferenceById(phoneApplyDto.getDonation_id()));
-        phone.setModel(modelRepository.getReferenceById(phoneApplyDto.getModel_id()));
+        phone.setDonation(donationRepository.getReferenceById(phoneApplyDto.getDonationId()));
+        phone.setModel(modelRepository.getReferenceById(phoneApplyDto.getModelId()));
         phone.setY2K(phoneApplyDto.isY2K());
         phone.setHomecam(phoneApplyDto.isHomecam());
         phone.setClimateHumidity(phoneApplyDto.isClimateHumidity());
+        phone.setSerialNumber(phoneApplyDto.getSerialNumber());
+        phoneRepository.save(phone);
+    }
+
+    public void update(PhoneApplyDto phoneApplyDto){
+        Phone phone = new Phone();
+        phone.setDonation(donationRepository.getReferenceById(phoneApplyDto.getDonationId()));
+        phone.setModel(modelRepository.getReferenceById(phoneApplyDto.getModelId()));
+        phone.setY2K(phoneApplyDto.isY2K());
+        phone.setHomecam(phoneApplyDto.isHomecam());
+        phone.setClimateHumidity(phoneApplyDto.isClimateHumidity());
+        phone.setSerialNumber(phoneApplyDto.getSerialNumber());
+        phone.setPhoneId(phoneApplyDto.getPhoneId());
         phoneRepository.save(phone);
     }
 

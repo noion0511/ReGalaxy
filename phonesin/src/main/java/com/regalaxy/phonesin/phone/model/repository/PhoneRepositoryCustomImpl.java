@@ -96,7 +96,6 @@ public class PhoneRepositoryCustomImpl implements PhoneRepositoryCustom{
             n++;
         }
 
-        return em.createQuery(s, PhoneDto.class)
-                .getResultList();
+        return em.createQuery(s, PhoneDto.class).getResultList();
     }
 }

@@ -5,6 +5,8 @@ import com.regalaxy.phonesin.phone.model.PhoneApplyDto;
 import com.regalaxy.phonesin.phone.model.PhoneDto;
 import com.regalaxy.phonesin.phone.model.service.PhoneService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -16,14 +18,17 @@ import java.util.List;
 public class PhoneController {
     @Autowired
     private PhoneService phoneService;
+
     @GetMapping("/list")
     public ModelAndView list(SearchDto searchDto){
         ModelAndView mav = new ModelAndView();
         List<PhoneDto> list = phoneService.list(searchDto);
         mav.addObject("list", list);
         mav.setViewName("");//어디로 이동할지 ex) rental/list
-        System.out.println("Success");
-        System.out.println(list.toString());
+        if(list != null) {
+            System.out.println("Success");
+            System.out.println(list.toString());
+        }
         return null;
     }
 
@@ -34,13 +39,15 @@ public class PhoneController {
         mav.addObject("info", phoneDto);
         mav.setViewName("");//어디로 이동할지 ex) rental/list
         System.out.println("Success");
+        System.out.println(phoneDto.getPhoneId());
         return null;
     }
 
     @PostMapping("/apply")
     public ModelAndView apply(PhoneApplyDto phoneApplyDto){
         ModelAndView mav = new ModelAndView();
-        phoneService.save(phoneApplyDto);
+        System.out.println("???? : " + phoneApplyDto.isClimateHumidity());
+        phoneService.apply(phoneApplyDto);
         mav.setViewName("");//어디로 이동할지 ex) rental/list
         System.out.println("Success");
         return null;
@@ -49,7 +56,7 @@ public class PhoneController {
     @PutMapping("/update")
     public ModelAndView update(PhoneApplyDto phoneApplyDto){
         ModelAndView mav = new ModelAndView();
-        phoneService.save(phoneApplyDto);
+        phoneService.update(phoneApplyDto);
         mav.setViewName("");//어디로 이동할지 ex) rental/list
         System.out.println("Success");
         return null;

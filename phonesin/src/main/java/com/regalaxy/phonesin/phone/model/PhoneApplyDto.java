@@ -8,8 +8,10 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PhoneApplyDto {
-    private Long donation_id;
-    private Long model_id;
+    private Long phoneId;
+    private Long donationId;
+    private Long modelId;
+    private String serialNumber;
     private boolean isY2K;
     private boolean isClimateHumidity;
     private boolean isHomecam;

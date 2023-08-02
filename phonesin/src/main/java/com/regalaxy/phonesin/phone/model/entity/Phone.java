@@ -22,6 +22,7 @@ public class Phone {
     @OneToOne
     @JoinColumn(name="donation_id")
     private Donation donation;
+    private String serialNumber;
     private boolean isY2K;
     private boolean isClimateHumidity;
     private boolean isHomecam;
