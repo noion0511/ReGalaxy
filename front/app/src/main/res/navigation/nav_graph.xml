@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+ <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
@@ -34,7 +34,17 @@
         android:id="@+id/module"
         android:name="com.ssafy.phonesin.ui.module.ModuleFragment"
         android:label="fragment_module"
-        tools:layout="@layout/fragment_module" />
+        tools:layout="@layout/fragment_module" >
+        <action
+            android:id="@+id/action_module_to_camListFragment"
+            app:destination="@id/camListFragment" />
+        <action
+            android:id="@+id/action_module_to_hygrometerFragment"
+            app:destination="@id/hygrometerFragment" />
+        <action
+            android:id="@+id/action_module_to_cameraFragment"
+            app:destination="@id/cameraFragment" />
+    </fragment>
     <fragment
         android:id="@+id/doateFinishFragment"
         android:name="com.ssafy.phonesin.ui.mobile.donatemobile.DonateFinishFragment"
@@ -179,4 +189,39 @@
             android:id="@+id/action_returnVisitDeliveryFragment_to_returnFinishFragment"
             app:destination="@id/returnFinishFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/camListFragment"
+        android:name="com.ssafy.phonesin.ui.module.homecam.CamListFragment"
+        android:label="CamListFragment"
+        tools:layout="@layout/fragment_cam_list">
+        <action
+            android:id="@+id/action_camListFragment_to_homeCamFragment"
+            app:destination="@id/homeCamFragment"/>
+        <action
+            android:id="@+id/action_camListFragment_to_module"
+            app:destination="@id/module"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/module" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeCamFragment"
+        android:name="com.ssafy.phonesin.ui.module.homecam.HomeCamFragment"
+        android:label="HomeCamFragment"
+        tools:layout="@layout/fragment_home_cam">
+        <action
+            android:id="@+id/action_homeCamFragment_to_camListFragment"
+            app:destination="@id/camListFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/camListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/hygrometerFragment"
+        android:name="com.ssafy.phonesin.ui.module.hygrometer.HygrometerFragment"
+        android:label="HygrometerFragment"
+        tools:layout="@layout/fragment_hygrometer">
+    </fragment>
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="com.ssafy.phonesin.ui.module.camera.CameraFragment"
+        android:label="CameraFragment" />
 </navigation>
