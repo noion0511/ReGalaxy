@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.hardware.Camera
-import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Environment
 import android.util.Log
@@ -12,18 +11,54 @@ import android.view.LayoutInflater
 import android.view.SurfaceHolder
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.net.toUri
-import androidx.fragment.app.Fragment
+import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentCameraBinding
+import com.ssafy.phonesin.ui.util.base.BaseFragment
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CameraFragment : Fragment(), SurfaceHolder.Callback {
-    private var _binding: FragmentCameraBinding? = null
-    private val binding get() = _binding!!
+class CameraFragment : BaseFragment<FragmentCameraBinding>(
+    R.layout.fragment_camera
+), SurfaceHolder.Callback {
+    override fun onCreateBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentCameraBinding {
+        return FragmentCameraBinding.inflate(inflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
+        }
+    }
+
+    override fun init() {
+        if (checkCameraHardware(requireContext())) {
+            initCamera()
+        } else {
+            requireActivity().finish()
+        }
+
+        surfaceHolder = bindingNonNull.surfaceViewCamera.holder
+        surfaceHolder.addCallback(this)
+
+        bindingNonNull.textViewCount.text = "1 / 4"
+
+        bindingNonNull.buttonTakePicture.setOnClickListener {
+            if (isSafeToTakePicture) {
+                bindingNonNull.textViewCount.text = "1 / 4"
+                startCountdownAndTakePicture()
+            }
+        }
+
+        bindingNonNull.buttonChangeView.setOnClickListener {
+            changeCamera()
+        }
+
+        bindingNonNull.buttonTurnLight.setOnClickListener {
+            toggleFlash()
+        }
+    }
 
     private lateinit var camera: Camera
     private lateinit var surfaceHolder: SurfaceHolder
@@ -48,50 +83,13 @@ class CameraFragment : Fragment(), SurfaceHolder.Callback {
             restartPreview()
         } else {
             photoCount = 0
-            binding.buttonTakePicture.isEnabled = true
+            bindingNonNull.buttonTakePicture.isEnabled = true
             val intent = Intent(requireContext(), CameraViewerActivity::class.java)
             intent.putStringArrayListExtra("photo_paths", photoPaths)
             intent.putStringArrayListExtra("cameraFacing", cameraFacing)
             photoPaths = ArrayList<String>()
             cameraFacing = ArrayList<String>()
             startActivity(intent)
-        }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentCameraBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        if (checkCameraHardware(requireContext())) {
-            initCamera()
-        } else {
-            requireActivity().finish()
-        }
-
-        surfaceHolder = binding.surfaceViewCamera.holder
-        surfaceHolder.addCallback(this)
-
-        binding.textViewCount.text = "1 / 4"
-
-        binding.buttonTakePicture.setOnClickListener {
-            if (isSafeToTakePicture) {
-                binding.textViewCount.text = "1 / 4"
-                startCountdownAndTakePicture()
-            }
-        }
-
-        binding.buttonChangeView.setOnClickListener {
-            changeCamera()
-        }
-
-        binding.buttonTurnLight.setOnClickListener {
-            toggleFlash()
         }
     }
 
@@ -125,22 +123,18 @@ class CameraFragment : Fragment(), SurfaceHolder.Callback {
         }
     }
 
-    private fun showToast(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-    }
-
     private fun startCountdownAndTakePicture() {
-        binding.buttonTakePicture.visibility = View.INVISIBLE
+        bindingNonNull.buttonTakePicture.visibility = View.INVISIBLE
 
         object : CountDownTimer(15000, 3000) { // 총 12초 동안 3초마다
             override fun onTick(millisUntilFinished: Long) {
                 val secondsRemaining = millisUntilFinished / 1000
-                binding.textViewCount.text = "${(5 - (secondsRemaining) / 3)} / 4"
+                bindingNonNull.textViewCount.text = "${(5 - (secondsRemaining) / 3)} / 4"
                 takePicture()
             }
 
             override fun onFinish() {
-                binding.buttonTakePicture.visibility = View.VISIBLE
+                bindingNonNull.buttonTakePicture.visibility = View.VISIBLE
             }
         }.start()
     }
@@ -170,7 +164,7 @@ class CameraFragment : Fragment(), SurfaceHolder.Callback {
         if (checkCameraHardware(requireContext())) {
             initCamera()
 
-            surfaceHolder = binding.surfaceViewCamera.holder
+            surfaceHolder = bindingNonNull.surfaceViewCamera.holder
             surfaceHolder.addCallback(this)
 
             try {
@@ -200,7 +194,7 @@ class CameraFragment : Fragment(), SurfaceHolder.Callback {
     private fun restartPreview() {
         camera.startPreview()
         isSafeToTakePicture = true
-        binding.buttonTakePicture.isEnabled = true
+        bindingNonNull.buttonTakePicture.isEnabled = true
     }
 
     private fun savePictureToPublicDir(data: ByteArray): String {
@@ -244,11 +238,6 @@ class CameraFragment : Fragment(), SurfaceHolder.Callback {
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {
         camera.release()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     companion object {
