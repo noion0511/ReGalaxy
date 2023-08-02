@@ -20,7 +20,7 @@ public class PhoneController {
     private PhoneService phoneService;
 
     @GetMapping("/list")
-    public ModelAndView list(SearchDto searchDto){
+    public ModelAndView list(@RequestBody SearchDto searchDto){
         ModelAndView mav = new ModelAndView();
         List<PhoneDto> list = phoneService.list(searchDto);
         mav.addObject("list", list);
@@ -44,7 +44,7 @@ public class PhoneController {
     }
 
     @PostMapping("/apply")
-    public ModelAndView apply(PhoneApplyDto phoneApplyDto){
+    public ModelAndView apply(@RequestBody PhoneApplyDto phoneApplyDto){
         ModelAndView mav = new ModelAndView();
         System.out.println("???? : " + phoneApplyDto.isClimateHumidity());
         phoneService.apply(phoneApplyDto);
@@ -54,7 +54,7 @@ public class PhoneController {
     }
 
     @PutMapping("/update")
-    public ModelAndView update(PhoneApplyDto phoneApplyDto){
+    public ModelAndView update(@RequestBody PhoneApplyDto phoneApplyDto){
         ModelAndView mav = new ModelAndView();
         phoneService.update(phoneApplyDto);
         mav.setViewName("");//어디로 이동할지 ex) rental/list
