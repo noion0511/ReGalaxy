@@ -23,26 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         val ssl = SSLConnect()
         ssl.postHttps("https://map.kakao.com/",1000,1000)
-//        try {
-//            val information =
-//                packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES)
-//            val signatures = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-//                information.signingInfo.apkContentsSigners
-//            } else {
-//                TODO("VERSION.SDK_INT < P")
-//            }
-//            val md = MessageDigest.getInstance("SHA")
-//            for (signature in signatures) {
-//                val md: MessageDigest
-//                md = MessageDigest.getInstance("SHA")
-//                md.update(signature.toByteArray())
-//                var hashcode = String(Base64.encode(md.digest(), 0))
-//                Log.d("hashcode", "" + hashcode)
-//            }
-//        } catch (e: Exception) {
-//            Log.d("hashcode", "에러::" + e.toString())
-//
-//        }
+
         setNav()
     }
 
