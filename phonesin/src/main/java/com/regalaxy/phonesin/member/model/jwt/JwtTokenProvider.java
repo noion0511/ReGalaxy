@@ -27,10 +27,11 @@ public class JwtTokenProvider {
     private String secretKey = "s1s2a3f4y@"; // 비밀키
     private long validityInMilliseconds = 3600000; // 1 hour
 
-    public String createAccessToken(String email, String authority) {
+    public String createAccessToken(String email, String authority, Long memberId) {
 
         // email과 권한 정보 claims에 담기
         Claims claims = Jwts.claims().setSubject(email);
+        claims.put("memberId", memberId);
         claims.put("authorities", authority);
 
         // 만료 시간 계산
@@ -56,6 +57,10 @@ public class JwtTokenProvider {
     // 리프레시 토큰의 claims에는 이메일만 있음
     public String getEmail(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+    }
+
+    public Long getMemberId(String token) {
+        return Long.valueOf(Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("memberId").toString());
     }
 
     public boolean validateToken(String token) {
@@ -98,8 +103,10 @@ public class JwtTokenProvider {
 
     // 리프레시 토큰을 가지고 액세스 토큰 재발급
     public String refreshAccessToken(String refreshToken) {
+        String email = getEmail(refreshToken);
+
         // 발급된 리프레시 토큰에 담겨있는 이메일로 DB에 저장된 리프레시 토큰.
-        String storedRefreshToken = memberRepository.findByEmail(getEmail(refreshToken)).get().getRefreshToken();
+        String storedRefreshToken = memberRepository.findByEmail(email).get().getRefreshToken();
 
         // 권한 정보 (액세스 토큰을 발급받기 위함)
         String authority = memberRepository.findByEmail(getEmail(refreshToken)).get().getIsManager() ? "ROLE_ADMIN":"ROLE_USER";
@@ -112,9 +119,9 @@ public class JwtTokenProvider {
             throw new JwtAuthenticationException("리프레시 토큰이 만료되었습니다.");
         }
 
-        String email = getEmail(refreshToken);
+        Long memberId = memberRepository.findByEmail(email).get().getMemberId();
 
-        return createAccessToken(email, authority);
+        return createAccessToken(email, authority, memberId);
     }
 
     public boolean isTokenExpired(String token) {

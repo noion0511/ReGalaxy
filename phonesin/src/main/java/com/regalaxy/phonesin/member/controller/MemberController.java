@@ -33,9 +33,9 @@ public class MemberController {
 
     @ApiOperation(value = "회원가입")
     @PostMapping("/signup")
-    public ResponseEntity<Member> signUp(@RequestBody MemberDto memberDto) {
-        ResponseEntity<Member> savedMember = memberService.signUp(memberDto);
-        return new ResponseEntity(savedMember, HttpStatus.OK);
+    public ResponseEntity<String> signUp(@RequestBody MemberDto memberDto) {
+        memberService.signUp(memberDto);
+        return ResponseEntity.ok("Success");
     }
 
     @ApiOperation(value = "로그인")
@@ -55,7 +55,8 @@ public class MemberController {
             };
 
             // 토큰 발급
-            String accessToken = jwtTokenProvider.createAccessToken(email, authority);
+            Long memberId = memberService.Info(loginRequestDto.getEmail()).getMemberId();
+            String accessToken = jwtTokenProvider.createAccessToken(email, authority, memberId);
             String refreshToken = jwtTokenProvider.createRefreshToken(email);
             memberService.signIn(loginRequestDto, refreshToken);
 
