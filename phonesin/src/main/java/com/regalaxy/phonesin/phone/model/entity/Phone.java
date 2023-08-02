@@ -13,6 +13,7 @@ import javax.persistence.*;
 @Table(name="phone")
 public class Phone {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long phoneId;
     private Long rentalId;
     @ManyToOne

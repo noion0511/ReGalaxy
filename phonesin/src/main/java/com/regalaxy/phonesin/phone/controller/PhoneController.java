@@ -23,6 +23,7 @@ public class PhoneController {
         mav.addObject("list", list);
         mav.setViewName("");//어디로 이동할지 ex) rental/list
         System.out.println("Success");
+        System.out.println(list.toString());
         return null;
     }
 
