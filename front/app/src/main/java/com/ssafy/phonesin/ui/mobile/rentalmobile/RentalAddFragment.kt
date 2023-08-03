@@ -54,6 +54,8 @@ class RentalAddFragment : Fragment() {
                 R.id.action_rentalAddFragment_to_rentalMobileFragment2,
             )
         }
+
+
     }
 
     companion object {

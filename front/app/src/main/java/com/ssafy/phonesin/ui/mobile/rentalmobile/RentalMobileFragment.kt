@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentRentalMoblieBinding
@@ -26,6 +27,7 @@ class RentalMobileFragment :
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    val rentalMobileViewModel: RentalViewModel by activityViewModels()
 
     override fun onCreateBinding(
         inflater: LayoutInflater,
@@ -39,6 +41,40 @@ class RentalMobileFragment :
 
     override fun init() {
         rentalMobileUi()
+        setRentalMobileAdapter()
+    }
+
+    private fun setRentalMobileAdapter() {
+        val rentalMobileAdapter = RentalMobileAdapter()
+        rentalMobileAdapter.deleteRentalMobileListener =
+            object : RentalMobileAdapter.DeleteRentalMobileListener {
+                override fun onClick(id: Int) {
+                    rentalMobileViewModel.deleteRental(id)
+                }
+            }
+        rentalMobileAdapter.plusRentalMobileListener =
+            object : RentalMobileAdapter.PlusRentalMobileListener {
+                override fun onClick(id: Int) {
+                    rentalMobileViewModel.plusRental(id)
+                }
+            }
+        rentalMobileAdapter.minusRentalMobileListener =
+            object : RentalMobileAdapter.MinusRentalMobileListener {
+                override fun onClick(id: Int) {
+                    rentalMobileViewModel.minusRental(id)
+                }
+            }
+        rentalMobileAdapter.updateRentalMobileListener =
+            object : RentalMobileAdapter.UpdateRentalMobileListener {
+                override fun onClick(musicId: Int) {
+
+                }
+            }
+        bindingNonNull.rentalListRv.adapter = rentalMobileAdapter
+        rentalMobileViewModel.rentalList.observe(viewLifecycleOwner) {
+            rentalMobileAdapter.submitList(it)
+        }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,13 +87,17 @@ class RentalMobileFragment :
         mainActivity.hideBottomNavi(true)
     }
 
-    private fun rentalMobileUi() {
-        bindingNonNull.mobileAdd.setOnClickListener {
+    private fun rentalMobileUi() = with(bindingNonNull) {
+
+        rentalPossibleNum.text = "신청 가능 갯수:"
+        rentalNum.text = "대여 갯수:${rentalMobileViewModel.rentalList.value?.size}"
+
+        mobileAdd.setOnClickListener {
             findNavController().navigate(
                 R.id.action_rentalMobileFragment_to_rentalAddFragment,
             )
         }
-        bindingNonNull.postRental.setOnClickListener {
+        postRental.setOnClickListener {
             findNavController().navigate(
                 R.id.action_rentalMobileFragment_to_rentalPayFragment,
             )
