@@ -5,6 +5,8 @@ import com.regalaxy.phonesin.back.model.entity.Back;
 import com.regalaxy.phonesin.member.model.entity.Member;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Builder
@@ -20,6 +22,7 @@ public class MemberDto {
     private Boolean isBlackList;
     private Boolean isDelete;
     private Boolean isManager;
+    private LocalDateTime createdAt;
 
     public static MemberDto fromEntity(Member member) {
         MemberDto memberDto = new MemberDto();
@@ -31,6 +34,7 @@ public class MemberDto {
         memberDto.setIsBlackList(member.getIsBlackList());
         memberDto.setIsDelete(member.getIsDelete());
         memberDto.setIsManager(member.getIsManager());
+        memberDto.setCreatedAt(member.getCreatedAt());
         return memberDto;
     }
 }

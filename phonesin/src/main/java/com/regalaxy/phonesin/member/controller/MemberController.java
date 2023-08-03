@@ -1,9 +1,8 @@
 package com.regalaxy.phonesin.member.controller;
 
-import com.regalaxy.phonesin.back.model.BackDto;
+import com.regalaxy.phonesin.member.model.MemberUserDto;
 import com.regalaxy.phonesin.member.model.LoginRequestDto;
 import com.regalaxy.phonesin.member.model.MemberDto;
-import com.regalaxy.phonesin.member.model.entity.Member;
 import com.regalaxy.phonesin.member.model.jwt.JwtTokenProvider;
 import com.regalaxy.phonesin.member.model.service.MemberService;
 import io.swagger.annotations.Api;
@@ -17,7 +16,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,14 +46,15 @@ public class MemberController {
 
             // 권한 설정
             String authority;
-            if (memberService.Info(loginRequestDto.getEmail()).getIsManager()) {
+            System.out.println(memberService.AdminInfo(loginRequestDto.getEmail()).getIsManager());
+            if (memberService.AdminInfo(loginRequestDto.getEmail()).getIsManager()) {
                 authority = "ROLE_ADMIN";
             } else {
                 authority = "ROLE_USER";
             };
 
             // 토큰 발급
-            Long memberId = memberService.Info(loginRequestDto.getEmail()).getMemberId();
+            Long memberId = memberService.AdminInfo(loginRequestDto.getEmail()).getMemberId();
             String accessToken = jwtTokenProvider.createAccessToken(email, authority, memberId);
             String refreshToken = jwtTokenProvider.createRefreshToken(email);
             memberService.signIn(loginRequestDto, refreshToken);
@@ -86,26 +85,26 @@ public class MemberController {
     }
 
     @ApiOperation(value = "회원 정보 상세 조회")
-    @PostMapping("/info")
-    public ResponseEntity<Map<String, Object>> memberInfo(@RequestBody MemberDto memberDto) {
+    @PostMapping("/info/{memberId}")
+    public ResponseEntity<Map<String, Object>> memberInfo(@PathVariable("memberId") Long memberId) {
         Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("member", memberService.Info(memberDto.getEmail()));
+        resultMap.put("member", memberService.UserInfo(memberId));
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "회원 정보 수정")
+    @ApiOperation(value = "사용자가 회원 정보 수정")
     @PutMapping("/update")
-    public ResponseEntity<Map<String, Object>> update(@RequestBody MemberDto memberDto) {
+    public ResponseEntity<String> update(@RequestBody MemberUserDto memberUserDto) {
         Map<String, Object> resultMap = new HashMap<>();
-        MemberDto updatedMemberDto = memberService.updateMember(memberDto);
+        MemberDto updatedMemberDto = memberService.updateMemberByUser(memberUserDto);
         resultMap.put("updatedMember", updatedMemberDto);
-        return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        return new ResponseEntity<String>("Success", HttpStatus.OK);
     }
 
     @ApiOperation(value = "회원 탈퇴")
-    @PutMapping("/delete")
-    public String delete(Long memberId) {
+    @PutMapping("/delete/{memberId}")
+    public ResponseEntity<String> delete(@PathVariable("memberId") Long memberId) {
         memberService.deleteMember(memberId);
-        return "성공적으로 삭제되었습니다.";
+        return new ResponseEntity<String>("Success", HttpStatus.OK);
     }
 }

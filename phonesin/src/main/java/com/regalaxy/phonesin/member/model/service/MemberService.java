@@ -1,7 +1,7 @@
 package com.regalaxy.phonesin.member.model.service;
 
-import com.regalaxy.phonesin.back.model.BackDto;
-import com.regalaxy.phonesin.back.model.entity.Back;
+import com.regalaxy.phonesin.member.model.MemberAdminDto;
+import com.regalaxy.phonesin.member.model.MemberUserDto;
 import com.regalaxy.phonesin.member.model.LoginRequestDto;
 import com.regalaxy.phonesin.member.model.MemberDto;
 import com.regalaxy.phonesin.member.model.entity.Member;
@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -41,6 +40,7 @@ public class MemberService {
                 .isBlackList(memberDto.getIsBlackList())
                 .isDelete(memberDto.getIsDelete())
                 .isManager(memberDto.getIsManager())
+                .createdAt(memberDto.getCreatedAt())
                 .build();
 
         Member savedMember = memberRepository.save(member);
@@ -76,16 +76,29 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    public MemberDto Info(String email) {
-        return Member.toDto(memberRepository.findByEmail(email).get());
+    public MemberUserDto UserInfo(Long memberId) {
+        return Member.toUserDto(memberRepository.findById(memberId).get());
+    }
+
+    public MemberAdminDto AdminInfo(String email) {
+        return Member.toAdminDto(memberRepository.findByEmail(email).get());
     }
 
     // 회원 정보 수정
-    public MemberDto updateMember(MemberDto memberDto) {
+    public MemberDto updateMemberByAdmin(MemberAdminDto memberAdminDto) {
         // DB에 없는 ID를 검색하려고 하면 IllegalArgumentException
-        Member member = memberRepository.findById(memberDto.getMemberId())
-                .orElseThrow(() -> new IllegalArgumentException(memberDto.getMemberId() + "인 ID는 존재하지 않습니다."));
-        member.update(memberDto);
+        Member member = memberRepository.findById(memberAdminDto.getMemberId())
+                .orElseThrow(() -> new IllegalArgumentException(memberAdminDto.getMemberId() + "인 ID는 존재하지 않습니다."));
+        member.updateByAdmin(memberAdminDto);
+        memberRepository.save(member);
+        return MemberDto.fromEntity(member);
+    }
+
+    public MemberDto updateMemberByUser(MemberUserDto memberUserDto) {
+        // DB에 없는 ID를 검색하려고 하면 IllegalArgumentException
+        Member member = memberRepository.findByEmail(memberUserDto.getEmail())
+                .orElseThrow(() -> new IllegalArgumentException(memberUserDto.getEmail() + "은 존재하지 않습니다."));
+        member.updateByUser(memberUserDto);
         memberRepository.save(member);
         return MemberDto.fromEntity(member);
     }
@@ -96,5 +109,9 @@ public class MemberService {
                 .orElseThrow(() -> new IllegalArgumentException(memberId + "인 ID는 존재하지 않습니다."));
         member.delete();
         memberRepository.save(member);
+    }
+
+    public Object UserInfoByAdmin(Long memberId) {
+        return Member.toAdminDto(memberRepository.findById(memberId).get());
     }
 }

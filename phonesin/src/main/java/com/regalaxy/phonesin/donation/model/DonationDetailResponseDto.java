@@ -2,7 +2,7 @@ package com.regalaxy.phonesin.donation.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.regalaxy.phonesin.donation.model.entity.Donation;
-import com.regalaxy.phonesin.member.MemberResponseDto;
+import com.regalaxy.phonesin.member.model.MemberAdminDto;
 import com.regalaxy.phonesin.member.model.entity.Member;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -20,7 +20,7 @@ public class DonationDetailResponseDto {
     private long donationId;
 
     @ApiModelProperty(value = "기증 멤버")
-    private MemberResponseDto memberResponseDto;
+    private MemberAdminDto memberResponseDto;
 
     @ApiModelProperty(value = "기증 상태")
     private int donationStatus;
@@ -41,7 +41,7 @@ public class DonationDetailResponseDto {
     @Builder
     public DonationDetailResponseDto(Donation donation, Member member){
         this.donationId = donation.getDonationId();
-        this.memberResponseDto = MemberResponseDto.builder().member(member).build();
+        this.memberResponseDto = MemberAdminDto.builder().member(member).build();
         this.donationStatus = donation.getDonationStatus();
         this.donationCreatedAt = donation.getCreatedAt();
         this.donationDeliveryDate = donation.getDonationDeliveryDate();
