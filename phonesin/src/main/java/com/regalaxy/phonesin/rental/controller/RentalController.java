@@ -55,7 +55,7 @@ public class RentalController {
         if(result) {
             return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
         }else{
-            return new ResponseEntity<String>(FAIL, HttpStatus.OK);
+            return new ResponseEntity<String>("이미 연장된 대여신청입니다.", HttpStatus.OK);
         }
     }
 }
