@@ -27,4 +27,6 @@ public class Ytwok extends BaseTimeEntity {
     private String originalFile;
 
     private String saveFile;
+
+    private String contentType;
 }
