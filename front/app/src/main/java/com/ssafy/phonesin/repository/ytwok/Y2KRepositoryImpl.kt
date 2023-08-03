@@ -10,7 +10,7 @@ import javax.inject.Inject
 class Y2KRepositoryImpl @Inject constructor(
     private val apiService: ApiService
 ) : Y2KRepository {
-    override suspend fun uploadImage(files: MutableList<MultipartBody.Part>?): NetworkResponse<PhotoResponse, ErrorResponse> {
-        return apiService.uploadImage(files)
+    override suspend fun uploadImage(file: MultipartBody.Part): NetworkResponse<PhotoResponse, ErrorResponse> {
+        return apiService.uploadImage(file)
     }
 }
