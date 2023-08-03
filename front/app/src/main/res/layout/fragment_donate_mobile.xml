@@ -1,150 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.mobile.donatemobile.DonateMobileFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ScrollView
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/buttonDonateNext"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        tools:context=".ui.mobile.donatemobile.DonateMobileFragment">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="0dp">
-
-            <TextView
-                android:id="@+id/textViewDonateMessage"
-                style="@style/textview_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="@string/donate_request"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/buttonDonateNext"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutDonateSelectMobile"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/border_mobile_add_layout"
-                android:padding="20dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textViewDonateMessage">
+                android:layout_height="0dp">
 
                 <TextView
-                    android:id="@+id/textViewChooseDonateMobileMessage"
-                    style="@style/textview_title_secondary"
+                    android:id="@+id/textViewDonateMessage"
+                    style="@style/textview_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/donate_mobile_select"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/donate_request"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <com.skydoves.powerspinner.PowerSpinnerView
-                    android:id="@+id/spinnerViewDonate"
+                <!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+                <!--                android:id="@+id/layoutDonateSelectMobile"-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:layout_margin="10dp"-->
+                <!--                android:layout_marginTop="20dp"-->
+                <!--                android:background="@drawable/border_mobile_add_layout"-->
+                <!--                android:padding="20dp"-->
+                <!--                app:layout_constraintStart_toStartOf="parent"-->
+                <!--                app:layout_constraintTop_toBottomOf="@id/textViewDonateMessage">-->
+
+                <!--                <TextView-->
+                <!--                    android:id="@+id/textViewChooseDonateMobileMessage"-->
+                <!--                    style="@style/textview_title_secondary"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:text="@string/donate_mobile_select"-->
+                <!--                    app:layout_constraintStart_toStartOf="parent"-->
+                <!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+                <!--                <com.skydoves.powerspinner.PowerSpinnerView-->
+                <!--                    android:id="@+id/spinnerViewDonate"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="5dp"-->
+                <!--                    android:background="@drawable/border_spinner_layout"-->
+                <!--                    android:hint="갤럭시 s4"-->
+                <!--                    android:padding="10dp"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@id/textViewChooseDonateMobileMessage"-->
+                <!--                    app:spinner_arrow_tint="@color/black" />-->
+
+                <!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layoutDonateChooseWay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/border_spinner_layout"
-                    android:hint="갤럭시 s4"
-                    android:padding="10dp"
-                    app:layout_constraintTop_toBottomOf="@id/textViewChooseDonateMobileMessage"
-                    app:spinner_arrow_tint="@color/black" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutDonateChooseWay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/border_mobile_add_layout"
-                android:padding="20dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layoutDonateSelectMobile">
-
-                <TextView
-                    android:id="@+id/textViewDonateChooseWayMessage"
-                    style="@style/textview_title_secondary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/choose_way_select"
+                    android:layout_margin="10dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/border_mobile_add_layout"
+                    android:padding="20dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@id/textViewDonateMessage">
 
-                <RadioGroup
+                    <TextView
+                        android:id="@+id/textViewDonateChooseWayMessage"
+                        style="@style/textview_title_secondary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/choose_way_select"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/textViewDonateChooseWayMessage">
+
+                        <RadioButton
+                            android:id="@+id/radioButtonDonateVisitDelivery"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            style="@style/textview_content_black"
+                            android:text="@string/visit_delivery_select" />
+
+                        <RadioButton
+                            android:id="@+id/radioButtonDonateAgent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/textview_content_black"
+                            android:text="@string/samsung_agent_select" />
+
+                    </RadioGroup>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layoutDonateCalendar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/textViewDonateChooseWayMessage">
+                    android:layout_margin="10dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/border_mobile_add_layout"
+                    android:padding="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layoutDonateChooseWay">
 
-                    <RadioButton
-                        android:id="@+id/radioButtonDonateVisitDelivery"
+                    <TextView
+                        android:id="@+id/textViewDonateCalendarMessage"
+                        style="@style/textview_title_secondary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checked="true"
-                        style="@style/textview_content_black"
-                        android:text="@string/visit_delivery_select" />
+                        android:text="@string/pick_date"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                    <RadioButton
-                        android:id="@+id/radioButtonDonateAgent"
+                    <CalendarView
+                        android:id="@+id/calendarDonate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/textview_content_black"
-                        android:text="@string/samsung_agent_select" />
+                        android:layout_marginTop="10dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textViewDonateCalendarMessage" />
 
-                </RadioGroup>
-
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutDonateCalendar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/border_mobile_add_layout"
-                android:padding="20dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layoutDonateChooseWay">
+        <Button
+            android:id="@+id/buttonDonateNext"
+            style="@style/textview_button_white_big"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_black_corner_0"
+            android:text="@string/next"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-                <TextView
-                    android:id="@+id/textViewDonateCalendarMessage"
-                    style="@style/textview_title_secondary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/pick_date"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <CalendarView
-                    android:id="@+id/calendarDonate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/textViewDonateCalendarMessage" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
-
-    <Button
-        android:id="@+id/buttonDonateNext"
-        style="@style/textview_button_white_big"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_black_corner_0"
-        android:text="@string/next"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
