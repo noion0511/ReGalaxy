@@ -29,7 +29,6 @@ class CameraViewModel @Inject constructor(
     private val _photoResponse = MutableLiveData<Event<PhotoResponse>>()
     val photoResponse: LiveData<Event<PhotoResponse>> = _photoResponse
 
-
     fun uploadImage(imageFile: File) {
         viewModelScope.launch {
             val requestFile = RequestBody.create(

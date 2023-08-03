@@ -82,11 +82,11 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(
         surfaceHolder = bindingNonNull.surfaceViewCamera.holder
         surfaceHolder.addCallback(this)
 
-        bindingNonNull.textViewCount.text = "1 / 4"
+        bindingNonNull.textViewCount.text = "0 / 4"
 
         bindingNonNull.buttonTakePicture.setOnClickListener {
             if (isSafeToTakePicture) {
-                bindingNonNull.textViewCount.text = "1 / 4"
+                bindingNonNull.textViewCount.text = "0 / 4"
                 startCountdownAndTakePicture()
             }
         }
@@ -132,21 +132,45 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(
 
     private fun startCountdownAndTakePicture() {
         bindingNonNull.buttonTakePicture.visibility = View.INVISIBLE
+        var count = 0
+        var allCountDown = 24
 
-        object : CountDownTimer(15000, 3000) { // 총 12초 동안 3초마다
+        object : CountDownTimer(
+            26000,
+            1000
+        ) { // 총 15초 동안                                                                                                            5초마다
             override fun onTick(millisUntilFinished: Long) {
-                val secondsRemaining = millisUntilFinished / 1000
-                bindingNonNull.textViewCount.text = "${(5 - (secondsRemaining) / 3)} / 4"
-                takePicture()
+                val countTime = (allCountDown % 6)
+                bindingNonNull.textViewCountTime.visibility = if (countTime == 0) {
+                    View.INVISIBLE
+                } else {
+                    View.VISIBLE
+                }
+                bindingNonNull.textViewCountTime.text = countTime.toString()
+
+
+                if (countTime == 0 && allCountDown != 24) {
+                    bindingNonNull.textViewCount.text = "${count + 1} / 4"
+                    count++
+                    takePicture()
+                }
+                allCountDown--
             }
 
             override fun onFinish() {
-                bindingNonNull.buttonTakePicture.visibility = View.VISIBLE
                 val bundle = Bundle().apply {
                     putStringArrayList("photo_paths", photoPaths)
                     putStringArrayList("cameraFacing", cameraFacing)
                 }
-                findNavController().navigate(R.id.action_cameraFragment_to_cameraViewerFragment, bundle)
+                bindingNonNull.buttonTakePicture.visibility = View.VISIBLE
+
+                findNavController().navigate(
+                    R.id.action_cameraFragment_to_cameraViewerFragment,
+                    bundle
+                )
+
+                photoPaths = ArrayList<String>()
+                cameraFacing = ArrayList<String>()
             }
         }.start()
     }

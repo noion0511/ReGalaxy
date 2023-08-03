@@ -67,5 +67,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/buttonTakePicture"
             app:layout_constraintTop_toBottomOf="@+id/surfaceViewCamera" />
+
+        <TextView
+            android:id="@+id/textViewCountTime"
+            style="@style/textview_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/surfaceViewCamera"
+            app:layout_constraintEnd_toEndOf="@+id/surfaceViewCamera"
+            app:layout_constraintStart_toStartOf="@+id/surfaceViewCamera"
+            app:layout_constraintTop_toBottomOf="@+id/textViewCount" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
