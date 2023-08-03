@@ -10,6 +10,7 @@ import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentRentalMoblieBinding
 import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,6 +23,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 
+@AndroidEntryPoint
 class RentalMobileFragment :
     BaseFragment<FragmentRentalMoblieBinding>(R.layout.fragment_rental_moblie) {
     // TODO: Rename and change types of parameters

@@ -6,4 +6,8 @@ class RentalAddViewModel : ViewModel() {
 
 
 
+    init{
+
+    }
+
 }
