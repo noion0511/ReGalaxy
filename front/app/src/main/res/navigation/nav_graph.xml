@@ -36,6 +36,12 @@
         <action
             android:id="@+id/action_my_page_to_registChaFragment"
             app:destination="@id/registChaFragment" />
+        <action
+            android:id="@+id/action_my_page_to_modifyInfoFragment"
+            app:destination="@id/modifyInfoFragment" />
+        <action
+            android:id="@+id/action_my_page_to_rentalListFragment"
+            app:destination="@id/rentalListFragment" />
     </fragment>
     <fragment
         android:id="@+id/module"
@@ -247,4 +253,23 @@
             android:id="@+id/action_registChaFragment_to_my_page"
             app:destination="@id/my_page" />
     </fragment>
+    <fragment
+        android:id="@+id/modifyInfoFragment"
+        android:name="com.ssafy.phonesin.ui.mypage.ModifyInfoFragment"
+        android:label="ModifyInfoFragment" >
+        <action
+            android:id="@+id/action_modifyInfoFragment_to_my_page"
+            app:destination="@id/my_page" />
+        <action
+            android:id="@+id/action_modifyInfoFragment_to_addAddressFragment"
+            app:destination="@id/addAddressFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addAddressFragment"
+        android:name="com.ssafy.phonesin.ui.mypage.AddAddressFragment"
+        android:label="AddAddressFragment" />
+    <fragment
+        android:id="@+id/rentalListFragment"
+        android:name="com.ssafy.phonesin.ui.mypage.RentalListFragment"
+        android:label="RentalListFragment" />
 </navigation>

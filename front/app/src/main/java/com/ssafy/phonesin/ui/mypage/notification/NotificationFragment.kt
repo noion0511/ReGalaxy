@@ -1,18 +1,13 @@
 package com.ssafy.phonesin.ui.mypage
 
-import android.app.Dialog
-import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
-import com.ssafy.phonesin.databinding.FragmentMyPageBinding
 import com.ssafy.phonesin.databinding.FragmentMyPageNotificationBinding
 import com.ssafy.phonesin.ui.MainActivity
 

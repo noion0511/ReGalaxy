@@ -29,6 +29,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+
             android:paddingHorizontal="60dp"
             android:paddingVertical="5dp"
             android:text="취소" />
@@ -38,6 +39,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:foreground="?android:attr/selectableItemBackground"
             android:background="@drawable/button_black_corner_0"
             android:paddingHorizontal="60dp"
             android:paddingVertical="5dp"

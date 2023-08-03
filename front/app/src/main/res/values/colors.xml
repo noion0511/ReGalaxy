@@ -21,6 +21,7 @@
     <color name="borderColor">#1A000000</color>
     <color name="unselectedColor">#B1B1B1</color>
     <color name="unselectedLightColor">#E6E6E6</color>
+    <color name="backgroundGray">#F1F1F1</color>
 
     <color name="moduleBackgroundGreen">#F3FCE1</color>
     <color name="moduleBackgroundBlue">#EBF8FE</color>

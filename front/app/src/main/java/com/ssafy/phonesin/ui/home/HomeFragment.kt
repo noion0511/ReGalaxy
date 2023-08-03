@@ -53,8 +53,8 @@ class HomeFragment : Fragment() {
         rankRecyclerView = binding.recyclerViewRank
 
         val rankList = listOf<Int>(1,2,3,4,5)
-        binding.recyclerViewRank.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        binding.recyclerViewRank.adapter = HomeRankAdapter(rankList)
+        rankRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        rankRecyclerView.adapter = HomeRankAdapter(rankList)
 
     }
 

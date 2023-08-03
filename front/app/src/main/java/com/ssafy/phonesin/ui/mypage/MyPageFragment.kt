@@ -38,6 +38,10 @@ class MyPageFragment : Fragment() {
     }
 
     private fun setOnClick() = with(binding) {
+        layoutRental.setOnClickListener {
+            findNavController().navigate(R.id.rentalListFragment)
+        }
+
         textViewModifyInfo.setOnClickListener {
             showModifyInfoDialog()
         }
@@ -53,7 +57,6 @@ class MyPageFragment : Fragment() {
         textViewNotificationSetting.setOnClickListener {
             findNavController().navigate(R.id.notificationFragment)
         }
-
     }
 
     private fun showLogoutDialog() {
@@ -114,6 +117,11 @@ class MyPageFragment : Fragment() {
         dialog.findViewById<TextView>(R.id.textViewRegistCha).setOnClickListener {
             dialog.dismiss()
             findNavController().navigate(R.id.registChaFragment)
+        }
+
+        dialog.findViewById<TextView>(R.id.textViewModifyInfo).setOnClickListener {
+            dialog.dismiss()
+            findNavController().navigate(R.id.modifyInfoFragment)
         }
 
         dialog.show()
