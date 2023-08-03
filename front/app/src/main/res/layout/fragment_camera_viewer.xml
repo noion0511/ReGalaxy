@@ -13,8 +13,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/frameView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/keyColorDark1">
+        android:layout_height="match_parent">
+
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPagerPhotoViewer"
@@ -27,6 +27,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_weight="1" />
+
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end">
+
+                <TextView
+                    android:id="@+id/text_all_choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="end"
+                    android:padding="20dp"
+                    android:text="@string/module_all_choice"
+                    android:textColor="@color/keyColorDark1" />
+            </LinearLayout>
+        </androidx.appcompat.widget.Toolbar>
 
         <me.relex.circleindicator.CircleIndicator
             android:id="@+id/indicator"

@@ -23,13 +23,6 @@ class CameraViewerFragment : BaseFragment<FragmentCameraViewerBinding>(
     private lateinit var viewPager: ViewPager
     private lateinit var pagerAdapter: CameraPageAdapter
 
-    private var colorIndex = 0
-    private val colors = listOf(
-        R.color.keyColorDark1,
-        R.color.keyColorLight1,
-        R.color.keyColorLight2
-    )
-
     override fun onCreateBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -44,10 +37,10 @@ class CameraViewerFragment : BaseFragment<FragmentCameraViewerBinding>(
         val mainActivity = activity as MainActivity
         mainActivity.hideBottomNavi(true)
 
-        val photoPaths = arguments?.getStringArrayList("photo_paths") ?: emptyList<String>()
+        val photoPaths = arguments?.getStringArrayList("photo_paths")
 
         viewPager = bindingNonNull.viewPagerPhotoViewer
-        pagerAdapter = CameraPageAdapter(childFragmentManager, photoPaths)
+        pagerAdapter = CameraPageAdapter(childFragmentManager, photoPaths ?: emptyList())
         viewPager.adapter = pagerAdapter
 
         val indicator: CircleIndicator = bindingNonNull.indicator
@@ -55,7 +48,7 @@ class CameraViewerFragment : BaseFragment<FragmentCameraViewerBinding>(
 
         bindingNonNull.buttonChoicePicture.setOnClickListener {
             val currentImagePosition = viewPager.currentItem
-            val currentImagePath = photoPaths[currentImagePosition]
+            val currentImagePath = photoPaths?.get(currentImagePosition)
 
             val bundle = Bundle().apply {
                 putString("imagePath", currentImagePath)
@@ -64,8 +57,17 @@ class CameraViewerFragment : BaseFragment<FragmentCameraViewerBinding>(
             findNavController().navigate(R.id.action_cameraViewerFragment_to_frameViewerFragment, bundle)
         }
 
+        bindingNonNull.textAllChoice.setOnClickListener {
+            val bundle = Bundle().apply {
+                putStringArrayList("photo_paths", photoPaths)
+            }
+
+            findNavController().navigate(R.id.action_cameraViewerFragment_to_frameViewerFragment, bundle)
+        }
+
         bindingNonNull.buttonArrowLeft.setOnClickListener {
             viewPager.currentItem = (viewPager.currentItem - 1) % pagerAdapter.count
+
         }
 
         bindingNonNull.buttonArrowRight.setOnClickListener {

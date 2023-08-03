@@ -45,29 +45,35 @@ class FrameViewerFragment : BaseFragment<FragmentFrameViewerBinding>(
         mainActivity.hideBottomNavi(true)
 
         val imagePath = arguments?.getString("imagePath") ?: ""
+        val photoPaths = arguments?.getStringArrayList("photo_paths")
 
-        val originalBitmap = BitmapFactory.decodeFile(imagePath)
-        Log.d("FrameFragment", "Original Bitmap: $originalBitmap")
+        if(photoPaths.isNullOrEmpty() && imagePath != null) {
+            val originalBitmap = BitmapFactory.decodeFile(imagePath)
+            Log.d("FrameFragment", "Original Bitmap: $originalBitmap")
 
-        val rotationDegrees = 90f
-        val matrix = Matrix().apply { postRotate(rotationDegrees) }
+            val rotationDegrees = 90f
+            val matrix = Matrix().apply { postRotate(rotationDegrees) }
 
-        val rotatedBitmap = Bitmap.createBitmap(
-            originalBitmap,
-            0,
-            0,
-            originalBitmap.width,
-            originalBitmap.height,
-            matrix,
-            true
-        )
+            val rotatedBitmap = Bitmap.createBitmap(
+                originalBitmap,
+                0,
+                0,
+                originalBitmap.width,
+                originalBitmap.height,
+                matrix,
+                true
+            )
 
-        bindingNonNull.imageView.setImageBitmap(rotatedBitmap)
+            bindingNonNull.imageView.setImageBitmap(rotatedBitmap)
+        } else if(photoPaths != null && photoPaths.size == 4){
+            showImage(photoPaths)
+        }
 
         bindingNonNull.buttonChoicePicture.setOnClickListener {
 
             val bundle = Bundle().apply {
                 putString("imagePath", imagePath)
+                putStringArrayList("photo_paths", photoPaths)
                 putInt("frameColor", colors[colorIndex])
             }
 
@@ -82,6 +88,24 @@ class FrameViewerFragment : BaseFragment<FragmentFrameViewerBinding>(
         bindingNonNull.buttonArrowRight.setOnClickListener {
             colorIndex = (colorIndex - 1 + colors.size) % colors.size
             bindingNonNull.frameView.setBackgroundColor(ContextCompat.getColor(requireContext(), colors[colorIndex]))
+        }
+    }
+
+    private fun showImage(photoPaths: List<String>) {
+        for (i in photoPaths.indices) {
+            val bitmap = BitmapFactory.decodeFile(photoPaths[i])
+
+            val rotationDegrees = 90f
+            val matrix = Matrix().apply { postRotate(rotationDegrees) }
+
+            val rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+
+            when (i) {
+                0 -> bindingNonNull.photoViewer1.setImageBitmap(rotatedBitmap)
+                1 -> bindingNonNull.photoViewer2.setImageBitmap(rotatedBitmap)
+                2 -> bindingNonNull.photoViewer3.setImageBitmap(rotatedBitmap)
+                3 -> bindingNonNull.photoViewer4.setImageBitmap(rotatedBitmap)
+            }
         }
     }
 }

@@ -47,24 +47,33 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
         mainActivity.hideBottomNavi(true)
 
         val imagePath = arguments?.getString("imagePath")
+        val photoPaths = arguments?.getStringArrayList("photo_paths")
         val frameColor = arguments?.getInt("frameColor") ?: R.color.keyColorDark1
         val imageView = bindingNonNull.imageView
 
-        val originalBitmap = BitmapFactory.decodeFile(imagePath)
-        Log.d("FrameFragment", "Original Bitmap: $originalBitmap")
+        if(photoPaths.isNullOrEmpty() && imagePath != null) {
+            val originalBitmap = BitmapFactory.decodeFile(imagePath)
+            Log.d("FrameFragment", "Original Bitmap: $originalBitmap")
 
-        val rotationDegrees = 90f
-        val matrix = Matrix().apply { postRotate(rotationDegrees) }
+            val rotationDegrees = 90f
+            val matrix = Matrix().apply { postRotate(rotationDegrees) }
 
-        val rotatedBitmap = Bitmap.createBitmap(
-            originalBitmap,
-            0,
-            0,
-            originalBitmap.width,
-            originalBitmap.height,
-            matrix,
-            true
-        )
+            val rotatedBitmap = Bitmap.createBitmap(
+                originalBitmap,
+                0,
+                0,
+                originalBitmap.width,
+                originalBitmap.height,
+                matrix,
+                true
+            )
+
+            imageView.setImageBitmap(rotatedBitmap)
+        } else if(photoPaths != null && photoPaths.size == 4){
+            showImage(photoPaths)
+        }
+
+
 
         bindingNonNull.viewFrame.setBackgroundColor(ContextCompat.getColor(requireContext(), frameColor))
 
@@ -72,7 +81,7 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
             bindingNonNull.textViewTime.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
             bindingNonNull.textViewTitle.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
         }
-        imageView.setImageBitmap(rotatedBitmap)
+
 
         viewModel.viewModelScope.launch {
             delay(1000L)  // Wait for 1 second
@@ -109,6 +118,25 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
         }
 
         initObserver()
+    }
+
+
+    private fun showImage(photoPaths: List<String>) {
+        for (i in photoPaths.indices) {
+            val bitmap = BitmapFactory.decodeFile(photoPaths[i])
+
+            val rotationDegrees = 90f
+            val matrix = Matrix().apply { postRotate(rotationDegrees) }
+
+            val rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+
+            when (i) {
+                0 -> bindingNonNull.photoViewer1.setImageBitmap(rotatedBitmap)
+                1 -> bindingNonNull.photoViewer2.setImageBitmap(rotatedBitmap)
+                2 -> bindingNonNull.photoViewer3.setImageBitmap(rotatedBitmap)
+                3 -> bindingNonNull.photoViewer4.setImageBitmap(rotatedBitmap)
+            }
+        }
     }
 
     private fun layoutToBitmap(layout: View): Bitmap? {

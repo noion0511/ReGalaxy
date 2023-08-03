@@ -90,5 +90,6 @@
 2. 다운 받으시겠습니까? 확인 선택하세요! \n
 3.다운 후 자랑하세요~</string>
     <string name="module_camera_download">출력 신청</string>
+    <string name="module_all_choice">모두 선택</string>
     <string name="success">success</string>
 </resources>
