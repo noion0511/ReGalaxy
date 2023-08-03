@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
@@ -46,13 +47,13 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
         mainActivity.hideBottomNavi(true)
 
         val imagePath = arguments?.getString("imagePath")
-        val cameraFacing = arguments?.getString("cameraFacing")
+        val frameColor = arguments?.getInt("frameColor") ?: R.color.keyColorDark1
         val imageView = bindingNonNull.imageView
 
         val originalBitmap = BitmapFactory.decodeFile(imagePath)
         Log.d("FrameFragment", "Original Bitmap: $originalBitmap")
 
-        val rotationDegrees = if (cameraFacing == "FRONT") 270f else 90f
+        val rotationDegrees = 90f
         val matrix = Matrix().apply { postRotate(rotationDegrees) }
 
         val rotatedBitmap = Bitmap.createBitmap(
@@ -65,6 +66,12 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
             true
         )
 
+        bindingNonNull.viewFrame.setBackgroundColor(ContextCompat.getColor(requireContext(), frameColor))
+
+        if(frameColor == R.color.keyColorLight1) {
+            bindingNonNull.textViewTime.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            bindingNonNull.textViewTitle.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+        }
         imageView.setImageBitmap(rotatedBitmap)
 
         viewModel.viewModelScope.launch {

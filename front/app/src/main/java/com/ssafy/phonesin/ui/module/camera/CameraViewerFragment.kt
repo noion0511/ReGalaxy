@@ -22,6 +22,14 @@ class CameraViewerFragment : BaseFragment<FragmentCameraViewerBinding>(
 
     private lateinit var viewPager: ViewPager
     private lateinit var pagerAdapter: CameraPageAdapter
+
+    private var colorIndex = 0
+    private val colors = listOf(
+        R.color.keyColorDark1,
+        R.color.keyColorLight1,
+        R.color.keyColorLight2
+    )
+
     override fun onCreateBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -45,7 +53,7 @@ class CameraViewerFragment : BaseFragment<FragmentCameraViewerBinding>(
         val indicator: CircleIndicator = bindingNonNull.indicator
         indicator.setViewPager(viewPager)
 
-        bindingNonNull.buttonPrintPicture.setOnClickListener {
+        bindingNonNull.buttonChoicePicture.setOnClickListener {
             val currentImagePosition = viewPager.currentItem
             val currentImagePath = photoPaths[currentImagePosition]
 
@@ -53,7 +61,15 @@ class CameraViewerFragment : BaseFragment<FragmentCameraViewerBinding>(
                 putString("imagePath", currentImagePath)
             }
 
-            findNavController().navigate(R.id.action_cameraViewerFragment_to_frameFragment, bundle)
+            findNavController().navigate(R.id.action_cameraViewerFragment_to_frameViewerFragment, bundle)
+        }
+
+        bindingNonNull.buttonArrowLeft.setOnClickListener {
+            viewPager.currentItem = (viewPager.currentItem - 1) % pagerAdapter.count
+        }
+
+        bindingNonNull.buttonArrowRight.setOnClickListener {
+            viewPager.currentItem = (viewPager.currentItem + 1) % pagerAdapter.count
         }
     }
 }

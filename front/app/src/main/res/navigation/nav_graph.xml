@@ -235,10 +235,10 @@
         android:label="CameraViewerFragment"
         tools:layout="@layout/fragment_camera_viewer">
         <action
-            android:id="@+id/action_cameraViewerFragment_to_frameFragment"
-            app:destination="@id/frameFragment"
+            android:id="@+id/action_cameraViewerFragment_to_frameViewerFragment"
+            app:destination="@id/frameViewerFragment"
             app:launchSingleTop="true"
-            app:popUpTo="@id/frameFragment" />
+            app:popUpTo="@id/frameViewerFragment"/>
     </fragment>
     <fragment
         android:id="@+id/frameFragment"
@@ -247,7 +247,9 @@
         tools:layout="@layout/fragment_frame">
         <action
             android:id="@+id/action_frameFragment_to_QRCodeFragment"
-            app:destination="@id/QRCodeFragment" />
+            app:destination="@id/QRCodeFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/QRCodeFragment" />
     </fragment>
     <fragment
         android:id="@+id/QRCodeFragment"
@@ -259,5 +261,16 @@
             app:destination="@id/cameraFragment"
             app:launchSingleTop="true"
             app:popUpTo="@id/cameraFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/frameViewerFragment"
+        android:name="com.ssafy.phonesin.ui.module.camera.FrameViewerFragment"
+        android:label="FrameViewerFragment"
+        tools:layout="@layout/fragment_frame_viewer">
+        <action
+            android:id="@+id/action_frameViewerFragment_to_frameFragment"
+            app:destination="@id/frameFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/frameFragment"/>
     </fragment>
 </navigation>
