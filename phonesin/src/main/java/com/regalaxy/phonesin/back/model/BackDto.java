@@ -1,6 +1,7 @@
 package com.regalaxy.phonesin.back.model;
 
 import com.regalaxy.phonesin.back.model.entity.Back;
+import com.regalaxy.phonesin.phone.model.entity.Phone;
 import com.regalaxy.phonesin.rental.model.entity.Rental;
 import lombok.*;
 
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 public class BackDto {
     private Long backId;
     private Long rentalId;
+    private Long phoneId;
     private int backStatus;
     private LocalDate backDeliveryDate;
     private String backDeliveryLocationType;
@@ -34,9 +36,10 @@ public class BackDto {
     }
 
     // Entity에 Rental을 build
-    public Back toEntity(Rental rental){
+    public Back toEntity(Rental rental, Phone phone){
         return Back.builder()
                 .rental(rental)
+                .phone(phone)
                 .backStatus(this.backStatus)
                 .backDeliveryDate(this.backDeliveryDate)
                 .backDeliveryLocationType(this.backDeliveryLocationType)

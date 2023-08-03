@@ -1,5 +1,7 @@
 package com.regalaxy.phonesin.phone.model.entity;
 
+import com.regalaxy.phonesin.back.model.BackDto;
+import com.regalaxy.phonesin.back.model.entity.Back;
 import com.regalaxy.phonesin.donation.model.entity.Donation;
 import com.regalaxy.phonesin.member.model.entity.Member;
 import lombok.Getter;
@@ -16,6 +18,8 @@ public class Phone {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long phoneId;
     private Long rentalId;
+    @OneToOne(mappedBy = "phone", cascade = CascadeType.ALL)
+    private Back back;
     @ManyToOne
     @JoinColumn(name="model_id")
     private Model model;

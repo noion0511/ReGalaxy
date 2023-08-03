@@ -3,6 +3,7 @@ package com.regalaxy.phonesin.back.model.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.regalaxy.phonesin.back.model.BackDto;
 import com.regalaxy.phonesin.global.BaseTimeEntity;
+import com.regalaxy.phonesin.phone.model.entity.Phone;
 import com.regalaxy.phonesin.rental.model.entity.Rental;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -23,9 +24,14 @@ public class Back extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long backId;
 
+    @JsonIgnore
+    @OneToOne
+    @JoinColumn(name = "phone_id")
+    private Phone phone;
+
     // rental과 일대일 매핑
     @JsonIgnore
-    @OneToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "rental_id")
     private Rental rental;
 
@@ -42,7 +48,7 @@ public class Back extends BaseTimeEntity {
     private String review; // 사용 후기 또는 조기 반납 이유
 
     @Builder
-    public Back(Rental rental, int backStatus, LocalDate backDeliveryDate, String backDeliveryLocationType, String backDeliveryLocation, String backZipcode, String review) {
+    public Back(Rental rental, int backStatus, LocalDate backDeliveryDate, String backDeliveryLocationType, String backDeliveryLocation, String backZipcode, String review, Phone phone) {
         this.rental = rental;
         this.backStatus = backStatus;
         this.backDeliveryDate = backDeliveryDate;
@@ -50,6 +56,7 @@ public class Back extends BaseTimeEntity {
         this.backDeliveryLocation = backDeliveryLocation;
         this.backZipcode = backZipcode;
         this.review = review;
+        this.phone = phone;
     }
 
     public void update(BackDto backDto) {

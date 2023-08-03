@@ -9,6 +9,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -24,6 +25,9 @@ public class Rental extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @OneToMany(mappedBy = "rental", cascade = CascadeType.ALL)
+    private List<Back> backs;
 
     @ManyToOne
     @JoinColumn(name = "agency_id")

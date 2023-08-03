@@ -1,8 +1,11 @@
 package com.regalaxy.phonesin.back.model.service;
 
 import com.regalaxy.phonesin.back.model.BackDto;
+import com.regalaxy.phonesin.back.model.BackInfoDto;
 import com.regalaxy.phonesin.back.model.entity.Back;
 import com.regalaxy.phonesin.back.model.repository.BackRepository;
+import com.regalaxy.phonesin.phone.model.entity.Phone;
+import com.regalaxy.phonesin.phone.model.repository.PhoneRepository;
 import com.regalaxy.phonesin.rental.model.entity.Rental;
 import com.regalaxy.phonesin.rental.model.repository.RentalRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,12 +22,15 @@ public class BackService {
 
     private final BackRepository backRepository;
     private final RentalRepository rentalRepository;
+    private final PhoneRepository phoneRepository;
 
     // 반납 신청서 저장하기
     @Transactional
     public void apply(BackDto backdto) {
         Rental rental = rentalRepository.findById(backdto.getRentalId()).get();
-        backRepository.save(backdto.toEntity(rental));
+        System.out.println(backdto.getPhoneId());
+        Phone phone = phoneRepository.findById(backdto.getPhoneId()).get();
+        backRepository.save(backdto.toEntity(rental, phone));
     }
 
     // backId인 반납 신청서 read
