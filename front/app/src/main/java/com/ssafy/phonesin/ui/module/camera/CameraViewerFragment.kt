@@ -37,10 +37,9 @@ class CameraViewerFragment : BaseFragment<FragmentCameraViewerBinding>(
         mainActivity.hideBottomNavi(true)
 
         val photoPaths = arguments?.getStringArrayList("photo_paths") ?: emptyList<String>()
-        val cameraFacing = arguments?.getStringArrayList("cameraFacing") ?: emptyList<String>()
 
         viewPager = bindingNonNull.viewPagerPhotoViewer
-        pagerAdapter = CameraPageAdapter(childFragmentManager, photoPaths, cameraFacing)
+        pagerAdapter = CameraPageAdapter(childFragmentManager, photoPaths)
         viewPager.adapter = pagerAdapter
 
         val indicator: CircleIndicator = bindingNonNull.indicator
@@ -49,11 +48,9 @@ class CameraViewerFragment : BaseFragment<FragmentCameraViewerBinding>(
         bindingNonNull.buttonPrintPicture.setOnClickListener {
             val currentImagePosition = viewPager.currentItem
             val currentImagePath = photoPaths[currentImagePosition]
-            val currentCameraFace = cameraFacing[currentImagePosition]
 
             val bundle = Bundle().apply {
                 putString("imagePath", currentImagePath)
-                putString("cameraFacing", currentCameraFace)
             }
 
             findNavController().navigate(R.id.action_cameraViewerFragment_to_frameFragment, bundle)

@@ -35,27 +35,22 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(
     private lateinit var camera: Camera
     private lateinit var surfaceHolder: SurfaceHolder
     private var isSafeToTakePicture = false
-
-    private var isFlashOn = false
     private lateinit var params: Camera.Parameters
 
     private var photoCount = 0
     private val maxPhotos = 4
     private var photoPaths = ArrayList<String>()
-    private var cameraFacing = ArrayList<String>()
 
     private var cameraId = Camera.CameraInfo.CAMERA_FACING_BACK
     private val pictureCallback = Camera.PictureCallback { data, _ ->
         val photoPath = savePictureToPublicDir(data)
-        val cameraFaceType =
-            if (cameraId == Camera.CameraInfo.CAMERA_FACING_FRONT) "FRONT" else "BACK"
         photoPaths.add(photoPath)
-        cameraFacing.add(cameraFaceType)
         if (photoCount < maxPhotos) {
             restartPreview()
         } else {
             photoCount = 0
             bindingNonNull.buttonTakePicture.isEnabled = true
+            bindingNonNull.progressBar.progress = 0
         }
     }
 
@@ -79,24 +74,17 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(
             requireActivity().finish()
         }
 
+
         surfaceHolder = bindingNonNull.surfaceViewCamera.holder
         surfaceHolder.addCallback(this)
 
-        bindingNonNull.textViewCount.text = "0 / 4"
+        bindingNonNull.progressBar.progress = 0
 
         bindingNonNull.buttonTakePicture.setOnClickListener {
             if (isSafeToTakePicture) {
-                bindingNonNull.textViewCount.text = "0 / 4"
+                bindingNonNull.progressBar.progress = 0
                 startCountdownAndTakePicture()
             }
-        }
-
-        bindingNonNull.buttonChangeView.setOnClickListener {
-            changeCamera()
-        }
-
-        bindingNonNull.buttonTurnLight.setOnClickListener {
-            toggleFlash()
         }
     }
 
@@ -105,29 +93,6 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(
         camera = getCameraInstance(cameraId) ?: return
         camera.setDisplayOrientation(90)
         params = camera.parameters
-    }
-
-    private fun changeCamera() {
-        // 카메라 ID를 변경합니다. 후면이면 전면으로, 전면이면 후면으로 변경합니다.
-        cameraId = if (cameraId == Camera.CameraInfo.CAMERA_FACING_BACK) {
-            Camera.CameraInfo.CAMERA_FACING_FRONT
-        } else {
-            Camera.CameraInfo.CAMERA_FACING_BACK
-        }
-        initCamera() // 카메라를 다시 초기화합니다.
-        startCameraPreview() // 카메라 프리뷰를 시작합니다.
-    }
-
-    private fun toggleFlash() {
-        if (isFlashOn) {
-            params.flashMode = Camera.Parameters.FLASH_MODE_OFF
-            camera.parameters = params
-            isFlashOn = false
-        } else {
-            params.flashMode = Camera.Parameters.FLASH_MODE_TORCH
-            camera.parameters = params
-            isFlashOn = true
-        }
     }
 
     private fun startCountdownAndTakePicture() {
@@ -147,10 +112,9 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(
                     View.VISIBLE
                 }
                 bindingNonNull.textViewCountTime.text = countTime.toString()
-
+                bindingNonNull.progressBar.progress += 1
 
                 if (countTime == 0 && allCountDown != 24) {
-                    bindingNonNull.textViewCount.text = "${count + 1} / 4"
                     count++
                     takePicture()
                 }
@@ -160,7 +124,6 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(
             override fun onFinish() {
                 val bundle = Bundle().apply {
                     putStringArrayList("photo_paths", photoPaths)
-                    putStringArrayList("cameraFacing", cameraFacing)
                 }
                 bindingNonNull.buttonTakePicture.visibility = View.VISIBLE
 
@@ -170,7 +133,6 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(
                 )
 
                 photoPaths = ArrayList<String>()
-                cameraFacing = ArrayList<String>()
             }
         }.start()
     }
