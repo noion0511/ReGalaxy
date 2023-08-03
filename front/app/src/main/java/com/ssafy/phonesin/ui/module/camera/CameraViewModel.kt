@@ -1,9 +1,11 @@
 package com.ssafy.phonesin.ui.module.camera
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ssafy.phonesin.model.Event
+import com.ssafy.phonesin.model.PhotoResponse
 import com.ssafy.phonesin.network.NetworkResponse
 import com.ssafy.phonesin.repository.ytwok.Y2KRepository
 import com.ssafy.phonesin.ui.util.base.BaseViewModel
@@ -15,7 +17,7 @@ import okhttp3.RequestBody
 import java.io.File
 import javax.inject.Inject
 
-
+private const val TAG = "CameraViewModel"
 @HiltViewModel
 class CameraViewModel @Inject constructor(
     private val repository: Y2KRepository
@@ -23,6 +25,10 @@ class CameraViewModel @Inject constructor(
 
     private val _msg = MutableLiveData<Event<String>>()
     val errorMsg: LiveData<Event<String>> = _msg
+
+    private val _photoResponse = MutableLiveData<Event<PhotoResponse>>()
+    val photoResponse: LiveData<Event<PhotoResponse>> = _photoResponse
+
 
     fun uploadImage(imageFile: File) {
         viewModelScope.launch {
@@ -32,19 +38,18 @@ class CameraViewModel @Inject constructor(
             )
 
             val body = MultipartBody.Part.createFormData(
-                "image",
+                "file",
                 imageFile.name,
                 requestFile
             )
 
-//            val list: MutableList<MultipartBody.Part> = mutableListOf(body)
-
             val response = repository.uploadImage(body)
+            Log.d(TAG, "uploadImage: $response")
 
             val type = "y2k 사진"
             when (response) {
                 is NetworkResponse.Success -> {
-                    _msg.postValue(Event(response.body.message))
+                    _photoResponse.postValue(Event(response.body))
                 }
 
                 is NetworkResponse.ApiError -> {
@@ -60,5 +65,15 @@ class CameraViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private var selectedImageId = -1
+
+    fun selectImageId(imageId : Int) {
+        selectedImageId = imageId
+    }
+
+    fun getSelectedImageId() : Int {
+        return selectedImageId
     }
 }

@@ -245,5 +245,19 @@
         android:name="com.ssafy.phonesin.ui.module.camera.FrameFragment"
         android:label="FrameFragment"
         tools:layout="@layout/fragment_frame">
+        <action
+            android:id="@+id/action_frameFragment_to_QRCodeFragment"
+            app:destination="@id/QRCodeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/QRCodeFragment"
+        android:name="com.ssafy.phonesin.ui.module.camera.QRCodeFragment"
+        android:label="QRCodeFragment"
+        tools:layout="@layout/fragment_q_r_code">
+        <action
+            android:id="@+id/action_QRCodeFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/cameraFragment" />
     </fragment>
 </navigation>

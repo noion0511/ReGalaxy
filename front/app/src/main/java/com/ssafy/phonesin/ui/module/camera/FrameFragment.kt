@@ -4,22 +4,22 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
-import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.net.toUri
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
+import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
-import com.ssafy.phonesin.databinding.FragmentCameraBinding
 import com.ssafy.phonesin.databinding.FragmentFrameBinding
+import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
@@ -42,10 +42,12 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
     }
 
     override fun init() {
+        val mainActivity = activity as MainActivity
+        mainActivity.hideBottomNavi(true)
+
         val imagePath = arguments?.getString("imagePath")
         val cameraFacing = arguments?.getString("cameraFacing")
         val imageView = bindingNonNull.imageView
-        val saveButton = bindingNonNull.textViewTitle
 
         val originalBitmap = BitmapFactory.decodeFile(imagePath)
         Log.d("FrameFragment", "Original Bitmap: $originalBitmap")
@@ -65,7 +67,8 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
 
         imageView.setImageBitmap(rotatedBitmap)
 
-        saveButton.setOnClickListener {
+        viewModel.viewModelScope.launch {
+            delay(1000L)  // Wait for 1 second
             val viewFrame = bindingNonNull.rootView
             val frameBitmap = layoutToBitmap(viewFrame)
 
@@ -74,29 +77,31 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
                     SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
                 val storageDir =
                     Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                val imageFile = File(storageDir, "IMG_$timeStamp.jpg")
+                val imageFile = File(storageDir, "IMG_$timeStamp.jpeg")
 
                 try {
-//                    val fos = FileOutputStream(imageFile)
-//                    frameBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
-//                    fos.flush()
-//                    fos.close()
-//
-//                    requireContext().sendBroadcast(
-//                        Intent(
-//                            Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
-//                            imageFile.toUri()
-//                        )
-//                    )
+                    val fos = FileOutputStream(imageFile)
+                    frameBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+                    fos.flush()
+                    fos.close()
+
+                    requireContext().sendBroadcast(
+                        Intent(
+                            Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+                            imageFile.toUri()
+                        )
+                    )
                     Log.d("tag", "사진 저장 ${imageFile.toUri()}")
                 } catch (e: Exception) {
                     Log.d("tag", "사진 저장 실패 ${imageFile.toUri()}")
                 } finally {
-                    frameBitmap.recycle()
                     viewModel.uploadImage(imageFile)
                 }
+                frameBitmap.recycle()
             }
         }
+
+        initObserver()
     }
 
     private fun layoutToBitmap(layout: View): Bitmap? {
@@ -110,5 +115,24 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
         }
         layout.isDrawingCacheEnabled = false
         return null
+    }
+
+    private fun initObserver() {
+        with(viewModel) {
+            errorMsg.observe(viewLifecycleOwner) { event ->
+                event.getContentIfNotHandled()?.let {
+                    showToast(it)
+                }
+            }
+
+            photoResponse.observe(viewLifecycleOwner) { event ->
+                event.getContentIfNotHandled()?.let {
+                    if (it.message == getString(R.string.success)) {
+                        viewModel.selectImageId(it.photos.ytwokId)
+                        findNavController().navigate(R.id.action_frameFragment_to_QRCodeFragment)
+                    }
+                }
+            }
+        }
     }
 }

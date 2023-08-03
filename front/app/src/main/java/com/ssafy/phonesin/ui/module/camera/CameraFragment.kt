@@ -17,6 +17,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentCameraBinding
+import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -69,6 +70,9 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(
     }
 
     override fun init() {
+        val mainActivity = activity as MainActivity
+        mainActivity.hideBottomNavi(true)
+
         if (checkCameraHardware(requireContext())) {
             initCamera()
         } else {

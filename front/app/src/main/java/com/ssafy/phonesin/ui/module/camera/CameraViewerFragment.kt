@@ -8,6 +8,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentCameraViewerBinding
+import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import me.relex.circleindicator.CircleIndicator
@@ -32,6 +33,9 @@ class CameraViewerFragment : BaseFragment<FragmentCameraViewerBinding>(
     }
 
     override fun init() {
+        val mainActivity = activity as MainActivity
+        mainActivity.hideBottomNavi(true)
+
         val photoPaths = arguments?.getStringArrayList("photo_paths") ?: emptyList<String>()
         val cameraFacing = arguments?.getStringArrayList("cameraFacing") ?: emptyList<String>()
 

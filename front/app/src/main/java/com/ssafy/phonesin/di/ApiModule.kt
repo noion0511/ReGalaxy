@@ -18,7 +18,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object ApiModule {
 
-    private const val baseUrl = "http://i9d102.p.ssafy.io/"
+    private const val baseUrl = "http://i9d102.p.ssafy.io:8080"
 
     private val gson: Gson = GsonBuilder()
         .setLenient()
@@ -39,7 +39,7 @@ object ApiModule {
         return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(NetworkResponseAdapterFactory())
             .build()
     }
