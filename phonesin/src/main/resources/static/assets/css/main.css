@@ -19,6 +19,7 @@
 		font-size: 100%;
 		font: inherit;
 		vertical-align: baseline;
+        position: relative;
 	}
 
 	article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
@@ -2268,182 +2269,7 @@
 				width: 100%;
 			}
 
-/* List */
 
-	ol {
-		list-style: decimal;
-		margin: 0 0 2em 0;
-		padding-left: 1.25em;
-	}
-
-		ol li {
-			padding-left: 0.25em;
-		}
-
-	ul {
-		list-style: disc;
-		margin: 0 0 2em 0;
-		padding-left: 1em;
-	}
-
-		ul li {
-			padding-left: 0.5em;
-		}
-
-		ul.alt {
-			list-style: none;
-			padding-left: 0;
-		}
-
-			ul.alt li {
-				border-top: solid 1px #dbdbdb;
-				padding: 0.5em 0;
-			}
-
-				ul.alt li:first-child {
-					border-top: 0;
-					padding-top: 0;
-				}
-
-			ul.alt.dark li {
-				border-top: solid 1px rgba(0, 0, 0, 0.25);
-			}
-
-		ul.icons {
-			cursor: default;
-			list-style: none;
-			padding-left: 0;
-		}
-
-			ul.icons li {
-				display: inline-block;
-				padding: 0 1em 0 0;
-			}
-
-				ul.icons li:last-child {
-					padding-right: 0;
-				}
-
-				ul.icons li .icon:before {
-					font-size: 2em;
-				}
-
-		ul.actions {
-			cursor: default;
-			list-style: none;
-			padding-left: 0;
-		}
-
-			ul.actions li {
-				display: inline-block;
-				padding: 0 1em 0 0;
-				vertical-align: middle;
-			}
-
-				ul.actions li:last-child {
-					padding-right: 0;
-				}
-
-			ul.actions.small li {
-				padding: 0 0.5em 0 0;
-			}
-
-			ul.actions.vertical li {
-				display: block;
-				padding: 1em 0 0 0;
-			}
-
-				ul.actions.vertical li:first-child {
-					padding-top: 0;
-				}
-
-				ul.actions.vertical li > * {
-					margin-bottom: 0;
-				}
-
-			ul.actions.vertical.small li {
-				padding: 0.5em 0 0 0;
-			}
-
-				ul.actions.vertical.small li:first-child {
-					padding-top: 0;
-				}
-
-			ul.actions.fit {
-				display: table;
-				margin-left: -1em;
-				padding: 0;
-				table-layout: fixed;
-				width: calc(100% + 1em);
-			}
-
-				ul.actions.fit li {
-					display: table-cell;
-					padding: 0 0 0 1em;
-				}
-
-					ul.actions.fit li > * {
-						margin-bottom: 0;
-					}
-
-				ul.actions.fit.small {
-					margin-left: -0.5em;
-					width: calc(100% + 0.5em);
-				}
-
-					ul.actions.fit.small li {
-						padding: 0 0 0 0.5em;
-					}
-
-			@media screen and (max-width: 480px) {
-
-				ul.actions {
-					margin: 0 0 2em 0;
-				}
-
-					ul.actions li {
-						padding: 1em 0 0 0;
-						display: block;
-						text-align: center;
-						width: 100%;
-					}
-
-						ul.actions li:first-child {
-							padding-top: 0;
-						}
-
-						ul.actions li > * {
-							width: 100%;
-							margin: 0 !important;
-						}
-
-							ul.actions li > *.icon:before {
-								margin-left: -2em;
-							}
-
-					ul.actions.small li {
-						padding: 0.5em 0 0 0;
-					}
-
-						ul.actions.small li:first-child {
-							padding-top: 0;
-						}
-
-			}
-
-	dl {
-		margin: 0 0 2em 0;
-	}
-
-		dl dt {
-			display: block;
-			font-weight: 600;
-			margin: 0 0 1em 0;
-		}
-
-		dl dd {
-			margin-left: 2em;
-		}
 
 /* Table */
 
@@ -2686,6 +2512,60 @@
 		}
 
 /* Header */
+    /*dropdown*/
+        .dropdown {
+            z-index:10050;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .dropdown > ul{
+            z-index:10050;
+            list-style: none;
+            display: inline;
+            margin: 0;
+            padding: 0;
+        }
+
+        .dropdown > ul > li{
+            float: left;
+            position: relative;
+            margin: 0;
+            padding: 0;
+            width: 5em;
+        }
+
+        #list > li > a{
+            z-index:10050;
+            text-decoration: none;
+            margin: 0;
+            padding-left : 1em;
+            color: #808080;
+            font-size: 16px;
+        }
+
+        #list > li > a:hover{
+            color: #000000;
+        }
+
+        #list{
+            background-color: #ffffff;
+            box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.2);
+            width: 10em;
+            right: 5em;
+            text-align:left;
+            margin: 0;
+            padding: 0;
+            border-radius: 25px;
+        }
+
+        #list > li{
+            height: 3em;
+        }
 
     .blackBtn{
         background: #ffffff;
@@ -2726,14 +2606,14 @@
 		text-align: right;
 		top: 2em;
 		width: 100%;
-		z-index: 10001;
+		z-index: 10040;
         vertical-align:middle;
 	}
 
 		#header .inner {
-			margin-top: 1em;
+			margin-top: 0em;
 			margin-left: 5em;
-			margin-right: 5em;
+			margin-right: 4em;
 			position: relative;
 			height: 5em;
 		}
@@ -2783,7 +2663,7 @@
 				text-decoration: none;
 				height: 4em;
 				width: 4em;
-				z-index: 10003;
+				z-index: 10040;
 			}
 
 				#header a.navPanelToggle .fa {
@@ -2861,7 +2741,7 @@
 		max-width: 80%;
 		width: 20em;
 		padding: 0.5em 1.25em;
-		z-index: 10010;
+		z-index: 10040;
 	}
 
 		#navPanel.visible {
@@ -2932,7 +2812,7 @@
 /* Banner */
 
 	#banner {
-		padding: 2em 0 9em 0;
+		padding: 5em 0 10em 0;
 		background-image: url(../../images/banner.jpg);
 		background-size: cover;
 		background-position: bottom;
@@ -3036,7 +2916,7 @@
 		@media screen and (max-width: 1280px) {
 /*여기1*/
 			#banner {
-				padding: 2em 0 6em 0;
+				padding: 4em 0 8em 0;
 			}
 
 				#banner .inner {
@@ -3061,7 +2941,7 @@
 
 			#banner {
 				background-attachment: scroll;
-				padding: 2em 0 4em 0;
+				padding: 3em 0 18em 0;
 			}
 
                 #banner:before {
@@ -3090,7 +2970,7 @@
 		@media screen and (max-width: 736px) {
 
 			#banner {
-				padding: 2em 0 3em 0;
+				padding: 2em 0 8em 0;
 			}
 
                 #banner:before {
