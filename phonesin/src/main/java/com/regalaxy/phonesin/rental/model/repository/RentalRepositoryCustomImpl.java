@@ -78,6 +78,16 @@ public class RentalRepositoryCustomImpl implements RentalRepositoryCustom {
     }
 
     @Override
+    public List<RentalDto> searchById(Long member_id) {
+        String s = "select new com.regalaxy.phonesin.rental.model.RentalDto(r.rentalId, r.rentalStart, r.rentalEnd, r.rentalStatus, r.rentalDeliveryLocation, r.fund, m.modelName, p.phoneId, r.waybillNumber) "
+                + "from rental r join phone p on r.rentalId = p.rentalId "
+                + "join model m on p.model.modelId = m.modelId "
+                + "where r.member.memberId="+member_id;
+
+        return em.createQuery(s, RentalDto.class).getResultList();
+    }
+
+    @Override
     public RentalDetailDto detailInfo(Long rental_id) {
         String s = "select new com.regalaxy.phonesin.rental.model.RentalDetailDto(r.rentalId, r.member.memberId, r.isY2K, r.isClimateHumidity, r.isHomecam, r.count, r.rentalStart, r.rentalEnd, r.applyDate, r.rentalStatus, r.rentalDeliveryLocation, r.fund, m.modelName, p.phoneId, p.donation.donationId, r.usingDate) "
             + "from rental r join phone p on r.rentalId = p.rentalId "
