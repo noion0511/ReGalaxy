@@ -16,7 +16,7 @@ public class RentalDto {
     private int rentalStatus;
     private String rentalDeliveryLocation;
     private int fund;
-    private String modelName;
-    private Long phoneId;
+//    private String modelName;
+//    private Long phoneId;
     private String waybillNumber;
 }
