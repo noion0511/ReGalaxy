@@ -13,12 +13,17 @@ import javax.persistence.*;
 @Table(name="phone")
 public class Phone {
     @Id
-    private Long phone_id;
-    private Long rental_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long phoneId;
+    private Long rentalId;
     @ManyToOne
     @JoinColumn(name="model_id")
     private Model model;
     @OneToOne
     @JoinColumn(name="donation_id")
     private Donation donation;
+    private String serialNumber;
+    private boolean isY2K;
+    private boolean isClimateHumidity;
+    private boolean isHomecam;
 }

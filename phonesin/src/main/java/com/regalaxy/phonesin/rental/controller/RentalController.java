@@ -23,14 +23,14 @@ public class RentalController {
 
     @ApiOperation(value = "기기 대여 신청서 신청")
     @PostMapping("/apply")//신청하기
-    public ResponseEntity<?> infoApply(RentalDetailDto rentalDetailDto, int using_date){
+    public ResponseEntity<?> infoApply(@RequestBody RentalDetailDto rentalDetailDto, int using_date){
         rentalService.infoApply(rentalDetailDto, using_date);
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
 
     @ApiOperation(value = "기기 대여 신청서 수정")
     @PutMapping("/apply/update")//신청수정
-    public ResponseEntity<?> infoUpdate(RentalDetailDto rentalDetailDto){
+    public ResponseEntity<?> infoUpdate(@RequestBody RentalDetailDto rentalDetailDto){
         rentalService.infoUpdated(rentalDetailDto);
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
@@ -44,7 +44,7 @@ public class RentalController {
 
     @ApiOperation(value = "기기 대여 신청서 리스트 조회")
     @GetMapping("/apply/list")//신청 리스트
-    public ResponseEntity<?> infoList(SearchDto searchDto){
+    public ResponseEntity<?> infoList(@RequestBody SearchDto searchDto){
         List<RentalDto> list = rentalService.infoList(searchDto);
         return new ResponseEntity<List<RentalDto>>(list, HttpStatus.OK);
     }
