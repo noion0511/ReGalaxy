@@ -1,7 +1,13 @@
 package com.regalaxy.phonesin.rental.model;
 
-import java.time.LocalDateTime;
+import lombok.*;
 
+import java.time.LocalDateTime;
+@Getter
+@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class RentalApplyDto {
     private Long memberId;
     private boolean isY2K;//rental
