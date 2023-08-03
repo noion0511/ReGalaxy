@@ -2,7 +2,6 @@ package com.ssafy.phonesin.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.ssafy.phonesin.common.AppPreferences
 import com.ssafy.phonesin.network.ApiService
 import com.ssafy.phonesin.network.NetworkResponseAdapterFactory
 import dagger.Module
@@ -31,18 +30,7 @@ object ApiModule {
         return OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
-            }).addInterceptor {
-                val request = it.request()
-                if (request.url.encodedPath.equals("/board/list", true)) {
-                    it.proceed(request)
-                } else {
-                    it.proceed(request.newBuilder().apply {
-                        addHeader(
-                            "Authorization",
-                            AppPreferences.getJwtToken()!!)
-                    }.build())
-                }
-            }.build()
+            }).build()
     }
 
     @Provides

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.hardware.Camera
+import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Environment
 import android.util.Log
@@ -12,23 +13,58 @@ import android.view.SurfaceHolder
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.net.toUri
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentCameraBinding
 import com.ssafy.phonesin.ui.util.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
+@AndroidEntryPoint
 class CameraFragment : BaseFragment<FragmentCameraBinding>(
     R.layout.fragment_camera
 ), SurfaceHolder.Callback {
+
+    private val viewModel by activityViewModels<CameraViewModel>()
+
+    private lateinit var camera: Camera
+    private lateinit var surfaceHolder: SurfaceHolder
+    private var isSafeToTakePicture = false
+
+    private var isFlashOn = false
+    private lateinit var params: Camera.Parameters
+
+    private var photoCount = 0
+    private val maxPhotos = 4
+    private var photoPaths = ArrayList<String>()
+    private var cameraFacing = ArrayList<String>()
+
+    private var cameraId = Camera.CameraInfo.CAMERA_FACING_BACK
+    private val pictureCallback = Camera.PictureCallback { data, _ ->
+        val photoPath = savePictureToPublicDir(data)
+        val cameraFaceType =
+            if (cameraId == Camera.CameraInfo.CAMERA_FACING_FRONT) "FRONT" else "BACK"
+        photoPaths.add(photoPath)
+        cameraFacing.add(cameraFaceType)
+        if (photoCount < maxPhotos) {
+            restartPreview()
+        } else {
+            photoCount = 0
+            bindingNonNull.buttonTakePicture.isEnabled = true
+        }
+    }
+
     override fun onCreateBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
     ): FragmentCameraBinding {
         return FragmentCameraBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
+            viewModel = this@CameraFragment.viewModel
         }
     }
 
@@ -57,39 +93,6 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(
 
         bindingNonNull.buttonTurnLight.setOnClickListener {
             toggleFlash()
-        }
-    }
-
-    private lateinit var camera: Camera
-    private lateinit var surfaceHolder: SurfaceHolder
-    private var isSafeToTakePicture = false
-
-    private var isFlashOn = false
-    private lateinit var params: Camera.Parameters
-
-    private var photoCount = 0
-    private val maxPhotos = 4
-    private var photoPaths = ArrayList<String>()
-    private var cameraFacing = ArrayList<String>()
-
-    private var cameraId = Camera.CameraInfo.CAMERA_FACING_BACK
-    private val pictureCallback = Camera.PictureCallback { data, _ ->
-        val photoPath = savePictureToPublicDir(data)
-        val cameraFaceType =
-            if (cameraId == Camera.CameraInfo.CAMERA_FACING_FRONT) "FRONT" else "BACK"
-        photoPaths.add(photoPath)
-        cameraFacing.add(cameraFaceType)
-        if (photoCount < maxPhotos) {
-            restartPreview()
-        } else {
-            photoCount = 0
-            bindingNonNull.buttonTakePicture.isEnabled = true
-            val intent = Intent(requireContext(), CameraViewerActivity::class.java)
-            intent.putStringArrayListExtra("photo_paths", photoPaths)
-            intent.putStringArrayListExtra("cameraFacing", cameraFacing)
-            photoPaths = ArrayList<String>()
-            cameraFacing = ArrayList<String>()
-            startActivity(intent)
         }
     }
 
@@ -135,6 +138,11 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(
 
             override fun onFinish() {
                 bindingNonNull.buttonTakePicture.visibility = View.VISIBLE
+                val bundle = Bundle().apply {
+                    putStringArrayList("photo_paths", photoPaths)
+                    putStringArrayList("cameraFacing", cameraFacing)
+                }
+                findNavController().navigate(R.id.action_cameraFragment_to_cameraViewerFragment, bundle)
             }
         }.start()
     }

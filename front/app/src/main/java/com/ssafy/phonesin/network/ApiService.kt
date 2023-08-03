@@ -11,6 +11,6 @@ interface ApiService {
     @Multipart
     @POST("/ytwok/apply")
     suspend fun uploadImage(
-        @Part files: MutableList<MultipartBody.Part>?
+        @Part file: MultipartBody.Part
     ): NetworkResponse<PhotoResponse, ErrorResponse>
 }
