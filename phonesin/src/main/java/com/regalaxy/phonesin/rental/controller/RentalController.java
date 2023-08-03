@@ -58,4 +58,11 @@ public class RentalController {
             return new ResponseEntity<String>("이미 연장된 대여신청입니다.", HttpStatus.OK);
         }
     }
+
+    @ApiOperation(value = "기기 대여 신청 수")
+    @GetMapping("/apply/count/{member_id}")//신청 연장
+    public ResponseEntity<?> count(@PathVariable("member_id") Long member_id){
+        int cnt = rentalService.count(member_id);
+        return new ResponseEntity<Integer>(cnt, HttpStatus.OK);
+    }
 }

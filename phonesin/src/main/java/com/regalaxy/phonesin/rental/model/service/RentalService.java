@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -118,5 +119,9 @@ public class RentalService {
             rentalRepository.save(rental);
         }
         return true;
+    }
+
+    public int count(Long member_id){
+        return rentalRepository.countByMember_MemberId(member_id);
     }
 }
