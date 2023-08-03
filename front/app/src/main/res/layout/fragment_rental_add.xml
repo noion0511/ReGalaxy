@@ -62,10 +62,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="20dp"
-                            android:background="@drawable/border_spinner_layout"
-                            android:hint="구미시 진평동 한마음센터 103동"
                             android:padding="10dp"
-                            app:spinner_arrow_tint="@color/black" />
+                            app:spinner_arrow_gravity="end"
+                            android:background="@drawable/rectangle"
+                            android:foreground="?attr/selectableItemBackground"
+                            app:spinner_divider_color="@color/black"
+                            app:spinner_divider_show="true"
+                            app:spinner_divider_size="0.4dp" />
 
                         <RadioButton
                             android:id="@+id/radioButtonNewAddress"
