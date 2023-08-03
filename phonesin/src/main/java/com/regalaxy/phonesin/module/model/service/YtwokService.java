@@ -31,12 +31,14 @@ public class YtwokService {
         String extension;
         //파일의 Content Type 이 있을 경우 Content Type 기준으로 확장자 확인
         if (StringUtils.hasText(contentType)) {
-            if (contentType.equals("image/jpeg")) {
-                extension = "jpg";
+            if (contentType.equals("image/jpg")) {
+                extension = "image/jpg";
             } else if (contentType.equals("image/png")) {
-                extension = "png";
-            } else if (contentType.equals("image/gif")) {
-                extension = "gif";
+                extension = "image/png";
+            } else if (contentType.equals("image/jpeg")) {
+                extension = "image/jpeg";
+            }else if (contentType.equals("image/*")) {
+                extension = "image/*";
             }
             else{
                 // contentType 존재하지 않는 경우 처리
@@ -78,6 +80,7 @@ public class YtwokService {
                     .ytwokId(resultEntity.getYtwokId())
                     .saveFile(resultEntity.getSaveFile())
                     .originalFile(resultEntity.getOriginalFile())
+                    .contentType(extension)
                     .build();
         }
         else{
@@ -103,7 +106,6 @@ public class YtwokService {
 
         Resource resource = new UrlResource("file:" + absolutePath);
 
-
 //        Path path = Paths.get(absolutePath);
 //        Resource resource2 = new InputStreamResource(Files.newInputStream(path)); // 파일 resource 얻기
 //
@@ -115,7 +117,7 @@ public class YtwokService {
 //        File file = new File(path);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
-                .header(HttpHeaders.CONTENT_TYPE, "file/png")
+                .header(HttpHeaders.CONTENT_TYPE, file.getContentType())
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(resource);
     }

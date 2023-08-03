@@ -14,10 +14,13 @@ public class YtwokDto {
 
     private String saveFile;
 
+    private String contentType;
+
     @Builder
-    public YtwokDto (long ytwokId, String saveFile, String originalFile){
+    public YtwokDto (long ytwokId, String saveFile, String originalFile, String contentType){
         this.ytwokId = ytwokId;
         this.saveFile = saveFile;
         this.originalFile = originalFile;
+        this.contentType = contentType;
     }
 }
