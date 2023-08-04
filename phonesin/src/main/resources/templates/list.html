@@ -37,7 +37,7 @@
 	<!-- Three -->
 	<section id="three" class="wrapper align-center">
 		<div class="inner">
-			<div class="flex flex-4">
+			<div class="flex flex-4" th:if="${title=='휴대폰'}">
 				<article class="card" th:each="list : ${list}">
 					<header>
 						<h3 th:text="${list.phoneId}">폰아이디</h3>
@@ -51,6 +51,18 @@
 					</div>
 					<p class="rental" th:if="${list.rentalId != null}"> 대여중</p>
 					<p th:if="${list.rentalId == null}">대여가능</p>
+				</article>
+			</div>
+			<div class="flex flex-4" th:if="${title=='기증'}">
+				<article class="card" th:each="list : ${list}">
+					<header>
+						<h3 th:text="${list.donationId}">폰아이디</h3>
+					</header>
+					<p th:if="${list.donationStatus==1}">신청 대기 중</p>
+					<p th:if="${list.donationStatus==2}">수거 중</p>
+					<p th:if="${list.donationStatus==3}">수거 완료</p>
+					<p th:text="${list.donationCreatedAt}"></p>
+					<p th:text="${list.donationDeliveryDate}"></p>
 				</article>
 			</div>
 		</div>
