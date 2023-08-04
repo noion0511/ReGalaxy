@@ -41,7 +41,12 @@
 					<header>
 						<h3 th:text="${list.phoneId}"></h3>
 					</header>
+					<p th:text="${list.serialNumber}"></p>
 					<p th:text="${list.modelName}"></p>
+					<p th:if="${list.isY2K}">Y2K</p>
+					<p th:if="${list.isClimateHumidity}">습온도계</p>
+					<p th:if="${list.isHomecam}">홈캠</p>
+					<p th:if="${list.rentalId != null}">대여중</p>
 				</article>
 				<article>
 					<header>
