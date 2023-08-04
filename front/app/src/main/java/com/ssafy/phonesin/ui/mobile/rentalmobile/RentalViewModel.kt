@@ -1,11 +1,10 @@
 package com.ssafy.phonesin.ui.mobile.rentalmobile
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.ssafy.phonesin.ApplicationClass.Companion.MEMBER_ID
 import com.ssafy.phonesin.model.Address
-import com.ssafy.phonesin.model.Donation
 import com.ssafy.phonesin.model.Event
 import com.ssafy.phonesin.model.Rental
 import com.ssafy.phonesin.network.NetworkResponse
@@ -42,9 +41,15 @@ class RentalViewModel @Inject constructor(
 //        getPossibleRentalCount()
     }
 
+    fun postRental() {
+        viewModelScope.launch {
+            _rentalList.value?.let { rentalRepository.postRental(it.toList()) }
+        }
+    }
+
     fun getPossibleRentalCount() {
         viewModelScope.launch {
-            when (val rentalCountResponse = rentalRepository.getPossibleRentalCount(8)) {
+            when (val rentalCountResponse = rentalRepository.getPossibleRentalCount(MEMBER_ID)) {
                 is NetworkResponse.Success -> {
                     _possibleRentalCount.value = 10 - rentalCountResponse.body
                 }
@@ -64,13 +69,13 @@ class RentalViewModel @Inject constructor(
         }
     }
 
-    fun clearRentalList(){
+    fun clearRentalList() {
         _rentalList.value = mutableListOf()
     }
 
     fun getAddressList() {
         viewModelScope.launch {
-            when (val addressResponse = addressRepository.getAddress(8)) {
+            when (val addressResponse = addressRepository.getAddress(MEMBER_ID)) {
                 is NetworkResponse.Success -> {
                     _addressList = addressResponse.body.toMutableList()
                 }

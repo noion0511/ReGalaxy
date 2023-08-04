@@ -4,6 +4,7 @@ import com.ssafy.phonesin.model.Address
 import com.ssafy.phonesin.model.Donation
 import com.ssafy.phonesin.model.ErrorResponse
 import com.ssafy.phonesin.model.PhotoResponse
+import com.ssafy.phonesin.model.Rental
 import okhttp3.MultipartBody
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -25,6 +26,10 @@ interface ApiService {
 
     @GET("/rental/apply/count/{member_id}")
     suspend fun getPossibleRentalCount(@Path("member_id") memberId: Int): NetworkResponse<Int, ErrorResponse>
+
+
+    @POST("/rental/apply")
+    suspend fun postRental(@Body rentalApplylistDto: List<Rental>)
 
 
     @POST("/donation/apply")
