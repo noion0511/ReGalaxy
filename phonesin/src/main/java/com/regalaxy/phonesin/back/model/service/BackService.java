@@ -28,15 +28,15 @@ public class BackService {
     @Transactional
     public void apply(BackDto backdto) {
         Rental rental = rentalRepository.findById(backdto.getRentalId()).get();
-        System.out.println(backdto.getPhoneId());
-        Phone phone = phoneRepository.findById(backdto.getPhoneId()).get();
-        backRepository.save(backdto.toEntity(rental, phone));
+        backRepository.save(backdto.toEntity(rental));
     }
 
     // backId인 반납 신청서 read
     @Transactional
-    public Back backInfo(Long backId) {
-        return backRepository.findById(backId).get();
+    public BackInfoDto backInfo(Long backId) {
+        Back back = backRepository.findById(backId).get();
+        Phone phone = phoneRepository.findById(back.getPhoneId()).get();
+        return new BackInfoDto(back, phone);
     }
 
     // 전체 반납 신청서 조회/검색/페이징
@@ -46,9 +46,9 @@ public class BackService {
         boolean isBlackBoolean;
         boolean isChaBoolean;
 
-        // email, isBlack, isCha 각각으로 검색할 수 있도록 개발 (셋 중에 하나만 됨)
-        // isBlack, isCha : 모두(1), Black 또는 Cha가 맞다(2), 아니다(3)
-
+//         email, isBlack, isCha 각각으로 검색할 수 있도록 개발 (셋 중에 하나만 됨)
+//         isBlack, isCha : 모두(1), Black 또는 Cha가 맞다(2), 아니다(3)
+//
         // email에 아무것도 입력하지 않은 상태면 모든 반납 신청서 return
         if (email == null) {
             // 1이면 모두 검색이므로 조건문 넣지 않는다.

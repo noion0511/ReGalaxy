@@ -19,25 +19,24 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class BackInfoDto {
     private Long backId;
-    private Long rentalId;
     private Long phoneId;
     private String modelName;
     private int backStatus; // 반납 상태 : 신청(1), 승인(2), 수거완료(3), 상태확인(4)
+    @JsonFormat(pattern = "yyyy/MM/dd")
     private LocalDate backDeliveryDate;
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern = "yyyy/MM/dd")
     private LocalDateTime createdAt; // 신청서 작성 날짜(자동 생성)(BaseTimeEntity)
     private String backDeliveryLocation; // 1 배달의 경우 배달지 주소, 서비스센터 제출의 경우 서비스센터 주소
+    private Boolean phoneStatus;
 
-    public static BackInfoDto fromEntity(Back back) {
-        BackInfoDto backInfoDto = new BackInfoDto();
-        backInfoDto.setBackId(back.getBackId());
-        backInfoDto.setBackStatus(back.getBackStatus());
-        backInfoDto.setBackDeliveryDate(back.getBackDeliveryDate());
-        backInfoDto.setBackDeliveryLocation(back.getBackDeliveryLocation());
-        backInfoDto.setRentalId(back.getRental().getRentalId());
-        backInfoDto.setPhoneId(back.getPhone().getPhoneId());
-        backInfoDto.setModelName(back.getPhone().getModel().getModelName());
-        backInfoDto.setCreatedAt(back.getCreatedAt());
-        return backInfoDto;
+    public BackInfoDto(Back back, Phone phone) {
+        this.backId = back.getBackId();
+        this.phoneId = phone.getPhoneId();
+        this.modelName = phone.getModel().getModelName();
+        this.backStatus = back.getBackStatus();
+        this.backDeliveryDate =back.getBackDeliveryDate();
+        this.createdAt = back.getCreatedAt();
+        this.backDeliveryLocation = back.getBackDeliveryLocation();
+        this.phoneStatus = back.getPhoneStatus();
     }
 }

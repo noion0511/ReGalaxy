@@ -1,9 +1,11 @@
 package com.regalaxy.phonesin.phone.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.regalaxy.phonesin.back.model.BackDto;
 import com.regalaxy.phonesin.back.model.entity.Back;
 import com.regalaxy.phonesin.donation.model.entity.Donation;
 import com.regalaxy.phonesin.member.model.entity.Member;
+import com.regalaxy.phonesin.rental.model.entity.Rental;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,9 +19,10 @@ public class Phone {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long phoneId;
-    private Long rentalId;
-    @OneToOne(mappedBy = "phone", cascade = CascadeType.ALL)
-    private Back back;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "rental_id")
+    private Rental rental;
     @ManyToOne
     @JoinColumn(name="model_id")
     private Model model;
