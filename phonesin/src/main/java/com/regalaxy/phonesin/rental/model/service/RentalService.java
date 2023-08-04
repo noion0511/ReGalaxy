@@ -5,6 +5,7 @@ import com.regalaxy.phonesin.member.model.SearchDto;
 import com.regalaxy.phonesin.member.model.entity.Member;
 import com.regalaxy.phonesin.member.model.repository.MemberRepository;
 import com.regalaxy.phonesin.phone.model.repository.PhoneRepository;
+import com.regalaxy.phonesin.rental.model.RentalApplyDto;
 import com.regalaxy.phonesin.rental.model.RentalDetailDto;
 import com.regalaxy.phonesin.rental.model.RentalDto;
 import com.regalaxy.phonesin.rental.model.entity.Rental;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,33 +29,33 @@ public class RentalService {
     @Autowired
     private AgencyRepository agencyRepository;
 
-    public boolean infoApply(RentalDetailDto rentalDetailDto, int using_date){
+    public boolean infoApply(RentalApplyDto rentalApplyDto){
         Rental rental = new Rental();
-        rental.setUsingDate(using_date);
-        Member member = memberRepository.findById(rentalDetailDto.getMemberId()).get();
+        rental.setUsingDate(rentalApplyDto.getUsingDate());
+        Member member = memberRepository.findById(rentalApplyDto.getMemberId()).get();
         rental.setMember(member);//사용자 정보
         rental.setApplyDate(LocalDateTime.now());//신청 날짜
         rental.setRentalStatus(1);//배송 상태 : 1 = 신청 대기
-        rental.setY2K(rentalDetailDto.isY2K());
-        rental.setHomecam(rentalDetailDto.isHomecam());
-        rental.setClimateHumidity(rentalDetailDto.isClimateHumidity());
-        rental.setCount(rentalDetailDto.getCount());//갯수
-        rental.setRentalDeliveryLocation(rentalDetailDto.getRentalDeliveryLocation());//배송지
-        rental.setFund(rentalDetailDto.getFund());//가격
-        rental.setUsingDate(rentalDetailDto.getUsingDate());//사용 기간
+        rental.setY2K(rentalApplyDto.isY2K());
+        rental.setHomecam(rentalApplyDto.isHomecam());
+        rental.setClimateHumidity(rentalApplyDto.isClimateHumidity());
+        rental.setCount(rentalApplyDto.getCount());//갯수
+        rental.setRentalDeliveryLocation(rentalApplyDto.getRentalDeliveryLocation());//배송지
+        rental.setFund(rentalApplyDto.getFund());//가격
+        rental.setUsingDate(rentalApplyDto.getUsingDate());//사용 기간
         rentalRepository.save(rental);
         return true;
     }
 
-    public boolean infoUpdated(RentalDetailDto rentalDetailDto){
-        Rental rental = rentalRepository.findById(rentalDetailDto.getRentalId()).get();
-        rental.setCount(rentalDetailDto.getCount());//갯수
-        rental.setFund(rentalDetailDto.getFund());//가격
-        rental.setHomecam(rentalDetailDto.isHomecam());
-        rental.setClimateHumidity(rentalDetailDto.isClimateHumidity());
-        rental.setY2K(rentalDetailDto.isY2K());
-        rental.setRentalDeliveryLocation(rentalDetailDto.getRentalDeliveryLocation());//배달 주소
-        rental.setUsingDate(rentalDetailDto.getUsingDate());//사용 기간
+    public boolean infoUpdated(RentalApplyDto rentalApplyDto, Long rental_id){
+        Rental rental = rentalRepository.findById(rental_id).get();
+        rental.setCount(rentalApplyDto.getCount());//갯수
+        rental.setFund(rentalApplyDto.getFund());//가격
+        rental.setHomecam(rentalApplyDto.isHomecam());
+        rental.setClimateHumidity(rentalApplyDto.isClimateHumidity());
+        rental.setY2K(rentalApplyDto.isY2K());
+        rental.setRentalDeliveryLocation(rentalApplyDto.getRentalDeliveryLocation());//배달 주소
+        rental.setUsingDate(rentalApplyDto.getUsingDate());//사용 기간
         rentalRepository.save(rental);
         return true;
     }
@@ -65,6 +67,10 @@ public class RentalService {
 
     public List<RentalDto> infoList(SearchDto searchDto){
         return rentalRepository.search(searchDto);
+    }
+
+    public List<RentalDto> clientInfoList(Long member_id){
+        return rentalRepository.searchById(member_id);
     }
 
     public RentalDetailDto info(Long return_id){
@@ -113,5 +119,9 @@ public class RentalService {
             rentalRepository.save(rental);
         }
         return true;
+    }
+
+    public int count(Long member_id){
+        return rentalRepository.countByMember_MemberId(member_id);
     }
 }

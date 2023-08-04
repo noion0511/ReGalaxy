@@ -3,6 +3,7 @@ package com.regalaxy.phonesin.rental.model.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.regalaxy.phonesin.address.model.entity.Agency;
 import com.regalaxy.phonesin.back.model.entity.Back;
+import com.regalaxy.phonesin.global.BaseTimeEntity;
 import com.regalaxy.phonesin.member.model.entity.Member;
 import lombok.*;
 
@@ -15,7 +16,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @Setter
 @Table(name = "rental")
-public class Rental {
+public class Rental extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long rentalId;

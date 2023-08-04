@@ -1,14 +1,17 @@
-package com.regalaxy.phonesin.member;
+package com.regalaxy.phonesin.member.model;
 
-import com.regalaxy.phonesin.donation.model.entity.Donation;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.regalaxy.phonesin.member.model.entity.Member;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class MemberResponseDto {
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class MemberAdminDto {
     private Long memberId;
 
     private String email;
@@ -18,9 +21,13 @@ public class MemberResponseDto {
     private Boolean isBlackList;
     private Boolean isDelete;
     private Boolean isManager;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    private LocalDateTime createdAt;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    private LocalDateTime updatedAt;
 
     @Builder
-    public MemberResponseDto(Member member) {
+    public MemberAdminDto(Member member) {
         this.memberId = member.getMemberId();
         this.email = member.getEmail();
         this.memberName = member.getMemberName();
@@ -29,5 +36,7 @@ public class MemberResponseDto {
         this.isBlackList = member.getIsBlackList();
         this.isDelete = member.getIsDelete();
         this.isManager = member.getIsManager();
+        this.createdAt = member.getCreatedAt();
+        this.updatedAt = member.getUpdatedAt();
     }
 }

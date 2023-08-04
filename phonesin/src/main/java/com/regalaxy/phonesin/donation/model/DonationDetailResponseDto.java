@@ -1,7 +1,7 @@
 package com.regalaxy.phonesin.donation.model;
 
 import com.regalaxy.phonesin.donation.model.entity.Donation;
-import com.regalaxy.phonesin.member.MemberResponseDto;
+import com.regalaxy.phonesin.member.model.MemberAdminDto;
 import com.regalaxy.phonesin.member.model.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
