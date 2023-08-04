@@ -3223,3 +3223,26 @@
 			}
 
 		}
+
+/*card*/
+    .module p{
+        float: left;
+        width: 4em;
+        margin: 0.1em;
+        background-color: #000000;
+        border-radius: 40px;
+        color: #ffffff;
+    }
+
+    .card {
+        padding: 2em;
+        width: 17em;
+    }
+
+    .card p {
+        margin-bottom: 1em;
+    }
+
+    .rental{
+        color: #0080ff;
+    }
