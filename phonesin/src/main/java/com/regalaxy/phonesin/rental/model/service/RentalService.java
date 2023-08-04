@@ -30,20 +30,21 @@ public class RentalService {
     private AgencyRepository agencyRepository;
 
     public boolean infoApply(RentalApplyDto rentalApplyDto){
-        Rental rental = new Rental();
-        rental.setUsingDate(rentalApplyDto.getUsingDate());
-        Member member = memberRepository.findById(rentalApplyDto.getMemberId()).get();
-        rental.setMember(member);//사용자 정보
-        rental.setApplyDate(LocalDateTime.now());//신청 날짜
-        rental.setRentalStatus(1);//배송 상태 : 1 = 신청 대기
-        rental.setY2K(rentalApplyDto.isY2K());
-        rental.setHomecam(rentalApplyDto.isHomecam());
-        rental.setClimateHumidity(rentalApplyDto.isClimateHumidity());
-        rental.setCount(rentalApplyDto.getCount());//갯수
-        rental.setRentalDeliveryLocation(rentalApplyDto.getRentalDeliveryLocation());//배송지
-        rental.setFund(rentalApplyDto.getFund());//가격
-        rental.setUsingDate(rentalApplyDto.getUsingDate());//사용 기간
-        rentalRepository.save(rental);
+        for(int i=0; i<rentalApplyDto.getCount(); i++) {//갯수
+            Rental rental = new Rental();
+            rental.setUsingDate(rentalApplyDto.getUsingDate());
+            Member member = memberRepository.findById(rentalApplyDto.getMemberId()).get();
+            rental.setMember(member);//사용자 정보
+            rental.setApplyDate(LocalDateTime.now());//신청 날짜
+            rental.setRentalStatus(1);//배송 상태 : 1 = 신청 대기
+            rental.setY2K(rentalApplyDto.isY2K());
+            rental.setHomecam(rentalApplyDto.isHomecam());
+            rental.setClimateHumidity(rentalApplyDto.isClimateHumidity());
+            rental.setRentalDeliveryLocation(rentalApplyDto.getRentalDeliveryLocation());//배송지
+            rental.setFund(rentalApplyDto.getFund());//가격
+            rental.setUsingDate(rentalApplyDto.getUsingDate());//사용 기간
+            rentalRepository.save(rental);
+        }
         return true;
     }
 
