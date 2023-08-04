@@ -30,7 +30,6 @@ public class PhoneService {
         PhoneDto phoneDto = new PhoneDto();
         phoneDto.setPhoneId(phone_id);
         phoneDto.setModelName(phone.getModel().getModelName());
-        phoneDto.setRentalId(phone.getRentalId());
         return phoneDto;
     }
 
