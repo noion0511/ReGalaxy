@@ -91,7 +91,7 @@ public class DonationController {
     }
 
     @ApiOperation(value = "특정 멤버의 기증 리스트")
-    @GetMapping("/member/")
+    @GetMapping("/member")
     public ResponseEntity<Map<String, Object>> donationList(@RequestHeader String authorization) throws Exception {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         Long memberId = jwtTokenProvider.getMemberId(authorization.split(" ")[1]);
