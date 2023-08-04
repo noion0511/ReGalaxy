@@ -1,9 +1,11 @@
 package com.ssafy.phonesin.ui.mobile.rentalmobile
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ssafy.phonesin.model.Address
+import com.ssafy.phonesin.model.Donation
 import com.ssafy.phonesin.model.Event
 import com.ssafy.phonesin.model.Rental
 import com.ssafy.phonesin.network.NetworkResponse
@@ -20,24 +22,27 @@ class RentalViewModel @Inject constructor(
     private val rentalRepository: RentalRepository
 ) : BaseViewModel() {
     private val _rentalList = MutableLiveData<MutableList<Rental>>()
-    val rentalList: LiveData<MutableList<Rental>> = _rentalList
+    val rentalList: LiveData<MutableList<Rental>>
+        get() = _rentalList
 
-    private val _addressList = mutableListOf<Address>()
-    val addressList: MutableList<Address> = _addressList
+    private var _addressList = mutableListOf<Address>()
+    val addressList: MutableList<Address>
+        get() = _addressList
 
     private val _possibleRentalCount = MutableLiveData<Int>()
-    val possibleRentalCount: LiveData<Int> = _possibleRentalCount
+    val possibleRentalCount: LiveData<Int>
+        get() = _possibleRentalCount
 
     private val _msg = MutableLiveData<Event<String>>()
     val errorMsg: LiveData<Event<String>> = _msg
 
     init {
         _rentalList.value = mutableListOf()
-        getAddressList()
-        getPossibleRentalCount()
+//        getAddressList()
+//        getPossibleRentalCount()
     }
 
-    private fun getPossibleRentalCount() {
+    fun getPossibleRentalCount() {
         viewModelScope.launch {
             when (val rentalCountResponse = rentalRepository.getPossibleRentalCount(8)) {
                 is NetworkResponse.Success -> {
@@ -59,12 +64,15 @@ class RentalViewModel @Inject constructor(
         }
     }
 
+    fun clearRentalList(){
+        _rentalList.value = mutableListOf()
+    }
 
-    private fun getAddressList() {
+    fun getAddressList() {
         viewModelScope.launch {
             when (val addressResponse = addressRepository.getAddress(8)) {
                 is NetworkResponse.Success -> {
-                    _addressList.addAll(addressResponse.body)
+                    _addressList = addressResponse.body.toMutableList()
                 }
 
                 is NetworkResponse.ApiError -> {
@@ -104,6 +112,10 @@ class RentalViewModel @Inject constructor(
             updatedList[id].count = updatedList[id].count - 1
             _rentalList.value = updatedList
         }
+    }
+
+    fun currentRentalListSize(): Int? {
+        return _rentalList.value?.sumOf { it.count }
     }
 
 }

@@ -58,11 +58,11 @@ class RentalMobileFragment :
         rentalMobileAdapter.plusRentalMobileListener =
             object : RentalMobileAdapter.PlusRentalMobileListener {
                 override fun onClick(id: Int) {
-                    val count = rentalMobileViewModel.rentalList.value?.sumOf { it.count } ?: 0
+                    val count = currentRentalList() ?: 0
                     if (count < rentalCount) {
                         rentalMobileViewModel.plusRental(id)
                         bindingNonNull.rentalNum.text =
-                            "대여 갯수:${rentalMobileViewModel.rentalList.value?.sumOf { it.count }}"
+                            "대여 갯수:${currentRentalList()}"
                     } else {
                         showToast("최대 갯수 입니다.")
                     }
@@ -74,7 +74,7 @@ class RentalMobileFragment :
                 override fun onClick(id: Int) {
                     rentalMobileViewModel.minusRental(id)
                     bindingNonNull.rentalNum.text =
-                        "대여 갯수:${rentalMobileViewModel.rentalList.value?.sumOf { it.count }}"
+                        "대여 갯수:${currentRentalList()}"
                 }
             }
         rentalMobileAdapter.updateRentalMobileListener =
@@ -88,10 +88,14 @@ class RentalMobileFragment :
 
         rentalMobileViewModel.rentalList.observe(viewLifecycleOwner) {
             bindingNonNull.rentalNum.text =
-                "대여 갯수:${rentalMobileViewModel.rentalList.value?.sumOf { it.count }}"
+                "대여 갯수:${currentRentalList()}"
             rentalMobileAdapter.submitList(it)
         }
 
+    }
+
+    fun currentRentalList(): Int? {
+        return rentalMobileViewModel.rentalList.value?.sumOf { it.count }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -100,9 +104,13 @@ class RentalMobileFragment :
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+        rentalMobileViewModel.getAddressList()
+        rentalMobileViewModel.getPossibleRentalCount()
         val mainActivity = activity as MainActivity
         mainActivity.hideBottomNavi(true)
     }
+
+
 
     private fun rentalMobileUi() = with(bindingNonNull) {
         rentalNum.text = "대여 갯수:0"
@@ -113,7 +121,7 @@ class RentalMobileFragment :
         }
 
         mobileAdd.setOnClickListener {
-            val temp = rentalMobileViewModel.rentalList.value?.sumOf { it.count } ?: 0
+            val temp = currentRentalList() ?: 0
             if (temp == rentalCount) {
                 showToast("최대 갯수 입니다.")
             } else {

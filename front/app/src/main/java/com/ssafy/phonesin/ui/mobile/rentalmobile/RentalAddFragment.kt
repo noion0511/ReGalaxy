@@ -55,13 +55,37 @@ class RentalAddFragment :
 
     private fun setRentalAddUi() = with(bindingNonNull) {
         radioButtonRentalAddOneMonth.isChecked = true
-        spinnerRentalAddAddress.setItems(parentViewModel.addressList.map { it.address }.toList())
-        spinnerRentalAddAddress.setIsFocusable(true)
-        spinnerRentalAddAddress.selectItemByIndex(0)
+
+
+        radioGroupRentalAdd.setOnCheckedChangeListener { _, checkedId ->
+            // 라디오 버튼 상태에 따라 EditText 클릭 가능 여부 설정
+            when (checkedId) {
+                R.id.radioButtonExistAddress -> {
+                    spinnerRentalAddAddress.isEnabled = true
+                    editTextRentalAddAddress.isEnabled = false
+                }
+
+                R.id.radioButtonNewAddress -> {
+                    spinnerRentalAddAddress.isEnabled = false
+                    editTextRentalAddAddress.isEnabled = true
+                }
+            }
+        }
 
         if (parentViewModel.addressList.size == 0) {
             radioButtonNewAddress.isChecked = true
+            radioButtonExistAddress.isChecked = false
             radioButtonExistAddress.isClickable = false
+            spinnerRentalAddAddress.isEnabled = false
+        } else {
+            radioButtonNewAddress.isChecked = false
+            radioButtonExistAddress.isChecked = true
+            spinnerRentalAddAddress.isEnabled = false
+            editTextRentalAddAddress.isEnabled = true
+
+            spinnerRentalAddAddress.setItems(parentViewModel.addressList.map { it.address }.toList())
+            spinnerRentalAddAddress.setIsFocusable(true)
+            spinnerRentalAddAddress.selectItemByIndex(0)
         }
 
         buttonSelectMobile.setOnClickListener {
@@ -101,14 +125,14 @@ class RentalAddFragment :
 
         }
 
-        if (radioButtonExistAddress.isChecked) {
-            editTextRentalAddAddress.isClickable = false
-            spinnerRentalAddAddress.isClickable = true
-        }
-        if (radioButtonNewAddress.isChecked) {
-            editTextRentalAddAddress.isClickable = true
-            spinnerRentalAddAddress.isClickable = false
-        }
+//        if (radioButtonExistAddress.isChecked) {
+//            editTextRentalAddAddress.isClickable = false
+//            spinnerRentalAddAddress.isClickable = true
+//        }
+//        if (radioButtonNewAddress.isChecked) {
+//            editTextRentalAddAddress.isClickable = true
+//            spinnerRentalAddAddress.isClickable = false
+//        }
 
     }
 
