@@ -6,6 +6,7 @@ import android.graphics.Matrix
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
@@ -25,9 +26,9 @@ class FrameViewerFragment : BaseFragment<FragmentFrameViewerBinding>(
 
     private var colorIndex = 0
     private val colors = listOf(
+        R.color.cameraFrame1,
         R.color.keyColorDark1,
-        R.color.keyColorLight1,
-        R.color.keyColorLight2
+        R.color.keyColorLight1
     )
 
     override fun onCreateBinding(
@@ -64,7 +65,8 @@ class FrameViewerFragment : BaseFragment<FragmentFrameViewerBinding>(
                 true
             )
 
-            bindingNonNull.imageView.setImageBitmap(rotatedBitmap)
+            bindingNonNull.imageViewOne.photoViewer.setImageBitmap(rotatedBitmap)
+            bindingNonNull.imageViewFour.visibility = View.INVISIBLE
         } else if(photoPaths != null && photoPaths.size == 4){
             showImage(photoPaths)
         }
@@ -83,11 +85,39 @@ class FrameViewerFragment : BaseFragment<FragmentFrameViewerBinding>(
         bindingNonNull.buttonArrowLeft.setOnClickListener {
             colorIndex = (colorIndex + 1) % colors.size
             bindingNonNull.frameView.setBackgroundColor(ContextCompat.getColor(requireContext(), colors[colorIndex]))
+            if(colors[colorIndex] == R.color.cameraFrame1) {
+                bindingNonNull.imageViewFramePuppy.visibility = View.VISIBLE
+                bindingNonNull.imageViewFrameLogo.visibility = View.GONE
+                bindingNonNull.imageViewFrameLogo2.visibility = View.GONE
+
+            } else if(colors[colorIndex] == R.color.keyColorLight1){
+                bindingNonNull.imageViewFramePuppy.visibility = View.GONE
+                bindingNonNull.imageViewFrameLogo2.visibility = View.VISIBLE
+                bindingNonNull.imageViewFrameLogo.visibility = View.GONE
+            } else {
+                bindingNonNull.imageViewFramePuppy.visibility = View.GONE
+                bindingNonNull.imageViewFrameLogo2.visibility = View.GONE
+                bindingNonNull.imageViewFrameLogo.visibility = View.VISIBLE
+            }
         }
 
         bindingNonNull.buttonArrowRight.setOnClickListener {
             colorIndex = (colorIndex - 1 + colors.size) % colors.size
             bindingNonNull.frameView.setBackgroundColor(ContextCompat.getColor(requireContext(), colors[colorIndex]))
+            if(colors[colorIndex] == R.color.cameraFrame1) {
+                bindingNonNull.imageViewFramePuppy.visibility = View.VISIBLE
+                bindingNonNull.imageViewFrameLogo.visibility = View.GONE
+                bindingNonNull.imageViewFrameLogo2.visibility = View.GONE
+
+            } else if(colors[colorIndex] == R.color.keyColorDark1){
+                bindingNonNull.imageViewFramePuppy.visibility = View.GONE
+                bindingNonNull.imageViewFrameLogo.visibility = View.VISIBLE
+                bindingNonNull.imageViewFrameLogo2.visibility = View.GONE
+            } else {
+                bindingNonNull.imageViewFramePuppy.visibility = View.GONE
+                bindingNonNull.imageViewFrameLogo.visibility = View.GONE
+                bindingNonNull.imageViewFrameLogo2.visibility = View.VISIBLE
+            }
         }
     }
 
@@ -101,11 +131,13 @@ class FrameViewerFragment : BaseFragment<FragmentFrameViewerBinding>(
             val rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
 
             when (i) {
-                0 -> bindingNonNull.photoViewer1.setImageBitmap(rotatedBitmap)
-                1 -> bindingNonNull.photoViewer2.setImageBitmap(rotatedBitmap)
-                2 -> bindingNonNull.photoViewer3.setImageBitmap(rotatedBitmap)
-                3 -> bindingNonNull.photoViewer4.setImageBitmap(rotatedBitmap)
+                0 -> bindingNonNull.photoViewer1.photoViewer.setImageBitmap(rotatedBitmap)
+                1 -> bindingNonNull.photoViewer2.photoViewer.setImageBitmap(rotatedBitmap)
+                2 -> bindingNonNull.photoViewer3.photoViewer.setImageBitmap(rotatedBitmap)
+                3 -> bindingNonNull.photoViewer4.photoViewer.setImageBitmap(rotatedBitmap)
             }
         }
+
+        bindingNonNull.imageViewOne.cardView.visibility = View.INVISIBLE
     }
 }

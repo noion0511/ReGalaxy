@@ -49,9 +49,8 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
         val imagePath = arguments?.getString("imagePath")
         val photoPaths = arguments?.getStringArrayList("photo_paths")
         val frameColor = arguments?.getInt("frameColor") ?: R.color.keyColorDark1
-        val imageView = bindingNonNull.imageView
 
-        if(photoPaths.isNullOrEmpty() && imagePath != null) {
+        if (photoPaths.isNullOrEmpty() && imagePath != null) {
             val originalBitmap = BitmapFactory.decodeFile(imagePath)
             Log.d("FrameFragment", "Original Bitmap: $originalBitmap")
 
@@ -68,20 +67,41 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
                 true
             )
 
-            imageView.setImageBitmap(rotatedBitmap)
-        } else if(photoPaths != null && photoPaths.size == 4){
+            bindingNonNull.imageViewOne.photoViewer.setImageBitmap(rotatedBitmap)
+            bindingNonNull.imageViewFour.visibility = View.INVISIBLE
+        } else if (photoPaths != null && photoPaths.size == 4) {
             showImage(photoPaths)
         }
 
+        bindingNonNull.viewFrame.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                frameColor
+            )
+        )
 
-
-        bindingNonNull.viewFrame.setBackgroundColor(ContextCompat.getColor(requireContext(), frameColor))
-
-        if(frameColor == R.color.keyColorLight1) {
-            bindingNonNull.textViewTime.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-            bindingNonNull.textViewTitle.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+        if (frameColor == R.color.keyColorLight1) {
+            bindingNonNull.textViewTime.visibility = View.INVISIBLE
         }
 
+        when (frameColor) {
+            R.color.cameraFrame1 -> {
+                bindingNonNull.imageViewFramePuppy.visibility = View.VISIBLE
+                bindingNonNull.imageViewFrameLogo.visibility = View.GONE
+                bindingNonNull.imageViewFrameLogo2.visibility = View.GONE
+
+            }
+            R.color.keyColorDark1 -> {
+                bindingNonNull.imageViewFramePuppy.visibility = View.GONE
+                bindingNonNull.imageViewFrameLogo.visibility = View.VISIBLE
+                bindingNonNull.imageViewFrameLogo2.visibility = View.GONE
+            }
+            else -> {
+                bindingNonNull.imageViewFramePuppy.visibility = View.GONE
+                bindingNonNull.imageViewFrameLogo.visibility = View.GONE
+                bindingNonNull.imageViewFrameLogo2.visibility = View.VISIBLE
+            }
+        }
 
         viewModel.viewModelScope.launch {
             delay(1000L)  // Wait for 1 second
@@ -128,15 +148,18 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
             val rotationDegrees = 90f
             val matrix = Matrix().apply { postRotate(rotationDegrees) }
 
-            val rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+            val rotatedBitmap =
+                Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
 
             when (i) {
-                0 -> bindingNonNull.photoViewer1.setImageBitmap(rotatedBitmap)
-                1 -> bindingNonNull.photoViewer2.setImageBitmap(rotatedBitmap)
-                2 -> bindingNonNull.photoViewer3.setImageBitmap(rotatedBitmap)
-                3 -> bindingNonNull.photoViewer4.setImageBitmap(rotatedBitmap)
+                0 -> bindingNonNull.photoViewer1.photoViewer.setImageBitmap(rotatedBitmap)
+                1 -> bindingNonNull.photoViewer2.photoViewer.setImageBitmap(rotatedBitmap)
+                2 -> bindingNonNull.photoViewer3.photoViewer.setImageBitmap(rotatedBitmap)
+                3 -> bindingNonNull.photoViewer4.photoViewer.setImageBitmap(rotatedBitmap)
             }
         }
+
+        bindingNonNull.imageViewOne.cardView.visibility = View.INVISIBLE
     }
 
     private fun layoutToBitmap(layout: View): Bitmap? {
