@@ -53,7 +53,7 @@ class FrameViewerFragment : BaseFragment<FragmentFrameViewerBinding>(
         val imagePath = arguments?.getString("imagePath") ?: ""
         val photoPaths = arguments?.getStringArrayList("photo_paths")
 
-        if(photoPaths.isNullOrEmpty() && imagePath != null) {
+        if (photoPaths.isNullOrEmpty() && imagePath != null) {
             val originalBitmap = BitmapFactory.decodeFile(imagePath)
             Log.d("FrameFragment", "Original Bitmap: $originalBitmap")
 
@@ -72,7 +72,7 @@ class FrameViewerFragment : BaseFragment<FragmentFrameViewerBinding>(
 
             bindingNonNull.imageViewOne.imageViewContent.setImageBitmap(rotatedBitmap)
             bindingNonNull.imageViewFour.visibility = View.INVISIBLE
-        } else if(photoPaths != null && photoPaths.size == 4){
+        } else if (photoPaths != null && photoPaths.size == 4) {
             showImage(photoPaths)
         }
 
@@ -89,15 +89,20 @@ class FrameViewerFragment : BaseFragment<FragmentFrameViewerBinding>(
 
         bindingNonNull.buttonArrowLeft.setOnClickListener {
             colorIndex = (colorIndex + 1) % colors.size
-            bindingNonNull.frameView.setBackgroundColor(ContextCompat.getColor(requireContext(), colors[colorIndex]))
+            bindingNonNull.frameView.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    colors[colorIndex]
+                )
+            )
             setFrameColor(frames[colorIndex])
-            if(colors[colorIndex] == R.color.cameraFrame1) {
+            if (colors[colorIndex] == R.color.cameraFrame1) {
                 bindingNonNull.imageViewFramePuppy.visibility = View.VISIBLE
                 bindingNonNull.imageViewFrameLogo.visibility = View.GONE
                 bindingNonNull.imageViewFrameLogo2.visibility = View.GONE
                 bindingNonNull.imageViewOne.imageViewFrame.setBackgroundResource(R.drawable.round_corners_frame)
 
-            } else if(colors[colorIndex] == R.color.keyColorLight1){
+            } else if (colors[colorIndex] == R.color.keyColorLight1) {
                 bindingNonNull.imageViewFramePuppy.visibility = View.GONE
                 bindingNonNull.imageViewFrameLogo2.visibility = View.VISIBLE
                 bindingNonNull.imageViewFrameLogo.visibility = View.GONE
@@ -112,14 +117,19 @@ class FrameViewerFragment : BaseFragment<FragmentFrameViewerBinding>(
 
         bindingNonNull.buttonArrowRight.setOnClickListener {
             colorIndex = (colorIndex - 1 + colors.size) % colors.size
-            bindingNonNull.frameView.setBackgroundColor(ContextCompat.getColor(requireContext(), colors[colorIndex]))
+            bindingNonNull.frameView.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    colors[colorIndex]
+                )
+            )
             setFrameColor(frames[colorIndex])
-            if(colors[colorIndex] == R.color.cameraFrame1) {
+            if (colors[colorIndex] == R.color.cameraFrame1) {
                 bindingNonNull.imageViewFramePuppy.visibility = View.VISIBLE
                 bindingNonNull.imageViewFrameLogo.visibility = View.GONE
                 bindingNonNull.imageViewFrameLogo2.visibility = View.GONE
                 bindingNonNull.imageViewOne.imageViewFrame.setBackgroundResource(R.drawable.round_corners_frame)
-            } else if(colors[colorIndex] == R.color.keyColorDark1){
+            } else if (colors[colorIndex] == R.color.keyColorDark1) {
                 bindingNonNull.imageViewFramePuppy.visibility = View.GONE
                 bindingNonNull.imageViewFrameLogo.visibility = View.VISIBLE
                 bindingNonNull.imageViewFrameLogo2.visibility = View.GONE
@@ -141,7 +151,8 @@ class FrameViewerFragment : BaseFragment<FragmentFrameViewerBinding>(
             val rotationDegrees = 90f
             val matrix = Matrix().apply { postRotate(rotationDegrees) }
 
-            val rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+            val rotatedBitmap =
+                Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
 
             when (i) {
                 0 -> bindingNonNull.photoViewer1.imageViewContent.setImageBitmap(rotatedBitmap)
@@ -154,7 +165,7 @@ class FrameViewerFragment : BaseFragment<FragmentFrameViewerBinding>(
         bindingNonNull.imageViewOne.cardView.visibility = View.INVISIBLE
     }
 
-    private fun setFrameColor(color : Int) {
+    private fun setFrameColor(color: Int) {
         bindingNonNull.photoViewer1.imageViewFrame.setBackgroundResource(color)
         bindingNonNull.photoViewer2.imageViewFrame.setBackgroundResource(color)
         bindingNonNull.photoViewer3.imageViewFrame.setBackgroundResource(color)

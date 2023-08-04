@@ -46,9 +46,17 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
         val mainActivity = activity as MainActivity
         mainActivity.hideBottomNavi(true)
 
+
         val imagePath = arguments?.getString("imagePath")
         val photoPaths = arguments?.getStringArrayList("photo_paths")
         val frameColor = arguments?.getInt("frameColor") ?: R.color.keyColorDark1
+
+        bindingNonNull.viewFrame.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                frameColor
+            )
+        )
 
         if (photoPaths.isNullOrEmpty() && imagePath != null) {
             val originalBitmap = BitmapFactory.decodeFile(imagePath)
@@ -69,53 +77,28 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
 
             bindingNonNull.photoViewer.imageViewContent.setImageBitmap(rotatedBitmap)
             bindingNonNull.imageViewFour.visibility = View.INVISIBLE
+            bindingNonNull.photoViewer.imageViewFrame.setBackgroundResource(convertColorToFrame(frameColor))
         } else if (photoPaths != null && photoPaths.size == 4) {
             showImage(photoPaths)
+            setFrame(convertColorToFrame(frameColor))
         }
-
-        bindingNonNull.viewFrame.setBackgroundColor(
-            ContextCompat.getColor(
-                requireContext(),
-                frameColor
-            )
-        )
 
         when (frameColor) {
             R.color.cameraFrame1 -> {
                 bindingNonNull.imageViewFramePuppy.visibility = View.VISIBLE
                 bindingNonNull.imageViewFrameLogo.visibility = View.GONE
                 bindingNonNull.imageViewFrameLogo2.visibility = View.GONE
-                bindingNonNull.photoViewer.imageViewFrame.setBackgroundColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.cameraFrame1
-                    )
-                )
             }
             R.color.keyColorDark1 -> {
                 bindingNonNull.imageViewFramePuppy.visibility = View.GONE
                 bindingNonNull.imageViewFrameLogo.visibility = View.VISIBLE
                 bindingNonNull.imageViewFrameLogo2.visibility = View.GONE
-                bindingNonNull.photoViewer.imageViewFrame.setBackgroundColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.keyColorDark1
-                    )
-                )
-
             }
             else -> {
                 bindingNonNull.textViewTime.visibility = View.INVISIBLE
                 bindingNonNull.imageViewFramePuppy.visibility = View.GONE
                 bindingNonNull.imageViewFrameLogo.visibility = View.GONE
                 bindingNonNull.imageViewFrameLogo2.visibility = View.VISIBLE
-                bindingNonNull.photoViewer.imageViewFrame.setBackgroundColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.keyColorLight1
-                    )
-                )
-
             }
         }
 
@@ -175,6 +158,22 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
         }
 
         bindingNonNull.photoViewer.cardView.visibility = View.INVISIBLE
+    }
+
+    private fun setFrame(frame : Int) {
+        bindingNonNull.photoViewer1.imageViewFrame.setBackgroundResource(frame)
+        bindingNonNull.photoViewer2.imageViewFrame.setBackgroundResource(frame)
+        bindingNonNull.photoViewer3.imageViewFrame.setBackgroundResource(frame)
+        bindingNonNull.photoViewer4.imageViewFrame.setBackgroundResource(frame)
+    }
+
+    private fun convertColorToFrame(color : Int) : Int {
+        return when(color) {
+            R.color.keyColorDark1 -> R.drawable.round_corners_key_dark_color
+            R.color.keyColorLight1 -> R.drawable.round_corners_key_light_color
+            R.color.cameraFrame1 -> R.drawable.round_corners_frame
+            else -> R.drawable.round_corners_frame
+        }
     }
 
     private fun layoutToBitmap(layout: View): Bitmap? {
