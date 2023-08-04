@@ -1,7 +1,6 @@
 package com.ssafy.phonesin.ui.mobile.rentalmobile
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -31,6 +30,7 @@ class RentalMobileFragment :
     private var param1: String? = null
     private var param2: String? = null
     val rentalMobileViewModel: RentalViewModel by activityViewModels()
+    var rentalCount = 0
 
     override fun onCreateBinding(
         inflater: LayoutInflater,
@@ -58,13 +58,23 @@ class RentalMobileFragment :
         rentalMobileAdapter.plusRentalMobileListener =
             object : RentalMobileAdapter.PlusRentalMobileListener {
                 override fun onClick(id: Int) {
-                    rentalMobileViewModel.plusRental(id)
+                    val count = rentalMobileViewModel.rentalList.value?.sumOf { it.count } ?: 0
+                    if (count < rentalCount) {
+                        rentalMobileViewModel.plusRental(id)
+                        bindingNonNull.rentalNum.text =
+                            "대여 갯수:${rentalMobileViewModel.rentalList.value?.sumOf { it.count }}"
+                    } else {
+                        showToast("최대 갯수 입니다.")
+                    }
+
                 }
             }
         rentalMobileAdapter.minusRentalMobileListener =
             object : RentalMobileAdapter.MinusRentalMobileListener {
                 override fun onClick(id: Int) {
                     rentalMobileViewModel.minusRental(id)
+                    bindingNonNull.rentalNum.text =
+                        "대여 갯수:${rentalMobileViewModel.rentalList.value?.sumOf { it.count }}"
                 }
             }
         rentalMobileAdapter.updateRentalMobileListener =
@@ -74,7 +84,11 @@ class RentalMobileFragment :
                 }
             }
         bindingNonNull.rentalListRv.adapter = rentalMobileAdapter
+
+
         rentalMobileViewModel.rentalList.observe(viewLifecycleOwner) {
+            bindingNonNull.rentalNum.text =
+                "대여 갯수:${rentalMobileViewModel.rentalList.value?.sumOf { it.count }}"
             rentalMobileAdapter.submitList(it)
         }
 
@@ -91,19 +105,33 @@ class RentalMobileFragment :
     }
 
     private fun rentalMobileUi() = with(bindingNonNull) {
+        rentalNum.text = "대여 갯수:0"
 
-        rentalPossibleNum.text = "신청 가능 갯수:"
-        rentalNum.text = "대여 갯수:${rentalMobileViewModel.rentalList.value?.size}"
+        rentalMobileViewModel.possibleRentalCount.observe(viewLifecycleOwner) { count ->
+            rentalCount = count
+            rentalPossibleNum.text = "신청 가능 갯수:${count}개"
+        }
 
         mobileAdd.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_rentalMobileFragment_to_rentalAddFragment,
-            )
+            val temp = rentalMobileViewModel.rentalList.value?.sumOf { it.count } ?: 0
+            if (temp == rentalCount) {
+                showToast("최대 갯수 입니다.")
+            } else {
+                findNavController().navigate(
+                    R.id.action_rentalMobileFragment_to_rentalAddFragment,
+                )
+            }
         }
+
         postRental.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_rentalMobileFragment_to_rentalPayFragment,
-            )
+
+            if (rentalMobileViewModel.rentalList.value?.size == 0) {
+                showToast("1개 이상을 추가해주세요")
+            } else {
+                findNavController().navigate(
+                    R.id.action_rentalMobileFragment_to_rentalPayFragment,
+                )
+            }
         }
     }
 

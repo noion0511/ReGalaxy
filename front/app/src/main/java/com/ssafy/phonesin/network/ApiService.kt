@@ -10,6 +10,7 @@ import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
@@ -21,6 +22,9 @@ interface ApiService {
 
     @GET("/address/list")
     suspend fun getAddressList(@Query("member_id") memberId: Int): NetworkResponse<List<Address>, ErrorResponse>
+
+    @GET("/rental/apply/count/{member_id}")
+    suspend fun getPossibleRentalCount(@Path("member_id") memberId: Int): NetworkResponse<Int, ErrorResponse>
 
 
     @POST("/donation/apply")
