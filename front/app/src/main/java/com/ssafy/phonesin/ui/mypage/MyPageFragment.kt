@@ -1,14 +1,18 @@
 package com.ssafy.phonesin.ui.mypage
 
+import CustomDialog
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentMyPageBinding
@@ -68,49 +72,52 @@ class MyPageFragment : Fragment() {
     }
 
     private fun showLogoutDialog() {
-        val dialog = Dialog(requireContext())
+        val logoutDialog = Dialog(requireContext())
+        setDialogDefault(logoutDialog, R.layout.dialog_my_logout)
 
-        dialog.setContentView(R.layout.dialog_my_logout)
-        dialog.window?.setLayout(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
+        logoutDialog.findViewById<TextView>(R.id.buttonCancel).setOnClickListener {
+            logoutDialog.dismiss()
+        }
 
-        val cornerRadius = resources.getDimension(R.dimen.dialog_corner_radius)
-        val shape = GradientDrawable()
-        shape.cornerRadius = cornerRadius
-        shape.setColor(Color.WHITE)
-        dialog.window?.setBackgroundDrawable(shape)
-
-
-
-        dialog.show()
+        logoutDialog.show()
     }
 
     private fun showWithdrawalDialog() {
-        val dialog = Dialog(requireContext())
+        val withdrawalDialog = Dialog(requireContext())
 
-        dialog.setContentView(R.layout.diolog_my_withdrawal)
-        dialog.window?.setLayout(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
+        setDialogDefault(withdrawalDialog, R.layout.diolog_my_withdrawal)
 
-        val cornerRadius = resources.getDimension(R.dimen.dialog_corner_radius)
-        val shape = GradientDrawable()
-        shape.cornerRadius = cornerRadius
-        shape.setColor(Color.WHITE)
-        dialog.window?.setBackgroundDrawable(shape)
+        withdrawalDialog.findViewById<TextView>(R.id.buttonCancel).setOnClickListener {
+            withdrawalDialog.dismiss()
+        }
 
-
-
-        dialog.show()
+        withdrawalDialog.show()
     }
 
     private fun showModifyInfoDialog() {
-        val dialog = Dialog(requireContext())
+        val modifyInfoDialog = Dialog(requireContext())
 
-        dialog.setContentView(R.layout.dialog_my_modify_info)
+        setDialogDefault(modifyInfoDialog, R.layout.dialog_my_modify_info)
+
+        modifyInfoDialog.findViewById<TextView>(R.id.textViewRegistCha).setOnClickListener {
+            modifyInfoDialog.dismiss()
+            findNavController().navigate(R.id.registChaFragment)
+        }
+
+        modifyInfoDialog.findViewById<TextView>(R.id.textViewModifyInfo).setOnClickListener {
+            modifyInfoDialog.dismiss()
+            findNavController().navigate(R.id.modifyInfoFragment)
+        }
+
+        modifyInfoDialog.show()
+    }
+
+    private fun setDialogDefault(dialog: Dialog, layout: Int) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        }
+
+        dialog.setContentView(layout)
         dialog.window?.setLayout(
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
@@ -121,18 +128,6 @@ class MyPageFragment : Fragment() {
         shape.cornerRadius = cornerRadius
         shape.setColor(Color.WHITE)
         dialog.window?.setBackgroundDrawable(shape)
-
-        dialog.findViewById<TextView>(R.id.textViewRegistCha).setOnClickListener {
-            dialog.dismiss()
-            findNavController().navigate(R.id.registChaFragment)
-        }
-
-        dialog.findViewById<TextView>(R.id.textViewModifyInfo).setOnClickListener {
-            dialog.dismiss()
-            findNavController().navigate(R.id.modifyInfoFragment)
-        }
-
-        dialog.show()
     }
 
 
