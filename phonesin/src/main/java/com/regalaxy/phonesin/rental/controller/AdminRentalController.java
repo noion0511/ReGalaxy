@@ -32,13 +32,6 @@ public class AdminRentalController {
         return mav;
     }
 
-//    @ApiOperation(value = "관리자 기기 대여 신청서 상세 조회")
-//    @GetMapping("/info")
-//    public String info(Long rental_id){
-//        RentalDetailDto rentalDetailDto = rentalService.info(rental_id);
-//        return "";
-//    }
-
     @ApiOperation(value = "관리자 기기 대여 신청서 신청")
     @GetMapping("/apply")
     public String apply(Long rental_id, boolean accept) {
