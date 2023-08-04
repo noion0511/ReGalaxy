@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.hardware.Camera
-import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Environment
 import android.util.Log
@@ -15,7 +14,6 @@ import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.skydoves.powerspinner.createPowerSpinnerView
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentCameraBinding
 import com.ssafy.phonesin.ui.MainActivity
@@ -87,6 +85,8 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(
                 startCountdownAndTakePicture()
             }
         }
+
+        initObserver()
     }
 
     private fun initCamera() {
@@ -98,7 +98,6 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(
 
     private fun startCountdownAndTakePicture() {
         bindingNonNull.buttonTakePicture.visibility = View.INVISIBLE
-        var count = 0
         var allCountDown = 24
 
         object : CountDownTimer(
@@ -106,7 +105,7 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(
             1000
         ) {
             override fun onTick(millisUntilFinished: Long) {
-                if(allCountDown < 0) return
+                if (allCountDown < 0) return
 
                 val countTime = (allCountDown % 6)
                 bindingNonNull.textViewCountTime.visibility = if (countTime == 0) {
@@ -118,23 +117,14 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(
                 bindingNonNull.progressBar.progress += 1
 
                 if (countTime == 0 && allCountDown != 24) {
-                    count++
                     takePicture()
                 }
                 allCountDown--
             }
 
             override fun onFinish() {
-                val bundle = Bundle().apply {
-                    putStringArrayList("photo_paths", photoPaths)
-                }
+                viewModel.updatePhotoPaths(photoPaths)
                 bindingNonNull.buttonTakePicture.visibility = View.VISIBLE
-
-                findNavController().navigate(
-                    R.id.action_cameraFragment_to_cameraViewerFragment,
-                    bundle
-                )
-
                 photoPaths = ArrayList<String>()
             }
         }.start()
@@ -186,6 +176,15 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(
         camera.startPreview()
         isSafeToTakePicture = true
         bindingNonNull.buttonTakePicture.isEnabled = true
+    }
+
+    private fun initObserver() {
+        with(viewModel) {
+            photoPaths.observe(viewLifecycleOwner) {
+                if(it.isNotEmpty())
+                    findNavController().navigate(R.id.action_cameraFragment_to_cameraViewerFragment)
+            }
+        }
     }
 
     private fun savePictureToPublicDir(data: ByteArray): String {

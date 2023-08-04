@@ -33,6 +33,26 @@ class CameraViewModel @Inject constructor(
     private val _printCount = MutableLiveData<Int>(getPrintCountFromPrefs())
     val printCount: LiveData<Int> = _printCount
 
+    private val _photoPaths = MutableLiveData<List<String>>()
+    val photoPaths: LiveData<List<String>> = _photoPaths
+
+    private val _selectedFrameColor = MutableLiveData<Int>()
+    val selectedFrameColor: LiveData<Int> = _selectedFrameColor
+
+    private val _selectedImagePath = MutableLiveData<String>()
+    val selectedImagePath: LiveData<String> = _selectedImagePath
+
+    fun setSelectedFrameColor(color: Int) {
+        _selectedFrameColor.value = color
+    }
+    fun setSelectedImagePath(path: String) {
+        _selectedImagePath.value = path
+    }
+
+    fun updatePhotoPaths(paths: List<String>) {
+        _photoPaths.value = paths
+    }
+
     private fun getPrintCountFromPrefs(): Int {
         return prefs.getInt("PRINT_COUNT", 0)
     }

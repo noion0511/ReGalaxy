@@ -88,7 +88,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/buttonCameraeNext"
+            android:id="@+id/buttonCameraNext"
             style="@style/textview_button_white_big"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -25,6 +25,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class FrameFragment : BaseFragment<FragmentFrameBinding>(
@@ -32,6 +33,16 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
 ) {
 
     private val viewModel by activityViewModels<CameraViewModel>()
+    private lateinit var photoPathStrings: List<String>
+    private lateinit var selectedOnePhotoPathString: String
+    private var selectedFrameColorInt by Delegates.notNull<Int>()
+
+    private val colors = listOf(
+        R.color.cameraFrame1,
+        R.color.keyColorDark1,
+        R.color.keyColorLight1
+    )
+
     override fun onCreateBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -46,63 +57,70 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
         val mainActivity = activity as MainActivity
         mainActivity.hideBottomNavi(true)
 
-        val imagePath = arguments?.getString("imagePath")
-        val photoPaths = arguments?.getStringArrayList("photo_paths")
-        val frameColor = arguments?.getInt("frameColor") ?: R.color.keyColorDark1
 
-        bindingNonNull.viewFrame.setBackgroundColor(
-            ContextCompat.getColor(
-                requireContext(),
-                frameColor
-            )
-        )
+        uploadImage()
+        initObserver()
 
-        if (photoPaths.isNullOrEmpty() && imagePath != null) {
-            val originalBitmap = BitmapFactory.decodeFile(imagePath)
-            Log.d("FrameFragment", "Original Bitmap: $originalBitmap")
+        bindingNonNull.buttonNextQR.setOnClickListener {
+            findNavController().navigate(R.id.action_frameFragment_to_QRCodeFragment)
+        }
+    }
+
+
+    private fun showImage(photoPaths: List<String>) {
+        for (i in photoPaths.indices) {
+            val bitmap = BitmapFactory.decodeFile(photoPaths[i])
 
             val rotationDegrees = 90f
             val matrix = Matrix().apply { postRotate(rotationDegrees) }
 
-            val rotatedBitmap = Bitmap.createBitmap(
-                originalBitmap,
-                0,
-                0,
-                originalBitmap.width,
-                originalBitmap.height,
-                matrix,
-                true
-            )
+            val rotatedBitmap =
+                Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
 
-            bindingNonNull.photoViewer.imageViewContent.setImageBitmap(rotatedBitmap)
-            bindingNonNull.imageViewFour.visibility = View.INVISIBLE
-            bindingNonNull.photoViewer.imageViewFrame.setBackgroundResource(convertColorToFrame(frameColor))
-        } else if (photoPaths != null && photoPaths.size == 4) {
-            showImage(photoPaths)
-            setFrame(convertColorToFrame(frameColor))
-        }
-
-        when (frameColor) {
-            R.color.cameraFrame1 -> {
-                bindingNonNull.imageViewFramePuppy.visibility = View.VISIBLE
-                bindingNonNull.imageViewFrameLogo.visibility = View.GONE
-                bindingNonNull.imageViewFrameLogo2.visibility = View.GONE
-            }
-            R.color.keyColorDark1 -> {
-                bindingNonNull.imageViewFramePuppy.visibility = View.GONE
-                bindingNonNull.imageViewFrameLogo.visibility = View.VISIBLE
-                bindingNonNull.imageViewFrameLogo2.visibility = View.GONE
-            }
-            else -> {
-                bindingNonNull.textViewTime.visibility = View.INVISIBLE
-                bindingNonNull.imageViewFramePuppy.visibility = View.GONE
-                bindingNonNull.imageViewFrameLogo.visibility = View.GONE
-                bindingNonNull.imageViewFrameLogo2.visibility = View.VISIBLE
+            when (i) {
+                0 -> bindingNonNull.photoViewer1.imageViewContent.setImageBitmap(rotatedBitmap)
+                1 -> bindingNonNull.photoViewer2.imageViewContent.setImageBitmap(rotatedBitmap)
+                2 -> bindingNonNull.photoViewer3.imageViewContent.setImageBitmap(rotatedBitmap)
+                3 -> bindingNonNull.photoViewer4.imageViewContent.setImageBitmap(rotatedBitmap)
             }
         }
 
+        bindingNonNull.photoViewer.cardView.visibility = View.INVISIBLE
+    }
+
+    private fun setFrame(frame: Int) {
+        bindingNonNull.photoViewer1.imageViewFrame.setBackgroundResource(frame)
+        bindingNonNull.photoViewer2.imageViewFrame.setBackgroundResource(frame)
+        bindingNonNull.photoViewer3.imageViewFrame.setBackgroundResource(frame)
+        bindingNonNull.photoViewer4.imageViewFrame.setBackgroundResource(frame)
+    }
+
+    private fun convertColorToFrame(color: Int): Int {
+        return when (color) {
+            R.color.keyColorDark1 -> R.drawable.round_corners_key_dark_color
+            R.color.keyColorLight1 -> R.drawable.round_corners_key_light_color
+            R.color.cameraFrame1 -> R.drawable.round_corners_frame
+            else -> R.drawable.round_corners_frame
+        }
+    }
+
+    private fun layoutToBitmap(layout: View): Bitmap? {
+        layout.isDrawingCacheEnabled = true
+        layout.buildDrawingCache()
+        val drawingCache = layout.drawingCache
+        if (drawingCache != null) {
+            val bitmap = Bitmap.createBitmap(drawingCache)
+            layout.isDrawingCacheEnabled = false
+            return bitmap
+        }
+        layout.isDrawingCacheEnabled = false
+        return null
+    }
+
+
+    private fun uploadImage() {
         viewModel.viewModelScope.launch {
-            delay(1000L)
+            delay(1000)
             val frameBitmap = layoutToBitmap(bindingNonNull.root)
 
             frameBitmap?.let {
@@ -129,63 +147,11 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
                     Log.d("tag", "사진 저장 실패 ${imageFile.toUri()}")
                 } finally {
                     viewModel.uploadImage(imageFile)
+                    bindingNonNull.buttonNextQR.visibility = View.VISIBLE
                 }
                 frameBitmap.recycle()
             }
         }
-
-        initObserver()
-    }
-
-
-    private fun showImage(photoPaths: List<String>) {
-        for (i in photoPaths.indices) {
-            val bitmap = BitmapFactory.decodeFile(photoPaths[i])
-
-            val rotationDegrees = 90f
-            val matrix = Matrix().apply { postRotate(rotationDegrees) }
-
-            val rotatedBitmap =
-                Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
-
-            when (i) {
-                0 -> bindingNonNull.photoViewer1.imageViewContent.setImageBitmap(rotatedBitmap)
-                1 -> bindingNonNull.photoViewer2.imageViewContent.setImageBitmap(rotatedBitmap)
-                2 -> bindingNonNull.photoViewer3.imageViewContent.setImageBitmap(rotatedBitmap)
-                3 -> bindingNonNull.photoViewer4.imageViewContent.setImageBitmap(rotatedBitmap)
-            }
-        }
-
-        bindingNonNull.photoViewer.cardView.visibility = View.INVISIBLE
-    }
-
-    private fun setFrame(frame : Int) {
-        bindingNonNull.photoViewer1.imageViewFrame.setBackgroundResource(frame)
-        bindingNonNull.photoViewer2.imageViewFrame.setBackgroundResource(frame)
-        bindingNonNull.photoViewer3.imageViewFrame.setBackgroundResource(frame)
-        bindingNonNull.photoViewer4.imageViewFrame.setBackgroundResource(frame)
-    }
-
-    private fun convertColorToFrame(color : Int) : Int {
-        return when(color) {
-            R.color.keyColorDark1 -> R.drawable.round_corners_key_dark_color
-            R.color.keyColorLight1 -> R.drawable.round_corners_key_light_color
-            R.color.cameraFrame1 -> R.drawable.round_corners_frame
-            else -> R.drawable.round_corners_frame
-        }
-    }
-
-    private fun layoutToBitmap(layout: View): Bitmap? {
-        layout.isDrawingCacheEnabled = true
-        layout.buildDrawingCache()
-        val drawingCache = layout.drawingCache
-        if (drawingCache != null) {
-            val bitmap = Bitmap.createBitmap(drawingCache)
-            layout.isDrawingCacheEnabled = false
-            return bitmap
-        }
-        layout.isDrawingCacheEnabled = false
-        return null
     }
 
     private fun initObserver() {
@@ -200,7 +166,73 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
                 event.getContentIfNotHandled()?.let {
                     if (it.message == getString(R.string.success)) {
                         viewModel.selectImageId(it.photos.ytwokId)
-                        findNavController().navigate(R.id.action_frameFragment_to_QRCodeFragment)
+                    }
+                }
+            }
+
+            photoPaths.observe(viewLifecycleOwner) {
+                photoPathStrings = it
+                if (photoPathStrings.size == 4) {
+                    showImage(photoPathStrings)
+                }
+            }
+
+            selectedImagePath.observe(viewLifecycleOwner) {
+                selectedOnePhotoPathString = it
+                if (selectedOnePhotoPathString.isNotEmpty()) {
+                    val originalBitmap = BitmapFactory.decodeFile(selectedOnePhotoPathString)
+
+                    val rotationDegrees = 90f
+                    val matrix = Matrix().apply { postRotate(rotationDegrees) }
+
+                    val rotatedBitmap = Bitmap.createBitmap(
+                        originalBitmap,
+                        0,
+                        0,
+                        originalBitmap.width,
+                        originalBitmap.height,
+                        matrix,
+                        true
+                    )
+
+                    bindingNonNull.photoViewer.imageViewContent.setImageBitmap(rotatedBitmap)
+                    bindingNonNull.imageViewFour.visibility = View.INVISIBLE
+                }
+            }
+
+            selectedFrameColor.observe(viewLifecycleOwner) {
+                selectedFrameColorInt = it
+                if (it in colors) {
+                    bindingNonNull.viewFrame.setBackgroundColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            selectedFrameColorInt
+                        )
+                    )
+
+                    bindingNonNull.photoViewer.imageViewFrame.setBackgroundResource(
+                        convertColorToFrame(selectedFrameColorInt)
+                    )
+
+                    setFrame(convertColorToFrame(selectedFrameColorInt))
+
+                    when (selectedFrameColorInt) {
+                        R.color.cameraFrame1 -> {
+                            bindingNonNull.imageViewFramePuppy.visibility = View.VISIBLE
+                            bindingNonNull.imageViewFrameLogo.visibility = View.GONE
+                            bindingNonNull.imageViewFrameLogo2.visibility = View.GONE
+                        }
+                        R.color.keyColorDark1 -> {
+                            bindingNonNull.imageViewFramePuppy.visibility = View.GONE
+                            bindingNonNull.imageViewFrameLogo.visibility = View.VISIBLE
+                            bindingNonNull.imageViewFrameLogo2.visibility = View.GONE
+                        }
+                        else -> {
+                            bindingNonNull.textViewTime.visibility = View.INVISIBLE
+                            bindingNonNull.imageViewFramePuppy.visibility = View.GONE
+                            bindingNonNull.imageViewFrameLogo.visibility = View.GONE
+                            bindingNonNull.imageViewFrameLogo2.visibility = View.VISIBLE
+                        }
                     }
                 }
             }

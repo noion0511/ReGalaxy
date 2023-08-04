@@ -3,8 +3,6 @@ package com.ssafy.phonesin.ui.module.camera
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
-import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +21,8 @@ class FrameViewerFragment : BaseFragment<FragmentFrameViewerBinding>(
 ) {
 
     private val viewModel by activityViewModels<CameraViewModel>()
+    private lateinit var photoPathStrings: List<String>
+    private lateinit var selectedOnePhotoPathString: String
 
     private var colorIndex = 0
     private val colors = listOf(
@@ -50,41 +50,8 @@ class FrameViewerFragment : BaseFragment<FragmentFrameViewerBinding>(
         val mainActivity = activity as MainActivity
         mainActivity.hideBottomNavi(true)
 
-        val imagePath = arguments?.getString("imagePath") ?: ""
-        val photoPaths = arguments?.getStringArrayList("photo_paths")
-
-        if (photoPaths.isNullOrEmpty() && imagePath != null) {
-            val originalBitmap = BitmapFactory.decodeFile(imagePath)
-            Log.d("FrameFragment", "Original Bitmap: $originalBitmap")
-
-            val rotationDegrees = 90f
-            val matrix = Matrix().apply { postRotate(rotationDegrees) }
-
-            val rotatedBitmap = Bitmap.createBitmap(
-                originalBitmap,
-                0,
-                0,
-                originalBitmap.width,
-                originalBitmap.height,
-                matrix,
-                true
-            )
-
-            bindingNonNull.imageViewOne.imageViewContent.setImageBitmap(rotatedBitmap)
-            bindingNonNull.imageViewFour.visibility = View.INVISIBLE
-        } else if (photoPaths != null && photoPaths.size == 4) {
-            showImage(photoPaths)
-        }
-
         bindingNonNull.buttonChoicePicture.setOnClickListener {
-
-            val bundle = Bundle().apply {
-                putString("imagePath", imagePath)
-                putStringArrayList("photo_paths", photoPaths)
-                putInt("frameColor", colors[colorIndex])
-            }
-
-            findNavController().navigate(R.id.action_frameViewerFragment_to_frameFragment, bundle)
+            viewModel.setSelectedFrameColor(colors[colorIndex])
         }
 
         bindingNonNull.buttonArrowLeft.setOnClickListener {
@@ -142,6 +109,8 @@ class FrameViewerFragment : BaseFragment<FragmentFrameViewerBinding>(
                 bindingNonNull.imageViewOne.imageViewFrame.setBackgroundResource(R.drawable.round_corners_key_light_color)
             }
         }
+
+        initObserver()
     }
 
     private fun showImage(photoPaths: List<String>) {
@@ -170,5 +139,44 @@ class FrameViewerFragment : BaseFragment<FragmentFrameViewerBinding>(
         bindingNonNull.photoViewer2.imageViewFrame.setBackgroundResource(color)
         bindingNonNull.photoViewer3.imageViewFrame.setBackgroundResource(color)
         bindingNonNull.photoViewer4.imageViewFrame.setBackgroundResource(color)
+    }
+
+    private fun initObserver() {
+        with(viewModel) {
+            photoPaths.observe(viewLifecycleOwner) {
+                photoPathStrings = it
+                if (photoPathStrings.size == 4) {
+                    showImage(photoPathStrings)
+                }
+            }
+
+            selectedImagePath.observe(viewLifecycleOwner) {
+                selectedOnePhotoPathString = it
+                if (selectedOnePhotoPathString.isNotEmpty()) {
+                    val originalBitmap = BitmapFactory.decodeFile(selectedOnePhotoPathString)
+
+                    val rotationDegrees = 90f
+                    val matrix = Matrix().apply { postRotate(rotationDegrees) }
+
+                    val rotatedBitmap = Bitmap.createBitmap(
+                        originalBitmap,
+                        0,
+                        0,
+                        originalBitmap.width,
+                        originalBitmap.height,
+                        matrix,
+                        true
+                    )
+
+                    bindingNonNull.imageViewOne.imageViewContent.setImageBitmap(rotatedBitmap)
+                    bindingNonNull.imageViewFour.visibility = View.INVISIBLE
+                }
+            }
+
+            selectedFrameColor.observe(viewLifecycleOwner) {
+                if(it in colors)
+                    findNavController().navigate(R.id.action_frameViewerFragment_to_frameFragment)
+            }
+        }
     }
 }

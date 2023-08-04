@@ -52,11 +52,11 @@ class QRCodeFragment : BaseFragment<FragmentQRCodeBinding>(
 
         Glide.with(requireContext())
             .load("https://chart.apis.google.com/chart?cht=qr&chs=300x300&chl=http://i9d102.p.ssafy.io:8080/ytwok/images/${viewModel.getSelectedImageId()}")
-            .override(200, 200) // Overrides the size of the loaded image`
-            .centerCrop() // Applies a center crop to the image
+            .override(200, 200)
+            .centerCrop()
             .into(bindingNonNull.imageViewQRCode)
 
-        bindingNonNull.buttonCameraeNext.setOnClickListener {
+        bindingNonNull.buttonCameraNext.setOnClickListener {
             findNavController().navigate(R.id.action_QRCodeFragment_to_cameraFragment)
         }
 
