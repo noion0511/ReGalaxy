@@ -1,6 +1,7 @@
 package com.regalaxy.phonesin.donation.model.service;
 
 import com.regalaxy.phonesin.donation.model.DonationDetailResponseDto;
+import com.regalaxy.phonesin.donation.model.DonationKingDto;
 import com.regalaxy.phonesin.donation.model.DonationRequestDto;
 import com.regalaxy.phonesin.donation.model.DonationResponseDto;
 import com.regalaxy.phonesin.donation.model.entity.Donation;
@@ -11,7 +12,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
+import java.text.DateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,7 +26,6 @@ import java.util.stream.Collectors;
 public class DonationService {
     private final DonationRepository donationRepository;
     private final MemberRepository memberRepository;
-    private final EntityManager em;
 
     @Transactional
     public boolean donationApply(DonationRequestDto donationRequestDto) throws Exception {
@@ -34,15 +37,15 @@ public class DonationService {
     public List<DonationResponseDto> donationList() throws Exception {
         List<DonationResponseDto> result = donationRepository.findAll()
                 .stream()
-                .map(Object -> DonationResponseDto.builder().donation(Object).build())
+                .map(donation -> new DonationResponseDto(donation))
                 .collect(Collectors.toList());
         return result;
     }
 
     public DonationDetailResponseDto donationInfo(Long donationId) throws Exception {
         Donation donation = donationRepository.findById(donationId).get();
-        Member member = donation.getMember();
-        DonationDetailResponseDto result = DonationDetailResponseDto.builder().donation(donation).member(member).build();
+        DonationDetailResponseDto result = new DonationDetailResponseDto(donation);
+
         return result;
     }
 
@@ -68,11 +71,15 @@ public class DonationService {
         return true;
     }
 
-    public List<DonationResponseDto> donationKing() throws Exception {
-        List<DonationResponseDto> result = donationRepository.findAll()
-                .stream()
-                .map(Object -> DonationResponseDto.builder().donation(Object).build())
-                .collect(Collectors.toList());
-        return result;
+    public List<DonationKingDto> donationKing() throws Exception {
+        List<DonationKingDto> kingDtoList = donationRepository.findDonationKing(LocalDateTime.now().withDayOfMonth(1), LocalDateTime.now());
+        if (kingDtoList.size() > 5){
+            kingDtoList = kingDtoList.subList(0, 5);
+        }
+        return kingDtoList;
+    }
+
+    public List<Donation> donationlist(Long memberId) throws Exception {
+        return donationRepository.findAllByMember_MemberId(memberId);
     }
 }
