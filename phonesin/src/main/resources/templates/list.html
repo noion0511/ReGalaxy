@@ -38,47 +38,19 @@
 	<section id="three" class="wrapper align-center">
 		<div class="inner">
 			<div class="flex flex-4">
-				<article th:each="list : ${list}">
+				<article class="card" th:each="list : ${list}">
 					<header>
-						<h3 th:text="${list.phoneId}"></h3>
+						<h3 th:text="${list.phoneId}">폰아이디</h3>
 					</header>
 					<p th:text="${list.serialNumber}"></p>
 					<p th:text="${list.modelName}"></p>
-					<p th:if="${list.isY2K}">Y2K</p>
-					<p th:if="${list.isClimateHumidity}">습온도계</p>
-					<p th:if="${list.isHomecam}">홈캠</p>
-					<p th:if="${list.rentalId != null}">대여중</p>
-				</article>
-				<article>
-					<header>
-						<h3>See the home anywhere<br />with old phone</h3>
-					</header>
-					<p>집에 있는 아이들이나 빈 집이 걱정되시나요?<br />당신은 무료로 홈캠을 설치하여 사용할 수 있습니다.<br />어디에 있든 집을 확인하고 안심하세요.</p>
-				</article>
-				<article>
-					<header>
-						<h3>Take a picture<br /> phone from 10 years ago</h3>
-					</header>
-					<p>예전 휴대폰 사진의 감성을 다시 한 번 느껴보세요.<br />특별한 프레임이 씌워진 사진을 찍어 감상할 수 있습니다.<br />사진 부스를 만들어 모두 함께 즐겨봐요.</p>
-				</article>
-				<article>
-					<header>
-						<h3>Take a picture<br /> phone from 10 years ago</h3>
-					</header>
-					<p>예전 휴대폰 사진의 감성을 다시 한 번 느껴보세요.<br />특별한 프레임이 씌워진 사진을 찍어 감상할 수 있습니다.<br />사진 부스를 만들어 모두 함께 즐겨봐요.</p>
-				</article>
-				<article class="card">
-					<header>
-						<h3>폰아이디</h3>
-					</header>
-					<p>시리얼 넘버</p>
-					<p>모델 이름</p>
-					<div class="module">
-						<p>Y2K</p>
-						<p>온도계</p>
-						<p>홈캠</p>
+					<div class="module flex flex-3">
+						<p th:if="${list.isY2K}">Y2K</p>
+						<p th:if="${list.isClimateHumidity}">습온도계</p>
+						<p th:if="${list.isHomecam}">홈캠</p>
 					</div>
-					<p class="rental">대여중</p>
+					<p class="rental" th:if="${list.rentalId != null}"> 대여중</p>
+					<p th:if="${list.rentalId == null}">대여가능</p>
 				</article>
 			</div>
 		</div>

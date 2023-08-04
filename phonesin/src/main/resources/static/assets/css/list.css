@@ -1892,9 +1892,9 @@
 		-ms-flex-wrap: wrap;
 		-ms-flex-pack: justify;
 		-moz-justify-content: space-between;
-		-webkit-justify-content: space-between;
+		/*-webkit-justify-content: space-between;*/
 		-ms-justify-content: space-between;
-		justify-content: space-between;
+		/*justify-content: space-between;*/
 		display: -moz-flex;
 		display: -webkit-flex;
 		display: -ms-flex;
@@ -3225,9 +3225,20 @@
 		}
 
 /*card*/
+    .module {
+        width: 14em;
+        height: 3em;
+        text-item: center;
+		-moz-justify-content: center;
+		-webkit-justify-content: center;
+		-ms-justify-content: center;
+		justify-content: center;
+    }
+
     .module p{
+        text-align: center;
         float: left;
-        width: 4em;
+        width: 4.4em;
         margin: 0.1em;
         background-color: #000000;
         border-radius: 40px;
@@ -3235,7 +3246,7 @@
     }
 
     .card {
-        padding: 2em;
+        padding: 1.5em;
         width: 17em;
     }
 
