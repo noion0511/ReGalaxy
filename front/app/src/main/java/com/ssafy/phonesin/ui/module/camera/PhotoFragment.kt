@@ -39,7 +39,7 @@ class PhotoFragment : Fragment() {
 
         val rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
 
-        binding.photoViewer.setImageBitmap(rotatedBitmap)
+        binding.imageViewContent.setImageBitmap(rotatedBitmap)
     }
 
     companion object {

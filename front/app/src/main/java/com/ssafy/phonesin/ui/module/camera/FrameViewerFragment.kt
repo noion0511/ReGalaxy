@@ -30,6 +30,11 @@ class FrameViewerFragment : BaseFragment<FragmentFrameViewerBinding>(
         R.color.keyColorDark1,
         R.color.keyColorLight1
     )
+    private val frames = listOf(
+        R.drawable.round_corners_frame,
+        R.drawable.round_corners_key_dark_color,
+        R.drawable.round_corners_key_light_color
+    )
 
     override fun onCreateBinding(
         inflater: LayoutInflater,
@@ -65,7 +70,7 @@ class FrameViewerFragment : BaseFragment<FragmentFrameViewerBinding>(
                 true
             )
 
-            bindingNonNull.imageViewOne.photoViewer.setImageBitmap(rotatedBitmap)
+            bindingNonNull.imageViewOne.imageViewContent.setImageBitmap(rotatedBitmap)
             bindingNonNull.imageViewFour.visibility = View.INVISIBLE
         } else if(photoPaths != null && photoPaths.size == 4){
             showImage(photoPaths)
@@ -85,38 +90,46 @@ class FrameViewerFragment : BaseFragment<FragmentFrameViewerBinding>(
         bindingNonNull.buttonArrowLeft.setOnClickListener {
             colorIndex = (colorIndex + 1) % colors.size
             bindingNonNull.frameView.setBackgroundColor(ContextCompat.getColor(requireContext(), colors[colorIndex]))
+            setFrameColor(frames[colorIndex])
             if(colors[colorIndex] == R.color.cameraFrame1) {
                 bindingNonNull.imageViewFramePuppy.visibility = View.VISIBLE
                 bindingNonNull.imageViewFrameLogo.visibility = View.GONE
                 bindingNonNull.imageViewFrameLogo2.visibility = View.GONE
+                bindingNonNull.imageViewOne.imageViewFrame.setBackgroundResource(R.drawable.round_corners_frame)
 
             } else if(colors[colorIndex] == R.color.keyColorLight1){
                 bindingNonNull.imageViewFramePuppy.visibility = View.GONE
                 bindingNonNull.imageViewFrameLogo2.visibility = View.VISIBLE
                 bindingNonNull.imageViewFrameLogo.visibility = View.GONE
+                bindingNonNull.imageViewOne.imageViewFrame.setBackgroundResource(R.drawable.round_corners_key_light_color)
             } else {
                 bindingNonNull.imageViewFramePuppy.visibility = View.GONE
                 bindingNonNull.imageViewFrameLogo2.visibility = View.GONE
                 bindingNonNull.imageViewFrameLogo.visibility = View.VISIBLE
+                bindingNonNull.imageViewOne.imageViewFrame.setBackgroundResource(R.drawable.round_corners_key_dark_color)
             }
         }
 
         bindingNonNull.buttonArrowRight.setOnClickListener {
             colorIndex = (colorIndex - 1 + colors.size) % colors.size
             bindingNonNull.frameView.setBackgroundColor(ContextCompat.getColor(requireContext(), colors[colorIndex]))
+            setFrameColor(frames[colorIndex])
             if(colors[colorIndex] == R.color.cameraFrame1) {
                 bindingNonNull.imageViewFramePuppy.visibility = View.VISIBLE
                 bindingNonNull.imageViewFrameLogo.visibility = View.GONE
                 bindingNonNull.imageViewFrameLogo2.visibility = View.GONE
-
+                bindingNonNull.imageViewOne.imageViewFrame.setBackgroundResource(R.drawable.round_corners_frame)
             } else if(colors[colorIndex] == R.color.keyColorDark1){
                 bindingNonNull.imageViewFramePuppy.visibility = View.GONE
                 bindingNonNull.imageViewFrameLogo.visibility = View.VISIBLE
                 bindingNonNull.imageViewFrameLogo2.visibility = View.GONE
+                bindingNonNull.imageViewOne.imageViewFrame.setBackgroundResource(R.drawable.round_corners_key_dark_color)
+
             } else {
                 bindingNonNull.imageViewFramePuppy.visibility = View.GONE
                 bindingNonNull.imageViewFrameLogo.visibility = View.GONE
                 bindingNonNull.imageViewFrameLogo2.visibility = View.VISIBLE
+                bindingNonNull.imageViewOne.imageViewFrame.setBackgroundResource(R.drawable.round_corners_key_light_color)
             }
         }
     }
@@ -131,13 +144,20 @@ class FrameViewerFragment : BaseFragment<FragmentFrameViewerBinding>(
             val rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
 
             when (i) {
-                0 -> bindingNonNull.photoViewer1.photoViewer.setImageBitmap(rotatedBitmap)
-                1 -> bindingNonNull.photoViewer2.photoViewer.setImageBitmap(rotatedBitmap)
-                2 -> bindingNonNull.photoViewer3.photoViewer.setImageBitmap(rotatedBitmap)
-                3 -> bindingNonNull.photoViewer4.photoViewer.setImageBitmap(rotatedBitmap)
+                0 -> bindingNonNull.photoViewer1.imageViewContent.setImageBitmap(rotatedBitmap)
+                1 -> bindingNonNull.photoViewer2.imageViewContent.setImageBitmap(rotatedBitmap)
+                2 -> bindingNonNull.photoViewer3.imageViewContent.setImageBitmap(rotatedBitmap)
+                3 -> bindingNonNull.photoViewer4.imageViewContent.setImageBitmap(rotatedBitmap)
             }
         }
 
         bindingNonNull.imageViewOne.cardView.visibility = View.INVISIBLE
+    }
+
+    private fun setFrameColor(color : Int) {
+        bindingNonNull.photoViewer1.imageViewFrame.setBackgroundResource(color)
+        bindingNonNull.photoViewer2.imageViewFrame.setBackgroundResource(color)
+        bindingNonNull.photoViewer3.imageViewFrame.setBackgroundResource(color)
+        bindingNonNull.photoViewer4.imageViewFrame.setBackgroundResource(color)
     }
 }

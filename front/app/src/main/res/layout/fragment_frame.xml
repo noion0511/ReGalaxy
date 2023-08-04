@@ -43,7 +43,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageViewOne"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewFrame"
             app:layout_constraintVertical_bias="0.20999998" />
 
         <ImageView
@@ -52,12 +52,13 @@
             android:layout_height="wrap_content"
             android:src="@drawable/textlogo"
             android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="@+id/imageViewOne"
-            app:layout_constraintStart_toStartOf="@+id/imageViewOne"
-            app:layout_constraintTop_toBottomOf="@+id/imageViewOne" />
+            app:layout_constraintEnd_toEndOf="@+id/imageViewFrame"
+            app:layout_constraintStart_toStartOf="@+id/imageViewFrame"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewFrame" />
 
-        <ImageView
+        <include
             android:id="@+id/photoViewer"
+            layout="@layout/item_image_view"
             android:layout_width="300dp"
             android:layout_height="400dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -65,19 +66,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.20999998" />
-
-        <View
-            android:id="@+id/imageViewOne"
-            android:layout_width="310dp"
-            android:layout_height="410dp"
-            android:background="@drawable/round_corners"
-            android:scaleType="centerCrop"
-            app:cardCornerRadius="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/photoViewer"
-            app:layout_constraintEnd_toEndOf="@+id/photoViewer"
-            app:layout_constraintStart_toStartOf="@+id/photoViewer"
-            app:layout_constraintTop_toTopOf="@+id/photoViewer" />
-
 
 
         <LinearLayout
@@ -145,9 +133,9 @@
             android:text="2017.08.04"
             android:textColor="@color/white"
             android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="@+id/imageViewOne"
+            app:layout_constraintEnd_toEndOf="@+id/photoViewer"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageViewOne" />
+            app:layout_constraintTop_toBottomOf="@+id/photoViewer" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
