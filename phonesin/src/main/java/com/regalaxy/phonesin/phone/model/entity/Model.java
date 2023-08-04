@@ -1,7 +1,5 @@
 package com.regalaxy.phonesin.phone.model.entity;
 
-import com.regalaxy.phonesin.address.model.entity.Agency;
-import com.regalaxy.phonesin.member.model.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,8 +13,8 @@ public class Model {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "model_id")
-    private Long model_id;
+    private Long modelId;
 
-    private String model_name;
+    private String modelName;
     private String nickname;
 }

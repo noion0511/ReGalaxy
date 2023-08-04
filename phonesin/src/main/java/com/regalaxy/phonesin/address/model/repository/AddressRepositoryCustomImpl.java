@@ -29,7 +29,7 @@ public class AddressRepositoryCustomImpl implements AddressRepositoryCustom {
     public List<AgencyDto> samsungList(LocationDto locationDto) {
         String s = "select new com.regalaxy.phonesin.address.model.AgencyDto(a.agencyPhoneNum, a.agencyLocation, a.agencyName, a.agencyPhotoUrl) "
                 + "from agency a "
-                + "order by (a.agency_x-" + locationDto.getLatitude() + ")*(a.agency_x-"+locationDto.getLatitude()+")+(a.agency_y-"+locationDto.getLongitude()+")*(a.agency_y-"+locationDto.getLongitude()+")";
+                + "order by (a.agencyX-" + locationDto.getLatitude() + ")*(a.agencyX-"+locationDto.getLatitude()+")+(a.agencyY-"+locationDto.getLongitude()+")*(a.agencyY-"+locationDto.getLongitude()+")";
         return em.createQuery(s, AgencyDto.class).getResultList();
     }
 

@@ -1,6 +1,8 @@
 package com.regalaxy.phonesin.back.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.regalaxy.phonesin.back.model.entity.Back;
+import com.regalaxy.phonesin.phone.model.entity.Phone;
 import com.regalaxy.phonesin.rental.model.entity.Rental;
 import lombok.*;
 
@@ -12,13 +14,17 @@ import java.time.LocalDateTime;
 public class BackDto {
     private Long backId;
     private Long rentalId;
+    private Long phoneId;
     private int backStatus;
+    @JsonFormat(pattern = "yyyy/MM/dd")
     private LocalDate backDeliveryDate;
     private String backDeliveryLocationType;
     private String backDeliveryLocation;
     private String backZipcode;
     private String review;
+    @JsonFormat(pattern = "yyyy/MM/dd")
     private LocalDateTime createdAt;
+    private Boolean phoneStatus;
 
     // Entity를 Dto로 바꾸는 메서드
     // 혹시 builder 사용할 수 있으면 바꿔보기!!
@@ -30,6 +36,7 @@ public class BackDto {
         backDto.setBackDeliveryLocation(back.getBackDeliveryLocation());
         backDto.setBackZipcode(back.getBackZipcode());
         backDto.setReview(back.getReview());
+        backDto.setPhoneStatus(back.getPhoneStatus());
         return backDto;
     }
 
@@ -37,12 +44,14 @@ public class BackDto {
     public Back toEntity(Rental rental){
         return Back.builder()
                 .rental(rental)
+                .phoneId(this.phoneId)
                 .backStatus(this.backStatus)
                 .backDeliveryDate(this.backDeliveryDate)
                 .backDeliveryLocationType(this.backDeliveryLocationType)
                 .backDeliveryLocation(this.backDeliveryLocation)
                 .backZipcode(this.backZipcode)
                 .review(this.review)
+                .phoneStatus(this.phoneStatus)
                 .build();
     }
 }
