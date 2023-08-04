@@ -6,45 +6,45 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.phonesin.R
-import com.ssafy.phonesin.databinding.ItemMyReturnListBinding
-import com.ssafy.phonesin.model.mypage.MyReturnToggle
+import com.ssafy.phonesin.databinding.ItemMyDonateListBinding
+import com.ssafy.phonesin.model.mypage.MyDonateToggle
 
-class MyReturnListAdapter(
-    private val returnList: List<MyReturnToggle>,
+class MyDonateListAdapter(
+    private val donateList: List<MyDonateToggle>,
 ) :
-    RecyclerView.Adapter<MyReturnListAdapter.ViewHolder>() {
+    RecyclerView.Adapter<MyDonateListAdapter.ViewHolder>() {
 
-    inner class ViewHolder(private val binding: ItemMyReturnListBinding) :
+    inner class ViewHolder(private val binding: ItemMyDonateListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(returns: MyReturnToggle) = with(binding) {
-            textViewMobileName.text = returns.donate.phoneNmae
+        fun bind(donate: MyDonateToggle) = with(binding) {
+            textViewDonateDate.text = donate.donate.donateDate
 
-            if (returns.donate.status == 1) {
+            if (donate.donate.status == 1) {
                 textViewStateRegist.setTextColor(ContextCompat.getColor(itemView.context, R.color.keyColor1))
-            } else if (returns.donate.status == 2) {
+            } else if (donate.donate.status == 2) {
                 textViewStateApprove.setTextColor(ContextCompat.getColor(itemView.context, R.color.keyColor1))
-            } else if (returns.donate.status == 3) {
+            } else if (donate.donate.status == 3) {
                 textViewStatePickup.setTextColor(ContextCompat.getColor(itemView.context, R.color.keyColor1))
             } else {
-                textViewStateConfirm.setTextColor(ContextCompat.getColor(itemView.context, R.color.keyColor1))
+                textViewStateDone.setTextColor(ContextCompat.getColor(itemView.context, R.color.keyColor1))
             }
 
             layoutToggleUp.setOnClickListener {
-                returns.toggle = !returns.toggle
+                donate.toggle = !donate.toggle
 
-                if (returns.toggle) {
+                if (donate.toggle) {
                     imageViewToggle.setImageResource(R.drawable.baseline_keyboard_arrow_up_24)
                     dividerToggle.visibility = View.VISIBLE
                     layoutToggleDown.visibility =View.VISIBLE
 
-                    if (returns.donate.status == 1) {
+                    if (donate.donate.status == 1) {
                         layoutRegist.visibility = View.VISIBLE
-                    } else if (returns.donate.status == 2) {
+                    } else if (donate.donate.status == 2) {
                         layoutApprove.visibility = View.VISIBLE
-                    } else if (returns.donate.status == 3) {
+                    } else if (donate.donate.status == 3) {
                         layoutPickup.visibility = View.VISIBLE
                     } else {
-                        layoutConfirm.visibility = View.VISIBLE
+                        layoutDone.visibility = View.VISIBLE
                     }
                 } else {
                     imageViewToggle.setImageResource(R.drawable.baseline_keyboard_arrow_down_24)
@@ -57,14 +57,14 @@ class MyReturnListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
-            ItemMyReturnListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemMyDonateListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.bind(returnList[position])
+        viewHolder.bind(donateList[position])
     }
 
-    override fun getItemCount() = returnList.size
+    override fun getItemCount() = donateList.size
 }

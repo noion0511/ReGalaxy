@@ -45,6 +45,9 @@
         <action
             android:id="@+id/action_my_page_to_returnListFragment"
             app:destination="@id/returnListFragment" />
+        <action
+            android:id="@+id/action_my_page_to_donateListFragment"
+            app:destination="@id/donateListFragment" />
     </fragment>
     <fragment
         android:id="@+id/module"
@@ -279,4 +282,8 @@
         android:id="@+id/returnListFragment"
         android:name="com.ssafy.phonesin.ui.mypage.ReturnListFragment"
         android:label="ReturnListFragment" />
+    <fragment
+        android:id="@+id/donateListFragment"
+        android:name="com.ssafy.phonesin.ui.mypage.DonateListFragment"
+        android:label="DonateListFragment" />
 </navigation>

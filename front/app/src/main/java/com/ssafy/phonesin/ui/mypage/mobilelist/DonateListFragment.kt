@@ -7,14 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ssafy.phonesin.databinding.FragmentMyPageReturnListBinding
-import com.ssafy.phonesin.model.mypage.MyReturn
-import com.ssafy.phonesin.model.mypage.MyReturnToggle
+import com.ssafy.phonesin.databinding.FragmentMyPageDonateListBinding
+import com.ssafy.phonesin.model.mypage.MyDonate
+import com.ssafy.phonesin.model.mypage.MyDonateToggle
 import com.ssafy.phonesin.ui.MainActivity
+import com.ssafy.phonesin.ui.mypage.mobilelist.MyDonateListAdapter
 import com.ssafy.phonesin.ui.mypage.mobilelist.MyReturnListAdapter
 
-class ReturnListFragment : Fragment() {
-    private lateinit var binding: FragmentMyPageReturnListBinding
+class DonateListFragment : Fragment() {
+    private lateinit var binding: FragmentMyPageDonateListBinding
     private lateinit var rentalRecyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +29,7 @@ class ReturnListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentMyPageReturnListBinding.inflate(inflater, container, false)
+        binding = FragmentMyPageDonateListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -39,18 +40,19 @@ class ReturnListFragment : Fragment() {
     }
 
     private fun setRentalList() {
-        rentalRecyclerView = binding.recyclerViewReturnList
+        rentalRecyclerView = binding.recyclerViewDonateList
 
-        val returnList =
-            listOf<MyReturnToggle>(
-                MyReturnToggle(MyReturn(1, "Galaxy 1"), false),
-                MyReturnToggle(MyReturn(2, "Galaxy 2"), false),
-                MyReturnToggle(MyReturn(3, "Galaxy 3"), false),
-                MyReturnToggle(MyReturn(4, "Galaxy 4"), false)
+        val donateList =
+            listOf<MyDonateToggle>(
+                MyDonateToggle(MyDonate(1, "2023/08/10"), false),
+                MyDonateToggle(MyDonate(2, "2023/08/11"), false),
+                MyDonateToggle(MyDonate(3, "2023/08/12"), false),
+                MyDonateToggle(MyDonate(4, "2023/08/13"), false)
             )
 
-        rentalRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        rentalRecyclerView.adapter = MyReturnListAdapter(returnList)
+        rentalRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        rentalRecyclerView.adapter = MyDonateListAdapter(donateList)
     }
 
     companion object {

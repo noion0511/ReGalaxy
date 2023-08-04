@@ -47,7 +47,7 @@ class MyPageFragment : Fragment() {
         }
 
         layoutDonate.setOnClickListener {
-
+            findNavController().navigate(R.id.donateListFragment)
         }
 
         textViewModifyInfo.setOnClickListener {

@@ -6,6 +6,6 @@ data class MyReturn(
 )
 
 data class MyReturnToggle(
-    var returns: MyReturn,
+    var donate: MyReturn,
     var toggle: Boolean
 )
