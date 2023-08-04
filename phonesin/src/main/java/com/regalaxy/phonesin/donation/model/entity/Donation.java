@@ -1,6 +1,7 @@
 package com.regalaxy.phonesin.donation.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.regalaxy.phonesin.global.BaseTimeEntity;
 import com.regalaxy.phonesin.member.model.entity.Member;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -17,7 +18,7 @@ import static javax.persistence.FetchType.LAZY;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "donation")
-public class Donation {
+public class Donation extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,10 +26,6 @@ public class Donation {
     private Long donationId;
 
     private int donationStatus;
-
-    @CreatedDate
-    @Column(name = "donation_created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
 
     private String donationDeliveryDate;
 
