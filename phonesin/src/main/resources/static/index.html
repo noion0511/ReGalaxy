@@ -24,7 +24,7 @@
 							<li class="dropdownBtn" id="clickArea">
 								<button class="blackBtn" onclick ="clickshow(this,'list')">admin</button>
 								<ul id="list">
-									<li><a href="list.html">phone</a></li>
+									<li><a href="admin/phone/list">phone</a></li>
 									<li><a href="list.html">donation</a></li>
 									<li><a href="list.html">rental</a></li>
 									<li><a href="list.html">return</a></li>
@@ -106,19 +106,45 @@
 		<div class="copyright">
 			Made with: <a href="https://templated.co/">Templated.co</a>
 		</div>
+		<form id="index-phone-form" method="get" action="admin/phone/list">
+			<input type="hidden" id="isRental" name="isRental" value="false">
+			<input type="hidden" id="isY2K" name="isY2K" value="false">
+			<input type="hidden" id="isClimateHumidity" name="isClimateHumidity" value="false">
+			<input type="hidden" id="isHomecam" name="isHomecam" value="false">
+		</form>
+
 
 		<script>
-        function clickshow(elem,ID) {
-			 var menu = document.getElementById(ID);
-				menu.style.display = "block";
-		}
-        document.addEventListener('mousemove', function(e){
-        	var dropdown = document.getElementById("clickArea");
-			if(!dropdown.contains(e.target)){
-        		document.getElementById("list").style.display = "none";
-            }
-        });
-    </script>
+			function clickshow(elem,ID) {
+				 var menu = document.getElementById(ID);
+					menu.style.display = "block";
+			}
+			document.addEventListener('mousemove', function(e){
+				var dropdown = document.getElementById("clickArea");
+				if(!dropdown.contains(e.target)){
+					document.getElementById("list").style.display = "none";
+				}
+			});
+
+			document.getElementById('phoneList').onclick = function(){
+				const obj = {
+				  "isRental": false,
+				  "isY2K": false,
+				  "isClimateHumidity": false,
+				  "isHomecam": false
+				};
+				const data = {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(obj)
+				};
+				fetch(`admin/phone/list`, data)
+					.then((response) => response.json())
+					.then((data) => {location.href="list.html"});
+			};
+		</script>
 
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
