@@ -22,23 +22,22 @@ public class AdminRentalController {
     private RentalService rentalService;
 
     @ApiOperation(value = "관리자 기기 대여 신청서 리스트 조회")
-    @GetMapping("/info/list")
-    public ModelAndView infoList(SearchDto searchDto) {
+    @PutMapping("/info/list")
+    public ModelAndView infoList(@RequestBody SearchDto searchDto) {
         ModelAndView mav = new ModelAndView();
         List<RentalDto> list = rentalService.infoList(searchDto);
-        mav.addObject("list", list);
-        mav.addObject("pgno", searchDto.getPgno());
-        mav.setViewName("");//어디로 이동할지 ex) rental/list
         System.out.print("Success");
+        mav.addObject("list", list);
+        mav.setViewName("");//어디로 이동할지 ex) rental/list
         return mav;
     }
 
-    @ApiOperation(value = "관리자 기기 대여 신청서 상세 조회")
-    @GetMapping("/info")
-    public String info(int rental_id) {
-        RentalDetailDto rentalDetailDto = rentalService.info(rental_id);
-        return "";
-    }
+//    @ApiOperation(value = "관리자 기기 대여 신청서 상세 조회")
+//    @GetMapping("/info")
+//    public String info(Long rental_id){
+//        RentalDetailDto rentalDetailDto = rentalService.info(rental_id);
+//        return "";
+//    }
 
     @ApiOperation(value = "관리자 기기 대여 신청서 신청")
     @GetMapping("/apply")
