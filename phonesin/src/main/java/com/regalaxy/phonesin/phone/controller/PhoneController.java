@@ -43,7 +43,7 @@ public class PhoneController {
         model.addAttribute("title", "휴대폰");
 //        model.addObject("title", "휴대폰");
 //        mav.setViewName("/testlist.html");//어디로 이동할지 ex) rental/list
-        return "/testlist";
+        return "/list";
     }
 
 //    @ApiOperation(value = "휴대폰 목록 조회")

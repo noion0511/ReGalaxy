@@ -18,10 +18,7 @@
 	<!-- Header -->
 	<header id="header">
 		<div class="inner">
-			<a href="../static/index.html" class="logo"><img style="object-fit: cover; width:2em" src="images/logo.PNG" /></a>
-			<nav id="nav">
-				<button onclick="hello()">login</button>
-			</nav>
+			<a href="/" class="logo"><img style="object-fit: cover; width:2em" th:src="@{/images/logo.PNG}" /></a>
 			<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
 		</div>
 	</header>
@@ -30,7 +27,7 @@
 	<section id="banner">
 		<div class="inner">
 			<header>
-				<span><h1 th:text="${title}"></h1><h1> 목록</h1></span>
+				<h1><span th:text="${title}"></span> 목록</h1>
 			</header>
 		</div>
 	</section>
@@ -40,6 +37,12 @@
 	<section id="three" class="wrapper align-center">
 		<div class="inner">
 			<div class="flex flex-4">
+				<article th:each="list : ${list}">
+					<header>
+						<h3 th:text="${list.phoneId}"></h3>
+					</header>
+					<p th:text="${list.modelName}"></p>
+				</article>
 				<article>
 					<header>
 						<h3>See the home anywhere<br />with old phone</h3>
