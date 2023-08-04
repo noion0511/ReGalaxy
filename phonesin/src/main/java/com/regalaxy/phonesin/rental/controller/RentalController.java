@@ -22,8 +22,10 @@ public class RentalController {
 
     @ApiOperation(value = "기기 대여 신청서 신청")
     @PostMapping("/apply")//신청하기
-    public ResponseEntity<?> infoApply(@RequestBody RentalApplyDto rentalApplyDto){
-        rentalService.infoApply(rentalApplyDto);
+    public ResponseEntity<?> infoApply(@RequestBody List<RentalApplyDto> rentalApplylistDto){
+        for (RentalApplyDto rentalApplyDto : rentalApplylistDto) {
+            rentalService.infoApply(rentalApplyDto);
+        }
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
 
