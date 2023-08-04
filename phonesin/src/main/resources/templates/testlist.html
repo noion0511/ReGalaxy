@@ -10,7 +10,7 @@
 	<title>Projection by TEMPLATED</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<link rel="stylesheet" href="assets/css/list.css" />
+	<link rel="stylesheet" th:href="@{/assets/css/list.css}" />
 </head>
 
 <body>
@@ -18,7 +18,7 @@
 	<!-- Header -->
 	<header id="header">
 		<div class="inner">
-			<a href="index.html" class="logo"><img style="object-fit: cover; width:2em" src="images/logo.PNG" /></a>
+			<a href="../static/index.html" class="logo"><img style="object-fit: cover; width:2em" src="images/logo.PNG" /></a>
 			<nav id="nav">
 				<button onclick="hello()">login</button>
 			</nav>
@@ -30,8 +30,7 @@
 	<section id="banner">
 		<div class="inner">
 			<header>
-				<h1 th:text="${title}"></h1>
-				<h1>목록</h1>
+				<span><h1 th:text="${title}"></h1><h1> 목록</h1></span>
 			</header>
 		</div>
 	</section>
@@ -70,10 +69,10 @@
 	</section>
 
 	<!-- Scripts -->
-	<script src="assets/js/jquery.min.js"></script>
-	<script src="assets/js/skel.min.js"></script>
-	<script src="assets/js/util.js"></script>
-	<script src="assets/js/main.js"></script>
+	<script th:src="@{/assets/js/jquery.min.js}"></script>
+	<script th:src="@{/assets/js/skel.min.js}"></script>
+	<script th:src="@{/assets/js/util.js}"></script>
+	<script th:src="@{/assets/js/main.js}"></script>
 	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 	<script>
 		function hello() {

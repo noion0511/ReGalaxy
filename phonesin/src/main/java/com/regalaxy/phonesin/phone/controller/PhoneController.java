@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -34,14 +35,15 @@ public class PhoneController {
 
     @ApiOperation(value = "휴대폰 목록 조회")
     @GetMapping("/list")
-    public ModelAndView list(){
+    public String list(Model model){
         PhoneSearchDto phoneSearchDto = new PhoneSearchDto();
         List<PhoneDto> list = phoneService.list(phoneSearchDto);
         ModelAndView mav = new ModelAndView();
-        mav.addObject("list", list);
-        mav.addObject("title", "휴대폰");
-        mav.setViewName("redirect:/list.html");//어디로 이동할지 ex) rental/list
-        return mav;
+        model.addAttribute("list", list);
+        model.addAttribute("title", "휴대폰");
+//        model.addObject("title", "휴대폰");
+//        mav.setViewName("/testlist.html");//어디로 이동할지 ex) rental/list
+        return "/testlist";
     }
 
 //    @ApiOperation(value = "휴대폰 목록 조회")
