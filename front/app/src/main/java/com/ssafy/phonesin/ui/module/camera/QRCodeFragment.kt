@@ -1,15 +1,14 @@
 package com.ssafy.phonesin.ui.module.camera
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.ssafy.phonesin.R
-import com.ssafy.phonesin.databinding.FragmentFrameBinding
 import com.ssafy.phonesin.databinding.FragmentQRCodeBinding
 import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.base.BaseFragment
@@ -60,8 +59,21 @@ class QRCodeFragment : BaseFragment<FragmentQRCodeBinding>(
         bindingNonNull.buttonCameraeNext.setOnClickListener {
             findNavController().navigate(R.id.action_QRCodeFragment_to_cameraFragment)
         }
+
+        bindingNonNull.buttonPrint.setOnClickListener {
+            viewModel.increasePrintCount()
+            showDialog()
+        }
     }
 
+    private fun showDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("출력 신청 완료")
+            .setMessage("출력 신청이 완료되었습니다. ${viewModel.printCount.value}번 번호에 신청되었습니다.")
+            .setPositiveButton("확인") { dialog, _ -> dialog.dismiss() }
+            .show()
+        bindingNonNull.buttonPrint.visibility = View.INVISIBLE
+    }
 
     private fun initObserver() {
         with(viewModel) {

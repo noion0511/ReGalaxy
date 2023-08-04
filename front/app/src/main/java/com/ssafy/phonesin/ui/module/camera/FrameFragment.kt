@@ -46,7 +46,6 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
         val mainActivity = activity as MainActivity
         mainActivity.hideBottomNavi(true)
 
-
         val imagePath = arguments?.getString("imagePath")
         val photoPaths = arguments?.getStringArrayList("photo_paths")
         val frameColor = arguments?.getInt("frameColor") ?: R.color.keyColorDark1

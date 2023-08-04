@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.ssafy.phonesin.ApplicationClass.Companion.prefs
 import com.ssafy.phonesin.model.Event
 import com.ssafy.phonesin.model.PhotoResponse
 import com.ssafy.phonesin.network.NetworkResponse
@@ -28,6 +29,26 @@ class CameraViewModel @Inject constructor(
 
     private val _photoResponse = MutableLiveData<Event<PhotoResponse>>()
     val photoResponse: LiveData<Event<PhotoResponse>> = _photoResponse
+
+    private val _printCount = MutableLiveData<Int>(getPrintCountFromPrefs())
+    val printCount: LiveData<Int> = _printCount
+
+    private fun getPrintCountFromPrefs(): Int {
+        return prefs.getInt("PRINT_COUNT", 0)
+    }
+
+    private fun savePrintCountToPrefs(count: Int) {
+        with(prefs.edit()) {
+            putInt("PRINT_COUNT", count)
+            apply()
+        }
+    }
+
+    fun increasePrintCount() {
+        val newCount = (_printCount.value ?: 0) + 1
+        _printCount.value = newCount
+        savePrintCountToPrefs(newCount)
+    }
 
     fun uploadImage(imageFile: File) {
         viewModelScope.launch {

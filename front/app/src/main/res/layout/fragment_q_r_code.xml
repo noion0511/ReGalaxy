@@ -24,6 +24,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="end">
                 <TextView
+                    android:id="@+id/buttonPrint"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="end"
@@ -57,12 +58,34 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="1"
-            style="@style/textview_title_secondary"
-            android:text="@string/module_camera_qr_share_explain" />
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/textview_title_secondary"
+                android:text="@string/module_camera_qr_share_explain_title" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/module_camera_qr_share_explain" />
+
+            <TextView
+                style="@style/textview_title_secondary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/module_camera_print_explain_title" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/module_camera_print_explain" />
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/buttonCameraeNext"
