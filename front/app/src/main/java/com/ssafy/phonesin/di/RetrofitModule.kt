@@ -1,5 +1,7 @@
 package com.ssafy.phonesin.di
 
+import com.ssafy.phonesin.repository.returnmobile.ReturnRepository
+import com.ssafy.phonesin.repository.returnmobile.ReturnRepositoryImpl
 import com.ssafy.phonesin.repository.ytwok.Y2KRepository
 import com.ssafy.phonesin.repository.ytwok.Y2KRepositoryImpl
 import dagger.Binds
@@ -14,4 +16,9 @@ abstract class RepositoryModule {
     abstract fun bindsY2KRepository(
         repositoryImpl: Y2KRepositoryImpl
     ): Y2KRepository
+
+    @Binds
+    abstract fun bindsReturnRepository(
+        repositoryImpl: ReturnRepositoryImpl
+    ): ReturnRepository
 }

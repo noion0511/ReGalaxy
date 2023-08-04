@@ -2,13 +2,16 @@ package com.ssafy.phonesin.ui.mobile.returnmobile
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioButton
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentReturnMobileBinding
 import com.ssafy.phonesin.ui.MainActivity
+import com.ssafy.phonesin.ui.util.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -20,11 +23,28 @@ private const val ARG_PARAM2 = "param2"
  * Use the [ReturnMobileFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ReturnMobileFragment : Fragment() {
+@AndroidEntryPoint
+class ReturnMobileFragment : BaseFragment<FragmentReturnMobileBinding>(
+    R.layout.fragment_return_mobile
+) {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    lateinit var binding: FragmentReturnMobileBinding
+
+    val returnMobileViewModel : ReturnMobileViewModel by viewModels()
+
+    override fun onCreateBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentReturnMobileBinding {
+        return FragmentReturnMobileBinding.inflate(inflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
+        }
+    }
+
+    override fun init() {
+        setReturnMobile()
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,22 +57,25 @@ class ReturnMobileFragment : Fragment() {
         mainActivity.hideBottomNavi(true)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        binding = FragmentReturnMobileBinding.inflate(layoutInflater, container, false)
 
-        return binding.root
-    }
+    private fun setReturnMobile() = with(bindingNonNull) {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setReturnMobile()
-    }
+        returnMobileViewModel.rentalResponseList.observe(viewLifecycleOwner){
+            radioGroupReturnAdd.removeAllViews()
+            it.forEach {
+                val radioButton = RadioButton(context)
+                radioButton.text = "${it.phoneId}"
+                radioGroupReturnAdd.addView(radioButton)
+            }
+        }
 
-    private fun setReturnMobile() = with(binding) {
+        for (i in 1..3) {
+            val radioButton = RadioButton(context)
+            radioButton.text = "RadioButton $i"
+            radioButton.id = i // 라디오 버튼마다 고유한 ID를 부여 (무조건 필요한 것은 아님)
+            radioGroupReturnAdd.addView(radioButton)
+        }
+
         buttonReturnNext.setOnClickListener {
             if (radioButtonAgent.isChecked) {
                 findNavController().navigate(
