@@ -1,6 +1,7 @@
 package com.ssafy.phonesin.ui.mobile.rentalmobile
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -68,8 +69,8 @@ class RentalMobileFragment :
             }
         rentalMobileAdapter.updateRentalMobileListener =
             object : RentalMobileAdapter.UpdateRentalMobileListener {
-                override fun onClick(musicId: Int) {
-
+                override fun onClick(id: Int) {
+                    //TODO : 옵션 변경 기능
                 }
             }
         bindingNonNull.rentalListRv.adapter = rentalMobileAdapter

@@ -1,6 +1,5 @@
 package com.ssafy.phonesin.ui.mobile.rentalmobile
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -34,10 +33,7 @@ class RentalViewModel @Inject constructor(
 
     private fun getAddressList() {
         viewModelScope.launch {
-            val addressResponse = repository.getAddress(8)
-
-            Log.e("싸피", addressResponse.toString())
-            when (addressResponse) {
+            when (val addressResponse = repository.getAddress(8)) {
                 is NetworkResponse.Success -> {
                     _addressList.addAll(addressResponse.body)
                 }
@@ -59,21 +55,26 @@ class RentalViewModel @Inject constructor(
 
     fun addRental(rental: Rental) {
         _rentalList.value?.add(rental)
-        Log.e("싸피", rental.toString())
-        Log.e("싸피", _rentalList.value.toString())
     }
 
     fun deleteRental(id: Int) {
-        _rentalList.value?.removeAt(id)
+        val updatedList = _rentalList.value!!.toMutableList()
+        updatedList.removeAt(id)
+        _rentalList.value = updatedList
     }
 
     fun plusRental(id: Int) {
-        _rentalList.value?.get(id)?.count = _rentalList.value?.get(id)?.count!! + 1
+        val updatedList = _rentalList.value!!.toMutableList()
+        updatedList[id].count = updatedList[id].count + 1
+        _rentalList.value = updatedList
     }
 
     fun minusRental(id: Int) {
-        if (_rentalList.value?.get(id)?.count!! > 1)
-            _rentalList.value?.get(id)?.count = _rentalList.value?.get(id)?.count!! - 1
+        if (_rentalList.value?.get(id)?.count!! > 1) {
+            val updatedList = _rentalList.value!!.toMutableList()
+            updatedList[id].count = updatedList[id].count - 1
+            _rentalList.value = updatedList
+        }
     }
 
 }

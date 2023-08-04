@@ -38,13 +38,16 @@ class RentalMobileAdapter :
 
                 imageViewItemRentalClose.setOnClickListener {
                     deleteRentalMobileListener.onClick(layoutPosition)
+
                 }
                 imageViewRentalPlus.setOnClickListener {
                     plusRentalMobileListener.onClick(layoutPosition)
+                    textViewRentalCount.text = rental.count.toString()
                 }
 
                 imageViewRentalMinus.setOnClickListener {
                     minusRentalMobileListener.onClick(layoutPosition)
+                    textViewRentalCount.text = rental.count.toString()
                 }
 
                 buttonChangeOption.setOnClickListener {
@@ -92,7 +95,7 @@ class RentalMobileAdapter :
 
 class RentalMobileDiffCallback : DiffUtil.ItemCallback<Rental>() {
     override fun areItemsTheSame(oldItem: Rental, newItem: Rental): Boolean {
-        return oldItem == newItem
+        return oldItem.hashCode() == newItem.hashCode()
     }
 
     override fun areContentsTheSame(oldItem: Rental, newItem: Rental): Boolean {
