@@ -67,7 +67,7 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
                 true
             )
 
-            bindingNonNull.imageViewOne.photoViewer.setImageBitmap(rotatedBitmap)
+            bindingNonNull.photoViewer.setImageBitmap(rotatedBitmap)
             bindingNonNull.imageViewFour.visibility = View.INVISIBLE
         } else if (photoPaths != null && photoPaths.size == 4) {
             showImage(photoPaths)
@@ -106,7 +106,7 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
         viewModel.viewModelScope.launch {
             delay(1000L)  // Wait for 1 second
             val viewFrame = bindingNonNull.rootView
-            val frameBitmap = layoutToBitmap(viewFrame)
+            val frameBitmap = layoutToBitmap(bindingNonNull.root)
 
             frameBitmap?.let {
                 val timeStamp =
@@ -159,7 +159,7 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
             }
         }
 
-        bindingNonNull.imageViewOne.cardView.visibility = View.INVISIBLE
+        bindingNonNull.imageViewOne.visibility = View.INVISIBLE
     }
 
     private fun layoutToBitmap(layout: View): Bitmap? {

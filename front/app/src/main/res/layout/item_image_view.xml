@@ -4,11 +4,12 @@
     android:id="@+id/cardView"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="10dp">
+    app:cardCornerRadius="8dp">
 
     <ImageView
         android:id="@+id/photoViewer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:background="@drawable/round_corners"/>
 </androidx.cardview.widget.CardView>

@@ -56,18 +56,29 @@
             app:layout_constraintStart_toStartOf="@+id/imageViewOne"
             app:layout_constraintTop_toBottomOf="@+id/imageViewOne" />
 
-        <include
-            android:id="@+id/imageViewOne"
-            layout="@layout/item_image_view"
+        <ImageView
+            android:id="@+id/photoViewer"
             android:layout_width="300dp"
             android:layout_height="400dp"
-            android:layout_centerInParent="true"
-            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.20999998" />
+
+        <View
+            android:id="@+id/imageViewOne"
+            android:layout_width="310dp"
+            android:layout_height="410dp"
+            android:background="@drawable/round_corners"
+            android:scaleType="centerCrop"
+            app:cardCornerRadius="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/photoViewer"
+            app:layout_constraintEnd_toEndOf="@+id/photoViewer"
+            app:layout_constraintStart_toStartOf="@+id/photoViewer"
+            app:layout_constraintTop_toTopOf="@+id/photoViewer" />
+
+
 
         <LinearLayout
             android:id="@+id/imageViewFour"
@@ -116,7 +127,6 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="5dp"
                     android:layout_weight="1" />
-
 
                 <include
                     android:id="@+id/photoViewer4"
