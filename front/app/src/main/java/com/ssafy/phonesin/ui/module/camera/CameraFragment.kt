@@ -15,6 +15,7 @@ import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.skydoves.powerspinner.createPowerSpinnerView
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentCameraBinding
 import com.ssafy.phonesin.ui.MainActivity
@@ -101,10 +102,12 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(
         var allCountDown = 24
 
         object : CountDownTimer(
-            26000,
+            25000,
             1000
-        ) { // 총 15초 동안                                                                                                            5초마다
+        ) {
             override fun onTick(millisUntilFinished: Long) {
+                if(allCountDown < 0) return
+
                 val countTime = (allCountDown % 6)
                 bindingNonNull.textViewCountTime.visibility = if (countTime == 0) {
                     View.INVISIBLE
@@ -135,16 +138,6 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(
                 photoPaths = ArrayList<String>()
             }
         }.start()
-    }
-
-    private fun startCameraPreview() {
-        try {
-            camera.setPreviewDisplay(surfaceHolder)
-            camera.startPreview()
-            isSafeToTakePicture = true
-        } catch (e: Exception) {
-            Log.d("CameraFragment", "Failed to start camera preview: ${e.message}")
-        }
     }
 
     private val shutterCallback = Camera.ShutterCallback {}
