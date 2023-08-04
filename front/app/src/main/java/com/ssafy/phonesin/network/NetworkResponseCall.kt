@@ -82,5 +82,5 @@ internal class NetworkResponseCall<S: Any, E: Any>(
 
     override fun request(): Request = delegate.request()
 
-    override fun timeout(): Timeout = delegate.timeout()
+//    override fun timeout(): Timeout = delegate.timeout()
 }

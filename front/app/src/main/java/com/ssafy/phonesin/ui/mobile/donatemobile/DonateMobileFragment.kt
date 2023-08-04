@@ -2,13 +2,14 @@ package com.ssafy.phonesin.ui.mobile.donatemobile
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentDonateMobileBinding
 import com.ssafy.phonesin.ui.MainActivity
+import com.ssafy.phonesin.ui.util.base.BaseFragment
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -20,12 +21,26 @@ private const val ARG_PARAM2 = "param2"
  * Use the [DonateMobileFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class DonateMobileFragment : Fragment() {
+
+class DonateMobileFragment :
+    BaseFragment<FragmentDonateMobileBinding>(R.layout.fragment_donate_mobile) {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    val donateMobileViewModel : DonateViewModel by activityViewModels()
 
-    private lateinit var binding: FragmentDonateMobileBinding
+    override fun onCreateBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentDonateMobileBinding {
+        return FragmentDonateMobileBinding.inflate(layoutInflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
+        }
+    }
+
+    override fun init() {
+        setDonateMobileUi()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,28 +52,17 @@ class DonateMobileFragment : Fragment() {
         mainActivity.hideBottomNavi(true)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        binding = FragmentDonateMobileBinding.inflate(layoutInflater, container, false)
-        return binding.root
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setDonateMobileUi()
-    }
+    private fun setDonateMobileUi() = with(bindingNonNull) {
 
-    private fun setDonateMobileUi() = with(binding) {
+
+
         buttonDonateNext.setOnClickListener {
-            if(radioButtonDonateVisitDelivery.isChecked){
+            if (radioButtonDonateVisitDelivery.isChecked) {
                 findNavController().navigate(
                     R.id.action_donateMobileFragment_to_donateVisitDeliveryFragment,
                 )
-            }
-            else{
+            } else {
                 findNavController().navigate(
                     R.id.action_donateMobileFragment_to_donateAgentFragment,
                 )

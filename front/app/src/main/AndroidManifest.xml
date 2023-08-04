@@ -37,17 +37,8 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".ui.module.camera.CameraViewerActivity"
-            android:exported="false"/>
-
-        <activity
-            android:name=".ui.module.camera.FrameActivity"
-            android:exported="false"/>
-
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="4c9d659a498fe1b0d16eaadc8b6d0bc9" />
     </application>
-
 </manifest>

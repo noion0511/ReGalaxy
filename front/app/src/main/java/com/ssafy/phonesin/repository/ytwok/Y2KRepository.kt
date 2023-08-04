@@ -6,5 +6,5 @@ import com.ssafy.phonesin.network.NetworkResponse
 import okhttp3.MultipartBody
 
 interface Y2KRepository {
-    suspend fun uploadImage(files: MutableList<MultipartBody.Part>?): NetworkResponse<PhotoResponse, ErrorResponse>
+    suspend fun uploadImage(file : MultipartBody.Part): NetworkResponse<PhotoResponse, ErrorResponse>
 }
