@@ -3,13 +3,18 @@ package com.regalaxy.phonesin.rental.model.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.regalaxy.phonesin.address.model.entity.Agency;
 import com.regalaxy.phonesin.back.model.entity.Back;
+import com.regalaxy.phonesin.donation.model.entity.Donation;
 import com.regalaxy.phonesin.global.BaseTimeEntity;
 import com.regalaxy.phonesin.member.model.entity.Member;
+import com.regalaxy.phonesin.phone.model.entity.Phone;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity(name = "rental")
@@ -28,6 +33,9 @@ public class Rental extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn(name = "agency_id")
     private Agency agency;
+
+    @OneToMany(mappedBy = "rental", cascade = ALL, orphanRemoval = true)
+    private List<Back> backList = new ArrayList<Back>();
 
     private LocalDateTime applyDate;
 
@@ -49,6 +57,8 @@ public class Rental extends BaseTimeEntity {
     private String waybillNumber;
     private int fund;
     private int usingDate;
+    @OneToMany(mappedBy = "rental", cascade = ALL, orphanRemoval = true)
+    private List<Phone> phoneList = new ArrayList<Phone>();
     public void extension(){
         this.isExtension = true;
     }

@@ -32,7 +32,7 @@ public class PhoneService {
         phoneDto.setPhoneId(phone_id);
         phoneDto.setModelName(phone.getModel().getModelName());
         phoneDto.setNickname(phone.getModel().getNickname());
-        phoneDto.setRentalId(phone.getRentalId());
+        phoneDto.setRentalId(phone.getRental().getRentalId());
         return phoneDto;
     }
 
