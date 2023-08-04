@@ -51,10 +51,9 @@ public class DonationService {
     @Transactional
     public void donationUpdate(DonationRequestDto donationRequestDto, Long donationId) throws Exception {
         Donation donation = donationRepository.findById(donationId).get();
-        donation.setDonationStatus(donationRequestDto.getDonationStatus());
-        donation.setDonationDeliveryLocation(donationRequestDto.getDonationDeliveryLocation());
-        donation.setDonationDeliveryLocationType(donationRequestDto.getDonationDeliveryLocationType());
-        donation.setDonationDeliveryDate(donationRequestDto.getDonationDeliveryDate());
+        if (donationRequestDto.getDonationDeliveryLocation() != null) donation.setDonationDeliveryLocation(donationRequestDto.getDonationDeliveryLocation());
+        if (donationRequestDto.getDonationDeliveryLocationType() != null) donation.setDonationDeliveryLocationType(donationRequestDto.getDonationDeliveryLocationType());
+        if (donationRequestDto.getDonationDeliveryDate() != null) donation.setDonationDeliveryDate(donationRequestDto.getDonationDeliveryDate());
     }
 
     @Transactional
