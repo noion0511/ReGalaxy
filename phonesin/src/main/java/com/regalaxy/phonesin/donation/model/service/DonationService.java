@@ -29,7 +29,7 @@ public class DonationService {
 
     @Transactional
     public boolean donationApply(DonationRequestDto donationRequestDto) throws Exception {
-        Member member = memberRepository.findById(donationRequestDto.getMemberId()).get();
+        Member member = memberRepository.findById(1l).get();
         donationRepository.save(donationRequestDto.toEntity(member));
         return true;
     }
@@ -51,9 +51,9 @@ public class DonationService {
 
     @Transactional
     public boolean donationUpdate(DonationRequestDto donationRequestDto) throws Exception {
-        Optional<Donation> optional = donationRepository.findById(donationRequestDto.getDonationId());
+        Optional<Donation> optional = donationRepository.findById(1l);
         if (optional.isPresent()) {
-            Member member = memberRepository.findById(donationRequestDto.getMemberId()).get();
+            Member member = memberRepository.findById(1l).get();
             Donation donation = optional.get();
             donation.setMember(member);
             donation.setDonationStatus(donationRequestDto.getDonationStatus());
@@ -79,7 +79,11 @@ public class DonationService {
         return kingDtoList;
     }
 
-    public List<Donation> donationlist(Long memberId) throws Exception {
-        return donationRepository.findAllByMember_MemberId(memberId);
+    public List<DonationResponseDto> donationlist(Long memberId) throws Exception {
+        List<DonationResponseDto> result = donationRepository.findAllByMember_MemberId(memberId)
+                .stream()
+                .map(donation -> new DonationResponseDto(donation))
+                .collect(Collectors.toList());
+        return result;
     }
 }

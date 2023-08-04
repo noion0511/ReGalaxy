@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
@@ -20,10 +21,11 @@ public class DonationResponseDto {
 
     private int donationStatus;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy/MM/dd")
     private LocalDateTime donationCreatedAt;
 
-    private String donationDeliveryDate;
+    @JsonFormat(pattern = "yyyy/MM/dd")
+    private LocalDate donationDeliveryDate;
 
     private String donationDeliveryLocationType;
 

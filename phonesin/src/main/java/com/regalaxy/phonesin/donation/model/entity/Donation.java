@@ -8,6 +8,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.LAZY;
@@ -27,7 +28,7 @@ public class Donation extends BaseTimeEntity {
 
     private int donationStatus;
 
-    private String donationDeliveryDate;
+    private LocalDate donationDeliveryDate;
 
     private String donationDeliveryLocationType;
 
@@ -39,7 +40,7 @@ public class Donation extends BaseTimeEntity {
     private Member member;
 
     @Builder
-    public Donation(Member member, int donation_status, String donation_delivery_date, String donation_delivery_location_type, String donation_delivery_location) {
+    public Donation(Member member, int donation_status, LocalDate donation_delivery_date, String donation_delivery_location_type, String donation_delivery_location) {
         this.member = member;
         this.donationStatus = donation_status;
         this.donationDeliveryDate = donation_delivery_date;

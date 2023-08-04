@@ -6,19 +6,17 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
 @Getter
 @ApiModel(value = "기기 기증서 DTO", description = "기기 기증서 DTO")
 public class DonationRequestDto {
-    private long donationId; // 필요없음
-
-    private long memberId; // jwt에서 날라옴
 
     private int donationStatus;
 
-    private String donationDeliveryDate;
+    private LocalDate donationDeliveryDate;
 
     private String donationDeliveryLocationType;
 
