@@ -169,7 +169,7 @@ class FrameViewerFragment : BaseFragment<FragmentFrameViewerBinding>(
                     )
 
                     bindingNonNull.imageViewOne.imageViewContent.setImageBitmap(rotatedBitmap)
-                    bindingNonNull.imageViewFour.visibility = View.INVISIBLE
+                    bindingNonNull.imageViewFour.visibility = View.GONE
                 }
             }
 

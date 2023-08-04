@@ -9,90 +9,140 @@
             type="com.ssafy.phonesin.ui.module.camera.CameraViewModel" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.module.camera.QRCodeFragment"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
-
-        <androidx.appcompat.widget.Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="end">
-                <TextView
-                    android:id="@+id/buttonPrint"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="end"
-                    android:padding="20dp"
-                    android:text="@string/module_camera_download" />
-            </LinearLayout>
-        </androidx.appcompat.widget.Toolbar>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/textview_title"
-            android:gravity="center"
-            android:text="@string/module_camera_qr_share" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="180dp"
-            android:layout_height="180dp"
-            android:layout_margin="50dp"
-            android:background="@drawable/border_blue">
-
-            <ImageView
-                android:id="@+id/imageViewQRCode"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center"
-                android:layout_margin="50dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
-            <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:context=".ui.module.camera.QRCodeFragment">
+
+            <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/textview_title_secondary"
-                android:text="@string/module_camera_qr_share_explain_title" />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/module_camera_qr_share_explain" />
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end">
+
+                    <TextView
+                        android:id="@+id/buttonPrint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="end"
+                        android:padding="20dp"
+                        android:text="@string/module_camera_download" />
+                </LinearLayout>
+            </androidx.appcompat.widget.Toolbar>
 
             <TextView
-                style="@style/textview_title_secondary"
+                style="@style/textview_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="@string/module_camera_print_explain_title" />
+                android:gravity="center"
+                android:text="@string/module_camera_qr_share" />
 
-            <TextView
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:layout_margin="50dp"
+                android:background="@drawable/border_blue">
+
+                <ImageView
+                    android:id="@+id/imageViewQRCode"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="50dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/textview_title_secondary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/module_camera_qr_share_explain_title" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/module_camera_qr_share_explain" />
+
+                <TextView
+                    style="@style/textview_title_secondary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/module_camera_print_explain_title" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/module_camera_print_explain" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonCameraNext"
+                style="@style/textview_button_white_big"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/module_camera_print_explain" />
-
+                android:background="@drawable/button_black_corner_0"
+                android:text="@string/next" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/buttonCameraNext"
-            style="@style/textview_button_white_big"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/LinearLayoutLoading"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_black_corner_0"
-            android:text="@string/next"/>
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:background="@color/cameraFrame1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                style="@style/textview_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/make_qrcode"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/LinearLayoutLoading"
+                app:layout_constraintEnd_toEndOf="@+id/LinearLayoutLoading"
+                app:layout_constraintStart_toStartOf="@+id/LinearLayoutLoading"
+                app:layout_constraintTop_toTopOf="@+id/LinearLayoutLoading"
+                app:layout_constraintVertical_bias="0.3" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/progressAnimationView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                app:layout_constraintBottom_toBottomOf="@+id/LinearLayoutLoading"
+                app:layout_constraintEnd_toEndOf="@+id/LinearLayoutLoading"
+                app:layout_constraintStart_toStartOf="@+id/LinearLayoutLoading"
+                app:lottie_autoPlay="true"
+                app:lottie_rawRes="@raw/animation_puppy" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

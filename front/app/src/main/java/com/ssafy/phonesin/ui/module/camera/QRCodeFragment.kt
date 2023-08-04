@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.ssafy.phonesin.R
@@ -13,6 +14,8 @@ import com.ssafy.phonesin.databinding.FragmentQRCodeBinding
 import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 private const val ARG_PARAM1 = "param1"
@@ -50,11 +53,21 @@ class QRCodeFragment : BaseFragment<FragmentQRCodeBinding>(
         mainActivity.hideBottomNavi(true)
         initObserver()
 
-        Glide.with(requireContext())
-            .load("https://chart.apis.google.com/chart?cht=qr&chs=300x300&chl=http://i9d102.p.ssafy.io:8080/ytwok/images/${viewModel.getSelectedImageId()}")
-            .override(200, 200)
-            .centerCrop()
-            .into(bindingNonNull.imageViewQRCode)
+        viewModel.viewModelScope.launch {
+            Glide.with(requireContext())
+                .load("https://chart.apis.google.com/chart?cht=qr&chs=300x300&chl=http://i9d102.p.ssafy.io:8080/ytwok/images/${viewModel.getSelectedImageId()}")
+                .override(200, 200)
+                .centerCrop()
+                .into(bindingNonNull.imageViewQRCode)
+
+            viewModel.setSelectedImagePath("")
+            viewModel.updatePhotoPaths(emptyList())
+            viewModel.setSelectedFrameColor(-1)
+
+            delay(2000)
+            bindingNonNull.LinearLayoutLoading.visibility = View.GONE
+        }
+
 
         bindingNonNull.buttonCameraNext.setOnClickListener {
             findNavController().navigate(R.id.action_QRCodeFragment_to_cameraFragment)

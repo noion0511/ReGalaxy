@@ -97,4 +97,6 @@
     <string name="module_camera_download">출력 신청</string>
     <string name="module_all_choice">모두 선택</string>
     <string name="success">success</string>
+    <string name="make_qrcode">QR코드 생성중</string>
+    <string name="make_qrcode2">QR코드 생성</string>
 </resources>

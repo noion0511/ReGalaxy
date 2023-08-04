@@ -227,9 +227,7 @@
         tools:layout="@layout/fragment_camera">
         <action
             android:id="@+id/action_cameraFragment_to_cameraViewerFragment"
-            app:destination="@id/cameraViewerFragment"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/cameraFragment"/>
+            app:destination="@id/cameraViewerFragment" />
     </fragment>
     <fragment
         android:id="@+id/cameraViewerFragment"
@@ -240,7 +238,7 @@
             android:id="@+id/action_cameraViewerFragment_to_frameViewerFragment"
             app:destination="@id/frameViewerFragment"
             app:launchSingleTop="true"
-            app:popUpTo="@id/cameraFragment"/>
+            app:popUpTo="@id/frameViewerFragment"/>
     </fragment>
     <fragment
         android:id="@+id/frameFragment"
@@ -251,7 +249,7 @@
             android:id="@+id/action_frameFragment_to_QRCodeFragment"
             app:destination="@id/QRCodeFragment"
             app:launchSingleTop="true"
-            app:popUpTo="@id/cameraFragment" />
+            app:popUpTo="@id/QRCodeFragment" />
     </fragment>
     <fragment
         android:id="@+id/QRCodeFragment"
@@ -273,6 +271,6 @@
             android:id="@+id/action_frameViewerFragment_to_frameFragment"
             app:destination="@id/frameFragment"
             app:launchSingleTop="true"
-            app:popUpTo="@id/cameraFragment"/>
+            app:popUpTo="@id/frameFragment"/>
     </fragment>
 </navigation>
