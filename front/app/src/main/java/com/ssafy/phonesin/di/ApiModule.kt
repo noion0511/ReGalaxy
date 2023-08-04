@@ -18,7 +18,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object ApiModule {
 
-    private const val baseUrl = "http://3.36.49.178:80"
+    private const val baseUrl = "http://3.36.49.178:8080"
 
     private val gson: Gson = GsonBuilder()
         .setLenient()

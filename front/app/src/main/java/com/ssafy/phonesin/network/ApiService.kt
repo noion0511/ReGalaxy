@@ -1,5 +1,6 @@
 package com.ssafy.phonesin.network
 
+import com.ssafy.phonesin.model.Address
 import com.ssafy.phonesin.model.Donation
 import com.ssafy.phonesin.model.ErrorResponse
 import com.ssafy.phonesin.model.PhotoResponse
@@ -11,6 +12,8 @@ import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Path
+import retrofit2.http.Query
+
 
 interface ApiService {
     @Multipart
@@ -19,8 +22,16 @@ interface ApiService {
         @Part file: MultipartBody.Part
     ): NetworkResponse<PhotoResponse, ErrorResponse>
 
+
     @GET("/rental/apply/list/{member_id}")
     suspend fun getRentalList(@Path("member_id") memberId: Int): List<RentalResponse>
+
+    @GET("/address/list")
+    suspend fun getAddressList(@Query("member_id") memberId: Int): NetworkResponse<List<Address>, ErrorResponse>
+
+    @GET("/rental/apply/count/{member_id}")
+    suspend fun getPossibleRentalCount(@Path("member_id") memberId: Int): NetworkResponse<Int, ErrorResponse>
+
 
     @POST("/donation/apply")
     suspend fun uploadDonation(@Body donationRequestDto: Donation): NetworkResponse<String, ErrorResponse>

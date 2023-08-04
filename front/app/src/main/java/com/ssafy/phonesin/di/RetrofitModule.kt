@@ -1,8 +1,11 @@
 package com.ssafy.phonesin.di
 
-
+import com.ssafy.phonesin.repository.address.AddressRepository
+import com.ssafy.phonesin.repository.address.AddressRepositoryImpl
 import com.ssafy.phonesin.repository.donation.DonationRepository
 import com.ssafy.phonesin.repository.donation.DonationRepositoryImpl
+import com.ssafy.phonesin.repository.rental.RentalRepository
+import com.ssafy.phonesin.repository.rental.RentalRepositoryImpl
 import com.ssafy.phonesin.repository.returnmobile.ReturnRepository
 import com.ssafy.phonesin.repository.returnmobile.ReturnRepositoryImpl
 import com.ssafy.phonesin.repository.ytwok.Y2KRepository
@@ -28,5 +31,16 @@ abstract class RepositoryModule {
     abstract fun bindsDonationRepository(
         repositoryImpl: DonationRepositoryImpl
     ): DonationRepository
+
+
+    @Binds
+    abstract fun bindsRentalRepository(
+        repositoryImpl: RentalRepositoryImpl
+    ): RentalRepository
+
+    @Binds
+    abstract fun bindsAddressRepository(
+        repositoryImpl: AddressRepositoryImpl
+    ): AddressRepository
 
 }
