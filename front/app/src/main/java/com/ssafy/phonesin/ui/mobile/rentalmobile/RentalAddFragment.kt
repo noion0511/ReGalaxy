@@ -56,6 +56,8 @@ class RentalAddFragment :
     private fun setRentalAddUi() = with(bindingNonNull) {
         radioButtonRentalAddOneMonth.isChecked = true
         spinnerRentalAddAddress.setItems(parentViewModel.addressList.map { it.address }.toList())
+        spinnerRentalAddAddress.setIsFocusable(true)
+        spinnerRentalAddAddress.selectItemByIndex(0)
 
         if (parentViewModel.addressList.size == 0) {
             radioButtonNewAddress.isChecked = true
