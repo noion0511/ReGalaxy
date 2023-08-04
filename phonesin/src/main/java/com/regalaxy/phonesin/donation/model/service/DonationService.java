@@ -28,10 +28,9 @@ public class DonationService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public boolean donationApply(DonationRequestDto donationRequestDto) throws Exception {
-        Member member = memberRepository.findById(1l).get();
+    public void donationApply(DonationRequestDto donationRequestDto, Long memberId) throws Exception {
+        Member member = memberRepository.findById(memberId).get();
         donationRepository.save(donationRequestDto.toEntity(member));
-        return true;
     }
 
     public List<DonationResponseDto> donationList() throws Exception {
@@ -50,25 +49,17 @@ public class DonationService {
     }
 
     @Transactional
-    public boolean donationUpdate(DonationRequestDto donationRequestDto) throws Exception {
-        Optional<Donation> optional = donationRepository.findById(1l);
-        if (optional.isPresent()) {
-            Member member = memberRepository.findById(1l).get();
-            Donation donation = optional.get();
-            donation.setMember(member);
-            donation.setDonationStatus(donationRequestDto.getDonationStatus());
-            donation.setDonationDeliveryLocation(donationRequestDto.getDonationDeliveryLocation());
-            donation.setDonationDeliveryLocationType(donationRequestDto.getDonationDeliveryLocationType());
-            donation.setDonationDeliveryDate(donationRequestDto.getDonationDeliveryDate());
-            return true;
-        }
-        return false;
+    public void donationUpdate(DonationRequestDto donationRequestDto, Long donationId) throws Exception {
+        Donation donation = donationRepository.findById(donationId).get();
+        donation.setDonationStatus(donationRequestDto.getDonationStatus());
+        donation.setDonationDeliveryLocation(donationRequestDto.getDonationDeliveryLocation());
+        donation.setDonationDeliveryLocationType(donationRequestDto.getDonationDeliveryLocationType());
+        donation.setDonationDeliveryDate(donationRequestDto.getDonationDeliveryDate());
     }
 
     @Transactional
-    public boolean donationDelete(Long donationId) throws Exception {
+    public void donationDelete(Long donationId) throws Exception {
         donationRepository.deleteById(donationId);
-        return true;
     }
 
     public List<DonationKingDto> donationKing() throws Exception {

@@ -24,7 +24,6 @@ import java.util.Map;
 public class DonationController {
 
     private static final String SUCCESS = "success";
-    private static final String FAIL = "fail";
     private final JwtTokenProvider jwtTokenProvider;
     private final DonationService donationService;
 
@@ -53,8 +52,8 @@ public class DonationController {
     @PostMapping("/apply")
     public ResponseEntity<Map<String, Object>> donationApply(@RequestBody DonationRequestDto donationRequestDto, @RequestHeader String authorization) throws Exception {
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        System.out.println(jwtTokenProvider.getMemberId(authorization.split(" ")[1]));
-        if (!donationService.donationApply(donationRequestDto)) throw new RuntimeException();
+        Long memberId = jwtTokenProvider.getMemberId(authorization.split(" ")[1]);
+        donationService.donationApply(donationRequestDto, memberId);
         resultMap.put("status", 201);
         resultMap.put("message", SUCCESS);
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.CREATED);
@@ -62,10 +61,10 @@ public class DonationController {
 
 
     @ApiOperation(value = "기기 기증 신청서 수정")
-    @PutMapping("/update")
-    public ResponseEntity<Map<String, Object>> donationUpdate(@RequestBody DonationRequestDto donationRequestDto) throws Exception {
+    @PutMapping("/update/{donationId}")
+    public ResponseEntity<Map<String, Object>> donationUpdate(@RequestBody DonationRequestDto donationRequestDto, @PathVariable Long donationId) throws Exception {
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        resultMap.put("donation", donationService.donationUpdate(donationRequestDto));
+        donationService.donationUpdate(donationRequestDto, donationId);
         resultMap.put("status", 200);
         resultMap.put("message", SUCCESS);
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
@@ -75,7 +74,7 @@ public class DonationController {
     @DeleteMapping("/delete/{donationId}")
     public ResponseEntity<Map<String, Object>> donationDelete(@PathVariable Long donationId) throws Exception {
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        resultMap.put("donation", donationService.donationDelete(donationId));
+        donationService.donationDelete(donationId);
         resultMap.put("status", 200);
         resultMap.put("message", SUCCESS);
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
@@ -95,6 +94,7 @@ public class DonationController {
     @GetMapping("/member/")
     public ResponseEntity<Map<String, Object>> donationList(@RequestHeader String authorization) throws Exception {
         Map<String, Object> resultMap = new HashMap<String, Object>();
+        Long memberId = jwtTokenProvider.getMemberId(authorization.split(" ")[1]);
         resultMap.put("donation", donationService.donationlist(memberId));
         resultMap.put("status", 200);
         resultMap.put("message", SUCCESS);
