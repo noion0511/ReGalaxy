@@ -4,6 +4,7 @@ import com.regalaxy.phonesin.donation.model.DonationKingDto;
 import com.regalaxy.phonesin.donation.model.entity.Donation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,7 +18,7 @@ public interface DonationRepository extends JpaRepository<Donation, Long> {
                     "GROUP BY d.member.memberId " +
                     "order by count(d) DESC , d.member.memberName "
     )
-    List<DonationKingDto> findDonationKing(LocalDateTime firstday, LocalDateTime lastday);
+    List<DonationKingDto> findDonationKing(@Param("firstday") LocalDateTime firstday, @Param("lastday") LocalDateTime lastday);
 //    SELECT m.member_name, count(*) as donation_count FROM s09p12d102.donation as d join s09p12d102.member as m on d.member_id = m.member_id
 //    group by d.member_id
 //    order by donation_count DESC
