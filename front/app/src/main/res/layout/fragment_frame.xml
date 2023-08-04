@@ -26,15 +26,6 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/imageViewFramePuppy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/puppy"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <ImageView
             android:id="@+id/imageViewFrameLogo"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -52,9 +43,9 @@
             android:layout_height="wrap_content"
             android:src="@drawable/textlogo"
             android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="@+id/imageViewFrame"
-            app:layout_constraintStart_toStartOf="@+id/imageViewFrame"
-            app:layout_constraintTop_toBottomOf="@+id/imageViewFrame" />
+            app:layout_constraintEnd_toEndOf="@+id/photoViewer"
+            app:layout_constraintStart_toStartOf="@+id/photoViewer"
+            app:layout_constraintTop_toBottomOf="@+id/photoViewer" />
 
         <include
             android:id="@+id/photoViewer"
@@ -82,7 +73,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginBottom="5dp"
                 android:layout_weight="1">
 
                 <include
@@ -90,7 +80,6 @@
                     layout="@layout/item_image_view"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginEnd="5dp"
                     android:layout_weight="1" />
 
                 <include
@@ -98,14 +87,12 @@
                     layout="@layout/item_image_view"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="5dp"
                     android:layout_weight="1" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="5dp"
                 android:layout_weight="1">
 
                 <include
@@ -113,7 +100,6 @@
                     layout="@layout/item_image_view"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginEnd="5dp"
                     android:layout_weight="1" />
 
                 <include
@@ -121,10 +107,21 @@
                     layout="@layout/item_image_view"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="5dp"
                     android:layout_weight="1" />
             </LinearLayout>
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageViewFramePuppy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/puppy"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
 
         <TextView
             android:id="@+id/textViewTime"

@@ -16,14 +16,6 @@
         android:layout_height="match_parent"
         android:background="@color/cameraFrame1">
 
-        <ImageView
-            android:id="@+id/imageViewFramePuppy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/puppy"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
             android:id="@+id/imageViewFrameLogo"
@@ -112,6 +104,18 @@
                     android:layout_weight="1" />
             </LinearLayout>
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageViewFramePuppy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/puppy"
+            android:adjustViewBounds="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1" />
 
         <ImageView
             android:id="@+id/buttonChoicePicture"
