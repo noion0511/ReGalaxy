@@ -42,6 +42,14 @@ class MyPageFragment : Fragment() {
             findNavController().navigate(R.id.rentalListFragment)
         }
 
+        layoutReturn.setOnClickListener {
+            findNavController().navigate(R.id.returnListFragment)
+        }
+
+        layoutDonate.setOnClickListener {
+
+        }
+
         textViewModifyInfo.setOnClickListener {
             showModifyInfoDialog()
         }

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cardViewRentalMobile"
+    android:id="@+id/cardViewReturnMobile"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:backgroundTint="@color/white"
     app:cardBackgroundColor="@color/white"
-    app:cardUseCompatPadding="true"
     app:cardCornerRadius="10dp"
-    app:cardElevation="5dp">
+    app:cardElevation="5dp"
+    app:cardUseCompatPadding="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,8 +37,8 @@
                 android:id="@+id/layoutState"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_marginEnd="10dp"
+                android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/imageViewToggle"
                 app:layout_constraintTop_toTopOf="parent">
@@ -70,11 +70,11 @@
                     android:text=" - " />
 
                 <TextView
-                    android:id="@+id/textViewStateDelivery"
+                    android:id="@+id/textViewStatePickup"
                     style="@style/textview_card_state_unselected"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="배송중" />
+                    android:text="수거완료" />
 
                 <TextView
                     style="@style/textview_card_state_unselected"
@@ -83,11 +83,11 @@
                     android:text=" - " />
 
                 <TextView
-                    android:id="@+id/textViewStateRental"
+                    android:id="@+id/textViewStateConfirm"
                     style="@style/textview_card_state_unselected"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="대여중" />
+                    android:text="상태확인" />
 
             </LinearLayout>
 
@@ -105,20 +105,20 @@
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/dividerToggle"
             android:layout_width="match_parent"
+            android:layout_height="1.5dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="15dp"
-            android:layout_height="1.5dp"
             android:visibility="gone"
-            app:dividerColor="@color/borderColor"/>
+            app:dividerColor="@color/borderColor" />
 
         <LinearLayout
             android:id="@+id/layoutToggleDown"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="start"
+            android:layout_marginHorizontal="25dp"
             android:visibility="gone"
-            android:layout_marginHorizontal="25dp">
+            android:gravity="start"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/layoutProductNum"
@@ -131,14 +131,14 @@
                     style="@style/textview_card_content_big"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Product No."/>
+                    android:text="Product No." />
 
                 <TextView
                     android:id="@+id/textViewProductNum"
                     style="@style/textview_card_content_big"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="238562312"/>
+                    android:text="238562312" />
 
             </LinearLayout>
 
@@ -146,28 +146,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
                     style="@style/textview_card_content_big"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="대여비용 : "/>
+                    android:text="대여비용 : " />
 
                 <TextView
                     android:id="@+id/textViewRentalCost"
                     style="@style/textview_card_content_big"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="10,000"/>
+                    android:text="10,000" />
 
                 <TextView
                     style="@style/textview_card_content_big"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="원"/>
+                    android:text="원" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/layoutRental"
+                android:id="@+id/layoutConfirm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
@@ -175,71 +176,52 @@
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="10dp"/>
+                    android:layout_height="10dp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/textViewConfirmGuide"
+                    style="@style/textview_card_guide_blue"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        style="@style/textview_card_content_small"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="대여 시작일 : "/>
-
-                    <TextView
-                        android:id="@+id/textViewRentalStartDate"
-                        style="@style/textview_card_content_small"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="2023/08/18"/>
-
-                </LinearLayout>
+                    android:text="정상작동이 확인되었습니다. 이용해주셔서 감사합니다." />
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="10dp"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        style="@style/textview_card_content_small"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="대여 종료일 : "/>
-
-                    <TextView
-                        android:id="@+id/textViewRentalEndDate"
-                        style="@style/textview_card_content_small"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="2023/12/18"/>
-
-                </LinearLayout>
+                    android:layout_height="10dp" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/layoutDelivery"
+                android:id="@+id/layoutPickup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:visibility="gone"
-                android:paddingVertical="15dp">
+                android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/buttonTrackingDelivery"
-                    android:layout_width="0dp"
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+
+                <TextView
+                    android:id="@+id/textViewPickupGuide"
+                    style="@style/textview_card_guide_blue"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_blue_corner_12"
-                    android:text="배송 정보 조회"
-                    android:minHeight="0dp"
-                    style="@style/textview_card_button_white"/>
+                    android:text="수거가 완료되었습니다." />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+
+                <TextView
+                    style="@style/textview_content_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="기증해주신 휴대폰이 안전하게 이동 중입니다." />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
 
             </LinearLayout>
 
@@ -252,7 +234,7 @@
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="10dp"/>
+                    android:layout_height="10dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -263,20 +245,20 @@
                         style="@style/textview_card_content_small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="신청 기능 : "/>
+                        android:text="수거 날짜 : " />
 
                     <TextView
-                        android:id="@+id/textViewRentalFunction"
+                        android:id="@+id/textViewPickupDate"
                         style="@style/textview_card_content_small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="사진 / 홈캠 / 온도계"/>
+                        android:text="2023/08/18" />
 
                 </LinearLayout>
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="10dp"/>
+                    android:layout_height="10dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -287,14 +269,14 @@
                         style="@style/textview_card_content_small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="배달 장소 : "/>
+                        android:text="수거 장소 : " />
 
                     <TextView
-                        android:id="@+id/textViewRentalAddress"
+                        android:id="@+id/textViewPickupAddress"
                         style="@style/textview_card_content_small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="경상북도 구미시 진평동 291-2"/>
+                        android:text="경상북도 구미시 진평동 291-2" />
 
                 </LinearLayout>
 
@@ -310,27 +292,27 @@
 
                 <Button
                     android:id="@+id/buttonModifyRegist"
+                    style="@style/textview_card_button_white"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/button_blue_corner_12"
-                    android:text="수정"
                     android:minHeight="0dp"
-                    style="@style/textview_card_button_white"/>
+                    android:text="수정" />
 
                 <Space
                     android:layout_width="20dp"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
                 <Button
                     android:id="@+id/buttonCancelRegist"
+                    style="@style/textview_card_button_white"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/button_blue_corner_12"
-                    android:text="취소"
                     android:minHeight="0dp"
-                    style="@style/textview_card_button_white"/>
+                    android:text="취소" />
 
             </LinearLayout>
 
@@ -339,8 +321,8 @@
                 style="@style/textview_card_content_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="viewEnd"
-                android:text="2023/08/03"/>
+                android:text="2023/08/03"
+                android:textAlignment="viewEnd" />
 
         </LinearLayout>
 

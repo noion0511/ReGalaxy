@@ -42,6 +42,9 @@
         <action
             android:id="@+id/action_my_page_to_rentalListFragment"
             app:destination="@id/rentalListFragment" />
+        <action
+            android:id="@+id/action_my_page_to_returnListFragment"
+            app:destination="@id/returnListFragment" />
     </fragment>
     <fragment
         android:id="@+id/module"
@@ -272,4 +275,8 @@
         android:id="@+id/rentalListFragment"
         android:name="com.ssafy.phonesin.ui.mypage.RentalListFragment"
         android:label="RentalListFragment" />
+    <fragment
+        android:id="@+id/returnListFragment"
+        android:name="com.ssafy.phonesin.ui.mypage.ReturnListFragment"
+        android:label="ReturnListFragment" />
 </navigation>

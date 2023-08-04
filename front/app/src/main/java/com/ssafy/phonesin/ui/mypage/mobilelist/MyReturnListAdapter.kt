@@ -6,47 +6,45 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.phonesin.R
-import com.ssafy.phonesin.databinding.ItemMyRentalListBinding
-import com.ssafy.phonesin.model.mypage.MyRentalToggle
+import com.ssafy.phonesin.databinding.ItemMyReturnListBinding
+import com.ssafy.phonesin.model.mypage.MyReturnToggle
 
-class MyRentalListAdapter(
-    private val rentalList: List<MyRentalToggle>,
+class MyReturnListAdapter(
+    private val returnList: List<MyReturnToggle>,
 ) :
-    RecyclerView.Adapter<MyRentalListAdapter.ViewHolder>() {
+    RecyclerView.Adapter<MyReturnListAdapter.ViewHolder>() {
 
-    inner class ViewHolder(private val binding: ItemMyRentalListBinding) :
+    inner class ViewHolder(private val binding: ItemMyReturnListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(rental: MyRentalToggle) = with(binding) {
-            textViewMobileName.text = rental.rental.phoneNmae
+        fun bind(returns: MyReturnToggle) = with(binding) {
+            textViewMobileName.text = returns.returns.phoneNmae
 
-            if (rental.rental.status == 1) {
-                textViewMobileName.visibility = View.INVISIBLE
+            if (returns.returns.status == 1) {
                 textViewStateRegist.setTextColor(ContextCompat.getColor(itemView.context, R.color.keyColor1))
-            } else if (rental.rental.status == 2) {
+            } else if (returns.returns.status == 2) {
                 textViewStateApprove.setTextColor(ContextCompat.getColor(itemView.context, R.color.keyColor1))
-            } else if (rental.rental.status == 3) {
-                textViewStateDelivery.setTextColor(ContextCompat.getColor(itemView.context, R.color.keyColor1))
+            } else if (returns.returns.status == 3) {
+                textViewStatePickup.setTextColor(ContextCompat.getColor(itemView.context, R.color.keyColor1))
             } else {
-                textViewStateRental.setTextColor(ContextCompat.getColor(itemView.context, R.color.keyColor1))
+                textViewStateConfirm.setTextColor(ContextCompat.getColor(itemView.context, R.color.keyColor1))
             }
 
             layoutToggleUp.setOnClickListener {
-                rental.toggle = !rental.toggle
+                returns.toggle = !returns.toggle
 
-                if (rental.toggle) {
+                if (returns.toggle) {
                     imageViewToggle.setImageResource(R.drawable.baseline_keyboard_arrow_up_24)
                     dividerToggle.visibility = View.VISIBLE
                     layoutToggleDown.visibility =View.VISIBLE
 
-                    if (rental.rental.status == 1) {
-                        layoutProductNum.visibility = View.GONE
+                    if (returns.returns.status == 1) {
                         layoutRegist.visibility = View.VISIBLE
-                    } else if (rental.rental.status == 2) {
+                    } else if (returns.returns.status == 2) {
                         layoutApprove.visibility = View.VISIBLE
-                    } else if (rental.rental.status == 3) {
-                        layoutDelivery.visibility = View.VISIBLE
+                    } else if (returns.returns.status == 3) {
+                        layoutPickup.visibility = View.VISIBLE
                     } else {
-                        layoutRental.visibility = View.VISIBLE
+                        layoutConfirm.visibility = View.VISIBLE
                     }
                 } else {
                     imageViewToggle.setImageResource(R.drawable.baseline_keyboard_arrow_down_24)
@@ -59,14 +57,14 @@ class MyRentalListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
-            ItemMyRentalListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemMyReturnListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.bind(rentalList[position])
+        viewHolder.bind(returnList[position])
     }
 
-    override fun getItemCount() = rentalList.size
+    override fun getItemCount() = returnList.size
 }

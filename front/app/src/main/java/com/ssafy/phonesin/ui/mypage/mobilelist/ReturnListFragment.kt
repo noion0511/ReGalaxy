@@ -7,14 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ssafy.phonesin.databinding.FragmentMyPageRentalListBinding
+import com.ssafy.phonesin.databinding.FragmentMyPageReturnListBinding
 import com.ssafy.phonesin.model.mypage.MyRental
 import com.ssafy.phonesin.model.mypage.MyRentalToggle
+import com.ssafy.phonesin.model.mypage.MyReturn
+import com.ssafy.phonesin.model.mypage.MyReturnToggle
 import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.mypage.mobilelist.MyRentalListAdapter
+import com.ssafy.phonesin.ui.mypage.mobilelist.MyReturnListAdapter
 
-class RentalListFragment : Fragment() {
-    private lateinit var binding: FragmentMyPageRentalListBinding
+class ReturnListFragment : Fragment() {
+    private lateinit var binding: FragmentMyPageReturnListBinding
     private lateinit var rentalRecyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +31,7 @@ class RentalListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentMyPageRentalListBinding.inflate(inflater, container, false)
+        binding = FragmentMyPageReturnListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -39,18 +42,18 @@ class RentalListFragment : Fragment() {
     }
 
     private fun setRentalList() {
-        rentalRecyclerView = binding.recyclerViewRentalList
+        rentalRecyclerView = binding.recyclerViewReturnList
 
-        val rentalList =
-            listOf<MyRentalToggle>(
-                MyRentalToggle(MyRental(1, "Galaxy 1"), false),
-                MyRentalToggle(MyRental(2, "Galaxy 2"), false),
-                MyRentalToggle(MyRental(3, "Galaxy 3"), false),
-                MyRentalToggle(MyRental(4, "Galaxy 4"), false)
+        val returnList =
+            listOf<MyReturnToggle>(
+                MyReturnToggle(MyReturn(1, "Galaxy 1"), false),
+                MyReturnToggle(MyReturn(2, "Galaxy 2"), false),
+                MyReturnToggle(MyReturn(3, "Galaxy 3"), false),
+                MyReturnToggle(MyReturn(4, "Galaxy 4"), false)
             )
 
         rentalRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        rentalRecyclerView.adapter = MyRentalListAdapter(rentalList)
+        rentalRecyclerView.adapter = MyReturnListAdapter(returnList)
     }
 
     companion object {
