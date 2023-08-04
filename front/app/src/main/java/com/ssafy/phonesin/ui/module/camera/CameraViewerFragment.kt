@@ -66,7 +66,8 @@ class CameraViewerFragment : BaseFragment<FragmentCameraViewerBinding>(
         }
 
         bindingNonNull.buttonArrowLeft.setOnClickListener {
-            viewPager.currentItem = (viewPager.currentItem - 1) % pagerAdapter.count
+            if (viewPager.currentItem == 0) viewPager.currentItem = pagerAdapter.count - 1
+            else viewPager.currentItem = (viewPager.currentItem - 1) % pagerAdapter.count
 
         }
 
