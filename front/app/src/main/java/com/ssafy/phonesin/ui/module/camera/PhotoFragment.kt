@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment
 import com.ssafy.phonesin.databinding.FragmentPhotoBinding
 import dagger.hilt.android.AndroidEntryPoint
 
+private const val TAG = "PhotoFragment"
 @AndroidEntryPoint
 class PhotoFragment : Fragment() {
     private lateinit var binding: FragmentPhotoBinding
@@ -32,7 +34,10 @@ class PhotoFragment : Fragment() {
     }
 
     private fun showImage(photoPath: String) {
-        val bitmap = BitmapFactory.decodeFile(photoPath)
+        val bitmap = BitmapFactory.decodeFile(photoPath) ?: run {
+            Log.e(TAG, "Failed to decode file: $photoPath")
+            return
+        }
 
         val rotationDegrees = 90f
         val matrix = Matrix().apply { postRotate(rotationDegrees) }
@@ -42,6 +47,7 @@ class PhotoFragment : Fragment() {
 
         binding.imageViewContent.setImageBitmap(rotatedBitmap)
     }
+
 
     companion object {
         private const val ARG_PHOTO_PATH = "photo_path"

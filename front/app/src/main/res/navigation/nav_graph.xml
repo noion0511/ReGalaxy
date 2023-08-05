@@ -44,6 +44,9 @@
         <action
             android:id="@+id/action_module_to_cameraFragment"
             app:destination="@id/cameraFragment" />
+        <action
+            android:id="@+id/action_module_to_cameraXFragment"
+            app:destination="@id/cameraXFragment" />
     </fragment>
     <fragment
         android:id="@+id/doateFinishFragment"
@@ -272,5 +275,15 @@
             app:destination="@id/frameFragment"
             app:launchSingleTop="true"
             app:popUpTo="@id/frameFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/cameraXFragment"
+        android:name="com.ssafy.phonesin.ui.module.camera.CameraXFragment"
+        android:label="CameraXFragment" >
+        <action
+            android:id="@+id/action_cameraXFragment_to_cameraViewerFragment"
+            app:destination="@id/cameraViewerFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/frameViewerFragment"/>
     </fragment>
 </navigation>
