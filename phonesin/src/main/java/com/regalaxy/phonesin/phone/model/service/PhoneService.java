@@ -1,10 +1,9 @@
 package com.regalaxy.phonesin.phone.model.service;
 
-import com.regalaxy.phonesin.donation.model.entity.Donation;
 import com.regalaxy.phonesin.donation.model.repository.DonationRepository;
-import com.regalaxy.phonesin.member.model.SearchDto;
 import com.regalaxy.phonesin.phone.model.PhoneApplyDto;
 import com.regalaxy.phonesin.phone.model.PhoneDto;
+import com.regalaxy.phonesin.phone.model.PhoneSearchDto;
 import com.regalaxy.phonesin.phone.model.entity.Phone;
 import com.regalaxy.phonesin.phone.model.repository.ModelRepository;
 import com.regalaxy.phonesin.phone.model.repository.PhoneRepository;
@@ -22,8 +21,8 @@ public class PhoneService {
     @Autowired
     private ModelRepository modelRepository;
 
-    public List<PhoneDto> list(SearchDto searchDto){
-        return phoneRepository.search(searchDto);
+    public List<PhoneDto> list(PhoneSearchDto phoneSearchDto){
+        return phoneRepository.search(phoneSearchDto);
     }
 
     public PhoneDto info(Long phone_id){
@@ -31,8 +30,6 @@ public class PhoneService {
         PhoneDto phoneDto = new PhoneDto();
         phoneDto.setPhoneId(phone_id);
         phoneDto.setModelName(phone.getModel().getModelName());
-        phoneDto.setNickname(phone.getModel().getNickname());
-        phoneDto.setRentalId(phone.getRental().getRentalId());
         return phoneDto;
     }
 

@@ -4,6 +4,7 @@
 	templated.co @templatedco
 	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
 -->
+
 <html>
 	<head>
 		<title>Projection by TEMPLATED</title>
@@ -17,11 +18,20 @@
 			<header id="header">
 				<div class="inner">
 					<a href="index.html" class="logo"><img style="object-fit: cover; width:2em" src="images/logo.PNG" /></a>
-					<nav id="nav">
-						<button onclick ="location.href='login.html'" class="blackBtn">login</button>
-						<button onclick ="location.href='list.html'" class="blackBtn">admin</button>
-					</nav>
-					<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
+					<div id="dropdown" style="display: inline-block;" class="c dropdown">
+						<ul>
+							<li class="dropdownBtn"><button onclick ="location.href='login.html'" class="blackBtn">login</button></li>
+							<li class="dropdownBtn" id="clickArea">
+								<button class="blackBtn" onclick ="clickshow(this,'list')">admin</button>
+								<ul id="list">
+									<li><a href="admin/phone/list">phone</a></li>
+									<li><a href="admin/donation/list">donation</a></li>
+									<li><a href="admin/rental/list">rental</a></li>
+									<li><a href="admin/back/list">return</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
 				</div>
 			</header>
 
@@ -96,6 +106,45 @@
 		<div class="copyright">
 			Made with: <a href="https://templated.co/">Templated.co</a>
 		</div>
+		<form id="index-phone-form" method="get" action="admin/phone/list">
+			<input type="hidden" id="isRental" name="isRental" value="false">
+			<input type="hidden" id="isY2K" name="isY2K" value="false">
+			<input type="hidden" id="isClimateHumidity" name="isClimateHumidity" value="false">
+			<input type="hidden" id="isHomecam" name="isHomecam" value="false">
+		</form>
+
+
+		<script>
+			function clickshow(elem,ID) {
+				 var menu = document.getElementById(ID);
+					menu.style.display = "block";
+			}
+			document.addEventListener('mousemove', function(e){
+				var dropdown = document.getElementById("clickArea");
+				if(!dropdown.contains(e.target)){
+					document.getElementById("list").style.display = "none";
+				}
+			});
+
+			document.getElementById('phoneList').onclick = function(){
+				const obj = {
+				  "isRental": false,
+				  "isY2K": false,
+				  "isClimateHumidity": false,
+				  "isHomecam": false
+				};
+				const data = {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(obj)
+				};
+				fetch(`admin/phone/list`, data)
+					.then((response) => response.json())
+					.then((data) => {location.href="list.html"});
+			};
+		</script>
 
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
