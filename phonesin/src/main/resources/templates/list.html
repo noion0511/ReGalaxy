@@ -118,34 +118,40 @@
 			isRental != isRental;
             if(container.className != 'activeBtn'){
             	container.classList.add('activeBtn');
-				phoneHtml(container)
+				phoneHtml()
             }else{
 				container.classList.remove('activeBtn');
-            	phoneHtml(container)
+            	phoneHtml()
             }
         };
         document.getElementById("isY2K").onclick = function(){
             var container = document.getElementById("isY2K");
             if(container.className != 'activeBtn'){
             	container.classList.add('activeBtn');
+				phoneHtml()
             }else{
 				container.classList.remove('activeBtn');
+				phoneHtml()
             }
         };
         document.getElementById("isClimateHumidity").onclick = function(){
             var container = document.getElementById("isClimateHumidity");
             if(container.className != 'activeBtn'){
             	container.classList.add('activeBtn');
+				phoneHtml()
             }else{
 				container.classList.remove('activeBtn');
+				phoneHtml()
             }
         };
         document.getElementById("isHomecam").onclick = function(){
             var container = document.getElementById("isHomecam");
             if(container.className != 'activeBtn'){
             	container.classList.add('activeBtn');
+				phoneHtml(container)
             }else{
 				container.classList.remove('activeBtn');
+				phoneHtml(container)
             }
         };
 
@@ -154,8 +160,8 @@
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
-					rental : container.className == 'activeBtn',
-					y2k : document.getElementById("isY2K").className=='activeBtn',
+					rental : document.getElementById("isRental").className == 'activeBtn',
+					y2K : document.getElementById("isY2K").className=='activeBtn',
 					climateHumidity : document.getElementById("isClimateHumidity").className=='activeBtn',
 					homecam: document.getElementById("isHomecam").className=='activeBtn',
 				}),
