@@ -1,5 +1,8 @@
 package com.regalaxy.phonesin.member.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.regalaxy.phonesin.member.model.MemberIsChaDto;
 import com.regalaxy.phonesin.member.model.MemberUserDto;
 import com.regalaxy.phonesin.member.model.LoginRequestDto;
 import com.regalaxy.phonesin.member.model.MemberDto;
@@ -8,6 +11,7 @@ import com.regalaxy.phonesin.member.model.service.MemberService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,7 +19,15 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -106,5 +118,54 @@ public class MemberController {
     public ResponseEntity<String> delete(@PathVariable("memberId") Long memberId) {
         memberService.deleteMember(memberId);
         return new ResponseEntity<String>("Success", HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "차상위 계층 인증")
+    @PostMapping("/ischa")
+    public ResponseEntity<String> isCha(@RequestBody Map<String, Object> requestMap) {
+        StringBuffer response = new StringBuffer();
+        try {
+            URL url = new URL("https://www.bokjiro.go.kr/ssis-tbu/TWAL26100M/twatza/certfIssuAplyMng/selectCertfTruflsIdnty.do");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setDoOutput(true);
+            conn.setUseCaches(false);
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+
+            String requestBody;
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                requestBody =  objectMapper.writeValueAsString(requestMap);
+            } catch (Exception e) {
+                e.printStackTrace();
+                requestBody = null;
+            }
+
+            BufferedWriter in = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+            in.write(requestBody);
+            in.flush();
+            in.close();
+
+            Charset charset = Charset.forName("UTF-8");
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), charset));
+            String inputLine;
+
+            while ((inputLine = br.readLine()) != null) {
+                response.append(inputLine);
+            }
+            br.close();
+
+            System.out.println("Response: " + response.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<String>("Failure: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        if (response.toString().split(":")[1].split("}")[0].equals("null")) {
+            return new ResponseEntity<String>("요청하신 문서번호는 발급된 내역이 없는 증명서로 확인 되었습니다.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<String>(response.toString().split(":")[1].split("}")[0], HttpStatus.OK);
+
+        }
     }
 }
