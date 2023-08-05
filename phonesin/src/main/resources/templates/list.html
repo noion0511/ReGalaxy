@@ -118,40 +118,10 @@
 			isRental != isRental;
             if(container.className != 'activeBtn'){
             	container.classList.add('activeBtn');
-            	fetch(`list`, {
-            		method: 'POST',
-            		headers: { 'Content-Type': 'application/json' },
-            		body: JSON.stringify({
-						rental : container.className == 'activeBtn',
-						y2k : document.getElementById("isY2K").className=='activeBtn',
-						climateHumidity : document.getElementById("isClimateHumidity").className=='activeBtn',
-						homecam: document.getElementById("isHomecam").className=='activeBtn',
-					}),
-            	})
-					.then(response => response.json())
-					.then(data => {
-						console.log(data);
-						document.getElementById('result').innerHTML = `
-							<div th:block class="flex flex-4" th:if="${data.title}">
-								<article class="card" th:each="list : ${data.list}">
-									<header>
-										<h3 th:text="${data.list.phoneId}">폰아이디</h3>
-									</header>
-									<p th:text="${data.list.serialNumber}"></p>
-									<p th:text="${data.list.modelName}"></p>
-									<div class="module flex flex-3">
-										<p th:if="${data.list.isY2K}">Y2K</p>
-										<p th:if="${data.list.isClimateHumidity}">습온도계</p>
-										<p th:if="${data.list.isHomecam}">홈캠</p>
-									</div>
-									<p class="rental" th:if="${data.list.rentalId != null}"> 대여중</p>
-									<p th:if="${data.list.rentalId == null}">대여가능</p>
-								</article>
-							</div>
-						`
-					});
+				phoneHtml(container)
             }else{
 				container.classList.remove('activeBtn');
+            	phoneHtml(container)
             }
         };
         document.getElementById("isY2K").onclick = function(){
@@ -178,6 +148,62 @@
 				container.classList.remove('activeBtn');
             }
         };
+
+		function phoneHtml(container){
+			fetch(`list`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					rental : container.className == 'activeBtn',
+					y2k : document.getElementById("isY2K").className=='activeBtn',
+					climateHumidity : document.getElementById("isClimateHumidity").className=='activeBtn',
+					homecam: document.getElementById("isHomecam").className=='activeBtn',
+				}),
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					document.getElementById('result').innerHTML = ``;
+					var html = `
+							<div class="flex flex-4">`;
+					data.list.forEach(function(item) {
+						html += `
+								<article class="card">
+									<header>
+										<h3>${item.phoneId}</h3>
+									</header>
+									<p>${item.serialNumber}</p>
+									<p>${item.modelName}</p>
+									<div class="module flex flex-3">`;
+						if(item.y2K) {
+							html += `
+							<p>Y2K</p>`;
+						}
+						if(item.climateHumidity) {
+							html += `
+							<p>습온도계</p>`;
+						}
+						if(item.homecam) {
+							html += `
+							<p>홈캠</p>`;
+						}
+						html += `</div>`;
+						if(item.rentalId != null) {
+							html += `
+									<p class="rental"> 대여중</p>`;
+						}
+						if(item.rentalId == null) {
+							html += `
+									<p> 대여가능</p>`;
+						}
+						html += `
+								</article>`;
+					});
+					html += `
+						</div>`;
+					document.getElementById('result').innerHTML += html;
+				});
+		}
 	</script>
 
 </body>
