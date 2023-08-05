@@ -4,6 +4,7 @@ import com.regalaxy.phonesin.address.model.entity.Address;
 import com.regalaxy.phonesin.donation.model.entity.Donation;
 import com.regalaxy.phonesin.global.BaseTimeEntity;
 import com.regalaxy.phonesin.member.model.MemberAdminDto;
+import com.regalaxy.phonesin.member.model.MemberDto;
 import com.regalaxy.phonesin.member.model.MemberUserDto;
 import com.regalaxy.phonesin.rental.model.entity.Rental;
 import io.swagger.annotations.ApiModelProperty;
@@ -144,5 +145,16 @@ public class Member extends BaseTimeEntity {
     // 비밀번호 변경
     public void updatePassword(String encode) {
         this.password = encode;
+    }
+
+    public void update(MemberDto memberDto, String encodedPassword) {
+        this.memberName = memberDto.getMemberName();
+        this.email = memberDto.getEmail();
+        this.phoneNumber = memberDto.getPhoneNumber();
+        this.password = encodedPassword;
+        this.isCha = memberDto.getIsCha();
+        this.isManager = memberDto.getIsManager();
+        this.isBlackList = memberDto.getIsBlackList();
+        this.isDelete = memberDto.getIsDelete();
     }
 }

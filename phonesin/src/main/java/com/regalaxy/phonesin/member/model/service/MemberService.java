@@ -21,27 +21,37 @@ public class MemberService {
 
     // 회원가입
     public ResponseEntity<Member> signUp(MemberDto memberDto) {
-        if (memberRepository.existsByEmail(memberDto.getEmail())) {
+        if (memberRepository.existsByEmail(memberDto.getEmail()) && !memberRepository.findByEmail(memberDto.getEmail()).get().getIsDelete()) {
             throw new RuntimeException("이미 존재하는 이메일입니다.");
+        } else {
+            // 비밀번호 암호화
+            String encodedPassword = passwordEncoder.encode(memberDto.getPassword());
+
+            if (!memberRepository.existsByEmail(memberDto.getEmail())) {
+                Member member = Member.builder()
+                        .email(memberDto.getEmail())
+                        .password(encodedPassword)
+                        .memberName(memberDto.getMemberName())
+                        .phoneNumber(memberDto.getPhoneNumber())
+                        .isCha(memberDto.getIsCha())
+                        .isBlackList(memberDto.getIsBlackList())
+                        .isDelete(memberDto.getIsDelete())
+                        .isManager(memberDto.getIsManager())
+                        .createdAt(memberDto.getCreatedAt())
+                        .build();
+
+                Member savedMember = memberRepository.save(member);
+                return ResponseEntity.ok(savedMember);
+            } else {
+                // 삭제한 이메일로 다시 한 번 회원가입 할 때
+                Member member = memberRepository.findByEmail(memberDto.getEmail()).get();
+
+                member.update(memberDto, encodedPassword);
+                Member savedMember = memberRepository.save(member);
+                return ResponseEntity.ok(savedMember);
+            }
+
         }
-
-        // 비밀번호 암호화
-        String encodedPassword = passwordEncoder.encode(memberDto.getPassword());
-
-        Member member = Member.builder()
-                .email(memberDto.getEmail())
-                .password(encodedPassword)
-                .memberName(memberDto.getMemberName())
-                .phoneNumber(memberDto.getPhoneNumber())
-                .isCha(memberDto.getIsCha())
-                .isBlackList(memberDto.getIsBlackList())
-                .isDelete(memberDto.getIsDelete())
-                .isManager(memberDto.getIsManager())
-                .createdAt(memberDto.getCreatedAt())
-                .build();
-
-        Member savedMember = memberRepository.save(member);
-        return ResponseEntity.ok(savedMember);
     }
 
     // 로그인 및 토큰 발급

@@ -55,7 +55,6 @@ public class MemberController {
 
             // 권한 설정
             String authority;
-            System.out.println(memberService.AdminInfo(loginRequestDto.getEmail()).getIsManager());
             if (memberService.AdminInfo(loginRequestDto.getEmail()).getIsManager()) {
                 authority = "ROLE_ADMIN";
             } else {
@@ -93,18 +92,26 @@ public class MemberController {
         return ResponseEntity.ok(response);
     }
 
-    @ApiOperation(value = "회원 정보 상세 조회")
+    @ApiOperation(value = "사용자가 자신의 정보 상세 조회")
     @PostMapping("/info/{memberId}")
-    public ResponseEntity<Map<String, Object>> memberInfo(@PathVariable("memberId") Long memberId) {
+    public ResponseEntity<Map<String, Object>> memberInfo(@PathVariable("memberId") Long memberId, @RequestHeader String authorization) {
+        String token = authorization.split(" ")[1];
         Map<String, Object> resultMap = new HashMap<>();
+        if (jwtTokenProvider.getMemberId(token) != memberId) {
+            throw new IllegalStateException("멤버 ID가 일치하지 않습니다.");
+        };
         resultMap.put("member", memberService.UserInfo(memberId));
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 
     @ApiOperation(value = "사용자가 회원 정보 수정")
     @PutMapping("/update")
-    public ResponseEntity<String> update(@RequestBody MemberUserDto memberUserDto) {
+    public ResponseEntity<String> update(@RequestBody MemberUserDto memberUserDto, @RequestHeader String authorization) {
+        String token = authorization.split(" ")[1];
         Map<String, Object> resultMap = new HashMap<>();
+        if (!jwtTokenProvider.getEmail(token).equals(memberUserDto.getEmail())) {
+            throw new IllegalStateException("Email이 일치하지 않습니다.");
+        }
         MemberDto updatedMemberDto = memberService.updateMemberByUser(memberUserDto);
         resultMap.put("updatedMember", updatedMemberDto);
         return new ResponseEntity<String>("Success", HttpStatus.OK);
@@ -112,7 +119,11 @@ public class MemberController {
 
     @ApiOperation(value = "회원 탈퇴")
     @PutMapping("/delete/{memberId}")
-    public ResponseEntity<String> delete(@PathVariable("memberId") Long memberId) {
+    public ResponseEntity<String> delete(@PathVariable("memberId") Long memberId, @RequestHeader String authorization) {
+        String token = authorization.split(" ")[1];
+        if (jwtTokenProvider.getMemberId(token) != memberId) {
+            throw new IllegalStateException("멤버 ID가 일치하지 않습니다.");
+        }
         memberService.deleteMember(memberId);
         return new ResponseEntity<String>("Success", HttpStatus.OK);
     }
