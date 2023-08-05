@@ -56,7 +56,7 @@ class CameraViewModel @Inject constructor(
         _photoPaths.value = paths
     }
 
-    private fun getPrintCountFromPrefs(): Int {
+    fun getPrintCountFromPrefs(): Int {
         return prefs.getInt("PRINT_COUNT", 0)
     }
 

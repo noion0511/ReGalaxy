@@ -127,7 +127,7 @@ class CameraXFragment : BaseFragment<FragmentCameraXBinding>(R.layout.fragment_c
 
 
     private fun takePicture() {
-        val (file, filename) = getOutputDirectory()
+        val file = getOutputDirectory()
         val outputOptions = ImageCapture.OutputFileOptions.Builder(file).build()
 
         imageCapture?.takePicture(outputOptions,
@@ -160,14 +160,14 @@ class CameraXFragment : BaseFragment<FragmentCameraXBinding>(R.layout.fragment_c
         }
     }
 
-    private fun getOutputDirectory(): Pair<File, String> {
+    private fun getOutputDirectory(): File {
         val filename = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
         val storageDir = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        return Pair(File(storageDir, "$filename.jpg").apply {
+        return File(storageDir, "$filename.jpg").apply {
             parentFile?.let {
                 if (!it.exists()) it.mkdirs()
             }
-        }, filename)
+        }
     }
 
     override fun onDestroyView() {

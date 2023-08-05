@@ -131,7 +131,7 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
                 SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
             val storageDir =
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-            val imageFile = File(storageDir, "IMG_$timeStamp.jpeg")
+            val imageFile = File(storageDir, "IMG_${timeStamp}_${viewModel.getPrintCountFromPrefs()}.jpeg")
 
             try {
                 val fos = FileOutputStream(imageFile)

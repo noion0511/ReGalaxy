@@ -1,7 +1,6 @@
 package com.ssafy.phonesin.ui.module.camera
 
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.hardware.Camera
 import android.os.CountDownTimer
@@ -189,9 +188,12 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(
 
     private fun savePictureToPublicDir(data: ByteArray): String {
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val storageDir =
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-        val imageFile = File(storageDir, "IMG_$timeStamp.jpg")
+        val storageDir = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val imageFile = File(storageDir, "IMG_$timeStamp.jpg").apply {
+            parentFile?.let {
+                if (!it.exists()) it.mkdirs()
+            }
+        }
 
         try {
             val fos = FileOutputStream(imageFile)
@@ -199,12 +201,6 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(
 
             fos.close()
 
-            requireContext().sendBroadcast(
-                Intent(
-                    Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
-                    imageFile.toUri()
-                )
-            )
             Log.d("tag", "사진 저장 ${imageFile.toUri()}")
         } catch (e: Exception) {
             showToast("사진 저장 실패")
