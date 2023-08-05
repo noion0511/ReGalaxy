@@ -97,7 +97,7 @@ class CameraXFragment : BaseFragment<FragmentCameraXBinding>(R.layout.fragment_c
         var allCountDown = 24
 
         object : CountDownTimer(
-            25000,
+            26000,
             1000
         ) {
             override fun onTick(millisUntilFinished: Long) {
