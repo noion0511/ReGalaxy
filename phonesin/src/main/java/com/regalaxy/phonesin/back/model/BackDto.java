@@ -20,7 +20,6 @@ public class BackDto {
     private LocalDate backDeliveryDate;
     private String backDeliveryLocationType;
     private String backDeliveryLocation;
-    private String backZipcode;
     private String review;
     @JsonFormat(pattern = "yyyy/MM/dd")
     private LocalDateTime createdAt;
@@ -34,7 +33,6 @@ public class BackDto {
         backDto.setBackDeliveryDate(back.getBackDeliveryDate());
         backDto.setBackDeliveryLocationType(back.getBackDeliveryLocationType());
         backDto.setBackDeliveryLocation(back.getBackDeliveryLocation());
-        backDto.setBackZipcode(back.getBackZipcode());
         backDto.setReview(back.getReview());
         backDto.setPhoneStatus(back.getPhoneStatus());
         return backDto;
@@ -49,7 +47,6 @@ public class BackDto {
                 .backDeliveryDate(this.backDeliveryDate)
                 .backDeliveryLocationType(this.backDeliveryLocationType)
                 .backDeliveryLocation(this.backDeliveryLocation)
-                .backZipcode(this.backZipcode)
                 .review(this.review)
                 .phoneStatus(this.phoneStatus)
                 .build();
