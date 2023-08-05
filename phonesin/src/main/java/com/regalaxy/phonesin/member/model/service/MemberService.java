@@ -122,9 +122,9 @@ public class MemberService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이메일입니다."));
 
         // 기존 비밀번호 안맞으면 Exception
-//        if (!passwordEncoder.matches(requestDto.getOldPassword(), member.getPassword())) {
-//            throw new IllegalArgumentException("기존 비밀번호가 일치하지 않습니다.");
-//        }
+        if (!passwordEncoder.matches(requestDto.getOldPassword(), member.getPassword())) {
+            throw new IllegalArgumentException("기존 비밀번호가 일치하지 않습니다.");
+        }
 
         member.updatePassword(passwordEncoder.encode(requestDto.getNewPassword()));
         memberRepository.save(member);
