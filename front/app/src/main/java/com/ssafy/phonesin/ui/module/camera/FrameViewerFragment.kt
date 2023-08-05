@@ -3,6 +3,7 @@ package com.ssafy.phonesin.ui.module.camera
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
+private const val TAG = "FrameViewerFragment"
 @AndroidEntryPoint
 class FrameViewerFragment : BaseFragment<FragmentFrameViewerBinding>(
     R.layout.fragment_frame_viewer
@@ -130,8 +132,6 @@ class FrameViewerFragment : BaseFragment<FragmentFrameViewerBinding>(
                 3 -> bindingNonNull.photoViewer4.imageViewContent.setImageBitmap(rotatedBitmap)
             }
         }
-
-        bindingNonNull.imageViewOne.cardView.visibility = View.INVISIBLE
     }
 
     private fun setFrameColor(color: Int) {
@@ -145,6 +145,8 @@ class FrameViewerFragment : BaseFragment<FragmentFrameViewerBinding>(
         with(viewModel) {
             photoPaths.observe(viewLifecycleOwner) {
                 photoPathStrings = it
+                Log.d(TAG, "photoPathStrings: $photoPathStrings")
+
                 if (photoPathStrings.size == 4) {
                     showImage(photoPathStrings)
                 }
@@ -152,6 +154,7 @@ class FrameViewerFragment : BaseFragment<FragmentFrameViewerBinding>(
 
             selectedImagePath.observe(viewLifecycleOwner) {
                 selectedOnePhotoPathString = it
+                Log.d(TAG, "selectedOnePhotoPathString: $selectedOnePhotoPathString")
                 if (selectedOnePhotoPathString.isNotEmpty()) {
                     val originalBitmap = BitmapFactory.decodeFile(selectedOnePhotoPathString)
 

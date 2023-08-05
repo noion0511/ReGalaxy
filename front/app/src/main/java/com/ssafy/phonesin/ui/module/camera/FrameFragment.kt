@@ -9,24 +9,23 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentFrameBinding
 import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.properties.Delegates
 
+private const val TAG = "FrameFragment"
 @AndroidEntryPoint
 class FrameFragment : BaseFragment<FragmentFrameBinding>(
     R.layout.fragment_frame
@@ -57,13 +56,20 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
         val mainActivity = activity as MainActivity
         mainActivity.hideBottomNavi(true)
 
-
-        uploadImage()
         initObserver()
 
         bindingNonNull.buttonNextQR.setOnClickListener {
             findNavController().navigate(R.id.action_frameFragment_to_QRCodeFragment)
         }
+
+        bindingNonNull.viewFrame.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                uploadImage()
+
+                bindingNonNull.viewFrame.viewTreeObserver.removeOnGlobalLayoutListener(this)
+            }
+        })
+
     }
 
 
@@ -84,8 +90,6 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
                 3 -> bindingNonNull.photoViewer4.imageViewContent.setImageBitmap(rotatedBitmap)
             }
         }
-
-        bindingNonNull.photoViewer.cardView.visibility = View.INVISIBLE
     }
 
     private fun setFrame(frame: Int) {
@@ -119,38 +123,36 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
 
 
     private fun uploadImage() {
-        viewModel.viewModelScope.launch {
-            delay(1000)
-            val frameBitmap = layoutToBitmap(bindingNonNull.root)
+        Log.d(TAG, "uploadImage: ")
+        val frameBitmap = layoutToBitmap(bindingNonNull.rootView)
 
-            frameBitmap?.let {
-                val timeStamp =
-                    SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-                val storageDir =
-                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                val imageFile = File(storageDir, "IMG_$timeStamp.jpeg")
+        frameBitmap?.let {
+            val timeStamp =
+                SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+            val storageDir =
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+            val imageFile = File(storageDir, "IMG_$timeStamp.jpeg")
 
-                try {
-                    val fos = FileOutputStream(imageFile)
-                    frameBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
-                    fos.flush()
-                    fos.close()
+            try {
+                val fos = FileOutputStream(imageFile)
+                frameBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+                fos.flush()
+                fos.close()
 
-                    requireContext().sendBroadcast(
-                        Intent(
-                            Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
-                            imageFile.toUri()
-                        )
+                requireContext().sendBroadcast(
+                    Intent(
+                        Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+                        imageFile.toUri()
                     )
-                    Log.d("tag", "사진 저장 ${imageFile.toUri()}")
-                } catch (e: Exception) {
-                    Log.d("tag", "사진 저장 실패 ${imageFile.toUri()}")
-                } finally {
-                    viewModel.uploadImage(imageFile)
-                    bindingNonNull.buttonNextQR.visibility = View.VISIBLE
-                }
-                frameBitmap.recycle()
+                )
+                Log.d("FrameFragment", "사진 저장 ${imageFile.toUri()}")
+            } catch (e: Exception) {
+                Log.d("FrameFragment", "사진 저장 실패 ${imageFile.toUri()}")
+            } finally {
+                viewModel.uploadImage(imageFile)
+                bindingNonNull.buttonNextQR.visibility = View.VISIBLE
             }
+            frameBitmap.recycle()
         }
     }
 
@@ -162,16 +164,9 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
                 }
             }
 
-            photoResponse.observe(viewLifecycleOwner) { event ->
-                event.getContentIfNotHandled()?.let {
-                    if (it.message == getString(R.string.success)) {
-                        viewModel.selectImageId(it.photos.ytwokId)
-                    }
-                }
-            }
-
             photoPaths.observe(viewLifecycleOwner) {
                 photoPathStrings = it
+                Log.d(TAG, "photoPaths: $photoPathStrings")
                 if (photoPathStrings.size == 4) {
                     showImage(photoPathStrings)
                 }
@@ -179,6 +174,7 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
 
             selectedImagePath.observe(viewLifecycleOwner) {
                 selectedOnePhotoPathString = it
+                Log.d(TAG, "selectedImagePath: $selectedOnePhotoPathString")
                 if (selectedOnePhotoPathString.isNotEmpty()) {
                     val originalBitmap = BitmapFactory.decodeFile(selectedOnePhotoPathString)
 
@@ -202,6 +198,7 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
 
             selectedFrameColor.observe(viewLifecycleOwner) {
                 selectedFrameColorInt = it
+                Log.d(TAG, "selectedFrameColorInt: $selectedFrameColorInt")
                 if (it in colors) {
                     bindingNonNull.viewFrame.setBackgroundColor(
                         ContextCompat.getColor(

@@ -1,21 +1,26 @@
 package com.ssafy.phonesin.ui.module.camera
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentQRCodeBinding
 import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+
 
 
 private const val ARG_PARAM1 = "param1"
@@ -53,22 +58,6 @@ class QRCodeFragment : BaseFragment<FragmentQRCodeBinding>(
         mainActivity.hideBottomNavi(true)
         initObserver()
 
-        viewModel.viewModelScope.launch {
-            Glide.with(requireContext())
-                .load("https://chart.apis.google.com/chart?cht=qr&chs=300x300&chl=http://i9d102.p.ssafy.io:8080/ytwok/images/${viewModel.getSelectedImageId()}")
-                .override(200, 200)
-                .centerCrop()
-                .into(bindingNonNull.imageViewQRCode)
-
-            viewModel.setSelectedImagePath("")
-            viewModel.updatePhotoPaths(emptyList())
-            viewModel.setSelectedFrameColor(-1)
-
-            delay(2000)
-            bindingNonNull.LinearLayoutLoading.visibility = View.GONE
-        }
-
-
         bindingNonNull.buttonCameraNext.setOnClickListener {
             findNavController().navigate(R.id.action_QRCodeFragment_to_cameraFragment)
         }
@@ -93,6 +82,48 @@ class QRCodeFragment : BaseFragment<FragmentQRCodeBinding>(
             errorMsg.observe(viewLifecycleOwner) { event ->
                 event.getContentIfNotHandled()?.let {
                     showToast(it)
+                }
+            }
+
+            photoResponse.observe(viewLifecycleOwner) { event ->
+                event.getContentIfNotHandled()?.let {
+                    if (it.message == getString(R.string.success)) {
+                        Glide.with(requireContext())
+                            .load("https://chart.apis.google.com/chart?cht=qr&chs=300x300&chl=http://i9d102.p.ssafy.io:8080/ytwok/images/${it.photos.ytwokId}")
+                            .listener(object: RequestListener<Drawable> {
+                                override fun onLoadFailed(
+                                    e: GlideException?,
+                                    model: Any?,
+                                    target: Target<Drawable>?,
+                                    isFirstResource: Boolean
+                                ): Boolean {
+                                    Handler(Looper.getMainLooper()).postDelayed({
+                                        bindingNonNull.LinearLayoutLoading.visibility = View.GONE
+                                    }, 2000)
+                                    return false
+                                }
+
+                                override fun onResourceReady(
+                                    resource: Drawable?,
+                                    model: Any?,
+                                    target: Target<Drawable>?,
+                                    dataSource: DataSource?,
+                                    isFirstResource: Boolean
+                                ): Boolean {
+                                    Handler(Looper.getMainLooper()).postDelayed({
+                                        bindingNonNull.LinearLayoutLoading.visibility = View.GONE
+                                    }, 2000)
+                                    return false
+                                }
+                            })
+                            .override(200, 200)
+                            .centerCrop()
+                            .into(bindingNonNull.imageViewQRCode)
+
+                        viewModel.setSelectedImagePath("")
+                        viewModel.updatePhotoPaths(emptyList())
+                        viewModel.setSelectedFrameColor(-1)
+                    }
                 }
             }
         }
