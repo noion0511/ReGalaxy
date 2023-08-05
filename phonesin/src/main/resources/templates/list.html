@@ -15,7 +15,6 @@
 </head>
 
 <body>
-
 	<!-- Header -->
 	<header id="header">
 		<div class="inner">
@@ -37,14 +36,14 @@
 	<!-- Three -->
 	<section id="three" class="wrapper align-center">
 		<div class="inner">
-			<div>
-				<div class="search flex flex-4" th:if="${title=='휴대폰'}">
-					<p id="isRental">대여중</p>
-					<p id="isY2K">Y2K</p>
-					<p id="isClimateHumidity">습온도계</p>
-					<p id="isHomecam">홈캠</p>
-				</div>
-				<div class="flex flex-4" th:if="${title=='휴대폰'}">
+			<div class="search flex flex-4" th:if="${title=='휴대폰'}">
+				<p id="isRental">대여중</p>
+				<p id="isY2K">Y2K</p>
+				<p id="isClimateHumidity">습온도계</p>
+				<p id="isHomecam">홈캠</p>
+			</div>
+			<div id="result">
+				<div th:block class="flex flex-4" th:if="${title=='휴대폰'}">
 					<article class="card" th:each="list : ${list}">
 						<header>
 							<h3 th:text="${list.phoneId}">폰아이디</h3>
@@ -116,8 +115,41 @@
 	<script>
         document.getElementById("isRental").onclick = function(){
             var container = document.getElementById("isRental");
+			isRental != isRental;
             if(container.className != 'activeBtn'){
             	container.classList.add('activeBtn');
+            	fetch(`list`, {
+            		method: 'POST',
+            		headers: { 'Content-Type': 'application/json' },
+            		body: JSON.stringify({
+						rental : container.className == 'activeBtn',
+						y2k : document.getElementById("isY2K").className=='activeBtn',
+						climateHumidity : document.getElementById("isClimateHumidity").className=='activeBtn',
+						homecam: document.getElementById("isHomecam").className=='activeBtn',
+					}),
+            	})
+					.then(response => response.json())
+					.then(data => {
+						console.log(data);
+						document.getElementById('result').innerHTML = `
+							<div th:block class="flex flex-4" th:if="${data.title}">
+								<article class="card" th:each="list : ${data.list}">
+									<header>
+										<h3 th:text="${data.list.phoneId}">폰아이디</h3>
+									</header>
+									<p th:text="${data.list.serialNumber}"></p>
+									<p th:text="${data.list.modelName}"></p>
+									<div class="module flex flex-3">
+										<p th:if="${data.list.isY2K}">Y2K</p>
+										<p th:if="${data.list.isClimateHumidity}">습온도계</p>
+										<p th:if="${data.list.isHomecam}">홈캠</p>
+									</div>
+									<p class="rental" th:if="${data.list.rentalId != null}"> 대여중</p>
+									<p th:if="${data.list.rentalId == null}">대여가능</p>
+								</article>
+							</div>
+						`
+					});
             }else{
 				container.classList.remove('activeBtn');
             }

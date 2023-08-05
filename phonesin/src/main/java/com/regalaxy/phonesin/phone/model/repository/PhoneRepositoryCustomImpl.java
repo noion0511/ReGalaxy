@@ -24,9 +24,9 @@ public class PhoneRepositoryCustomImpl implements PhoneRepositoryCustom{
         int n = 0;
         if(phoneSearchDto.isRental()){//빌려진 폰
             if(n==0){
-                s+=" where ";
+                s+="where ";
             }
-            s += "p.rentalId is not null";//서브쿼리로 member_id 찾기
+            s += "p.rental.rentalId is not null ";//서브쿼리로 member_id 찾기
             n++;
         }
         if(phoneSearchDto.isY2K()){//가능
@@ -36,7 +36,7 @@ public class PhoneRepositoryCustomImpl implements PhoneRepositoryCustom{
             if(n>0){
                 s+= " and ";
             }
-            s+= "p.isY2K = true";
+            s+= "p.isY2K = true ";
             n++;
         }
         if(phoneSearchDto.isHomecam()){//가능
@@ -46,7 +46,7 @@ public class PhoneRepositoryCustomImpl implements PhoneRepositoryCustom{
             if(n>0){
                 s+= " and ";
             }
-            s+= "p.isHomecam = true";
+            s+= "p.isHomecam = true ";
             n++;
         }
         if(phoneSearchDto.isClimateHumidity()){//가능
@@ -56,7 +56,7 @@ public class PhoneRepositoryCustomImpl implements PhoneRepositoryCustom{
             if(n>0){
                 s+= " and ";
             }
-            s+= "p.isClimateHumidity = true";
+            s+= "p.isClimateHumidity = true ";
             n++;
         }
 
