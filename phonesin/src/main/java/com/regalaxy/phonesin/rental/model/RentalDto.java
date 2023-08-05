@@ -10,13 +10,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RentalDto {
-    private Long rental_id;
-    private LocalDateTime rental_start;
-    private LocalDateTime rental_end;
-    private int rental_status;
-    private String rental_deliverylocation;
+    private Long rentalId;
+    private LocalDateTime rentalStart;
+    private LocalDateTime rentalEnd;
+    private int rentalStatus;
+    private String rentalDeliveryLocation;
     private int fund;
-    private String model_name;
-    private Long phone_id;
-    private String waybill_number;
+    private String modelName;
+    private Long phoneId;
+    private String waybillNumber;
 }

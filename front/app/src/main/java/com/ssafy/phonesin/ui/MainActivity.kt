@@ -7,8 +7,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.ActivityMainBinding
-import com.ssafy.phonesin.ui.util.SSLConnect
+import com.ssafy.phonesin.network.SSLConnect
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 

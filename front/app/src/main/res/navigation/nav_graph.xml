@@ -242,7 +242,12 @@
     <fragment
         android:id="@+id/cameraFragment"
         android:name="com.ssafy.phonesin.ui.module.camera.CameraFragment"
-        android:label="CameraFragment" />
+        android:label="CameraFragment"
+        tools:layout="@layout/fragment_camera">
+        <action
+            android:id="@+id/action_cameraFragment_to_cameraViewerFragment"
+            app:destination="@id/cameraViewerFragment" />
+    </fragment>
     <fragment
         android:id="@+id/notificationFragment"
         android:name="com.ssafy.phonesin.ui.mypage.NotificationFragment"
@@ -286,4 +291,21 @@
         android:id="@+id/donateListFragment"
         android:name="com.ssafy.phonesin.ui.mypage.DonateListFragment"
         android:label="DonateListFragment" />
+    <fragment
+        android:id="@+id/cameraViewerFragment"
+        android:name="com.ssafy.phonesin.ui.module.camera.CameraViewerFragment"
+        android:label="CameraViewerFragment"
+        tools:layout="@layout/fragment_camera_viewer">
+        <action
+            android:id="@+id/action_cameraViewerFragment_to_frameFragment"
+            app:destination="@id/frameFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/frameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/frameFragment"
+        android:name="com.ssafy.phonesin.ui.module.camera.FrameFragment"
+        android:label="FrameFragment"
+        tools:layout="@layout/fragment_frame">
+    </fragment>
 </navigation>

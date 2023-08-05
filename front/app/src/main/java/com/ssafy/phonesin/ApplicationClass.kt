@@ -1,34 +1,20 @@
 package com.ssafy.phonesin
 
-import android.app.Application
+import android.content.SharedPreferences
 import androidx.multidex.MultiDexApplication
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
+import com.ssafy.phonesin.common.AppPreferences
+import dagger.hilt.android.HiltAndroidApp
 
+
+@HiltAndroidApp
 class ApplicationClass : MultiDexApplication() {
     companion object {
-        const val SERVER_URL = ""
-        lateinit var retrofit: Retrofit
+        lateinit var prefs: SharedPreferences
+        const val MEMBER_ID = 14
     }
 
     override fun onCreate() {
         super.onCreate()
-       /* val okHttpClient = OkHttpClient.Builder()
-            .readTimeout(5000, TimeUnit.MILLISECONDS)
-            .connectTimeout(5000, TimeUnit.MILLISECONDS)
-            .connectTimeout(30, TimeUnit.SECONDS).build()
-        retrofit = Retrofit.Builder()
-            .baseUrl(SERVER_URL)
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .client(okHttpClient)
-            .build()*/
+        prefs = AppPreferences.openSharedPreferences(applicationContext)
     }
-
-    private val gson: Gson = GsonBuilder()
-        .setLenient()
-        .create()
 }
