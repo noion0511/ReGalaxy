@@ -211,12 +211,12 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
                             selectedFrameColorInt
                         )
                     )
+                    setFrame(convertColorToFrame(selectedFrameColorInt))
 
                     bindingNonNull.photoViewer.imageViewFrame.setBackgroundResource(
                         convertColorToFrame(selectedFrameColorInt)
                     )
 
-                    setFrame(convertColorToFrame(selectedFrameColorInt))
 
                     when (selectedFrameColorInt) {
                         R.color.cameraFrame1 -> {

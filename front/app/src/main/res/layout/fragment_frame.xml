@@ -34,7 +34,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/photoViewer"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewOne"
             app:layout_constraintVertical_bias="0.20999998" />
 
         <ImageView
@@ -43,20 +43,27 @@
             android:layout_height="wrap_content"
             android:src="@drawable/textlogo"
             android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="@+id/photoViewer"
-            app:layout_constraintStart_toStartOf="@+id/photoViewer"
-            app:layout_constraintTop_toBottomOf="@+id/photoViewer" />
+            app:layout_constraintEnd_toEndOf="@+id/imageViewOne"
+            app:layout_constraintStart_toStartOf="@+id/imageViewOne"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewOne" />
 
-        <include
-            android:id="@+id/photoViewer"
-            layout="@layout/item_image_view"
+        <LinearLayout
+            android:id="@+id/imageViewOne"
             android:layout_width="300dp"
             android:layout_height="400dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.20999998" />
+            app:layout_constraintVertical_bias="0.20999998">
+
+            <include
+                android:id="@+id/photoViewer"
+                layout="@layout/item_image_view"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
 
 
         <LinearLayout
@@ -119,9 +126,7 @@
             android:src="@drawable/puppy"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/textViewTime"
@@ -130,10 +135,10 @@
             android:text="2017.08.04"
             android:textColor="@color/white"
             android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="@+id/photoViewer"
+            app:layout_constraintEnd_toEndOf="@+id/imageViewOne"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/photoViewer" />
+            app:layout_constraintTop_toBottomOf="@+id/imageViewOne" />
 
         <Button
             android:id="@+id/buttonNextQR"
