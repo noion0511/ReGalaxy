@@ -308,4 +308,8 @@
         android:label="FrameFragment"
         tools:layout="@layout/fragment_frame">
     </fragment>
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.ssafy.phonesin.ui.mypage.SplashFragment"
+        android:label="SplashFragment" />
 </navigation>

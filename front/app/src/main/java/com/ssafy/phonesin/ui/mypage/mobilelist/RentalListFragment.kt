@@ -56,7 +56,7 @@ class RentalListFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            MyPageFragment().apply {
+            RentalListFragment().apply {
                 arguments = Bundle().apply {
                 }
             }

@@ -30,6 +30,7 @@
         app:itemTextColor="@drawable/nav_selector_color"
         app:labelVisibilityMode="labeled"
         android:background="@color/white"
+        android:visibility="gone"
         app:itemActiveIndicatorStyle="@null"
         app:menu="@menu/navigation_menu" />
 
