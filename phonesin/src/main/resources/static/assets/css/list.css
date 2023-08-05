@@ -21,10 +21,20 @@
 		vertical-align: baseline;
 	}
 
-	article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+	aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 	    height: 100%;
 		display: block;
 	}
+
+    article{
+        height: 100%;
+        width: 17em;
+        display: block;
+        background-color: #F7F7F7;
+        padding: 1.3em;
+        border-radius: 1.3889vw;
+        margin: 0.6em;
+    }
 
 	body {
 		line-height: 1;
@@ -1588,7 +1598,7 @@
 /* Type */
 
 	body, input, select, textarea {
-		color: #9a9a9a;
+		color: #707070;
 		font-family: "Source Sans Pro", Arial, Helvetica, sans-serif;
 		font-size: 14pt;
 		font-weight: 400;
@@ -1658,7 +1668,7 @@
 	}
 
 	h1, h2, h3, h4, h5, h6 {
-		color: #555;
+		color: #000000;
 		font-weight: 400;
 		line-height: 1.5;
 		margin: 0 0 1em 0;
@@ -1795,11 +1805,11 @@
 		}
 
 	section.wrapper, article.wrapper {
-		padding: 12em 0;
+		padding: 5em 0;
 	}
 
 		section.wrapper header, article.wrapper header {
-			margin-bottom: 4em;
+			margin-bottom: 5em;
 		}
 
 			section.wrapper header h2, article.wrapper header h2 {
@@ -1818,7 +1828,7 @@
 		@media screen and (max-width: 980px) {
 
 			section.wrapper, article.wrapper {
-				padding: 20em 0;
+				padding: 5em 0;
 			}
 
 		}
@@ -1826,7 +1836,7 @@
 		@media screen and (max-width: 736px) {
 
 			section.wrapper, article.wrapper {
-				padding: 10em 0;
+				padding: 5em 0;
 			}
 
 				section.wrapper header, article.wrapper header {
@@ -1847,6 +1857,7 @@
 
 			section.wrapper article, article.wrapper article {
 				text-align: center;
+				padding: 5em 0;
 			}
 
 		}
@@ -1881,9 +1892,9 @@
 		-ms-flex-wrap: wrap;
 		-ms-flex-pack: justify;
 		-moz-justify-content: space-between;
-		-webkit-justify-content: space-between;
+		/*-webkit-justify-content: space-between;*/
 		-ms-justify-content: space-between;
-		justify-content: space-between;
+		/*justify-content: space-between;*/
 		display: -moz-flex;
 		display: -webkit-flex;
 		display: -ms-flex;
@@ -2688,9 +2699,9 @@
 /* Header */
 
     .blackBtn{
-        background: #ffffff;
+        background: #0381fe;
         border:none;
-        color: #000000;
+        color: #ffffff;
         text-decoration: none;
         font-size: 1.1em;
         background-size:10px;
@@ -2698,11 +2709,11 @@
         margin-top: 1.4em;
         margin-bottom: 0.7em;
         border-radius: 40px;
+        border: solid 3.5px #0381fe;
     }
 
-        .blackBtn:hover{
-            background: #000000;
-            color: #ffffff;
+        .blackBtn:active{
+            border: solid 3.5px #a1d0ff;
         }
 
 	.subpage {
@@ -2951,14 +2962,14 @@
 			background-blend-mode: multiply;
 			position: absolute;
 			width: 100%;
-			height: 90%;
+			height: 30%;
 			left: 0;
 		}
 
 		#banner .inner {
 			position: relative;
 			z-index: 10005;
-			padding-top: 8em;
+			padding-top: 3em;
 			top: 3em;
 		}
 
@@ -3031,6 +3042,14 @@
 				padding: 0 6em;
 			}
 
+				#banner .inner {
+					padding-top: 3em;
+				}
+
+				#banner h1 {
+					font-size: 2.5em;
+				}
+
 		}
 
 		@media screen and (max-width: 1280px) {
@@ -3040,11 +3059,11 @@
 			}
 
 				#banner .inner {
-					padding-top: 8em;
+					padding-top: 3em;
 				}
 
 				#banner h1 {
-					font-size: 3em;
+					font-size: 2.5em;
 				}
 
 				#banner h3 {
@@ -3065,15 +3084,15 @@
 			}
 
                 #banner:before {
-                    height: 70%;
+                    height: 30%;
                 }
 
 				#banner .inner {
-					padding-top: 5em;
+					padding-top: 3em;
 				}
 
 				#banner h1 {
-					font-size: 2.5em;
+					font-size: 2.2em;
 				}
 
 				#banner h3 {
@@ -3094,7 +3113,7 @@
 			}
 
                 #banner:before {
-                    height: 90%;
+                    height: 30%;
                 }
 
 				#banner .inner {
@@ -3129,11 +3148,11 @@
 		@media screen and (max-width: 480px) {
 
 			#banner h1 {
-				font-size: 1.5em;
+				font-size: 2em;
 			}
 
                 #banner:before {
-                    height: 80%;
+                    height: 30%;
                 }
 
 		}
@@ -3204,3 +3223,37 @@
 			}
 
 		}
+
+/*card*/
+    .module {
+        width: 14em;
+        height: 3em;
+        text-item: center;
+		-moz-justify-content: center;
+		-webkit-justify-content: center;
+		-ms-justify-content: center;
+		justify-content: center;
+    }
+
+    .module p{
+        text-align: center;
+        float: left;
+        width: 4.4em;
+        margin: 0.1em;
+        background-color: #000000;
+        border-radius: 40px;
+        color: #ffffff;
+    }
+
+    .card {
+        padding: 1.5em;
+        width: 17em;
+    }
+
+    .card p {
+        margin-bottom: 1em;
+    }
+
+    .rental{
+        color: #0080ff;
+    }
