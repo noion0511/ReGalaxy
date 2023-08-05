@@ -312,4 +312,48 @@
         android:id="@+id/splashFragment"
         android:name="com.ssafy.phonesin.ui.mypage.SplashFragment"
         android:label="SplashFragment" />
+    <fragment
+        android:id="@+id/onboardingDonateFragment"
+        android:name="com.ssafy.phonesin.ui.mypage.OnboardingDonateFragment"
+        android:label="OnboardingDonateFragment" >
+        <action
+            android:id="@+id/action_onboardingDonateFragment_to_onboardingRentalFragment"
+            app:destination="@id/onboardingRentalFragment" />
+        <action
+            android:id="@+id/action_onboardingDonateFragment_to_home"
+            app:destination="@id/home" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardingRentalFragment"
+        android:name="com.ssafy.phonesin.ui.mypage.OnboardingRentalFragment"
+        android:label="fragment_onboarding_rental"
+        tools:layout="@layout/fragment_onboarding_rental" >
+        <action
+            android:id="@+id/action_onboardingRentalFragment_to_onboardingModuleFragment"
+            app:destination="@id/onboardingModuleFragment" />
+        <action
+            android:id="@+id/action_onboardingRentalFragment_to_home"
+            app:destination="@id/home" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardingModuleFragment"
+        android:name="com.ssafy.phonesin.ui.mypage.OnboardingModuleFragment"
+        android:label="fragment_onboarding_module"
+        tools:layout="@layout/fragment_onboarding_module" >
+        <action
+            android:id="@+id/action_onboardingModuleFragment_to_onboardingPlanFragment"
+            app:destination="@id/onboardingPlanFragment" />
+        <action
+            android:id="@+id/action_onboardingModuleFragment_to_home"
+            app:destination="@id/home" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardingPlanFragment"
+        android:name="com.ssafy.phonesin.ui.mypage.OnboardingPlanFragment"
+        android:label="fragment_onboarding_plan"
+        tools:layout="@layout/fragment_onboarding_plan" >
+        <action
+            android:id="@+id/action_onboardingPlanFragment_to_home"
+            app:destination="@id/home" />
+    </fragment>
 </navigation>

@@ -1,20 +1,22 @@
 package com.ssafy.phonesin.ui.mypage
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.ssafy.phonesin.databinding.FragmentSplashBinding
+import androidx.navigation.fragment.findNavController
+import com.ssafy.phonesin.R
+import com.ssafy.phonesin.databinding.FragmentOnboardingPlanBinding
 import com.ssafy.phonesin.ui.MainActivity
 
-class SplashFragment : Fragment() {
-    private lateinit var binding: FragmentSplashBinding
+class OnboardingPlanFragment : Fragment() {
+    private lateinit var binding: FragmentOnboardingPlanBinding
+    private lateinit var mainActivity: MainActivity
 
     override fun onResume() {
         super.onResume()
-        val mainActivity = activity as MainActivity
+        mainActivity = activity as MainActivity
         mainActivity.hideBottomNavi(true)
     }
 
@@ -22,11 +24,19 @@ class SplashFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentSplashBinding.inflate(inflater, container, false)
+        binding = FragmentOnboardingPlanBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setOnClick()
+    }
+
+    private fun setOnClick() = with(binding) {
+        buttonNext.setOnClickListener {
+            mainActivity.setNav()
+        }
     }
 }

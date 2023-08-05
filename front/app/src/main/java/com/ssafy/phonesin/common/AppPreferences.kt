@@ -3,10 +3,12 @@ package com.ssafy.phonesin.common
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.GsonBuilder
+import com.ssafy.phonesin.ApplicationClass.Companion.prefs
 
 object AppPreferences {
     private const val LOGIN_SESSION = "login.session"
     private const val JWT_TOKEN = "jwt_token"
+    private const val SHOWED_ON_BOARDING = "showed_onboarding"
 
     private lateinit var preferences: SharedPreferences
     private val gson = GsonBuilder().create()
@@ -26,4 +28,10 @@ object AppPreferences {
     fun removeJwtToken() {
         preferences.edit().remove(JWT_TOKEN).apply()
     }
+
+    fun checkOnBoardingShowed() {
+        prefs.edit().putBoolean(SHOWED_ON_BOARDING, true).apply()
+    }
+
+    fun isOnBoardingShowed() = prefs.getBoolean(SHOWED_ON_BOARDING, false)
 }

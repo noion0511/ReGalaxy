@@ -12,12 +12,19 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.ssafy.phonesin.databinding.FragmentHomeBinding
+import com.ssafy.phonesin.ui.MainActivity
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var viewPager: ViewPager
     private lateinit var indicator: TabLayout
     private lateinit var rankRecyclerView: RecyclerView
+
+    override fun onResume() {
+        super.onResume()
+        val mainActivity = activity as MainActivity
+        mainActivity.hideBottomNavi(false)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

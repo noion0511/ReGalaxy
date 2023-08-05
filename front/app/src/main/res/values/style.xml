@@ -61,9 +61,20 @@
         <item name="android:fontFamily">@font/pretendard_bold</item>
     </style>
 
-    <style name="textview_title_onboarding">
-        <item name="android:textSize">28sp</item>
+    <style name="textview_onboarding_title">
+        <item name="android:textSize">22sp</item>
         <item name="android:fontFamily">@font/pretendard_black</item>
+    </style>
+
+    <style name="textview_onboarding_text">
+        <item name="android:textSize">13sp</item>
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+    </style>
+
+    <style name="textview_onboarding_explain_gray">
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:textSize">15sp</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
     </style>
 
     <style name="textview_title">
