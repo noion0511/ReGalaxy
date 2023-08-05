@@ -19,6 +19,7 @@ import java.io.File
 import javax.inject.Inject
 
 private const val TAG = "CameraViewModel"
+
 @HiltViewModel
 class CameraViewModel @Inject constructor(
     private val repository: Y2KRepository
@@ -45,6 +46,7 @@ class CameraViewModel @Inject constructor(
     fun setSelectedFrameColor(color: Int) {
         _selectedFrameColor.value = color
     }
+
     fun setSelectedImagePath(path: String) {
         _selectedImagePath.value = path
     }
@@ -109,11 +111,11 @@ class CameraViewModel @Inject constructor(
 
     private var selectedImageId = -1
 
-    fun selectImageId(imageId : Int) {
+    fun selectImageId(imageId: Int) {
         selectedImageId = imageId
     }
 
-    fun getSelectedImageId() : Int {
+    fun getSelectedImageId(): Int {
         return selectedImageId
     }
 }

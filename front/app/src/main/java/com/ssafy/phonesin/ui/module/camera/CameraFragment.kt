@@ -181,7 +181,7 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(
     private fun initObserver() {
         with(viewModel) {
             photoPaths.observe(viewLifecycleOwner) {
-                if(it.isNotEmpty())
+                if (it.isNotEmpty())
                     findNavController().navigate(R.id.action_cameraFragment_to_cameraViewerFragment)
             }
         }

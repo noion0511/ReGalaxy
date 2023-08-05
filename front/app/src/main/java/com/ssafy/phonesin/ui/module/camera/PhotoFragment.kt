@@ -37,7 +37,8 @@ class PhotoFragment : Fragment() {
         val rotationDegrees = 90f
         val matrix = Matrix().apply { postRotate(rotationDegrees) }
 
-        val rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+        val rotatedBitmap =
+            Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
 
         binding.imageViewContent.setImageBitmap(rotatedBitmap)
     }

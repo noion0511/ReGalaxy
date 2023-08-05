@@ -72,7 +72,7 @@ class CameraViewerFragment : BaseFragment<FragmentCameraViewerBinding>(
             }
 
             selectedImagePath.observe(viewLifecycleOwner) {
-                if(!it.isNullOrEmpty())
+                if (!it.isNullOrEmpty())
                     findNavController().navigate(R.id.action_cameraViewerFragment_to_frameViewerFragment)
             }
         }

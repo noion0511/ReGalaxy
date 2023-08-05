@@ -12,7 +12,7 @@ class CameraPageAdapter(
 
     override fun getItem(position: Int): Fragment = PhotoFragment.newInstance(photoPaths[position])
 
-    fun setPhotoPath(paths : List<String>) {
+    fun setPhotoPath(paths: List<String>) {
         photoPaths.clear()
         photoPaths.addAll(paths)
         notifyDataSetChanged()

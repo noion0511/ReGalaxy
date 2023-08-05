@@ -174,7 +174,7 @@ class FrameViewerFragment : BaseFragment<FragmentFrameViewerBinding>(
             }
 
             selectedFrameColor.observe(viewLifecycleOwner) {
-                if(it in colors)
+                if (it in colors)
                     findNavController().navigate(R.id.action_frameViewerFragment_to_frameFragment)
             }
         }
