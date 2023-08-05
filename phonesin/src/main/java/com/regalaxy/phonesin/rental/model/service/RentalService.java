@@ -29,11 +29,11 @@ public class RentalService {
     @Autowired
     private AgencyRepository agencyRepository;
 
-    public boolean infoApply(RentalApplyDto rentalApplyDto){
+    public boolean infoApply(RentalApplyDto rentalApplyDto, Long memberId){
         for(int i=0; i<rentalApplyDto.getCount(); i++) {//갯수
             Rental rental = new Rental();
             rental.setUsingDate(rentalApplyDto.getUsingDate());
-            Member member = memberRepository.findById(rentalApplyDto.getMemberId()).get();
+            Member member = memberRepository.findById(memberId).get();
             rental.setMember(member);//사용자 정보
             rental.setApplyDate(LocalDateTime.now());//신청 날짜
             rental.setRentalStatus(1);//배송 상태 : 1 = 신청 대기
@@ -50,7 +50,6 @@ public class RentalService {
 
     public boolean infoUpdated(RentalApplyDto rentalApplyDto, Long rental_id){
         Rental rental = rentalRepository.findById(rental_id).get();
-        rental.setCount(rentalApplyDto.getCount());//갯수
         rental.setFund(rentalApplyDto.getFund());//가격
         rental.setHomecam(rentalApplyDto.isHomecam());
         rental.setClimateHumidity(rentalApplyDto.isClimateHumidity());
@@ -61,9 +60,8 @@ public class RentalService {
         return true;
     }
 
-    public boolean infoDelete(Long rental_id){
+    public void infoDelete(Long rental_id){
         rentalRepository.deleteById(rental_id);
-        return true;
     }
 
     public List<RentalDto> infoList(SearchDto searchDto){
@@ -79,25 +77,20 @@ public class RentalService {
     }
 
     public boolean extension(Long rental_id){
-        try{
-            Rental rental = rentalRepository.findById(rental_id).get();
-            if(rental.isExtension()){//연장한 적 있다면
-                return false;
-            }else{
-                rental.extension();//isExtension을 true로 변경
-                int month = rental.getRentalEnd().getMonthValue() + 6;//6개월 연장
-                int year = rental.getRentalEnd().getYear();
-                if(month>12){
-                    rental.setRentalEnd(rental.getRentalEnd().withMonth(month-12).withYear(year+1));
-                }else{
-                    rental.setRentalEnd(rental.getRentalEnd().withMonth(month));
-                }
-                rentalRepository.save(rental);
-                return true;
-            }
-        }catch(Exception e){
-            System.out.println(e);
+        Rental rental = rentalRepository.findById(rental_id).get();
+        if(rental.isExtension()){//연장한 적 있다면
             return false;
+        }else{
+            rental.extension();//isExtension을 true로 변경
+            int month = rental.getRentalEnd().getMonthValue() + 6;//6개월 연장
+            int year = rental.getRentalEnd().getYear();
+            if(month>12){
+                rental.setRentalEnd(rental.getRentalEnd().withMonth(month-12).withYear(year+1));
+            }else{
+                rental.setRentalEnd(rental.getRentalEnd().withMonth(month));
+            }
+            rentalRepository.save(rental);
+            return true;
         }
     }
 
@@ -122,7 +115,7 @@ public class RentalService {
         return true;
     }
 
-    public int count(Long member_id){
-        return rentalRepository.countByMember_MemberId(member_id);
+    public int count(Long member_id){ // status 1, 2, 3
+        return rentalRepository.countByMember_MemberIdAndRentalStatusLessThan(member_id, 4);
     }
 }
