@@ -2,10 +2,7 @@ package com.regalaxy.phonesin.member.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.regalaxy.phonesin.member.model.MemberIsChaDto;
-import com.regalaxy.phonesin.member.model.MemberUserDto;
-import com.regalaxy.phonesin.member.model.LoginRequestDto;
-import com.regalaxy.phonesin.member.model.MemberDto;
+import com.regalaxy.phonesin.member.model.*;
 import com.regalaxy.phonesin.member.model.jwt.JwtTokenProvider;
 import com.regalaxy.phonesin.member.model.service.MemberService;
 import io.swagger.annotations.Api;
@@ -165,7 +162,17 @@ public class MemberController {
             return new ResponseEntity<String>("요청하신 문서번호는 발급된 내역이 없는 증명서로 확인 되었습니다.", HttpStatus.OK);
         } else {
             return new ResponseEntity<String>(response.toString().split(":")[1].split("}")[0], HttpStatus.OK);
+        }
+    }
 
+    @ApiOperation(value = "비밀번호 변경 기능")
+    @PutMapping("/update/password")
+    public ResponseEntity<String> updatePassword(@RequestBody MemberUpdatePasswordDto requestDto) {
+        try {
+            memberService.changePassword(requestDto);
+            return new ResponseEntity<>("Success", HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }
