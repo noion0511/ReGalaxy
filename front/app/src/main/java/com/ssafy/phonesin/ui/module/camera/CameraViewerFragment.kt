@@ -2,6 +2,7 @@ package com.ssafy.phonesin.ui.module.camera
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
@@ -61,6 +62,10 @@ class CameraViewerFragment : BaseFragment<FragmentCameraViewerBinding>(
         }
 
         initObserver()
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+
+        }
     }
 
     private fun initObserver() {

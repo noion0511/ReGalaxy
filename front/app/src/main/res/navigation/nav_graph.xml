@@ -230,7 +230,7 @@
         tools:layout="@layout/fragment_camera">
         <action
             android:id="@+id/action_cameraFragment_to_cameraViewerFragment"
-            app:destination="@id/cameraViewerFragment" />
+            app:destination="@id/cameraViewerFragment"/>
     </fragment>
     <fragment
         android:id="@+id/cameraViewerFragment"
@@ -239,9 +239,7 @@
         tools:layout="@layout/fragment_camera_viewer">
         <action
             android:id="@+id/action_cameraViewerFragment_to_frameViewerFragment"
-            app:destination="@id/frameViewerFragment"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/frameViewerFragment"/>
+            app:destination="@id/frameViewerFragment"/>
     </fragment>
     <fragment
         android:id="@+id/frameFragment"
@@ -250,9 +248,7 @@
         tools:layout="@layout/fragment_frame">
         <action
             android:id="@+id/action_frameFragment_to_QRCodeFragment"
-            app:destination="@id/QRCodeFragment"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/QRCodeFragment" />
+            app:destination="@id/QRCodeFragment"/>
     </fragment>
     <fragment
         android:id="@+id/QRCodeFragment"
@@ -262,8 +258,14 @@
         <action
             android:id="@+id/action_QRCodeFragment_to_cameraFragment"
             app:destination="@id/cameraFragment"
-            app:launchSingleTop="true"
+            app:popUpToInclusive="true"
             app:popUpTo="@id/cameraFragment" />
+        <action
+            android:id="@+id/action_QRCodeFragment_to_cameraXFragment"
+            app:destination="@id/cameraXFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/cameraXFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/frameViewerFragment"
@@ -272,9 +274,7 @@
         tools:layout="@layout/fragment_frame_viewer">
         <action
             android:id="@+id/action_frameViewerFragment_to_frameFragment"
-            app:destination="@id/frameFragment"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/frameFragment"/>
+            app:destination="@id/frameFragment"/>
     </fragment>
     <fragment
         android:id="@+id/cameraXFragment"
@@ -282,8 +282,6 @@
         android:label="CameraXFragment" >
         <action
             android:id="@+id/action_cameraXFragment_to_cameraViewerFragment"
-            app:destination="@id/cameraViewerFragment"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/frameViewerFragment"/>
+            app:destination="@id/cameraViewerFragment"/>
     </fragment>
 </navigation>

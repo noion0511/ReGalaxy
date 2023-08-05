@@ -176,6 +176,8 @@ class CameraXFragment : BaseFragment<FragmentCameraXBinding>(R.layout.fragment_c
     override fun onDestroyView() {
         super.onDestroyView()
         sound.release()
-        cameraProvider.unbindAll()
+        if (::cameraProvider.isInitialized) {
+            cameraProvider.unbindAll()
+        }
     }
 }

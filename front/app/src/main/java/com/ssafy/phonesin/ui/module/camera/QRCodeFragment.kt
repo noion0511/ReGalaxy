@@ -1,12 +1,14 @@
 package com.ssafy.phonesin.ui.module.camera
 
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -59,12 +61,24 @@ class QRCodeFragment : BaseFragment<FragmentQRCodeBinding>(
         initObserver()
 
         bindingNonNull.buttonCameraNext.setOnClickListener {
-            findNavController().navigate(R.id.action_QRCodeFragment_to_cameraFragment)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                findNavController().navigate(R.id.action_QRCodeFragment_to_cameraXFragment)
+            } else {
+                findNavController().navigate(R.id.action_QRCodeFragment_to_cameraFragment)
+            }
         }
 
         bindingNonNull.buttonPrint.setOnClickListener {
             viewModel.increasePrintCount()
             showDialog()
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                findNavController().navigate(R.id.action_QRCodeFragment_to_cameraXFragment)
+            } else {
+                findNavController().navigate(R.id.action_QRCodeFragment_to_cameraFragment)
+            }
         }
     }
 
