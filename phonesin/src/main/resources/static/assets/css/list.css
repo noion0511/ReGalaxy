@@ -2699,9 +2699,9 @@
 /* Header */
 
     .blackBtn{
-        background: #ffffff;
+        background: #0381fe;
         border:none;
-        color: #000000;
+        color: #ffffff;
         text-decoration: none;
         font-size: 1.1em;
         background-size:10px;
@@ -2709,11 +2709,11 @@
         margin-top: 1.4em;
         margin-bottom: 0.7em;
         border-radius: 40px;
+        border: solid 3.5px #0381fe;
     }
 
-        .blackBtn:hover{
-            background: #000000;
-            color: #ffffff;
+        .blackBtn:active{
+            border: solid 3.5px #a1d0ff;
         }
 
 	.subpage {

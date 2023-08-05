@@ -65,6 +65,25 @@
 					<p th:text="${list.donationDeliveryDate}"></p>
 				</article>
 			</div>
+			<div class="flex flex-4" th:if="${title=='대여'}">
+				<article class="card" th:each="list : ${list}">
+					<header>
+						<h3 th:text="${list.rentalId}">대여아이디</h3>
+					</header>
+					<p th:text="${list.applyDate}">신청 날짜</p>
+					<div class="module flex flex-3">
+						<p th:if="${list.isY2K}">Y2K</p>
+						<p th:if="${list.isClimateHumidity}">습온도계</p>
+						<p th:if="${list.isHomecam}">홈캠</p>
+					</div>
+					<p th:if="${list.rentalStatus==1}"><button class="blackBtn">신청 수락</button></p>
+					<p th:if="${list.rentalStatus==2}">배달 대기 중</p>
+					<p th:if="${list.rentalStatus==3}">배달 중</p>
+					<p th:if="${list.rentalStatus==4}">대여 중</p>
+					<p th:if="${list.rentalStatus==5}">반납 완료</p>
+					<p th:if="${list.rentalStatus==-1}">신청 거절</p>
+				</article>
+			</div>
 		</div>
 	</section>
 

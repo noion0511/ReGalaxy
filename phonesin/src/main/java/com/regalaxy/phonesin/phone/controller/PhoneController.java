@@ -25,32 +25,17 @@ public class PhoneController {
     @Autowired
     private PhoneService phoneService;
 
-//    @ApiOperation(value = "휴대폰 목록 조회")
-//    @PostMapping("/list")
-//    public ResponseEntity<?> list(@RequestBody PhoneSearchDto phoneSearchDto){
-//        List<PhoneDto> list = phoneService.list(phoneSearchDto);
-//        System.out.println(list.toString());
-//        return new ResponseEntity<List<PhoneDto>>(list, HttpStatus.OK);
-//    }
-
     @ApiOperation(value = "휴대폰 목록 조회")
     @GetMapping("/list")
-    public String list(Model model){
+    public ModelAndView list(){
         PhoneSearchDto phoneSearchDto = new PhoneSearchDto();
         List<PhoneDto> list = phoneService.list(phoneSearchDto);
         ModelAndView mav = new ModelAndView();
-        model.addAttribute("list", list);
-        model.addAttribute("title", "휴대폰");
-//        model.addObject("title", "휴대폰");
-//        mav.setViewName("/testlist.html");//어디로 이동할지 ex) rental/list
-        return "/list";
+        mav.addObject("list", list);
+        mav.addObject("title", "휴대폰");
+        mav.setViewName("/list");
+        return mav;
     }
-
-//    @ApiOperation(value = "휴대폰 목록 조회")
-//    @PostMapping("/list")
-//    public String list(@RequestBody PhoneSearchDto phoneSearchDto){
-//        return "list";
-//    }
 
     @ApiOperation(value = "휴대폰 상세 조회")
     @GetMapping("/info")
