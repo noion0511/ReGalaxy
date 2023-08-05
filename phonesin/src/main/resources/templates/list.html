@@ -37,63 +37,71 @@
 	<!-- Three -->
 	<section id="three" class="wrapper align-center">
 		<div class="inner">
-			<div class="flex flex-4" th:if="${title=='휴대폰'}">
-				<article class="card" th:each="list : ${list}">
-					<header>
-						<h3 th:text="${list.phoneId}">폰아이디</h3>
-					</header>
-					<p th:text="${list.serialNumber}"></p>
-					<p th:text="${list.modelName}"></p>
-					<div class="module flex flex-3">
-						<p th:if="${list.isY2K}">Y2K</p>
-						<p th:if="${list.isClimateHumidity}">습온도계</p>
-						<p th:if="${list.isHomecam}">홈캠</p>
-					</div>
-					<p class="rental" th:if="${list.rentalId != null}"> 대여중</p>
-					<p th:if="${list.rentalId == null}">대여가능</p>
-				</article>
-			</div>
-			<div class="flex flex-4" th:if="${title=='기증'}">
-				<article class="card" th:each="list : ${list}">
-					<header>
-						<h3 th:text="${list.donationId}">폰아이디</h3>
-					</header>
-					<p th:if="${list.donationStatus==1}">신청 대기 중</p>
-					<p th:if="${list.donationStatus==2}">수거 중</p>
-					<p th:if="${list.donationStatus==3}">수거 완료</p>
-					<p th:text="${list.donationCreatedAt}"></p>
-					<p th:text="${list.donationDeliveryDate}"></p>
-				</article>
-			</div>
-			<div class="flex flex-4" th:if="${title=='대여'}">
-				<article class="card" th:each="list : ${list}">
-					<header>
-						<h3 th:text="${list.rentalId}">대여아이디</h3>
-					</header>
-					<p th:text="${list.applyDate}">신청 날짜</p>
-					<div class="module flex flex-3">
-						<p th:if="${list.isY2K}">Y2K</p>
-						<p th:if="${list.isClimateHumidity}">습온도계</p>
-						<p th:if="${list.isHomecam}">홈캠</p>
-					</div>
-					<p th:if="${list.rentalStatus==1}"><button class="blackBtn">신청 수락</button></p>
-					<p th:if="${list.rentalStatus==2}">배달 대기 중</p>
-					<p th:if="${list.rentalStatus==3}">배달 중</p>
-					<p th:if="${list.rentalStatus==4}">대여 중</p>
-					<p th:if="${list.rentalStatus==5}">반납 완료</p>
-					<p th:if="${list.rentalStatus==-1}">신청 거절</p>
-				</article>
-			</div>
-			<div class="flex flex-4" th:if="${title=='반납'}">
-				<article class="card" th:each="list : ${list}">
-					<header>
-						<h3 th:text="${list.backId}">반납아이디</h3>
-					</header>
-					<p th:text="${list.createAt}">반납 신청 날짜</p>
-					<p th:if="${list.backStatus==1}">반납 중</p>
-					<p th:if="${list.backStatus==2}">반납 완료</p>
-					<p th:text="${list.review}">리뷰</p>
-				</article>
+			<div>
+				<div class="search flex flex-4" th:if="${title=='휴대폰'}">
+					<p id="isRental">대여중</p>
+					<p id="isY2K">Y2K</p>
+					<p id="isClimateHumidity">습온도계</p>
+					<p id="isHomecam">홈캠</p>
+				</div>
+				<div class="flex flex-4" th:if="${title=='휴대폰'}">
+					<article class="card" th:each="list : ${list}">
+						<header>
+							<h3 th:text="${list.phoneId}">폰아이디</h3>
+						</header>
+						<p th:text="${list.serialNumber}"></p>
+						<p th:text="${list.modelName}"></p>
+						<div class="module flex flex-3">
+							<p th:if="${list.isY2K}">Y2K</p>
+							<p th:if="${list.isClimateHumidity}">습온도계</p>
+							<p th:if="${list.isHomecam}">홈캠</p>
+						</div>
+						<p class="rental" th:if="${list.rentalId != null}"> 대여중</p>
+						<p th:if="${list.rentalId == null}">대여가능</p>
+					</article>
+				</div>
+				<div class="flex flex-4" th:if="${title=='기증'}">
+					<article class="card" th:each="list : ${list}">
+						<header>
+							<h3 th:text="${list.donationId}">폰아이디</h3>
+						</header>
+						<p th:if="${list.donationStatus==1}">신청 대기 중</p>
+						<p th:if="${list.donationStatus==2}">수거 중</p>
+						<p th:if="${list.donationStatus==3}">수거 완료</p>
+						<p th:text="${list.donationCreatedAt}"></p>
+						<p th:text="${list.donationDeliveryDate}"></p>
+					</article>
+				</div>
+				<div class="flex flex-4" th:if="${title=='대여'}">
+					<article class="card" th:each="list : ${list}">
+						<header>
+							<h3 th:text="${list.rentalId}">대여아이디</h3>
+						</header>
+						<p th:text="${list.applyDate}">신청 날짜</p>
+						<div class="module flex flex-3">
+							<p th:if="${list.isY2K}">Y2K</p>
+							<p th:if="${list.isClimateHumidity}">습온도계</p>
+							<p th:if="${list.isHomecam}">홈캠</p>
+						</div>
+						<p th:if="${list.rentalStatus==1}"><button class="blackBtn">신청 수락</button></p>
+						<p th:if="${list.rentalStatus==2}">배달 대기 중</p>
+						<p th:if="${list.rentalStatus==3}">배달 중</p>
+						<p th:if="${list.rentalStatus==4}">대여 중</p>
+						<p th:if="${list.rentalStatus==5}">반납 완료</p>
+						<p th:if="${list.rentalStatus==-1}">신청 거절</p>
+					</article>
+				</div>
+				<div class="flex flex-4" th:if="${title=='반납'}">
+					<article class="card" th:each="list : ${list}">
+						<header>
+							<h3 th:text="${list.backId}">반납아이디</h3>
+						</header>
+						<p th:text="${list.createAt}">반납 신청 날짜</p>
+						<p th:if="${list.backStatus==1}">반납 중</p>
+						<p th:if="${list.backStatus==2}">반납 완료</p>
+						<p th:text="${list.review}">리뷰</p>
+					</article>
+				</div>
 			</div>
 		</div>
 	</section>
@@ -104,12 +112,40 @@
 	<script th:src="@{/assets/js/util.js}"></script>
 	<script th:src="@{/assets/js/main.js}"></script>
 	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
 	<script>
-		function hello() {
-			const urlParams = new URL(location.href).searchParams;
-			const name = urlParams.get('title');
-			console.log(name)
-		}
+        document.getElementById("isRental").onclick = function(){
+            var container = document.getElementById("isRental");
+            if(container.className != 'activeBtn'){
+            	container.classList.add('activeBtn');
+            }else{
+				container.classList.remove('activeBtn');
+            }
+        };
+        document.getElementById("isY2K").onclick = function(){
+            var container = document.getElementById("isY2K");
+            if(container.className != 'activeBtn'){
+            	container.classList.add('activeBtn');
+            }else{
+				container.classList.remove('activeBtn');
+            }
+        };
+        document.getElementById("isClimateHumidity").onclick = function(){
+            var container = document.getElementById("isClimateHumidity");
+            if(container.className != 'activeBtn'){
+            	container.classList.add('activeBtn');
+            }else{
+				container.classList.remove('activeBtn');
+            }
+        };
+        document.getElementById("isHomecam").onclick = function(){
+            var container = document.getElementById("isHomecam");
+            if(container.className != 'activeBtn'){
+            	container.classList.add('activeBtn');
+            }else{
+				container.classList.remove('activeBtn');
+            }
+        };
 	</script>
 
 </body>

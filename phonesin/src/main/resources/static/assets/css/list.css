@@ -3225,6 +3225,41 @@
 		}
 
 /*card*/
+    .search {
+        width: 100%;
+        height: 3em;
+    }
+
+    .search p{
+        justify-content: center;
+        text-align: center;
+        float: left;
+        width: 4.6em;
+        height: 2em;
+        margin: 0.1em;
+        background-color: #ffffff;
+        border: 1px solid #c0c0c0;
+        border-radius: 40px;
+        color: #000000;
+    }
+
+    .search p:hover{
+        cursor: pointer;
+    }
+
+    .search .activeBtn{
+        justify-content: center;
+        text-align: center;
+        float: left;
+        width: 4.6em;
+        height: 2em;
+        margin: 0.1em;
+        background-color: #0080ff;
+        border: 1px solid #0080ff;
+        border-radius: 40px;
+        color: #ffffff;
+    }
+
     .module {
         width: 14em;
         height: 3em;
