@@ -84,6 +84,17 @@
 					<p th:if="${list.rentalStatus==-1}">신청 거절</p>
 				</article>
 			</div>
+			<div class="flex flex-4" th:if="${title=='반납'}">
+				<article class="card" th:each="list : ${list}">
+					<header>
+						<h3 th:text="${list.backId}">반납아이디</h3>
+					</header>
+					<p th:text="${list.createAt}">반납 신청 날짜</p>
+					<p th:if="${list.backStatus==1}">반납 중</p>
+					<p th:if="${list.backStatus==2}">반납 완료</p>
+					<p th:text="${list.review}">리뷰</p>
+				</article>
+			</div>
 		</div>
 	</section>
 
