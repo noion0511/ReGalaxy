@@ -1,5 +1,6 @@
 package com.ssafy.phonesin.ui.module.camera
 
+import android.media.MediaActionSound
 import android.net.Uri
 import android.os.CountDownTimer
 import android.os.Environment
@@ -34,7 +35,7 @@ class CameraXFragment : BaseFragment<FragmentCameraXBinding>(R.layout.fragment_c
     private var imageCapture: ImageCapture? = null
 
     private val viewModel by activityViewModels<CameraViewModel>()
-
+    private val sound = MediaActionSound()
 
     private var photoCount = 0
     private val maxPhotos = 4
@@ -127,6 +128,8 @@ class CameraXFragment : BaseFragment<FragmentCameraXBinding>(R.layout.fragment_c
 
 
     private fun takePicture() {
+        sound.play(MediaActionSound.SHUTTER_CLICK)
+
         val file = getOutputDirectory()
         val outputOptions = ImageCapture.OutputFileOptions.Builder(file).build()
 
@@ -172,6 +175,7 @@ class CameraXFragment : BaseFragment<FragmentCameraXBinding>(R.layout.fragment_c
 
     override fun onDestroyView() {
         super.onDestroyView()
+        sound.release()
         cameraProvider.unbindAll()
     }
 }
