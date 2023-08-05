@@ -28,17 +28,8 @@ public class MemberService {
             String encodedPassword = passwordEncoder.encode(memberDto.getPassword());
 
             if (!memberRepository.existsByEmail(memberDto.getEmail())) {
-                Member member = Member.builder()
-                        .email(memberDto.getEmail())
-                        .password(encodedPassword)
-                        .memberName(memberDto.getMemberName())
-                        .phoneNumber(memberDto.getPhoneNumber())
-                        .isCha(memberDto.getIsCha())
-                        .isBlackList(memberDto.getIsBlackList())
-                        .isDelete(memberDto.getIsDelete())
-                        .isManager(memberDto.getIsManager())
-                        .createdAt(memberDto.getCreatedAt())
-                        .build();
+                Member member = new Member();
+                member.update(memberDto, encodedPassword);
 
                 Member savedMember = memberRepository.save(member);
                 return ResponseEntity.ok(savedMember);
