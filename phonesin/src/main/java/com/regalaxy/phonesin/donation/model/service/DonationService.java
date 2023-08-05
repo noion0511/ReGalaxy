@@ -1,6 +1,7 @@
 package com.regalaxy.phonesin.donation.model.service;
 
 import com.regalaxy.phonesin.donation.model.DonationDetailResponseDto;
+import com.regalaxy.phonesin.donation.model.DonationKingDto;
 import com.regalaxy.phonesin.donation.model.DonationRequestDto;
 import com.regalaxy.phonesin.donation.model.DonationResponseDto;
 import com.regalaxy.phonesin.donation.model.entity.Donation;
@@ -11,7 +12,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
+import java.text.DateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,56 +26,53 @@ import java.util.stream.Collectors;
 public class DonationService {
     private final DonationRepository donationRepository;
     private final MemberRepository memberRepository;
-    private final EntityManager em;
 
     @Transactional
-    public boolean donationApply(DonationRequestDto donationRequestDto) throws Exception {
-        Member member = memberRepository.findById(donationRequestDto.getMemberId()).get();
+    public void donationApply(DonationRequestDto donationRequestDto, Long memberId) throws Exception {
+        Member member = memberRepository.findById(memberId).get();
         donationRepository.save(donationRequestDto.toEntity(member));
-        return true;
     }
 
     public List<DonationResponseDto> donationList() throws Exception {
         List<DonationResponseDto> result = donationRepository.findAll()
                 .stream()
-                .map(Object -> DonationResponseDto.builder().donation(Object).build())
+                .map(donation -> new DonationResponseDto(donation))
                 .collect(Collectors.toList());
         return result;
     }
 
     public DonationDetailResponseDto donationInfo(Long donationId) throws Exception {
         Donation donation = donationRepository.findById(donationId).get();
-        Member member = donation.getMember();
-        DonationDetailResponseDto result = DonationDetailResponseDto.builder().donation(donation).member(member).build();
+        DonationDetailResponseDto result = new DonationDetailResponseDto(donation);
+
         return result;
     }
 
     @Transactional
-    public boolean donationUpdate(DonationRequestDto donationRequestDto) throws Exception {
-        Optional<Donation> optional = donationRepository.findById(donationRequestDto.getDonationId());
-        if (optional.isPresent()) {
-            Member member = memberRepository.findById(donationRequestDto.getMemberId()).get();
-            Donation donation = optional.get();
-            donation.setMember(member);
-            donation.setDonationStatus(donationRequestDto.getDonationStatus());
-            donation.setDonationDeliveryLocation(donationRequestDto.getDonationDeliveryLocation());
-            donation.setDonationDeliveryLocationType(donationRequestDto.getDonationDeliveryLocationType());
-            donation.setDonationDeliveryDate(donationRequestDto.getDonationDeliveryDate());
-            return true;
-        }
-        return false;
+    public void donationUpdate(DonationRequestDto donationRequestDto, Long donationId) throws Exception {
+        Donation donation = donationRepository.findById(donationId).get();
+        if (donationRequestDto.getDonationDeliveryLocation() != null) donation.setDonationDeliveryLocation(donationRequestDto.getDonationDeliveryLocation());
+        if (donationRequestDto.getDonationDeliveryLocationType() != null) donation.setDonationDeliveryLocationType(donationRequestDto.getDonationDeliveryLocationType());
+        if (donationRequestDto.getDonationDeliveryDate() != null) donation.setDonationDeliveryDate(donationRequestDto.getDonationDeliveryDate());
     }
 
     @Transactional
-    public boolean donationDelete(Long donationId) throws Exception {
+    public void donationDelete(Long donationId) throws Exception {
         donationRepository.deleteById(donationId);
-        return true;
     }
 
-    public List<DonationResponseDto> donationKing() throws Exception {
-        List<DonationResponseDto> result = donationRepository.findAll()
+    public List<DonationKingDto> donationKing() throws Exception {
+        List<DonationKingDto> kingDtoList = donationRepository.findDonationKing(LocalDateTime.now().withDayOfMonth(1), LocalDateTime.now());
+        if (kingDtoList.size() > 5){
+            kingDtoList = kingDtoList.subList(0, 5);
+        }
+        return kingDtoList;
+    }
+
+    public List<DonationResponseDto> donationlist(Long memberId) throws Exception {
+        List<DonationResponseDto> result = donationRepository.findAllByMember_MemberId(memberId)
                 .stream()
-                .map(Object -> DonationResponseDto.builder().donation(Object).build())
+                .map(donation -> new DonationResponseDto(donation))
                 .collect(Collectors.toList());
         return result;
     }

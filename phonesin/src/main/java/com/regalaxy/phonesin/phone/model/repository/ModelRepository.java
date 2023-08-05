@@ -1,4 +1,7 @@
 package com.regalaxy.phonesin.phone.model.repository;
 
-public class ModelRepository {
+import com.regalaxy.phonesin.phone.model.entity.Model;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ModelRepository extends JpaRepository<Model, Long> {
 }

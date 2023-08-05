@@ -12,7 +12,7 @@ public interface BackRepository extends JpaRepository<Back, Long> {
     @Query("select b from back b join b.rental r join r.member m where m.email = :email")
     Page<Back> findAllByEmail(@Param("email") String email, Pageable pageable);
 
-    @Query("select b from back b join b.rental r join r.member m")
+    @Query("select b from back b join b.rental r join r.member")
     Page<Back> findAll(Pageable pageable);
 
     @Query("select b from back b join b.rental r join r.member m where m.isBlackList = :isBlack")

@@ -13,8 +13,10 @@ public class Agency {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long agencyId;
-    private double agency_x;
-    private double agency_y;
+    @Column(name="agency_x")
+    private double agencyX;
+    @Column(name="agency_y")
+    private double agencyY;
     private String agencyPhoneNum;
     private String agencyLocation;
     private String agencyName;
