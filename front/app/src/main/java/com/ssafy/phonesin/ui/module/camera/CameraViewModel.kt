@@ -1,5 +1,9 @@
 package com.ssafy.phonesin.ui.module.camera
 
+import android.annotation.SuppressLint
+import android.app.Application
+import android.net.Uri
+import android.provider.OpenableColumns
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -22,7 +26,8 @@ private const val TAG = "CameraViewModel"
 
 @HiltViewModel
 class CameraViewModel @Inject constructor(
-    private val repository: Y2KRepository
+    private val repository: Y2KRepository,
+    private val application: Application
 ) : BaseViewModel() {
 
     private val _msg = MutableLiveData<Event<String>>()
@@ -108,5 +113,74 @@ class CameraViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun uploadImage(uri: Uri) {
+        viewModelScope.launch {
+            val resolver = application.contentResolver
+            val mimeType = resolver.getType(uri)
+            val inputStream = resolver.openInputStream(uri)
+
+            val requestFile =
+                inputStream?.let { RequestBody.create(MediaType.parse(mimeType), it.readBytes()) }
+            val body = requestFile?.let {
+                MultipartBody.Part.createFormData(
+                    "file",
+                    getFileName(uri),
+                    it
+                )
+            }
+
+            val response = body?.let { repository.uploadImage(it) }
+            Log.d(TAG, "uploadImage: $response")
+
+            val type = "y2k 사진"
+            when (response) {
+                is NetworkResponse.Success -> {
+                    _photoResponse.postValue(Event(response.body))
+                }
+
+                is NetworkResponse.ApiError -> {
+                    _msg.postValue(postValueEvent(0, type))
+                }
+
+                is NetworkResponse.NetworkError -> {
+                    _msg.postValue(postValueEvent(1, type))
+                }
+
+                is NetworkResponse.UnknownError -> {
+                    _msg.postValue(postValueEvent(2, type))
+                }
+                else -> {
+                    _msg.postValue(postValueEvent(2, type))
+                }
+            }
+        }
+    }
+
+    @SuppressLint("Range")
+    private fun getFileName(uri: Uri): String {
+        var result: String? = null
+        if (uri.scheme == "content") {
+            val cursor =
+                application.contentResolver.query(uri, null, null, null, null)
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+                }
+            } finally {
+                cursor?.close()
+            }
+        }
+        if (result == null) {
+            result = uri.path
+            val cut = result?.lastIndexOf('/')
+            if (cut != -1) {
+                if (cut != null) {
+                    result = result?.substring(cut + 1)
+                }
+            }
+        }
+        return result ?: "unknown"
     }
 }

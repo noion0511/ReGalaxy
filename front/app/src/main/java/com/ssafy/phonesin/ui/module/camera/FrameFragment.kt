@@ -1,10 +1,16 @@
 package com.ssafy.phonesin.ui.module.camera
 
+import android.annotation.SuppressLint
+import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
+import android.net.Uri
+import android.os.Build
 import android.os.Environment
+import android.provider.MediaStore
+import android.provider.OpenableColumns
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +26,7 @@ import com.ssafy.phonesin.databinding.FragmentFrameBinding
 import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.internal.Contexts.getApplication
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
@@ -75,6 +82,26 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
 
         }
+    }
+
+    private fun saveBitmapToGallery(bitmap: Bitmap, filename: String, mimeType: String): Uri {
+        val resolver = requireContext().contentResolver
+        val contentValues = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
+            put(MediaStore.MediaColumns.MIME_TYPE, mimeType)
+            put(MediaStore.MediaColumns.RELATIVE_PATH, "Pictures")
+        }
+
+        val uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+        Log.d(TAG, "saveBitmapToGallery: $uri")
+        uri?.let { uri ->
+            resolver.openOutputStream(uri)?.use { outputStream ->
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+                outputStream.flush()
+            } ?: throw Exception("Failed to get output stream.")
+        } ?: throw Exception("Failed to create new MediaStore record.")
+
+        return uri
     }
 
 
@@ -137,33 +164,51 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
             val storageDir =
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
             val imageFile =
-                File(storageDir, "IMG_${timeStamp}_${viewModel.getPrintCountFromPrefs()+1}.jpeg").apply {
+                File(
+                    storageDir,
+                    "IMG_${timeStamp}_${viewModel.getPrintCountFromPrefs() + 1}.jpeg"
+                ).apply {
                     parentFile?.let {
                         if (!it.exists()) it.mkdirs()
+                    }
+                }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                val uri = saveBitmapToGallery(
+                    it,
+                    "IMG_${timeStamp}_${viewModel.getPrintCountFromPrefs() + 1}.jpeg",
+                    "image/jpeg"
+                )
+                viewModel.uploadImage(uri)
+                bindingNonNull.buttonNextQR.visibility = View.VISIBLE
+
+            } else {
+                try {
+                    val fos = FileOutputStream(imageFile)
+                    frameBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+                    fos.flush()
+                    fos.close()
+
+                    requireContext().sendBroadcast(
+                        Intent(
+                            Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+                            imageFile.toUri()
+                        )
+                    )
+                    Log.d("FrameFragment", "사진 저장 ${imageFile.toUri()}")
+                } catch (e: Exception) {
+                    Log.e(TAG, "uploadImage: $e")
+                    Log.d("FrameFragment", "사진 저장 실패 ${imageFile.toUri()}")
+                } finally {
+                    viewModel.uploadImage(imageFile)
+                    bindingNonNull.buttonNextQR.visibility = View.VISIBLE
                 }
             }
-            try {
-                val fos = FileOutputStream(imageFile)
-                frameBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
-                fos.flush()
-                fos.close()
 
-                requireContext().sendBroadcast(
-                    Intent(
-                        Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
-                        imageFile.toUri()
-                    )
-                )
-                Log.d("FrameFragment", "사진 저장 ${imageFile.toUri()}")
-            } catch (e: Exception) {
-                Log.d("FrameFragment", "사진 저장 실패 ${imageFile.toUri()}")
-            } finally {
-                viewModel.uploadImage(imageFile)
-                bindingNonNull.buttonNextQR.visibility = View.VISIBLE
-            }
             frameBitmap.recycle()
         }
     }
+
 
     private fun initObserver() {
         with(viewModel) {
