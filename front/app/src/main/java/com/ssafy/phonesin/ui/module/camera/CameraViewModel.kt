@@ -40,16 +40,16 @@ class CameraViewModel @Inject constructor(
     private val _selectedFrameColor = MutableLiveData<Int>()
     val selectedFrameColor: LiveData<Int> = _selectedFrameColor
 
-    private val _selectedImagePath = MutableLiveData<String>()
-    val selectedImagePath: LiveData<String> = _selectedImagePath
+    private val _selectedImagePaths = MutableLiveData<List<String>>()
+    val selectedImagePaths: LiveData<List<String>> = _selectedImagePaths
 
 
     fun setSelectedFrameColor(color: Int) {
         _selectedFrameColor.value = color
     }
 
-    fun setSelectedImagePath(path: String) {
-        _selectedImagePath.value = path
+    fun setSelectedImagePaths(paths: List<String>) {
+        _selectedImagePaths.value = paths
     }
 
     fun updatePhotoPaths(paths: List<String>) {

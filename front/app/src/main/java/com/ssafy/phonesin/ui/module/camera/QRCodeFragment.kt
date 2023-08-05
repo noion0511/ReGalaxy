@@ -2,7 +2,6 @@ package com.ssafy.phonesin.ui.module.camera
 
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
@@ -24,26 +23,11 @@ import com.ssafy.phonesin.ui.util.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 
-
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 @AndroidEntryPoint
 class QRCodeFragment : BaseFragment<FragmentQRCodeBinding>(
     R.layout.fragment_q_r_code
 ) {
     private val viewModel by activityViewModels<CameraViewModel>()
-
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
 
     override fun onCreateBinding(
         inflater: LayoutInflater,
@@ -85,7 +69,7 @@ class QRCodeFragment : BaseFragment<FragmentQRCodeBinding>(
     private fun showDialog() {
         AlertDialog.Builder(requireContext())
             .setTitle("출력 신청 완료")
-            .setMessage("출력 신청이 완료되었습니다. ${viewModel.printCount.value}번 번호에 신청되었습니다.")
+            .setMessage("출력 신청이 완료되었습니다. ${viewModel.getPrintCountFromPrefs()}번 번호에 신청되었습니다.")
             .setPositiveButton("확인") { dialog, _ -> dialog.dismiss() }
             .show()
         bindingNonNull.buttonPrint.visibility = View.INVISIBLE
@@ -103,7 +87,7 @@ class QRCodeFragment : BaseFragment<FragmentQRCodeBinding>(
                 event.getContentIfNotHandled()?.let {
                     if (it.message == getString(R.string.success)) {
                         Glide.with(requireContext())
-                            .load("https://chart.apis.google.com/chart?cht=qr&chs=300x300&chl=http://i9d102.p.ssafy.io:8080/ytwok/images/${it.photos.ytwokId}")
+                            .load("https://chart.apis.google.com/chart?cht=qr&chs=300x300&chl=http://i9d102.p.ssafy.io:8080/ytwok/images/${it.photos.saveFile}")
                             .listener(object: RequestListener<Drawable> {
                                 override fun onLoadFailed(
                                     e: GlideException?,
@@ -134,23 +118,12 @@ class QRCodeFragment : BaseFragment<FragmentQRCodeBinding>(
                             .centerCrop()
                             .into(bindingNonNull.imageViewQRCode)
 
-                        viewModel.setSelectedImagePath("")
+                        viewModel.setSelectedImagePaths(emptyList())
                         viewModel.updatePhotoPaths(emptyList())
                         viewModel.setSelectedFrameColor(-1)
                     }
                 }
             }
         }
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            QRCodeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 }

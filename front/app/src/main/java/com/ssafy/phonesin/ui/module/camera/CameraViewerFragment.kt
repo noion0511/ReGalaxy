@@ -44,11 +44,12 @@ class CameraViewerFragment : BaseFragment<FragmentCameraViewerBinding>(
         bindingNonNull.buttonChoicePicture.setOnClickListener {
             val currentImagePosition = viewPager.currentItem
             val currentImagePath = photoPathStrings[currentImagePosition]
-            viewModel.setSelectedImagePath(currentImagePath)
+            val paths = listOf<String>(currentImagePath)
+            viewModel.setSelectedImagePaths(paths)
         }
 
         bindingNonNull.textAllChoice.setOnClickListener {
-            findNavController().navigate(R.id.action_cameraViewerFragment_to_frameViewerFragment)
+            viewModel.setSelectedImagePaths(photoPathStrings)
         }
 
         bindingNonNull.buttonArrowLeft.setOnClickListener {
@@ -76,7 +77,7 @@ class CameraViewerFragment : BaseFragment<FragmentCameraViewerBinding>(
                 bindingNonNull.indicator.setViewPager(viewPager)
             }
 
-            selectedImagePath.observe(viewLifecycleOwner) {
+            selectedImagePaths.observe(viewLifecycleOwner) {
                 if (!it.isNullOrEmpty())
                     findNavController().navigate(R.id.action_cameraViewerFragment_to_frameViewerFragment)
             }

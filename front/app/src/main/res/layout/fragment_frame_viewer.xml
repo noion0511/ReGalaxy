@@ -109,13 +109,11 @@
             android:id="@+id/imageViewFramePuppy"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/puppy"
             android:adjustViewBounds="true"
+            android:src="@drawable/puppy"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
             android:id="@+id/buttonChoicePicture"

@@ -27,6 +27,7 @@ import java.util.*
 import kotlin.properties.Delegates
 
 private const val TAG = "FrameFragment"
+
 @AndroidEntryPoint
 class FrameFragment : BaseFragment<FragmentFrameBinding>(
     R.layout.fragment_frame
@@ -34,7 +35,6 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
 
     private val viewModel by activityViewModels<CameraViewModel>()
     private lateinit var photoPathStrings: List<String>
-    private lateinit var selectedOnePhotoPathString: String
     private var selectedFrameColorInt by Delegates.notNull<Int>()
 
     private val colors = listOf(
@@ -63,7 +63,8 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
             findNavController().navigate(R.id.action_frameFragment_to_QRCodeFragment)
         }
 
-        bindingNonNull.viewFrame.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+        bindingNonNull.viewFrame.viewTreeObserver.addOnGlobalLayoutListener(object :
+            ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 uploadImage()
 
@@ -135,8 +136,12 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
                 SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
             val storageDir =
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-            val imageFile = File(storageDir, "IMG_${timeStamp}_${viewModel.getPrintCountFromPrefs()}.jpeg")
-
+            val imageFile =
+                File(storageDir, "IMG_${timeStamp}_${viewModel.getPrintCountFromPrefs()+1}.jpeg").apply {
+                    parentFile?.let {
+                        if (!it.exists()) it.mkdirs()
+                }
+            }
             try {
                 val fos = FileOutputStream(imageFile)
                 frameBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
@@ -168,19 +173,14 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
                 }
             }
 
-            photoPaths.observe(viewLifecycleOwner) {
+            selectedImagePaths.observe(viewLifecycleOwner) {
                 photoPathStrings = it
                 Log.d(TAG, "photoPaths: $photoPathStrings")
                 if (photoPathStrings.size == 4) {
                     showImage(photoPathStrings)
-                }
-            }
-
-            selectedImagePath.observe(viewLifecycleOwner) {
-                selectedOnePhotoPathString = it
-                Log.d(TAG, "selectedImagePath: $selectedOnePhotoPathString")
-                if (selectedOnePhotoPathString.isNotEmpty()) {
-                    val originalBitmap = BitmapFactory.decodeFile(selectedOnePhotoPathString)
+                    bindingNonNull.photoViewer.cardView.visibility = View.INVISIBLE
+                } else if (photoPathStrings.size == 1) {
+                    val originalBitmap = BitmapFactory.decodeFile(photoPathStrings[0])
 
                     val rotationDegrees = 90f
                     val matrix = Matrix().apply { postRotate(rotationDegrees) }
@@ -197,6 +197,7 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
 
                     bindingNonNull.photoViewer.imageViewContent.setImageBitmap(rotatedBitmap)
                     bindingNonNull.imageViewFour.visibility = View.INVISIBLE
+
                 }
             }
 
