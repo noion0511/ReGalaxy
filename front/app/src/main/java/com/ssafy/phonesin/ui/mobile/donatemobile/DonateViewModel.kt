@@ -12,13 +12,14 @@ import javax.inject.Inject
 class DonateViewModel @Inject constructor(
     private val repository: DonationRepository
 ) : BaseViewModel() {
-    private val _homeMusicList = Donation("", "2023-08-03", "string", "string", 0, 0, 8)
-    val homeMusicList: Donation
-        get() = _homeMusicList
+    private val _donation = Donation( "2023-08-03", "string", "string", 0,)
+    val donation: Donation
+        get() = _donation
 
     fun uploadDonation() {
         viewModelScope.launch {
-            repository.uploadDonation(_homeMusicList)
+            repository.uploadDonation(_donation)
         }
     }
+
 }

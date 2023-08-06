@@ -10,6 +10,7 @@ import com.ssafy.phonesin.ApplicationClass.Companion.MEMBER_ID
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentRentalAddBinding
 import com.ssafy.phonesin.model.Rental
+import com.ssafy.phonesin.ui.mobile.MobileViewModel
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,6 +33,7 @@ class RentalAddFragment :
     private var param2: String? = null
 
     private val parentViewModel: RentalViewModel by activityViewModels()
+    private val mobileVIewModel: MobileViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,7 +75,7 @@ class RentalAddFragment :
             }
         }
 
-        if (parentViewModel.addressList.size == 0) {
+        if (mobileVIewModel.addressList.size == 0) {
             radioButtonNewAddress.isChecked = true
             radioButtonExistAddress.isChecked = false
             radioButtonExistAddress.isClickable = false
@@ -84,7 +86,8 @@ class RentalAddFragment :
             spinnerRentalAddAddress.isEnabled = false
             editTextRentalAddAddress.isEnabled = true
 
-            spinnerRentalAddAddress.setItems(parentViewModel.addressList.map { it.address }.toList())
+            spinnerRentalAddAddress.setItems(mobileVIewModel.addressList.map { it.address }
+                .toList())
             spinnerRentalAddAddress.setIsFocusable(true)
             spinnerRentalAddAddress.selectItemByIndex(0)
         }

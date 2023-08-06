@@ -1,6 +1,7 @@
 package com.ssafy.phonesin.ui.mobile.donatemobile
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -27,7 +28,7 @@ class DonateMobileFragment :
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    val donateMobileViewModel : DonateViewModel by activityViewModels()
+    val donateMobileViewModel: DonateViewModel by activityViewModels()
 
     override fun onCreateBinding(
         inflater: LayoutInflater,
@@ -55,18 +56,25 @@ class DonateMobileFragment :
 
     private fun setDonateMobileUi() = with(bindingNonNull) {
 
-
-
         buttonDonateNext.setOnClickListener {
+
+            donateMobileViewModel.donation.donationDeliveryDate =
+                bindingNonNull.calendarDonate.date.toString()
+
             if (radioButtonDonateVisitDelivery.isChecked) {
+                donateMobileViewModel.donation.donationDeliveryLocationType =
+                    bindingNonNull.radioButtonDonateAgent.text.toString()
                 findNavController().navigate(
                     R.id.action_donateMobileFragment_to_donateVisitDeliveryFragment,
                 )
             } else {
+                donateMobileViewModel.donation.donationDeliveryLocationType =
+                    bindingNonNull.radioButtonDonateVisitDelivery.text.toString()
                 findNavController().navigate(
                     R.id.action_donateMobileFragment_to_donateAgentFragment,
                 )
             }
+            Log.e("싸피", donateMobileViewModel.donation.toString())
         }
     }
 
