@@ -2,13 +2,14 @@ package com.ssafy.phonesin.ui.mobile.donatemobile
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentDonateVisitDeliveryBinding
+import com.ssafy.phonesin.ui.mobile.MobileViewModel
+import com.ssafy.phonesin.ui.util.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 // TODO: Rename parameter arguments, choose names that match
@@ -22,13 +23,29 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 @AndroidEntryPoint
-class DonateVisitDeliveryFragment : Fragment() {
+class DonateVisitDeliveryFragment :
+    BaseFragment<FragmentDonateVisitDeliveryBinding>(R.layout.fragment_donate_visit_delivery) {
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    val donateVisitDeliveryViewModel: DonateViewModel by activityViewModels()
+    val mobileViewModel: MobileViewModel by activityViewModels()
 
-    private lateinit var binding: FragmentDonateVisitDeliveryBinding
-    val donateVisitDeliveryViewModel : DonateViewModel by activityViewModels()
+    override fun onCreateBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentDonateVisitDeliveryBinding {
+        return FragmentDonateVisitDeliveryBinding.inflate(layoutInflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
+        }
+    }
+
+    override fun init() {
+        setDonateVisitDeliveryUi()
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -37,23 +54,42 @@ class DonateVisitDeliveryFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        binding = FragmentDonateVisitDeliveryBinding.inflate(layoutInflater, container, false)
-        return binding.root
-    }
+    private fun setDonateVisitDeliveryUi() = with(bindingNonNull) {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setDonateVisitDeliveryUi()
-    }
+        radioGroupDonateDelivery.setOnCheckedChangeListener { _, checkedId ->
+            // 라디오 버튼 상태에 따라 EditText 클릭 가능 여부 설정
+            when (checkedId) {
+                R.id.radioButtonDonateVisitDeliveryExistAddress -> {
+                    spinnerDonateAddress.isEnabled = true
+                    editTextDonateAddress.isEnabled = false
+                }
 
-    private fun setDonateVisitDeliveryUi() = with(binding) {
+                R.id.radioButtonDonateVisitDeliveryNewAddress -> {
+                    spinnerDonateAddress.isEnabled = false
+                    editTextDonateAddress.isEnabled = true
+                }
+            }
+        }
+
+        if (mobileViewModel.addressList.size == 0) {
+            radioButtonDonateVisitDeliveryNewAddress.isChecked = true
+            radioButtonDonateVisitDeliveryExistAddress.isChecked = false
+            radioButtonDonateVisitDeliveryExistAddress.isClickable = false
+            spinnerDonateAddress.isEnabled = false
+        } else {
+            radioButtonDonateVisitDeliveryNewAddress.isChecked = false
+            radioButtonDonateVisitDeliveryExistAddress.isChecked = true
+            spinnerDonateAddress.isEnabled = true
+            editTextDonateAddress.isEnabled = false
+
+            spinnerDonateAddress.setItems(mobileViewModel.addressList.map { it.address }
+                .toList())
+            spinnerDonateAddress.setIsFocusable(true)
+            spinnerDonateAddress.selectItemByIndex(0)
+        }
+
         buttonPostDonateVisitDelivery.setOnClickListener {
-            donateVisitDeliveryViewModel.uploadDonation()
+            //donateVisitDeliveryViewModel.uploadDonation()
             findNavController().navigate(
                 R.id.action_donateVisitDeliveryFragment_to_doateFinishFragment,
             )

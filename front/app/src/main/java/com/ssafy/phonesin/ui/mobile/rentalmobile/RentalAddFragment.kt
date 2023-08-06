@@ -33,7 +33,7 @@ class RentalAddFragment :
     private var param2: String? = null
 
     private val parentViewModel: RentalViewModel by activityViewModels()
-    private val mobileVIewModel: MobileViewModel by activityViewModels()
+    private val mobileViewModel: MobileViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,7 +75,7 @@ class RentalAddFragment :
             }
         }
 
-        if (mobileVIewModel.addressList.size == 0) {
+        if (mobileViewModel.addressList.size == 0) {
             radioButtonNewAddress.isChecked = true
             radioButtonExistAddress.isChecked = false
             radioButtonExistAddress.isClickable = false
@@ -83,10 +83,10 @@ class RentalAddFragment :
         } else {
             radioButtonNewAddress.isChecked = false
             radioButtonExistAddress.isChecked = true
-            spinnerRentalAddAddress.isEnabled = false
+            spinnerRentalAddAddress.isEnabled = true
             editTextRentalAddAddress.isEnabled = true
 
-            spinnerRentalAddAddress.setItems(mobileVIewModel.addressList.map { it.address }
+            spinnerRentalAddAddress.setItems(mobileViewModel.addressList.map { it.address }
                 .toList())
             spinnerRentalAddAddress.setIsFocusable(true)
             spinnerRentalAddAddress.selectItemByIndex(0)
