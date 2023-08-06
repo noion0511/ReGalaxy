@@ -3,8 +3,11 @@ package com.ssafy.phonesin.ui.mobile.returnmobile
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.RadioButton
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
@@ -31,7 +34,10 @@ class ReturnMobileFragment : BaseFragment<FragmentReturnMobileBinding>(
     private var param1: String? = null
     private var param2: String? = null
 
-    val returnMobileViewModel : ReturnMobileViewModel by viewModels()
+    val returnMobileViewModel: ReturnMobileViewModel by viewModels()
+    val returnViewModel: ReturnViewModel by activityViewModels()
+    val rentalCheckList = mutableListOf<CheckBox>()
+
 
     override fun onCreateBinding(
         inflater: LayoutInflater,
@@ -60,34 +66,59 @@ class ReturnMobileFragment : BaseFragment<FragmentReturnMobileBinding>(
 
     private fun setReturnMobile() = with(bindingNonNull) {
 
-        returnMobileViewModel.rentalResponseList.observe(viewLifecycleOwner){
-            radioGroupReturnAdd.removeAllViews()
-            it.forEach {
-                val radioButton = RadioButton(context)
-                radioButton.text = "${it.phoneId}"
-                radioGroupReturnAdd.addView(radioButton)
+        returnMobileViewModel.rentalResponseList.observe(viewLifecycleOwner) {
+            layoutReturnCheckBox.removeAllViews()
+            it.forEach { rental ->
+                val checkBox = CheckBox(context)
+                checkBox.text = "${rental.modelName} No.${rental.phoneId}"
+//                radioButton.id = it.indexOf(rental)
+                checkBox.id = rental.phoneId.toString().toInt()
+                layoutReturnCheckBox.addView(checkBox)
+                rentalCheckList.add(checkBox)
             }
         }
 
-        for (i in 1..3) {
-            val radioButton = RadioButton(context)
-            radioButton.text = "RadioButton $i"
-            radioButton.id = i // 라디오 버튼마다 고유한 ID를 부여 (무조건 필요한 것은 아님)
-            radioGroupReturnAdd.addView(radioButton)
-        }
+//        for (i in 1..3) {
+//            val radioButton = RadioButton(context)
+//            radioButton.text = "RadioButton $i"
+//            radioButton.id = i // 라디오 버튼마다 고유한 ID를 부여 (무조건 필요한 것은 아님)
+//            radioGroupReturnAdd.addView(radioButton)
+//        }
 
         buttonReturnNext.setOnClickListener {
-            if (radioButtonAgent.isChecked) {
-                findNavController().navigate(
-                    R.id.action_returnMobileFragment_to_returnAgentFragment,
-                )
+            if (isCheckBox()) {//하나라도 체크 돼잇음
+                returnViewModel.setReturnList(getCheckBox())
+                returnViewModel.setReturnListDate(calendarReturn.date.toString())
+                returnViewModel.setReturnListContent(textViewReturnContentMessage.text.toString())
+
+                if (radioButtonAgent.isChecked) {
+                    returnViewModel.setReturnListType(radioButtonAgent.text.toString())
+                    findNavController().navigate(
+                        R.id.action_returnMobileFragment_to_returnAgentFragment,
+                    )
+                } else {
+                    returnViewModel.setReturnListType(radioButtonVisitDelivery.text.toString())
+                    findNavController().navigate(
+                        R.id.action_returnMobileFragment_to_returnVisitDeliveryFragment,
+                    )
+                }
+
             } else {
-                findNavController().navigate(
-                    R.id.action_returnMobileFragment_to_returnVisitDeliveryFragment,
-                )
+                showToast("한개 이상을 체크해주세요")
             }
         }
 
+    }
+
+    private fun isCheckBox(): Boolean {
+        return rentalCheckList.any { it.isChecked }
+    }
+
+    private fun getCheckBox(): List<Int> {
+        return bindingNonNull.layoutReturnCheckBox.children
+            .filterIsInstance<CheckBox>()
+            .filter { it.isChecked }
+            .map { it.id }.toList()
     }
 
     companion object {

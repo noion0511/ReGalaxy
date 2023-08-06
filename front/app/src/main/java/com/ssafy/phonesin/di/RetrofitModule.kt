@@ -27,7 +27,7 @@ abstract class RepositoryModule {
     abstract fun bindsReturnRepository(
         repositoryImpl: ReturnRepositoryImpl
     ): ReturnRepository
-
+    @Binds
     abstract fun bindsDonationRepository(
         repositoryImpl: DonationRepositoryImpl
     ): DonationRepository

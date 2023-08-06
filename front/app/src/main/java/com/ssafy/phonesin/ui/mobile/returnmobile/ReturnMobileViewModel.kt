@@ -22,9 +22,15 @@ class ReturnMobileViewModel @Inject constructor(
         getRentalList()
     }
 
-    fun getRentalList(){
+    fun getRentalList() {
         viewModelScope.launch {
-            _rentalResponseList.value = returnRepository.getRentalList(1)
+            //_rentalResponseList.value = returnRepository.getRentalList(MEMBER_ID)
+
+            val temp = mutableListOf<RentalResponse>()
+            temp.add(RentalResponse(20000, "갤럭시 s3", 123, "", "", 11, "", 1, ""))
+            temp.add(RentalResponse(20000, "갤럭시 s4", 777, "", "", 21, "", 1, ""))
+            temp.add(RentalResponse(20000, "갤럭시 s5", 999, "", "", 8, "", 1, ""))
+            _rentalResponseList.value = temp
         }
     }
 

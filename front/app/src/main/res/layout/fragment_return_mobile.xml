@@ -53,12 +53,19 @@
                         android:text="@string/return_mobile_select"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
-                    <RadioGroup
-                        android:id="@+id/radioGroupReturnAdd"
-                        app:layout_constraintTop_toBottomOf="@id/textViewChooseRentalMobileMessage"
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:id="@+id/layoutReturnCheckBox"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
+                        app:layout_constraintTop_toBottomOf="@id/textViewChooseRentalMobileMessage"
                         android:layout_height="wrap_content"/>
+<!--                    <-->
+<!--                        android:id="@+id/radioGroupReturnAdd"-->
+<!--                        app:layout_constraintTop_toBottomOf="@id/textViewChooseRentalMobileMessage"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"/>-->
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -157,7 +164,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <CalendarView
-                        android:id="@+id/calendarRental"
+                        android:id="@+id/calendarReturn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
