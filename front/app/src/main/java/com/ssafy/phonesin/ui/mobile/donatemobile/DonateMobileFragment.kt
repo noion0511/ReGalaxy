@@ -74,7 +74,6 @@ class DonateMobileFragment :
                     R.id.action_donateMobileFragment_to_donateAgentFragment,
                 )
             }
-            Log.e("싸피", donateMobileViewModel.donation.toString())
         }
     }
 

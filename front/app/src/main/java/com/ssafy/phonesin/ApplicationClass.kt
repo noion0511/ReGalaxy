@@ -11,6 +11,7 @@ class ApplicationClass : MultiDexApplication() {
     companion object {
         lateinit var prefs: SharedPreferences
         const val MEMBER_ID = 1
+        const val PERMISSIONS_REQUEST_LOCATION = 100
     }
 
     override fun onCreate() {
