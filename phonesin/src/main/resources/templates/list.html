@@ -86,7 +86,10 @@
 							<p th:if="${list.isClimateHumidity}">습온도계</p>
 							<p th:if="${list.isHomecam}">홈캠</p>
 						</div>
-						<p th:if="${list.rentalStatus==1}"><button class="blackBtn">신청 수락</button></p>
+						<div class="flex flex-3" style="justify-content: center;">
+							<button th:if="${list.rentalStatus==1}" class="blackBtn" th:onclick="rentalApply([[${list.rentalId}]])">수락</button>
+							<button th:if="${list.rentalStatus==1}" class="blackBtn" th:onclick="rentalBack([[${list.rentalId}]])">반려</button>
+						</div>
 						<p th:if="${list.rentalStatus==2}">배달 대기 중</p>
 						<p th:if="${list.rentalStatus==3}">배달 중</p>
 						<p th:if="${list.rentalStatus==4}">대여 중</p>
@@ -210,6 +213,150 @@
 				memberHtml();
             }
         };
+        function rentalApply(rentalId){
+			fetch(`apply`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					rentalId : rentalId,
+					apply : true,
+					ready : document.getElementById("ready").className=='activeBtn'
+				}),
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					document.getElementById('result').innerHTML = ``;
+					var html = `
+							<div class="flex flex-4">`;
+					data.list.forEach(function(item) {
+						html += `
+								<article class="card">
+									<header>
+										<h3>${item.rentalId}</h3>
+									</header>
+									<p>${item.applyDate}</p>
+									<div class="module flex flex-3">`;
+						if(item.y2K) {
+							html += `
+							<p>Y2K</p>`;
+						}
+						if(item.climateHumidity) {
+							html += `
+							<p>습온도계</p>`;
+						}
+						if(item.homecam) {
+							html += `
+							<p>홈캠</p>`;
+						}
+						html += `</div>
+						<div class="flex flex-3" style="justify-content: center;">`;
+						if(item.rentalStatus == 1) {
+							html += `
+									<button class="blackBtn" onclick="rentalApply(${item.rentalId})">수락</button>
+									<button class="blackBtn" onclick="rentalBack(${item.rentalId})">반려</button>`;
+						}
+						html += `</div>`;
+						if(item.rentalStatus == 2) {
+							html += `
+									<p> 배달 대기 중</p>`;
+						}
+						if(item.rentalStatus == 3) {
+							html += `
+									<p> 배달 중</p>`;
+						}
+						if(item.rentalStatus == 4) {
+							html += `
+									<p> 대여 중</p>`;
+						}
+						if(item.rentalStatus == 5) {
+							html += `
+									<p> 반납 완료</p>`;
+						}
+						if(item.rentalStatus == -1) {
+							html += `
+									<p> 신청 거절</p>`;
+						}
+						html += `
+								</article>`;
+					});
+					html += `
+						</div>`;
+					document.getElementById('result').innerHTML += html;
+				});
+        };
+        function rentalBack(rentalId){
+			fetch(`apply`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					rentalId : rentalId,
+					apply : false,
+					ready : document.getElementById("ready").className=='activeBtn'
+				}),
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					document.getElementById('result').innerHTML = ``;
+					var html = `
+							<div class="flex flex-4">`;
+					data.list.forEach(function(item) {
+						html += `
+								<article class="card">
+									<header>
+										<h3>${item.rentalId}</h3>
+									</header>
+									<p>${item.applyDate}</p>
+									<div class="module flex flex-3">`;
+						if(item.y2K) {
+							html += `
+							<p>Y2K</p>`;
+						}
+						if(item.climateHumidity) {
+							html += `
+							<p>습온도계</p>`;
+						}
+						if(item.homecam) {
+							html += `
+							<p>홈캠</p>`;
+						}
+						html += `</div>
+						<div class="flex flex-3" style="justify-content: center;">`;
+						if(item.rentalStatus == 1) {
+							html += `
+									<button class="blackBtn" onclick="rentalApply(${item.rentalId})">수락</button>
+									<button class="blackBtn" onclick="rentalBack(${item.rentalId})">반려</button>`;
+						}
+						html += `</div>`;
+						if(item.rentalStatus == 2) {
+							html += `
+									<p> 배달 대기 중</p>`;
+						}
+						if(item.rentalStatus == 3) {
+							html += `
+									<p> 배달 중</p>`;
+						}
+						if(item.rentalStatus == 4) {
+							html += `
+									<p> 대여 중</p>`;
+						}
+						if(item.rentalStatus == 5) {
+							html += `
+									<p> 반납 완료</p>`;
+						}
+						if(item.rentalStatus == -1) {
+							html += `
+									<p> 신청 거절</p>`;
+						}
+						html += `
+								</article>`;
+					});
+					html += `
+						</div>`;
+					document.getElementById('result').innerHTML += html;
+				});
+        };
 
 		function phoneHtml(){
 			fetch(`list`, {
@@ -301,11 +448,14 @@
 							html += `
 							<p>홈캠</p>`;
 						}
-						html += `</div>`;
+						html += `</div>
+						<div class="flex flex-3" style="justify-content: center;">`;
 						if(item.rentalStatus == 1) {
 							html += `
-									<p><button class="blackBtn">신청 수락</button></p>`;
+									<button class="blackBtn" onclick="rentalApply(${item.rentalId})">수락</button>
+									<button class="blackBtn" onclick="rentalBack(${item.rentalId})">반려</button>`;
 						}
+						html += `</div>`;
 						if(item.rentalStatus == 2) {
 							html += `
 									<p> 배달 대기 중</p>`;

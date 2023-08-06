@@ -1,5 +1,8 @@
 package com.regalaxy.phonesin.rental.controller;
 
+import com.regalaxy.phonesin.phone.model.PhoneDto;
+import com.regalaxy.phonesin.phone.model.PhoneSearchDto;
+import com.regalaxy.phonesin.rental.model.AdminRentalApplyDto;
 import com.regalaxy.phonesin.rental.model.RentalDto;
 import com.regalaxy.phonesin.rental.model.RentalSearchDto;
 import com.regalaxy.phonesin.rental.model.service.RentalService;
@@ -50,9 +53,14 @@ public class AdminRentalController {
     }
 
     @ApiOperation(value = "관리자 기기 대여 신청서 신청")
-    @GetMapping("/apply")
-    public String apply(Long rental_id, boolean accept) {
-        rentalService.apply(rental_id, accept);
-        return "";
+    @PostMapping("/apply")
+    public ResponseEntity<?> apply(@RequestBody AdminRentalApplyDto adminRentalApplyDto, Model model) {
+        List<RentalDto> list = rentalService.apply(adminRentalApplyDto);
+        Map<String, Object> map = new HashMap<>();
+        model.addAttribute("list", list);
+        model.addAttribute("title", "대여");
+        map.put("list", list);
+        map.put("title", "대여");
+        return ResponseEntity.ok(map);
     }
 }
