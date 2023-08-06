@@ -11,12 +11,13 @@ object Util {
     fun selectModule(rental: Rental): String {
         var string = ""
         if (rental.y2K)
-            string += "사진 ,"
+            string += "사진, "
         if (rental.homecam)
-            string += "홈캠 ,"
+            string += "홈캠, "
         if (rental.climateHumidity)
-            string += "온도계"
-        return string
+            string += "온도계, "
+
+        return string.dropLast(2)
     }
 
     fun getCurrentKoreaTime(): String {
