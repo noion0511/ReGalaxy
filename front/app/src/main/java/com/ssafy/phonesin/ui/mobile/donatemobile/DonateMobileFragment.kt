@@ -1,7 +1,6 @@
 package com.ssafy.phonesin.ui.mobile.donatemobile
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -58,18 +57,16 @@ class DonateMobileFragment :
 
         buttonDonateNext.setOnClickListener {
 
-            donateMobileViewModel.donation.donationDeliveryDate =
-                bindingNonNull.calendarDonate.date.toString()
+            donateMobileViewModel.setDateDonate(bindingNonNull.calendarDonate.date.toString())
 
             if (radioButtonDonateVisitDelivery.isChecked) {
-                donateMobileViewModel.donation.donationDeliveryLocationType =
-                    bindingNonNull.radioButtonDonateAgent.text.toString()
+                donateMobileViewModel.setTypeDonate(bindingNonNull.radioButtonDonateVisitDelivery.text.toString())
+
                 findNavController().navigate(
                     R.id.action_donateMobileFragment_to_donateVisitDeliveryFragment,
                 )
             } else {
-                donateMobileViewModel.donation.donationDeliveryLocationType =
-                    bindingNonNull.radioButtonDonateVisitDelivery.text.toString()
+                donateMobileViewModel.setTypeDonate(bindingNonNull.radioButtonDonateAgent.text.toString())
                 findNavController().navigate(
                     R.id.action_donateMobileFragment_to_donateAgentFragment,
                 )

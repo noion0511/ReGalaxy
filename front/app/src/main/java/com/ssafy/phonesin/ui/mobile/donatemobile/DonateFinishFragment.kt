@@ -1,14 +1,17 @@
 package com.ssafy.phonesin.ui.mobile.donatemobile
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentDonateFinishBinding
-import com.ssafy.phonesin.ui.MainActivity
+import com.ssafy.phonesin.ui.util.Util.getCurrentKoreaTime
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,6 +29,8 @@ class DonateFinishFragment : Fragment() {
     private var param2: String? = null
 
     private lateinit var binding: FragmentDonateFinishBinding
+
+    val donateViewModel: DonateViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +53,24 @@ class DonateFinishFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setDonateFinishUi()
     }
+
     private fun setDonateFinishUi() = with(binding) {
+
+        textViewDonateFinishDate.text = getCurrentKoreaTime()
+        
+        Log.e("싸피",donateViewModel.donation.toString())
+        
+        if(donateViewModel.donation.donationDeliveryLocationType == "방문 택배 선택"){
+            mapViewDonateFinish.isVisible = false
+        }
+
+        textViewDonateFinishDetailDate.text =
+            " - 기증날짜 : ${donateViewModel.donation.donationDeliveryDate.toString()}"
+        textViewDonateFinishDetailSolve.text =
+            " - 수거방법 : ${donateViewModel.donation.donationDeliveryLocationType}"
+        textViewDonateFinishDetailAddress.text =
+            " - 주소 : ${donateViewModel.donation.donationDeliveryLocation}"
+
 
         buttonDonateHome.setOnClickListener {
             findNavController().navigate(
