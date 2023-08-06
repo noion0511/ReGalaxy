@@ -89,10 +89,22 @@ class DonateVisitDeliveryFragment :
         }
 
         buttonPostDonateVisitDelivery.setOnClickListener {
-            //donateVisitDeliveryViewModel.uploadDonation()
-            findNavController().navigate(
-                R.id.action_donateVisitDeliveryFragment_to_doateFinishFragment,
-            )
+
+            if (editTextDonateAddress.text.toString() == "" && radioButtonDonateVisitDeliveryNewAddress.isChecked) {
+                showToast("주소를 입력하세요!")
+            } else {
+                donateVisitDeliveryViewModel.donation.donationDeliveryLocationType =
+                    if (radioButtonDonateVisitDeliveryExistAddress.isChecked) {
+                        spinnerDonateAddress.text.toString()
+                    } else {
+                        editTextDonateAddress.text.toString()
+                    }
+                //donateVisitDeliveryViewModel.uploadDonation()
+                findNavController().navigate(
+                    R.id.action_donateVisitDeliveryFragment_to_doateFinishFragment,
+                )
+            }
+
         }
     }
 
