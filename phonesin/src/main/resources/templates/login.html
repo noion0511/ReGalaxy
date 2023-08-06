@@ -125,7 +125,7 @@
                     // console.log("response", response)
                     sessionStorage.setItem("accessToken", response['accessToken'])
                     sessionStorage.setItem("refreshToken", response['refreshToken'])
-                    location.href="list.html"
+                    location.href="/"
                 },
                 error : function (request, status, error){
                     alert('아이디와 비밀번호를 확인해 주세요');
