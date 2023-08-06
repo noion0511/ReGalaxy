@@ -17,6 +17,17 @@ spring:
       max-request-size: 10MB
   jwt:
     secret: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHa
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: pongojisin@gmail.com
+    password: ldoabevxmvkbmobw
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 server:
   port: 8080

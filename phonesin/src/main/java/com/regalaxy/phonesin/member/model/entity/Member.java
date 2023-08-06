@@ -61,6 +61,12 @@ public class Member extends BaseTimeEntity {
     @ApiModelProperty(value = "리프레시 토큰")
     private String refreshToken;
 
+    @ApiModelProperty(value = "이메일 인증 코드")
+    private String verificationCode;
+
+    @ApiModelProperty(value = "이메일 인증 여부")
+    private Boolean isVerified;
+
     @Builder
     public Member(Long memberId, String email, String memberName, String password, String phoneNumber, Boolean isCha, Boolean isBlackList, Boolean isDelete, Boolean isManager, LocalDateTime createdAt) {
         this.memberId = memberId;
@@ -156,5 +162,15 @@ public class Member extends BaseTimeEntity {
         this.isManager = memberDto.getIsManager();
         this.isBlackList = memberDto.getIsBlackList();
         this.isDelete = memberDto.getIsDelete();
+    }
+
+    public void setVerificationCode(String email, String code) {
+        this.email = email;
+        this.verificationCode = code;
+        this.isDelete = true;
+    }
+
+    public void setVerified(boolean isVerified) {
+        this.isVerified = isVerified;
     }
 }

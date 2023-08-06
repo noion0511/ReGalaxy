@@ -6,10 +6,14 @@ import com.regalaxy.phonesin.member.model.jwt.JwtTokenProvider;
 import com.regalaxy.phonesin.member.model.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +22,8 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
+    private final JavaMailSender javaMailSender;
+    private final Random random = new SecureRandom();
 
     // 회원가입
     public ResponseEntity<Member> signUp(MemberDto memberDto) {
@@ -27,21 +33,22 @@ public class MemberService {
             // 비밀번호 암호화
             String encodedPassword = passwordEncoder.encode(memberDto.getPassword());
 
+            Member member;
             if (!memberRepository.existsByEmail(memberDto.getEmail())) {
-                Member member = new Member();
+                member = new Member();
                 member.update(memberDto, encodedPassword);
 
                 Member savedMember = memberRepository.save(member);
-                return ResponseEntity.ok(savedMember);
             } else {
                 // 삭제한 이메일로 다시 한 번 회원가입 할 때
-                Member member = memberRepository.findByEmail(memberDto.getEmail()).get();
+                member = memberRepository.findByEmail(memberDto.getEmail()).get();
 
                 member.update(memberDto, encodedPassword);
+
                 Member savedMember = memberRepository.save(member);
-                return ResponseEntity.ok(savedMember);
             }
 
+            return ResponseEntity.ok(member);
         }
     }
 
@@ -129,5 +136,61 @@ public class MemberService {
 
         member.updatePassword(passwordEncoder.encode(requestDto.getNewPassword()));
         memberRepository.save(member);
+    }
+
+    // 이메일 인증
+    public void requestEmailVerification(String email) {
+        String code = generateVerificationCode();
+
+        // 이메일이 이미 DB에 존재하는 경우
+        if (memberRepository.existsByEmail(email)) {
+            Member existingMember = memberRepository.findByEmail(email)
+                    .orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
+
+            // 해당 이메일에 대한 사용자 계정이 삭제 상태가 아니라면 에러 메시지 반환
+            if (!existingMember.getIsDelete()) {
+                throw new RuntimeException("이미 존재하는 이메일입니다.");
+            } else {
+                // 삭제된 사용자라면 인증 코드를 업데이트
+                existingMember.setVerificationCode(email, code);
+                memberRepository.save(existingMember);
+            }
+        } else {
+            // 이메일이 DB에 없는 경우 새로운 Member 객체 생성 및 저장
+            Member newMember = new Member();
+            newMember.setVerificationCode(email, code);
+            memberRepository.save(newMember);
+        }
+
+        String message = "다음 코드를 입력하여 이메일을 확인해주세요: " + code;
+        sendEmail(email, "이메일 확인 코드", message);
+    }
+
+    // 이메일 인증코드 확인
+    public void confirmEmailVerification(String email, String code) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 이메일입니다."));
+
+        if (!member.getVerificationCode().equals(code)) {
+            throw new RuntimeException("인증 코드가 일치하지 않습니다.");
+        }
+
+        member.setVerified(true); // 이메일이 인증되었음을 표시
+        memberRepository.save(member);
+    }
+
+    // 인증코드 발급
+    private String generateVerificationCode() {
+        int code = 100000 + random.nextInt(900000); // 100000에서 999999 사이의 난수 생성
+        return Integer.toString(code);
+    }
+
+    // 이메일 보내기 (JavaMailSender 사용)
+    public void sendEmail(String to, String subject, String message) {
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(to);
+        mailMessage.setSubject(subject);
+        mailMessage.setText(message);
+        javaMailSender.send(mailMessage);
     }
 }

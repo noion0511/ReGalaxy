@@ -133,6 +133,7 @@ public class MemberController {
     public ResponseEntity<String> isCha(@RequestBody Map<String, Object> requestMap) {
         StringBuffer response = new StringBuffer();
         try {
+            // URL 설정
             URL url = new URL("https://www.bokjiro.go.kr/ssis-tbu/TWAL26100M/twatza/certfIssuAplyMng/selectCertfTruflsIdnty.do");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setDoOutput(true);
@@ -140,6 +141,7 @@ public class MemberController {
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
 
+            // Body 입력
             String requestBody;
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
@@ -154,6 +156,7 @@ public class MemberController {
             in.flush();
             in.close();
 
+            // response 출력
             Charset charset = Charset.forName("UTF-8");
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), charset));
             String inputLine;
@@ -172,6 +175,7 @@ public class MemberController {
         if (response.toString().split(":")[1].split("}")[0].equals("null")) {
             return new ResponseEntity<String>("요청하신 문서번호는 발급된 내역이 없는 증명서로 확인 되었습니다.", HttpStatus.OK);
         } else {
+            // 차상위 인증에 성공했을 경우를 테스트 할 수 없어서 우선 메시지를 띄우도록 설정
             return new ResponseEntity<String>(response.toString().split(":")[1].split("}")[0], HttpStatus.OK);
         }
     }
@@ -185,5 +189,19 @@ public class MemberController {
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @ApiOperation(value = "이메일 인증")
+    @PostMapping("/email-verification")
+    public ResponseEntity<String> requestEmailVerification(@RequestBody EmailVerificationConfirmationDto requestDto) {
+        memberService.requestEmailVerification(requestDto.getEmail());
+        return new ResponseEntity<>("이메일 인증 코드가 발송되었습니다.", HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "이메일 인증 코드 확인")
+    @PostMapping("/email-verification/confirm")
+    public ResponseEntity<String> confirmEmailVerification(@RequestBody EmailVerificationConfirmationDto confirmationDto) {
+        memberService.confirmEmailVerification(confirmationDto.getEmail(), confirmationDto.getCode());
+        return new ResponseEntity<>("이메일이 성공적으로 인증되었습니다.", HttpStatus.OK);
     }
 }
