@@ -27,7 +27,7 @@ class DonateMobileFragment :
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    val donateMobileViewModel : DonateViewModel by activityViewModels()
+    val donateMobileViewModel: DonateViewModel by activityViewModels()
 
     override fun onCreateBinding(
         inflater: LayoutInflater,
@@ -55,14 +55,18 @@ class DonateMobileFragment :
 
     private fun setDonateMobileUi() = with(bindingNonNull) {
 
-
-
         buttonDonateNext.setOnClickListener {
+
+            donateMobileViewModel.setDateDonate(bindingNonNull.calendarDonate.date.toString())
+
             if (radioButtonDonateVisitDelivery.isChecked) {
+                donateMobileViewModel.setTypeDonate(bindingNonNull.radioButtonDonateVisitDelivery.text.toString())
+
                 findNavController().navigate(
                     R.id.action_donateMobileFragment_to_donateVisitDeliveryFragment,
                 )
             } else {
+                donateMobileViewModel.setTypeDonate(bindingNonNull.radioButtonDonateAgent.text.toString())
                 findNavController().navigate(
                     R.id.action_donateMobileFragment_to_donateAgentFragment,
                 )

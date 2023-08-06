@@ -16,6 +16,5 @@ public class RentalApplyDto {
     private int count;//rental
     private String rentalDeliveryLocation;//rental
     private int fund;//rental
-    private Long donationId;//phone
     private int usingDate;
 }

@@ -86,7 +86,7 @@
                             android:layout_marginHorizontal="20dp"
                             style="@style/textview_content_black"
                             android:background="@drawable/border_spinner_layout"
-                            android:hint="주소지를 입력해 주세요"
+                            android:hint="@string/hint_edit_address"
                             android:padding="10dp" />
 
                     </RadioGroup>

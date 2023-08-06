@@ -6,9 +6,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.ssafy.phonesin.ApplicationClass.Companion.MEMBER_ID
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentRentalAddBinding
 import com.ssafy.phonesin.model.Rental
+import com.ssafy.phonesin.ui.mobile.MobileViewModel
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,6 +33,7 @@ class RentalAddFragment :
     private var param2: String? = null
 
     private val parentViewModel: RentalViewModel by activityViewModels()
+    private val mobileViewModel: MobileViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +75,7 @@ class RentalAddFragment :
             }
         }
 
-        if (parentViewModel.addressList.size == 0) {
+        if (mobileViewModel.addressList.size == 0) {
             radioButtonNewAddress.isChecked = true
             radioButtonExistAddress.isChecked = false
             radioButtonExistAddress.isClickable = false
@@ -80,10 +83,11 @@ class RentalAddFragment :
         } else {
             radioButtonNewAddress.isChecked = false
             radioButtonExistAddress.isChecked = true
-            spinnerRentalAddAddress.isEnabled = false
+            spinnerRentalAddAddress.isEnabled = true
             editTextRentalAddAddress.isEnabled = true
 
-            spinnerRentalAddAddress.setItems(parentViewModel.addressList.map { it.address }.toList())
+            spinnerRentalAddAddress.setItems(mobileViewModel.addressList.map { it.address }
+                .toList())
             spinnerRentalAddAddress.setIsFocusable(true)
             spinnerRentalAddAddress.selectItemByIndex(0)
         }
@@ -109,7 +113,7 @@ class RentalAddFragment :
                     -1,
                     20000,
                     checkBoxHomeCam.isChecked,
-                    8,
+                    MEMBER_ID,
                     -1,
                     address,
                     month,

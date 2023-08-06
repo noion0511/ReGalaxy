@@ -1,12 +1,14 @@
 package com.regalaxy.phonesin.donation.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.regalaxy.phonesin.global.BaseTimeEntity;
 import com.regalaxy.phonesin.member.model.entity.Member;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.LAZY;
@@ -17,7 +19,7 @@ import static javax.persistence.FetchType.LAZY;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "donation")
-public class Donation {
+public class Donation extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,11 +28,7 @@ public class Donation {
 
     private int donationStatus;
 
-    @CreatedDate
-    @Column(name = "donation_created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    private String donationDeliveryDate;
+    private LocalDate donationDeliveryDate;
 
     private String donationDeliveryLocationType;
 
@@ -42,7 +40,7 @@ public class Donation {
     private Member member;
 
     @Builder
-    public Donation(Member member, int donation_status, String donation_delivery_date, String donation_delivery_location_type, String donation_delivery_location) {
+    public Donation(Member member, int donation_status, LocalDate donation_delivery_date, String donation_delivery_location_type, String donation_delivery_location) {
         this.member = member;
         this.donationStatus = donation_status;
         this.donationDeliveryDate = donation_delivery_date;
