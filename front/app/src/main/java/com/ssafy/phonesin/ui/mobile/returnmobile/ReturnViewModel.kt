@@ -1,15 +1,26 @@
 package com.ssafy.phonesin.ui.mobile.returnmobile
 
-import android.util.Log
+import androidx.lifecycle.viewModelScope
 import com.ssafy.phonesin.model.Return
+import com.ssafy.phonesin.repository.returnmobile.ReturnRepository
 import com.ssafy.phonesin.ui.util.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-//@HiltViewModel
-class ReturnViewModel : BaseViewModel() {
+@HiltViewModel
+class ReturnViewModel @Inject constructor(
+    private val repository: ReturnRepository
+) : BaseViewModel() {
     private val _returnList = mutableListOf<Return>()
     val returnList: MutableList<Return>
         get() = _returnList
+
+    fun uploadReturn() {
+        viewModelScope.launch {
+//              repository.postReturnList(_returnList)
+        }
+    }
 
     fun setReturnList(id: List<Int>) {
         _returnList.clear()

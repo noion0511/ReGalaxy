@@ -95,6 +95,7 @@ class ReturnVisitDeliveryFragment :
                         editTextReturnAddress.text.toString()
                     }
                 )
+                returnViewModel.uploadReturn()
                 findNavController().navigate(
                     R.id.action_returnVisitDeliveryFragment_to_returnFinishFragment,
                 )

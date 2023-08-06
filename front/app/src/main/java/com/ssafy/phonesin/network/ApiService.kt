@@ -8,6 +8,7 @@ import com.ssafy.phonesin.model.PhotoResponse
 import com.ssafy.phonesin.model.RentalResponse
 
 import com.ssafy.phonesin.model.Rental
+import com.ssafy.phonesin.model.Return
 
 import okhttp3.MultipartBody
 import retrofit2.http.Body
@@ -37,6 +38,8 @@ interface ApiService {
     suspend fun getPossibleRentalCount(@Path("member_id") memberId: Int): NetworkResponse<Int, ErrorResponse>
 
 
+    @POST("/back/apply")
+    suspend fun postReturn(@Body backDtos : List<Return>)
     @POST("/rental/apply")
     suspend fun postRental(@Body rentalApplylistDto: List<Rental>)
 

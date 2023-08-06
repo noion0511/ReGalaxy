@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.CheckBox
-import android.widget.RadioButton
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -86,10 +85,14 @@ class ReturnMobileFragment : BaseFragment<FragmentReturnMobileBinding>(
 //        }
 
         buttonReturnNext.setOnClickListener {
-            if (isCheckBox()) {//하나라도 체크 돼잇음
+            if (!isCheckBox()) {//하나라도 체크 안돼있음
+                showToast("한개 이상을 체크해주세요")
+            } else if (editTextReturnContent.text.toString() == "") {
+                showToast("후기를 적어주세요")
+            } else {
                 returnViewModel.setReturnList(getCheckBox())
                 returnViewModel.setReturnListDate(calendarReturn.date.toString())
-                returnViewModel.setReturnListContent(textViewReturnContentMessage.text.toString())
+                returnViewModel.setReturnListContent(editTextReturnContent.text.toString())
 
                 if (radioButtonAgent.isChecked) {
                     returnViewModel.setReturnListType(radioButtonAgent.text.toString())
@@ -102,9 +105,6 @@ class ReturnMobileFragment : BaseFragment<FragmentReturnMobileBinding>(
                         R.id.action_returnMobileFragment_to_returnVisitDeliveryFragment,
                     )
                 }
-
-            } else {
-                showToast("한개 이상을 체크해주세요")
             }
         }
 
