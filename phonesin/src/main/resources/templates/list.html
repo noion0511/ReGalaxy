@@ -43,6 +43,8 @@
 				<p id="isHomecam" th:if="${title=='휴대폰'}">홈캠</p>
 				<p id="ready" th:if="${title=='대여'}" onclick="ready()">대기중</p>
 				<p id="success" th:if="${title=='반납'}" onclick="success()">완료</p>
+				<p id="isBlack" th:if="${title=='회원'}" onclick="isBlack()" style="width: 6em;">블랙리스트</p>
+				<p id="isCha" th:if="${title=='회원'}" onclick="isCha()" style="width: 6em;">차상위계층</p>
 			</div>
 			<div id="result">
 				<div th:block class="flex flex-4" th:if="${title=='휴대폰'}">
@@ -101,6 +103,18 @@
 						<p th:if="${list.backStatus==1}">반납 중</p>
 						<p th:if="${list.backStatus==2}">반납 완료</p>
 						<p th:text="${list.review}">리뷰</p>
+					</article>
+				</div>
+				<div class="flex flex-4" th:if="${title=='회원'}">
+					<article class="card" th:each="list : ${list}">
+						<header>
+							<h3 th:text="${list.memberName}">회원 이름</h3>
+						</header>
+						<p th:text="${list.email}">이메일</p>
+						<p th:text="${list.phoneNumber}">폰 번호</p>
+						<p th:text="${list.createdAt}">생성 날짜</p>
+						<p th:if="${list.isBlackList}">블랙리스트</p>
+						<p th:if="${list.isCha}">차상위계층</p>
 					</article>
 				</div>
 			</div>
@@ -174,6 +188,26 @@
             }else{
 				container.classList.remove('activeBtn');
 				backHtml();
+            }
+        };
+        function isBlack(){
+            var container = document.getElementById("isBlack");
+            if(container.className != 'activeBtn'){
+            	container.classList.add('activeBtn');
+				memberHtml();
+            }else{
+				container.classList.remove('activeBtn');
+				memberHtml();
+            }
+        };
+        function isCha(){
+            var container = document.getElementById("isCha");
+            if(container.className != 'activeBtn'){
+            	container.classList.add('activeBtn');
+				memberHtml();
+            }else{
+				container.classList.remove('activeBtn');
+				memberHtml();
             }
         };
 
@@ -333,6 +367,47 @@
 							html += `
 								<p>${item.review}</p>
 							</article>`;
+					});
+					html += `
+						</div>`;
+					document.getElementById('result').innerHTML += html;
+				});
+		};
+
+		function memberHtml(){
+			fetch(`list`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					black : document.getElementById("isBlack").className=='activeBtn',
+					cha : document.getElementById("isCha").className=='activeBtn'
+				}),
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					document.getElementById('result').innerHTML = ``;
+					var html = `
+							<div class="flex flex-4">`;
+					data.list.forEach(function(item) {
+						html += `
+								<article class="card">
+									<header>
+										<h3>${item.memberName}</h3>
+									</header>
+									<p>${item.email}</p>
+									<p>${item.phoneNumber}</p>
+									<p>${item.createdAt}</p>`;
+						if(item.isBlackList) {
+							html += `
+							<p>블랙리스트</p>`;
+						}
+						if(item.isCha) {
+							html += `
+							<p>차상위계층</p>`;
+						}
+							html += `
+								</article>`;
 					});
 					html += `
 						</div>`;

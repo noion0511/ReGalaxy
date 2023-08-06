@@ -1,7 +1,6 @@
 package com.regalaxy.phonesin.rental.model.service;
 
 import com.regalaxy.phonesin.address.model.repository.AgencyRepository;
-import com.regalaxy.phonesin.member.model.SearchDto;
 import com.regalaxy.phonesin.member.model.entity.Member;
 import com.regalaxy.phonesin.member.model.repository.MemberRepository;
 import com.regalaxy.phonesin.phone.model.repository.PhoneRepository;

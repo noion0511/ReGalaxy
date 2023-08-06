@@ -1,9 +1,5 @@
 package com.regalaxy.phonesin.rental.controller;
 
-import com.regalaxy.phonesin.member.model.SearchDto;
-import com.regalaxy.phonesin.phone.model.PhoneDto;
-import com.regalaxy.phonesin.phone.model.PhoneSearchDto;
-import com.regalaxy.phonesin.rental.model.RentalDetailDto;
 import com.regalaxy.phonesin.rental.model.RentalDto;
 import com.regalaxy.phonesin.rental.model.RentalSearchDto;
 import com.regalaxy.phonesin.rental.model.service.RentalService;

@@ -1,6 +1,5 @@
 package com.regalaxy.phonesin.phone.controller;
 
-import com.regalaxy.phonesin.member.model.SearchDto;
 import com.regalaxy.phonesin.phone.model.PhoneApplyDto;
 import com.regalaxy.phonesin.phone.model.PhoneDto;
 import com.regalaxy.phonesin.phone.model.PhoneSearchDto;

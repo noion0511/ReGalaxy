@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -128,5 +130,24 @@ public class MemberService {
 
         member.updatePassword(passwordEncoder.encode(requestDto.getNewPassword()));
         memberRepository.save(member);
+    }
+
+    public List<MemberDto> list(MemberSearchDto memberSearchDto){
+        List<Member> member = memberRepository.findAll();
+        List<MemberDto> memberDtos = new ArrayList<>();
+        for(Member m : member){
+            if(m.getIsManager()) continue;
+            if(memberSearchDto.isBlack() && !m.getIsBlackList()) continue;
+            if(memberSearchDto.isCha() && !m.getIsCha()) continue;
+            MemberDto memberDto = new MemberDto();
+            memberDto.setEmail(m.getEmail());
+            memberDto.setMemberName(m.getMemberName());
+            memberDto.setIsBlackList(m.getIsBlackList());
+            memberDto.setIsCha(m.getIsCha());
+            memberDto.setCreatedAt(m.getCreatedAt());
+            memberDto.setPhoneNumber(m.getPhoneNumber());
+            memberDtos.add(memberDto);
+        }
+        return memberDtos;
     }
 }

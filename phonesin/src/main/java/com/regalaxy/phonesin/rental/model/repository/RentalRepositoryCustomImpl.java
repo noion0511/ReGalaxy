@@ -1,6 +1,5 @@
 package com.regalaxy.phonesin.rental.model.repository;
 
-import com.regalaxy.phonesin.member.model.SearchDto;
 import com.regalaxy.phonesin.rental.model.RentalDetailDto;
 import com.regalaxy.phonesin.rental.model.RentalDto;
 import com.regalaxy.phonesin.rental.model.RentalSearchDto;
