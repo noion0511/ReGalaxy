@@ -89,4 +89,5 @@
     <string name="module_list"> - 원하는 기능 : %s</string>
     <string name="price_list"> - 보증금 : %s</string>
     <string name="address_list"> - 주소 : %s</string>
+    <string name="edit_review">후기를 입력해 주세요</string>
 </resources>
