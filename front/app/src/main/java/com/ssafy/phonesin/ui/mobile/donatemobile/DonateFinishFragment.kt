@@ -1,7 +1,6 @@
 package com.ssafy.phonesin.ui.mobile.donatemobile
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +11,8 @@ import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentDonateFinishBinding
 import com.ssafy.phonesin.ui.util.Util.getCurrentKoreaTime
+import net.daum.mf.map.api.MapPOIItem
+import net.daum.mf.map.api.MapPoint
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -57,11 +58,25 @@ class DonateFinishFragment : Fragment() {
     private fun setDonateFinishUi() = with(binding) {
 
         textViewDonateFinishDate.text = getCurrentKoreaTime()
-        
-        Log.e("싸피",donateViewModel.donation.toString())
-        
-        if(donateViewModel.donation.donationDeliveryLocationType == "방문 택배 선택"){
+
+        if (donateViewModel.donation.donationDeliveryLocationType == "방문 택배 선택") {
             mapViewDonateFinish.isVisible = false
+        } else {
+            val data = arguments
+            if (data != null) {
+                val longitude = data.getDouble("longitude")
+                val latitude = data.getDouble("latitude")
+                val name = data.getString("name")
+                val marker = MapPOIItem()
+                marker.itemName = name
+                marker.tag = 0
+                marker.mapPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude)
+                marker.markerType = MapPOIItem.MarkerType.BluePin
+                mapViewDonateFinish.addPOIItem(marker)
+                val mapPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude)
+                val zoomLevel = 5
+                mapViewDonateFinish.setMapCenterPointAndZoomLevel(mapPoint, zoomLevel, true)
+            }
         }
 
         textViewDonateFinishDetailDate.text =
@@ -77,7 +92,11 @@ class DonateFinishFragment : Fragment() {
                 R.id.action_doateFinishFragment_to_mobile,
             )
         }
+    }
 
+    override fun onStop() {
+        super.onStop()
+        binding.root.removeView(binding.mapViewDonateFinish)
     }
 
     companion object {

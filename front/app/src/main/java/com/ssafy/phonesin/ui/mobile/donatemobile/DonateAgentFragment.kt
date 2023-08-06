@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
@@ -19,6 +20,7 @@ import com.ssafy.phonesin.ApplicationClass.Companion.PERMISSIONS_REQUEST_LOCATIO
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentDonateAgentBinding
 import com.ssafy.phonesin.ui.util.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,6 +32,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [DonateAgentFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 class DonateAgentFragment :
     BaseFragment<FragmentDonateAgentBinding>(R.layout.fragment_donate_agent) {
 
@@ -116,11 +119,7 @@ class DonateAgentFragment :
             .addOnSuccessListener { location ->
                 // 위치 정보를 가져왔을 때 처리하는 로직
                 if (location != null) {
-//                    val latitude = location.latitude
-//                    val longitude = location.longitude
-                    current.latitude = location.latitude
-                    current.longitude = location.longitude
-
+                    current = location
                     // TODO: 위도(latitude)와 경도(longitude)를 이용해 원하는 작업 수행
                     // 예를 들어, 지도에 현재 위치 표시 등
                 }

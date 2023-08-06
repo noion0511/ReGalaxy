@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentDonateAgentDetailBinding
-import com.ssafy.phonesin.ui.util.base.BaseFragment
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 
@@ -23,27 +23,16 @@ private const val ARG_PARAM2 = "param2"
  * Use the [DonateAgentDetailFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class DonateAgentDetailFragment :
-    BaseFragment<FragmentDonateAgentDetailBinding>(R.layout.fragment_donate_agent_detail) {
+class DonateAgentDetailFragment : Fragment() {
 
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
     val donateViewModel: DonateViewModel by activityViewModels()
+    val bundle = bundleOf()
+    lateinit var binding: FragmentDonateAgentDetailBinding
 
-    override fun onCreateBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
-    ): FragmentDonateAgentDetailBinding {
-        return FragmentDonateAgentDetailBinding.inflate(layoutInflater, container, false).apply {
-            lifecycleOwner = viewLifecycleOwner
-        }
-    }
-
-    override fun init() {
-        setDonateAgentDetailUi()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,8 +42,21 @@ class DonateAgentDetailFragment :
         }
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        binding = FragmentDonateAgentDetailBinding.inflate(layoutInflater, container, false)
+        return binding.root
+    }
 
-    private fun setDonateAgentDetailUi() = with(bindingNonNull) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setDonateAgentDetailUi()
+    }
+
+    private fun setDonateAgentDetailUi() = with(binding) {
 
         val data = arguments
         if (data != null) {
@@ -62,6 +64,11 @@ class DonateAgentDetailFragment :
             val name = data.getString("name")
             val longitude = data.getDouble("longitude")
             val latitude = data.getDouble("latitude")
+
+            bundle.putDouble("longitude", longitude)
+            bundle.putDouble("latitude", latitude)
+            bundle.putString("name", name)
+
 
             donateViewModel.setLocationDonate(address.toString())//여기 있어도 되나?
 
@@ -84,11 +91,11 @@ class DonateAgentDetailFragment :
 
         buttonPostDonateAgent.setOnClickListener {
             findNavController().navigate(
-                R.id.action_donateAgentDetailFragment_to_doateFinishFragment,
+                R.id.action_donateAgentDetailFragment_to_doateFinishFragment, bundle
             )
-            mapViewDonateAgentDetail.visibility = View.GONE
+
             donateViewModel.uploadDonation()
-            //binding.root.removeView(binding.mapViewDonateAgentDetail)
+            binding.root.removeView(binding.mapViewDonateAgentDetail)
         }
 
     }
