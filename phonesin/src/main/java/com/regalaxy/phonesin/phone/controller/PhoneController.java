@@ -40,36 +40,6 @@ public class PhoneController {
         return mav;
     }
 
-//    @ApiOperation(value = "휴대폰 목록 조회")
-//    @GetMapping("/list")
-//    public ModelAndView listSearch(@RequestBody PhoneSearchDto phoneSearchDto){
-//        List<PhoneDto> list = phoneService.list(phoneSearchDto);
-//        ModelAndView mav = new ModelAndView();
-//        mav.addObject("list", list);
-//        mav.addObject("title", "휴대폰");
-//        mav.setViewName("/list");
-//        return mav;
-//    }
-
-//    @ApiOperation(value = "휴대폰 목록 조회 검색")
-//    @PostMapping("/list")
-//    public String listSearch(@RequestBody PhoneSearchDto phoneSearchDto, Model model){
-//        List<PhoneDto> list = phoneService.list(phoneSearchDto);
-//        model.addAttribute("list", list);
-//        model.addAttribute("title", "휴대폰");
-//        return "list :: #result";
-//    }
-
-//    @ApiOperation(value = "휴대폰 목록 조회 검색")
-//    @PostMapping("/list")
-//    public ModelAndView listSearch(@RequestBody PhoneSearchDto phoneSearchDto){
-//        List<PhoneDto> list = phoneService.list(phoneSearchDto);
-//        ModelAndView mav = new ModelAndView();
-//        mav.addObject("list", list);
-//        mav.addObject("title", "휴대폰");
-//        return mav;
-//    }
-
     @ApiOperation(value = "휴대폰 목록 조회 검색")
     @PostMapping("/list")
     public ResponseEntity<?> listSearch(@RequestBody PhoneSearchDto phoneSearchDto, Model model){

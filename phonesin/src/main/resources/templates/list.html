@@ -36,11 +36,13 @@
 	<!-- Three -->
 	<section id="three" class="wrapper align-center">
 		<div class="inner">
-			<div class="search flex flex-4" th:if="${title=='휴대폰'}">
-				<p id="isRental">대여중</p>
-				<p id="isY2K">Y2K</p>
-				<p id="isClimateHumidity">습온도계</p>
-				<p id="isHomecam">홈캠</p>
+			<div class="search flex flex-4">
+				<p id="isRental" th:if="${title=='휴대폰'}">대여중</p>
+				<p id="isY2K" th:if="${title=='휴대폰'}">Y2K</p>
+				<p id="isClimateHumidity" th:if="${title=='휴대폰'}">습온도계</p>
+				<p id="isHomecam" th:if="${title=='휴대폰'}">홈캠</p>
+				<p id="ready" th:if="${title=='대여'}" onclick="ready()">대기중</p>
+				<p id="success" th:if="${title=='반납'}" onclick="success()">완료</p>
 			</div>
 			<div id="result">
 				<div th:block class="flex flex-4" th:if="${title=='휴대폰'}">
@@ -118,44 +120,64 @@
 			isRental != isRental;
             if(container.className != 'activeBtn'){
             	container.classList.add('activeBtn');
-				phoneHtml()
+				phoneHtml();
             }else{
 				container.classList.remove('activeBtn');
-            	phoneHtml()
+            	phoneHtml();
             }
         };
         document.getElementById("isY2K").onclick = function(){
             var container = document.getElementById("isY2K");
             if(container.className != 'activeBtn'){
             	container.classList.add('activeBtn');
-				phoneHtml()
+				phoneHtml();
             }else{
 				container.classList.remove('activeBtn');
-				phoneHtml()
+				phoneHtml();
             }
         };
         document.getElementById("isClimateHumidity").onclick = function(){
             var container = document.getElementById("isClimateHumidity");
             if(container.className != 'activeBtn'){
             	container.classList.add('activeBtn');
-				phoneHtml()
+				phoneHtml();
             }else{
 				container.classList.remove('activeBtn');
-				phoneHtml()
+				phoneHtml();
             }
         };
         document.getElementById("isHomecam").onclick = function(){
             var container = document.getElementById("isHomecam");
             if(container.className != 'activeBtn'){
             	container.classList.add('activeBtn');
-				phoneHtml(container)
+				phoneHtml();
             }else{
 				container.classList.remove('activeBtn');
-				phoneHtml(container)
+				phoneHtml();
+            }
+        };
+        function ready(){
+            var container = document.getElementById("ready");
+            if(container.className != 'activeBtn'){
+            	container.classList.add('activeBtn');
+				rentalHtml();
+            }else{
+				container.classList.remove('activeBtn');
+				rentalHtml();
+            }
+        };
+        function success(){
+            var container = document.getElementById("success");
+            if(container.className != 'activeBtn'){
+            	container.classList.add('activeBtn');
+				backHtml();
+            }else{
+				container.classList.remove('activeBtn');
+				backHtml();
             }
         };
 
-		function phoneHtml(container){
+		function phoneHtml(){
 			fetch(`list`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
@@ -209,7 +231,114 @@
 						</div>`;
 					document.getElementById('result').innerHTML += html;
 				});
-		}
+		};
+
+		function rentalHtml(){
+			fetch(`list`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					ready : document.getElementById("ready").className=='activeBtn'
+				}),
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					document.getElementById('result').innerHTML = ``;
+					var html = `
+							<div class="flex flex-4">`;
+					data.list.forEach(function(item) {
+						html += `
+								<article class="card">
+									<header>
+										<h3>${item.rentalId}</h3>
+									</header>
+									<p>${item.applyDate}</p>
+									<div class="module flex flex-3">`;
+						if(item.y2K) {
+							html += `
+							<p>Y2K</p>`;
+						}
+						if(item.climateHumidity) {
+							html += `
+							<p>습온도계</p>`;
+						}
+						if(item.homecam) {
+							html += `
+							<p>홈캠</p>`;
+						}
+						html += `</div>`;
+						if(item.rentalStatus == 1) {
+							html += `
+									<p><button class="blackBtn">신청 수락</button></p>`;
+						}
+						if(item.rentalStatus == 2) {
+							html += `
+									<p> 배달 대기 중</p>`;
+						}
+						if(item.rentalStatus == 3) {
+							html += `
+									<p> 배달 중</p>`;
+						}
+						if(item.rentalStatus == 4) {
+							html += `
+									<p> 대여 중</p>`;
+						}
+						if(item.rentalStatus == 5) {
+							html += `
+									<p> 반납 완료</p>`;
+						}
+						if(item.rentalStatus == -1) {
+							html += `
+									<p> 신청 거절</p>`;
+						}
+						html += `
+								</article>`;
+					});
+					html += `
+						</div>`;
+					document.getElementById('result').innerHTML += html;
+				});
+		};
+
+		function backHtml(){
+			fetch(`list`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					success : document.getElementById("success").className=='activeBtn'
+				}),
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					document.getElementById('result').innerHTML = ``;
+					var html = `
+							<div class="flex flex-4">`;
+					data.list.forEach(function(item) {
+						html += `
+								<article class="card">
+									<header>
+										<h3>${item.backId}</h3>
+									</header>
+									<p>${item.createAt}</p>`;
+						if(item.backStatus==1) {
+							html += `
+							<p>반납 중</p>`;
+						}
+						if(item.backStatus==2) {
+							html += `
+							<p>반납 완료</p>`;
+						}
+							html += `
+								<p>${item.review}</p>
+							</article>`;
+					});
+					html += `
+						</div>`;
+					document.getElementById('result').innerHTML += html;
+				});
+		};
 	</script>
 
 </body>

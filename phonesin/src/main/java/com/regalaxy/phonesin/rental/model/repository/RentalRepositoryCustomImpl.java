@@ -23,41 +23,11 @@ public class RentalRepositoryCustomImpl implements RentalRepositoryCustom {
             + "from rental r left join phone p on r.rentalId = p.rental.rentalId "
                 + "left join model m on p.model.modelId = m.modelId ";
         int n = 0;
-        if(rentalSearchDto.isBack()){//이메일 검색을 했을 경우
+        if(rentalSearchDto.isReady()){//이메일 검색을 했을 경우
             if(n==0){
-                s+=" where ";
+                s+="where ";
             }
-            s += "r.rentalStatus=5";//서브쿼리로 member_id 찾기
-            n++;
-        }
-        if(rentalSearchDto.isApply()){
-            if(n==0){
-                s+=" where ";
-            }
-            if(n>0){
-                s+= " and ";
-            }
-            s+= "r.rentalStatus=2";
-            n++;
-        }
-        if(rentalSearchDto.isNotApply()){
-            if(n==0){
-                s+=" where ";
-            }
-            if(n>0){
-                s+= " and ";
-            }
-            s+="r.rentalStatus=1";
-            n++;
-        }
-        if(rentalSearchDto.isExtension()){
-            if(n==0){
-                s+=" where ";
-            }
-            if(n>0){
-                s+= " and ";
-            }
-            s+= "r.isExtension=true";
+            s += "r.rentalStatus=1 ";
             n++;
         }
 
