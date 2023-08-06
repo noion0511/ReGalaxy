@@ -1,4 +1,4 @@
-package com.ssafy.phonesin.ui.mobile.donatemobile
+package com.ssafy.phonesin.ui.mobile
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,11 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.phonesin.databinding.ItemAgentBinding
 import com.ssafy.phonesin.model.AgentAddress
 
-class DonateAgentAdapter :
-    ListAdapter<AgentAddress, DonateAgentAdapter.DonateAgentViewHolder>(DonateAgentDiffCallback()) {
+class AgentAdapter :
+    ListAdapter<AgentAddress, AgentAdapter.AgentViewHolder>(AgentDiffCallback()) {
     private lateinit var binding: ItemAgentBinding
 
-    inner class DonateAgentViewHolder(private val binding: ItemAgentBinding) :
+    inner class AgentViewHolder(private val binding: ItemAgentBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(agentAddress: AgentAddress) {
             binding.apply {
@@ -21,7 +21,7 @@ class DonateAgentAdapter :
                 textViewItemAgentDistance.text = agentAddress.distance.toString() + "m"
 
                 root.setOnClickListener {
-                    detailDonateAgentListener.onClick(layoutPosition)
+                    detailAgentListener.onClick(layoutPosition)
                 }
             }
         }
@@ -31,27 +31,27 @@ class DonateAgentAdapter :
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): DonateAgentAdapter.DonateAgentViewHolder {
+    ): AgentViewHolder {
         binding = ItemAgentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return DonateAgentViewHolder(binding)
+        return AgentViewHolder(binding)
     }
 
     override fun onBindViewHolder(
-        holder: DonateAgentAdapter.DonateAgentViewHolder,
+        holder: AgentViewHolder,
         position: Int
     ) {
         holder.bind(getItem(position))
     }
 
-    interface DetailDonateAgentListener {
+    interface DetailAgentListener {
         fun onClick(id: Int)
     }
 
-    lateinit var detailDonateAgentListener: DetailDonateAgentListener
+    lateinit var detailAgentListener: DetailAgentListener
 
 }
 
-class DonateAgentDiffCallback : DiffUtil.ItemCallback<AgentAddress>() {
+class AgentDiffCallback : DiffUtil.ItemCallback<AgentAddress>() {
     override fun areItemsTheSame(oldItem: AgentAddress, newItem: AgentAddress): Boolean {
         return oldItem.hashCode() == newItem.hashCode()
     }

@@ -1,11 +1,9 @@
 package com.ssafy.phonesin.ui.mobile.donatemobile
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
@@ -19,6 +17,7 @@ import com.google.android.gms.location.LocationServices
 import com.ssafy.phonesin.ApplicationClass.Companion.PERMISSIONS_REQUEST_LOCATION
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentDonateAgentBinding
+import com.ssafy.phonesin.ui.mobile.AgentAdapter
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -59,9 +58,9 @@ class DonateAgentFragment :
     }
 
     private fun setDonateAdapter() {
-        val donateAgentAdapter = DonateAgentAdapter()
-        donateAgentAdapter.detailDonateAgentListener = object :
-            DonateAgentAdapter.DetailDonateAgentListener {
+        val agentAdapter = AgentAdapter()
+        agentAdapter.detailAgentListener = object :
+            AgentAdapter.DetailAgentListener {
             override fun onClick(id: Int) {
                 val data = donateAgentViewModel.agentAddress.value?.get(id)
                 val bundle = bundleOf()
@@ -77,10 +76,10 @@ class DonateAgentFragment :
 
         }
 
-        bindingNonNull.recyclerViewDonateAgentAddress.adapter = donateAgentAdapter
+        bindingNonNull.recyclerViewDonateAgentAddress.adapter = agentAdapter
 
         donateAgentViewModel.agentAddress.observe(viewLifecycleOwner) {
-            donateAgentAdapter.submitList(it)
+            agentAdapter.submitList(it)
         }
     }
 
@@ -107,33 +106,25 @@ class DonateAgentFragment :
             )
         } else {
             // 권한이 있을 경우 위치 업데이트 요청
-            requestLocationUpdates()
-        }
-
-
-    }
-
-    @SuppressLint("MissingPermission")
-    private fun requestLocationUpdates() {
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener { location ->
-                // 위치 정보를 가져왔을 때 처리하는 로직
-                if (location != null) {
-                    current = location
-                    // TODO: 위도(latitude)와 경도(longitude)를 이용해 원하는 작업 수행
-                    // 예를 들어, 지도에 현재 위치 표시 등
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { location ->
+                    // 위치 정보를 가져왔을 때 처리하는 로직
+                    if (location != null) {
+                        current = location
+                        // TODO: 위도(latitude)와 경도(longitude)를 이용해 원하는 작업 수행
+                        // 예를 들어, 지도에 현재 위치 표시 등
+                    }
                 }
-            }
-            .addOnFailureListener { exception ->
-                // 위치 정보 가져오기 실패 처리
-                // 예외 처리 등
-            }
+                .addOnFailureListener { exception ->
+                    // 위치 정보 가져오기 실패 처리
+                    // 예외 처리 등
+                }
+        }
     }
-
 
     private fun setDonateAgentUi() = with(bindingNonNull) {
 
-        searchViewAgent.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        searchViewDonateAgent.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 // 검색 버튼을 눌렀을 때 호출되는 콜백
                 // 여기서 검색어(query)를 이용하여 검색 작업을 수행하면 됩니다.
