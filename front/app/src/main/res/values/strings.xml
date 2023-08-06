@@ -91,7 +91,7 @@
     <string name="module_camera_qr_share_explain_title">QR로 사진 다운로드!</string>
     <string name="module_camera_print_explain">
 1. 우측 상단의 출력 신청 버튼을 눌러주세요. \n
-2. 당일 신청번호 20번까지 출력해 드립니다. \n
+2. 당일 신청번호 10번까지 출력해 드립니다. \n
 3. 다음 날 사진을 수령해 주세요.</string>
     <string name="module_camera_print_explain_title">사진 출력 이벤트!</string>
     <string name="module_camera_download">출력 신청</string>
