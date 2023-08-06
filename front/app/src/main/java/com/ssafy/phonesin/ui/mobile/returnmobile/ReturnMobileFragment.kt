@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentReturnMobileBinding
 import com.ssafy.phonesin.ui.MainActivity
+import com.ssafy.phonesin.ui.util.Util.convertCalendarToDate
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -91,7 +92,7 @@ class ReturnMobileFragment : BaseFragment<FragmentReturnMobileBinding>(
                 showToast("후기를 적어주세요")
             } else {
                 returnViewModel.setReturnList(getCheckBox())
-                returnViewModel.setReturnListDate(calendarReturn.date.toString())
+                returnViewModel.setReturnListDate(convertCalendarToDate(calendarReturn.date))
                 returnViewModel.setReturnListContent(editTextReturnContent.text.toString())
 
                 if (radioButtonAgent.isChecked) {

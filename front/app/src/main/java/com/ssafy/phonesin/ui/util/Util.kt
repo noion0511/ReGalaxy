@@ -1,9 +1,9 @@
 package com.ssafy.phonesin.ui.util
 
-import android.os.Build
 import com.ssafy.phonesin.model.Rental
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 
@@ -24,6 +24,16 @@ object Util {
         val koreaLocale = Locale("ko", "KR")
         val sdf = SimpleDateFormat("yyyy년 MM월 dd일 a hh:mm", koreaLocale)
         sdf.timeZone = TimeZone.getTimeZone(koreaTimeZone)
-        return sdf.format(Calendar.getInstance(TimeZone.getTimeZone(koreaTimeZone), koreaLocale).time)
+        return sdf.format(
+            Calendar.getInstance(
+                TimeZone.getTimeZone(koreaTimeZone),
+                koreaLocale
+            ).time
+        )
+    }
+
+    fun convertCalendarToDate(time: Long): String {
+        val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
+        return dateFormat.format(Date(time))
     }
 }

@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentDonateMobileBinding
 import com.ssafy.phonesin.ui.MainActivity
+import com.ssafy.phonesin.ui.util.Util.convertCalendarToDate
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 
 // TODO: Rename parameter arguments, choose names that match
@@ -57,16 +58,16 @@ class DonateMobileFragment :
 
         buttonDonateNext.setOnClickListener {
 
-            donateMobileViewModel.setDateDonate(bindingNonNull.calendarDonate.date.toString())
+            donateMobileViewModel.setDateDonate(convertCalendarToDate(calendarDonate.date))
 
             if (radioButtonDonateVisitDelivery.isChecked) {
-                donateMobileViewModel.setTypeDonate(bindingNonNull.radioButtonDonateVisitDelivery.text.toString())
+                donateMobileViewModel.setTypeDonate(radioButtonDonateVisitDelivery.text.toString())
 
                 findNavController().navigate(
                     R.id.action_donateMobileFragment_to_donateVisitDeliveryFragment,
                 )
             } else {
-                donateMobileViewModel.setTypeDonate(bindingNonNull.radioButtonDonateAgent.text.toString())
+                donateMobileViewModel.setTypeDonate(radioButtonDonateAgent.text.toString())
                 findNavController().navigate(
                     R.id.action_donateMobileFragment_to_donateAgentFragment,
                 )
