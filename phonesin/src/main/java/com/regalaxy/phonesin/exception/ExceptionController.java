@@ -19,7 +19,8 @@ public class ExceptionController {
     public ResponseEntity<Map<String, Object>> Exception(Exception e){
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("error", e.getMessage());
+        map.put("error2", e.toString());
 //        map.put("status", 500);
-        return new ResponseEntity<>(map, HttpStatus.OK);
+        return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
     }
 }

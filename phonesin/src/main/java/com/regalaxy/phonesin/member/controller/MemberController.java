@@ -17,6 +17,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -94,8 +95,8 @@ public class MemberController {
 
     @ApiOperation(value = "사용자가 자신의 정보 상세 조회")
     @PostMapping("/info/{memberId}")
-    public ResponseEntity<Map<String, Object>> memberInfo(@PathVariable("memberId") Long memberId, @RequestHeader String authorization) {
-        String token = authorization.split(" ")[1];
+    public ResponseEntity<Map<String, Object>> memberInfo(@PathVariable("memberId") Long memberId, @ApiIgnore @RequestHeader String authorization) {
+        String token = authorization.replace("Bearer ", "");
         Map<String, Object> resultMap = new HashMap<>();
         if (jwtTokenProvider.getMemberId(token) != memberId) {
             throw new IllegalStateException("멤버 ID가 일치하지 않습니다.");
@@ -106,8 +107,8 @@ public class MemberController {
 
     @ApiOperation(value = "사용자가 회원 정보 수정")
     @PutMapping("/update")
-    public ResponseEntity<String> update(@RequestBody MemberUserDto memberUserDto, @RequestHeader String authorization) {
-        String token = authorization.split(" ")[1];
+    public ResponseEntity<String> update(@RequestBody MemberUserDto memberUserDto, @ApiIgnore @RequestHeader String authorization) {
+        String token = authorization.replace("Bearer ", "");
         Map<String, Object> resultMap = new HashMap<>();
         if (!jwtTokenProvider.getEmail(token).equals(memberUserDto.getEmail())) {
             throw new IllegalStateException("Email이 일치하지 않습니다.");
@@ -119,8 +120,8 @@ public class MemberController {
 
     @ApiOperation(value = "회원 탈퇴")
     @PutMapping("/delete/{memberId}")
-    public ResponseEntity<String> delete(@PathVariable("memberId") Long memberId, @RequestHeader String authorization) {
-        String token = authorization.split(" ")[1];
+    public ResponseEntity<String> delete(@PathVariable("memberId") Long memberId, @ApiIgnore @RequestHeader String authorization) {
+        String token = authorization.replace("Bearer ", "");
         if (jwtTokenProvider.getMemberId(token) != memberId) {
             throw new IllegalStateException("멤버 ID가 일치하지 않습니다.");
         }

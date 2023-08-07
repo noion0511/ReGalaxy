@@ -157,7 +157,7 @@ public class AdminMemberController {
     @ApiOperation(value = "블랙리스트 설정")
     @PutMapping("/blacklist/{memberId}")
     public ResponseEntity<String> blacklist(@PathVariable("memberId") Long memberId) {
-//        String token = authorization.split(" ")[1]; 좀있다가 설정하기
+//        String token = authorization.replace("Bearer ", ""); 좀있다가 설정하기
 //        if (jwtTokenProvider.getMemberId(token) != memberId) {
 //            throw new IllegalStateException("멤버 ID가 일치하지 않습니다.");
 //        }
