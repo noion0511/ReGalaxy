@@ -12,6 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -192,5 +194,25 @@ public class MemberService {
         mailMessage.setSubject(subject);
         mailMessage.setText(message);
         javaMailSender.send(mailMessage);
+    }
+
+    // 멤버 리스트 조회
+    public List<MemberDto> list(MemberSearchDto memberSearchDto){
+        List<Member> member = memberRepository.findAll();
+        List<MemberDto> memberDtos = new ArrayList<>();
+        for(Member m : member){
+            if(m.getIsManager()) continue;
+            if(memberSearchDto.isBlack() && !m.getIsBlackList()) continue;
+            if(memberSearchDto.isCha() && !m.getIsCha()) continue;
+            MemberDto memberDto = new MemberDto();
+            memberDto.setEmail(m.getEmail());
+            memberDto.setMemberName(m.getMemberName());
+            memberDto.setIsBlackList(m.getIsBlackList());
+            memberDto.setIsCha(m.getIsCha());
+            memberDto.setCreatedAt(m.getCreatedAt());
+            memberDto.setPhoneNumber(m.getPhoneNumber());
+            memberDtos.add(memberDto);
+        }
+        return memberDtos;
     }
 }
