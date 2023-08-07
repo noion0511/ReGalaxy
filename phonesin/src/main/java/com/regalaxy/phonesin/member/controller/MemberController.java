@@ -17,6 +17,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.xml.ws.Response;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
@@ -49,7 +50,7 @@ public class MemberController {
 
     @ApiOperation(value = "로그인")
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequestDto loginRequestDto) {
+    public ResponseEntity<Map<String, Object>> login(@RequestBody LoginRequestDto loginRequestDto) {
         try {
             String email = loginRequestDto.getEmail();
             // 이메일과 비밀번호 인증
@@ -68,29 +69,44 @@ public class MemberController {
             Long memberId = userInfo.getMemberId();
             String accessToken = jwtTokenProvider.createAccessToken(email, authority, memberId);
             String refreshToken = jwtTokenProvider.createRefreshToken(email);
-            memberService.signIn(loginRequestDto, refreshToken);
+            ResponseEntity<Map<String, Object>> signInResponse = memberService.signIn(loginRequestDto, refreshToken);
 
-            Map<String, String> response = new HashMap<>();
-            response.put("email", email);
-            response.put("accessToken", accessToken);
-            response.put("refreshToken", refreshToken);
+            Map<String, Object> response = signInResponse.getBody();
+            if (signInResponse.getStatusCodeValue() == 200) {
+                response.put("accessToken", accessToken);
+                response.put("refreshToken", refreshToken);
+            }
+            response.put("status", signInResponse.getStatusCodeValue());
 
-            return ResponseEntity.ok(response);
+            return new ResponseEntity<>(response, signInResponse.getStatusCode());
         } catch (AuthenticationException e) {
-            throw new BadCredentialsException("이메일 또는 비밀번호가 일치하지 않습니다.");
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "이메일 또는 비밀번호가 일치하지 않습니다.");
+            response.put("status", HttpStatus.UNAUTHORIZED.value());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
     }
 
     @ApiOperation(value = "액세스 토큰 만료시 리프레시 토큰 재발급")
     @PostMapping("/token/refresh")
-    public ResponseEntity<Map<String, String>> refresh(@RequestBody Map<String, String> tokenMap) {
+    public ResponseEntity<Map<String, Object>> refresh(@RequestBody MemberRefreshTokenDto tokenDto) {
+        Map<String, Object> response = new HashMap<>();
 
         // 현재 리프레시 토큰과 새로운 액세스 토큰
-        String refreshToken = tokenMap.get("refreshToken");
-        String newAccessToken = jwtTokenProvider.refreshAccessToken(refreshToken);
+        String refreshToken = tokenDto.getRefreshToken();
+        String newAccessToken;
+        try {
+            newAccessToken = jwtTokenProvider.refreshAccessToken(refreshToken);
+        } catch (Exception e) {
+            response.put("message", "리프레시 토큰이 올바르지 않습니다.");
+            response.put("status", 401);
 
-        Map<String, String> response = new HashMap<>();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+
         response.put("accessToken", newAccessToken);
+        response.put("message", "액세스 토큰을 성공적으로 발급하였습니다.");
+        response.put("status", 200);
 
         return ResponseEntity.ok(response);
     }
@@ -101,39 +117,51 @@ public class MemberController {
         String token = authorization.replace("Bearer ", "");
         Map<String, Object> resultMap = new HashMap<>();
         if (jwtTokenProvider.getMemberId(token) != memberId) {
-            throw new IllegalStateException("멤버 ID가 일치하지 않습니다.");
+            resultMap.put("message", "멤버 ID가 일치하지 않습니다.");
+            resultMap.put("status", 404);
+            return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.NOT_FOUND);
         };
         resultMap.put("member", memberService.UserInfo(memberId));
+        resultMap.put("message", "성공적으로 조회하였습니다.");
+        resultMap.put("status", 200);
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 
     @ApiOperation(value = "사용자가 회원 정보 수정")
     @PutMapping("/update")
-    public ResponseEntity<String> update(@RequestBody MemberUserDto memberUserDto, @ApiIgnore @RequestHeader String authorization) {
+    public ResponseEntity<Map<String, Object>> update(@RequestBody MemberUserDto memberUserDto, @ApiIgnore @RequestHeader String authorization) {
         String token = authorization.replace("Bearer ", "");
         Map<String, Object> resultMap = new HashMap<>();
         if (!jwtTokenProvider.getEmail(token).equals(memberUserDto.getEmail())) {
-            throw new IllegalStateException("Email이 일치하지 않습니다.");
+            resultMap.put("message", "Email이 일치하지 않습니다.");
+            resultMap.put("status", HttpStatus.UNAUTHORIZED.value());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(resultMap);
         }
-        MemberDto updatedMemberDto = memberService.updateMemberByUser(memberUserDto);
-        resultMap.put("updatedMember", updatedMemberDto);
-        return new ResponseEntity<String>("Success", HttpStatus.OK);
+        ResponseEntity<Map<String, Object>> updateResponse = memberService.updateMemberByUser(memberUserDto);
+
+        return updateResponse;
     }
 
     @ApiOperation(value = "회원 탈퇴")
     @PutMapping("/delete/{memberId}")
-    public ResponseEntity<String> delete(@PathVariable("memberId") Long memberId, @ApiIgnore @RequestHeader String authorization) {
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable("memberId") Long memberId, @ApiIgnore @RequestHeader String authorization) {
+        Map<String, Object> resultMap = new HashMap<>();
         String token = authorization.replace("Bearer ", "");
         if (jwtTokenProvider.getMemberId(token) != memberId) {
-            throw new IllegalStateException("멤버 ID가 일치하지 않습니다.");
+            resultMap.put("message", "멤버 ID가 일치하지 않습니다.");
+            resultMap.put("status", HttpStatus.NOT_FOUND.value());
+            return new ResponseEntity<>(resultMap, HttpStatus.NOT_FOUND);
         }
         memberService.deleteMember(memberId);
-        return new ResponseEntity<String>("Success", HttpStatus.OK);
+        resultMap.put("message", "성공적으로 삭제되었습니다.");
+        resultMap.put("status", HttpStatus.OK.value());
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
     @ApiOperation(value = "차상위 계층 인증")
     @PostMapping("/ischa")
-    public ResponseEntity<String> isCha(@RequestBody Map<String, Object> requestMap) {
+    public ResponseEntity<Map<String, Object>> isCha(@RequestBody Map<String, Object> requestMap) {
+        Map<String, Object> resultMap = new HashMap<>();
         StringBuffer response = new StringBuffer();
         try {
             // URL 설정
@@ -172,39 +200,69 @@ public class MemberController {
             System.out.println("Response: " + response.toString());
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<String>("Failure: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            resultMap.put("message", "Failure: " + e.getMessage());
+            resultMap.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+            return new ResponseEntity<>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
+
         if (response.toString().split(":")[1].split("}")[0].equals("null")) {
-            return new ResponseEntity<String>("요청하신 문서번호는 발급된 내역이 없는 증명서로 확인 되었습니다.", HttpStatus.OK);
+            resultMap.put("message", "요청하신 문서번호는 발급된 내역이 없는 증명서로 확인 되었습니다.");
+            resultMap.put("status", HttpStatus.NOT_FOUND.value());
+            return new ResponseEntity<>(resultMap, HttpStatus.NOT_FOUND);
         } else {
+            resultMap.put("message", response.toString().split(":")[1].split("}")[0]);
+            resultMap.put("status", HttpStatus.OK.value());
             // 차상위 인증에 성공했을 경우를 테스트 할 수 없어서 우선 메시지를 띄우도록 설정
-            return new ResponseEntity<String>(response.toString().split(":")[1].split("}")[0], HttpStatus.OK);
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
         }
     }
 
     @ApiOperation(value = "비밀번호 변경 기능")
     @PutMapping("/update/password")
-    public ResponseEntity<String> updatePassword(@RequestBody MemberUpdatePasswordDto requestDto) {
+    public ResponseEntity<Map<String, Object>> updatePassword(@RequestBody MemberUpdatePasswordDto requestDto) {
+        Map<String, Object> resultMap = new HashMap<>();
         try {
             memberService.changePassword(requestDto);
-            return new ResponseEntity<>("Success", HttpStatus.OK);
+            resultMap.put("message", "비밀번호가 성공적으로 변경되었습니다.");
+            resultMap.put("status", HttpStatus.OK.value());
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            resultMap.put("message", e.getMessage());
+            resultMap.put("status", HttpStatus.BAD_REQUEST.value());
+            return new ResponseEntity<>(resultMap, HttpStatus.BAD_REQUEST);
         }
     }
 
     @ApiOperation(value = "이메일 인증")
     @PostMapping("/email-verification")
-    public ResponseEntity<String> requestEmailVerification(@RequestBody EmailVerificationDto requestDto) {
-        memberService.requestEmailVerification(requestDto.getEmail());
-        return new ResponseEntity<>("이메일 인증 코드가 발송되었습니다.", HttpStatus.OK);
+    public ResponseEntity<Map<String, Object>> requestEmailVerification(@RequestBody EmailVerificationDto requestDto) {
+        Map<String, Object> resultMap = new HashMap<>();
+        try {
+            memberService.requestEmailVerification(requestDto.getEmail());
+            resultMap.put("message", "이메일 인증 코드가 발송되었습니다.");
+            resultMap.put("status", HttpStatus.OK.value());
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        } catch (Exception e) {
+            resultMap.put("message", e.getMessage());
+            resultMap.put("status", HttpStatus.CONFLICT.value());
+            return new ResponseEntity<>(resultMap, HttpStatus.CONFLICT);
+        }
     }
 
     @ApiOperation(value = "이메일 인증 코드 확인")
     @PostMapping("/email-verification/confirm")
-    public ResponseEntity<String> confirmEmailVerification(@RequestBody EmailVerificationConfirmationDto confirmationDto) {
-        memberService.confirmEmailVerification(confirmationDto.getEmail(), confirmationDto.getCode());
-        return new ResponseEntity<>("이메일이 성공적으로 인증되었습니다.", HttpStatus.OK);
+    public ResponseEntity<Map<String, Object>> confirmEmailVerification(@RequestBody EmailVerificationConfirmationDto confirmationDto) {
+        Map<String, Object> resultMap = new HashMap<>();
+        try {
+            memberService.confirmEmailVerification(confirmationDto.getEmail(), confirmationDto.getCode());
+            resultMap.put("message", "이메일이 성공적으로 인증되었습니다.");
+            resultMap.put("status", HttpStatus.OK.value());
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        } catch (Exception e) {
+            resultMap.put("message", e.getMessage());
+            resultMap.put("status", HttpStatus.BAD_REQUEST.value());
+            return new ResponseEntity<>(resultMap, HttpStatus.BAD_REQUEST);
+        }
     }
 }

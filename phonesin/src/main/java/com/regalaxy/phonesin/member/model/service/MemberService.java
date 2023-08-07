@@ -13,10 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -53,7 +50,8 @@ public class MemberService {
     }
 
     // 로그인 및 토큰 발급
-    public ResponseEntity<String> signIn(LoginRequestDto loginRequestDto, String refreshToken) {
+    public ResponseEntity<Map<String, Object>> signIn(LoginRequestDto loginRequestDto, String refreshToken) {
+        Map<String, Object> response = new HashMap<>();
         Optional<Member> memberOptional = memberRepository.findByEmail(loginRequestDto.getEmail());
         memberOptional.get().updateRefreshToken(refreshToken);
         memberRepository.save(memberOptional.get());
@@ -62,15 +60,19 @@ public class MemberService {
             if (memberOptional.isPresent()) {
                 Member member = memberOptional.get();
                 if (passwordEncoder.matches(loginRequestDto.getPassword(), member.getPassword())) {
-                    return ResponseEntity.ok("로그인에 성공하였습니다.");
+                    response.put("message", "로그인에 성공하였습니다.");
+                    return ResponseEntity.status(HttpStatus.OK).body(response);
                 } else {
-                    return ResponseEntity.status(401).body("비밀번호가 일치하지 않습니다.");
+                    response.put("message", "비밀번호가 일치하지 않습니다.");
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
                 }
             } else {
-                return ResponseEntity.status(404).body("사용자를 찾을 수 없습니다.");
+                response.put("message", "사용자를 찾을 수 없습니다.");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
         } else {
-            return ResponseEntity.status(404).body("탈퇴한 유저입니다.");
+            response.put("message", "탈퇴한 유저입니다.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
     }
 
@@ -107,13 +109,26 @@ public class MemberService {
     }
 
     // 사용자가 자신의 정보를 수정하는 서비스
-    public MemberDto updateMemberByUser(MemberUserDto memberUserDto) {
+    public ResponseEntity<Map<String, Object>> updateMemberByUser(MemberUserDto memberUserDto) {
+        Map<String, Object> response = new HashMap<>();
+        Member member;
+
         // DB에 없는 ID를 검색하려고 하면 IllegalArgumentException
-        Member member = memberRepository.findByEmail(memberUserDto.getEmail())
-                .orElseThrow(() -> new IllegalArgumentException(memberUserDto.getEmail() + "은 존재하지 않습니다."));
+        try {
+            member = memberRepository.findByEmail(memberUserDto.getEmail()).get();
+        } catch (Exception e) {
+            response.put("message", memberUserDto.getEmail() + "은 존재하지 않습니다.");
+            response.put("status", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        };
         member.updateByUser(memberUserDto);
         memberRepository.save(member);
-        return MemberDto.fromEntity(member);
+        MemberDto updatedMemberDto = MemberDto.fromEntity(member);
+
+        response.put("message", "회원 정보가 성공적으로 수정되었습니다.");
+        response.put("status", HttpStatus.OK.value());
+
+        return ResponseEntity.ok(response);
     }
 
     // 회원 탈퇴
