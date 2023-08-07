@@ -1,5 +1,6 @@
 package com.ssafy.phonesin.ui.mobile.donatemobile
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentDonateMobileBinding
 import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.Util.convertCalendarToDate
+import com.ssafy.phonesin.ui.util.Util.convertToDate
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 
 // TODO: Rename parameter arguments, choose names that match
@@ -55,6 +57,14 @@ class DonateMobileFragment :
 
 
     private fun setDonateMobileUi() = with(bindingNonNull) {
+        val apiVersion = Build.VERSION.SDK_INT
+
+        if (apiVersion <= 18) {
+            val temp =  calendarDonate.layoutParams
+            temp.height = 500
+            calendarDonate.layoutParams = temp
+
+        }
 
         buttonDonateNext.setOnClickListener {
 
