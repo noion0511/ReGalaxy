@@ -70,7 +70,7 @@
             android:layout_marginHorizontal="30dp"
             android:layout_marginVertical="15dp"
             android:background="@drawable/button_black_corner_40"
-            android:text="시작하기"
+            android:text="시작하기`"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
