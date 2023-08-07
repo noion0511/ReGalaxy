@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.regalaxy.phonesin.member.model.*;
 import com.regalaxy.phonesin.member.model.jwt.JwtTokenProvider;
 import com.regalaxy.phonesin.member.model.service.MemberService;
+import com.sun.net.httpserver.Authenticator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -38,9 +39,12 @@ public class MemberController {
 
     @ApiOperation(value = "회원가입")
     @PostMapping("/signup")
-    public ResponseEntity<String> signUp(@RequestBody MemberSignUpDto memberSignUpDto) {
-        memberService.signUp(memberSignUpDto);
-        return ResponseEntity.ok("Success");
+    public ResponseEntity<Map<String, Object>> signUp(@RequestBody MemberSignUpDto memberSignUpDto) {
+        ResponseEntity<String> result = memberService.signUp(memberSignUpDto);
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        resultMap.put("message", result.getBody());
+        resultMap.put("status", result.getStatusCodeValue());
+        return new ResponseEntity<Map<String, Object>>(resultMap, result.getStatusCode());
     }
 
     @ApiOperation(value = "로그인")
@@ -192,7 +196,7 @@ public class MemberController {
 
     @ApiOperation(value = "이메일 인증")
     @PostMapping("/email-verification")
-    public ResponseEntity<String> requestEmailVerification(@RequestBody EmailVerificationConfirmationDto requestDto) {
+    public ResponseEntity<String> requestEmailVerification(@RequestBody EmailVerificationDto requestDto) {
         memberService.requestEmailVerification(requestDto.getEmail());
         return new ResponseEntity<>("이메일 인증 코드가 발송되었습니다.", HttpStatus.OK);
     }
