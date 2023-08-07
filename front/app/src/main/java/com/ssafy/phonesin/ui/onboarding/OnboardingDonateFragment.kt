@@ -19,6 +19,7 @@ class OnboardingDonateFragment : Fragment() {
         super.onResume()
         mainActivity = activity as MainActivity
         mainActivity.hideBottomNavi(true)
+        mainActivity.setFrameLayoutPaddingVerticle(binding.frameLayoutOnboardingDonate)
     }
 
     override fun onCreateView(

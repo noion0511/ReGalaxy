@@ -19,6 +19,7 @@ class OnboardingRentalFragment : Fragment() {
         super.onResume()
         mainActivity = activity as MainActivity
         mainActivity.hideBottomNavi(true)
+        mainActivity.setFrameLayoutPaddingVerticle(binding.frameLayoutOnboardingRental)
     }
 
     override fun onCreateView(
