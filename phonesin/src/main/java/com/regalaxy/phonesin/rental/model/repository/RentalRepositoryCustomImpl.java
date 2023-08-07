@@ -70,16 +70,16 @@ public class RentalRepositoryCustomImpl implements RentalRepositoryCustom {
     @Override
     public List<RentalDto> searchById(Long member_id) {
         String s = "select new com.regalaxy.phonesin.rental.model.RentalDto(r.rentalId, r.applyDate, r.rentalStart, r.rentalEnd, r.rentalStatus, r.rentalDeliveryLocation, r.fund, m.modelName, p.phoneId, r.waybillNumber, r.isY2K, r.isClimateHumidity, r.isHomecam) "
-                + "from rental r left join phone p on r.rentalId = p.rentalId "
+                + "from rental r left join phone p on r.rentalId = p.rental.rentalId "
                 + "left join model m on p.model.modelId = m.modelId "
-                + "where r.member.memberId=" + member_id + " and p.rentalId is null and p.model.modelId is null";
+                + "where r.member.memberId=" + member_id;
 
         return em.createQuery(s, RentalDto.class).getResultList();
     }
 
     @Override
     public RentalDetailDto detailInfo(Long rental_id) {
-        String s = "select new com.regalaxy.phonesin.rental.model.RentalDetailDto(r.rentalId, r.member.memberId, r.isY2K, r.isClimateHumidity, r.isHomecam, r.count, r.rentalStart, r.rentalEnd, r.applyDate, r.rentalStatus, r.rentalDeliveryLocation, r.fund, m.modelName, p.phoneId, p.donation.donationId, r.usingDate) "
+        String s = "select new com.regalaxy.phonesin.rental.model.RentalDetailDto(r.rentalId, r.member.memberId, r.isY2K, r.isClimateHumidity, r.isHomecam, r.rentalStart, r.rentalEnd, r.applyDate, r.rentalStatus, r.rentalDeliveryLocation, r.fund, m.modelName, p.phoneId, p.donation.donationId, r.usingDate) "
             + "from rental r left join phone p on r.rentalId = p.rentalId "
             + "left join model m on p.model.modelId = m.modelId "
                 + "where r.rentalId=" + rental_id;
