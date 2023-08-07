@@ -288,12 +288,13 @@
         android:id="@+id/loginFragment"
         android:name="com.ssafy.phonesin.ui.login.LoginFragment"
         android:label="LoginFragment" >
-        <action
-            android:id="@+id/action_loginFragment_to_mobile"
-            app:destination="@id/mobile" />
+
         <action
             android:id="@+id/action_loginFragment_to_signupFragment"
             app:destination="@id/signupFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_home"
+            app:destination="@id/home" />
     </fragment>
     <fragment
         android:id="@+id/signupFragment"
