@@ -33,14 +33,20 @@ public class AddressController {
 
     @ApiOperation(value = "대리점 주소 리스트 조회")
     @GetMapping("/list/samsung")//삼성 대리점 목록//현재 위치
-    public ResponseEntity<?> samsungList(@RequestBody LocationDto locationDto){
+    public ResponseEntity<?> samsungList(@RequestParam Double latitude, @RequestParam Double longitude){
+        System.out.println("latitude : " + latitude + "longitude : " +  longitude);
+        LocationDto locationDto = new LocationDto();
+        locationDto.setLatitude(latitude);
+        locationDto.setLongitude(longitude);
         List<AgencyDto> list = addressService.samsungList(locationDto);
         return new ResponseEntity<List<AgencyDto>>(list, HttpStatus.OK);
     }
 
     @ApiOperation(value = "대리점 주소 검색 조회")
     @GetMapping("/list/samsung/search")//삼성 대리점 목록//검색
-    public ResponseEntity<?> samsungListSearsch(@RequestBody LocationDto locationDto){
+    public ResponseEntity<?> samsungListSearsch(@RequestParam String search){
+        LocationDto locationDto = new LocationDto();
+        locationDto.setSearch(search);
         List<AgencyDto> list = addressService.samsungListSearch(locationDto);
         return new ResponseEntity<List<AgencyDto>>(list, HttpStatus.OK);
     }
