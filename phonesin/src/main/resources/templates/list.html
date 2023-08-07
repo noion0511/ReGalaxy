@@ -313,38 +313,21 @@
 					setMemberHtml(data);
 				});
 		};
-		
-		//Member
-		function setMemberHtml(data){
-			document.getElementById('result').innerHTML = ``;
-			var html = `
-					<div class="flex flex-4">`;
-			data.list.forEach(function(item) {
-						html += `
-								<article class="card">
-									<header>
-										<h3>${item.memberName}</h3>
-									</header>
-									<p>${item.email}</p>
-									<p>${item.phoneNumber}</p>
-									<p>${item.createdAt}</p>`;
-						if(item.isCha) {
-							html += `
-							<p>차상위계층</p>`;
-						}
-						if(item.isBlackList) {
-							html += `
-							<p>블랙리스트</p>`;
-						}else{
-							html += `
-									<button class="blackBtn" th:onclick="setBlack(${item.email})">블랙리스트 추가</button>`;
-						}
-						html += `
-							</article>`;
-					});
-					html += `
-						</div>`;
-					document.getElementById('result').innerHTML += html;
+
+		function setBlack(email){
+			fetch(`blacklist/${email}`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					black : document.getElementById("isBlack").className=='activeBtn',
+					cha : document.getElementById("isCha").className=='activeBtn'
+				}),
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					setMemberHtml(data);
+				});
 		}
 
 		//phone
@@ -496,6 +479,39 @@
 					document.getElementById('result').innerHTML += html;
 				});
 		};
+		
+		//Member
+		function setMemberHtml(data){
+			document.getElementById('result').innerHTML = ``;
+			var html = `
+					<div class="flex flex-4">`;
+			data.list.forEach(function(item) {
+						html += `
+								<article class="card">
+									<header>
+										<h3>${item.memberName}</h3>
+									</header>
+									<p>${item.email}</p>
+									<p>${item.phoneNumber}</p>
+									<p>${item.createdAt}</p>`;
+						if(item.isCha) {
+							html += `
+							<p>차상위계층</p>`;
+						}
+						if(item.isBlackList) {
+							html += `
+							<p>블랙리스트</p>`;
+						}else{
+							html += `
+									<button class="blackBtn" th:onclick="setBlack(${item.email})">블랙리스트 추가</button>`;
+						}
+						html += `
+							</article>`;
+					});
+					html += `
+						</div>`;
+					document.getElementById('result').innerHTML += html;
+		}
 	</script>
 
 </body>
