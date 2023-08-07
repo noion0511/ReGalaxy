@@ -2,16 +2,23 @@ package com.ssafy.phonesin.ui
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
+import android.view.WindowManager
+import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.ssafy.phonesin.R
+import com.ssafy.phonesin.common.AppPreferences
 import com.ssafy.phonesin.databinding.ActivityMainBinding
 import com.ssafy.phonesin.network.SSLConnect
 import com.ssafy.phonesin.ui.module.camera.CameraFragment
@@ -20,6 +27,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    private val SPLASH_DELAY = 3300L
     private lateinit var binding: ActivityMainBinding
 
     private val PERMISSIONS_REQUEST_CODE = 100
@@ -33,8 +42,6 @@ class MainActivity : AppCompatActivity() {
         val ssl = SSLConnect()
         ssl.postHttps("https://map.kakao.com/", 1000, 1000)
 
-        setNav()
-
         val permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[0])) {
@@ -45,6 +52,15 @@ class MainActivity : AppCompatActivity() {
                 ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, PERMISSIONS_REQUEST_CODE)
             }
         }
+
+        setStatusBarTransparent()
+
+//        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+//            Log.d("version", "onCreate: 젤리빈")
+//            setNav()
+//        } else {
+//            setSplash()
+//        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -86,10 +102,28 @@ class MainActivity : AppCompatActivity() {
         return super.onKeyDown(keyCode, event)
     }
 
-
-    private fun setNav() {
+    private fun setSplash() {
         val navController =
             supportFragmentManager.findFragmentById(R.id.containerMain)?.findNavController()
+        navController?.navigate(R.id.splashFragment)
+
+        window.decorView.postDelayed({
+            if (!AppPreferences.isOnBoardingShowed()) {
+//                AppPreferences.checkOnBoardingShowed()
+                navController?.navigate(R.id.onboardingDonateFragment)
+            } else {
+                setNav()
+            }
+        }, SPLASH_DELAY)
+    }
+
+
+    fun setNav() {
+        setPadding()
+        val navController =
+            supportFragmentManager.findFragmentById(R.id.containerMain)?.findNavController()
+
+        navController?.navigate(R.id.home)
 
         navController?.let {
             binding.navigationMain.setupWithNavController(it)
@@ -99,5 +133,46 @@ class MainActivity : AppCompatActivity() {
     fun hideBottomNavi(state: Boolean) {
         if (state) binding.navigationMain.visibility =
             View.GONE else binding.navigationMain.visibility = View.VISIBLE
+    }
+
+    fun setCameraFrameLayoutPaddingVerticle(layout: ConstraintLayout) {
+        binding.containerMain.setPadding(0, 0, 0, 0)
+        binding.mainActivityLayout.setPadding(0, 0, 0, 0)
+        layout.setPadding(0, statusBarHeight(), 0, 0)
+    }
+
+    fun setFrameLayoutPaddingVerticle(layout: FrameLayout) {
+        layout.setPadding(0, statusBarHeight(), 0, navigationHeight())
+    }
+
+    fun setPadding() {
+        binding.containerMain.setPadding(0, statusBarHeight(), 0, 0)
+        binding.mainActivityLayout.setPadding(0, 0, 0, navigationHeight())
+    }
+
+    private fun setStatusBarTransparent() {
+        window.apply {
+            setFlags(
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+            )
+        }
+        if (Build.VERSION.SDK_INT >= 30) {
+            WindowCompat.setDecorFitsSystemWindows(window, false)
+        }
+    }
+
+    private fun statusBarHeight(): Int {
+        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+
+        return if (resourceId > 0) resources.getDimensionPixelSize(resourceId)
+        else 0
+    }
+
+    private fun navigationHeight(): Int {
+        val resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
+
+        return if (resourceId > 0) resources.getDimensionPixelSize(resourceId)
+        else 0
     }
 }

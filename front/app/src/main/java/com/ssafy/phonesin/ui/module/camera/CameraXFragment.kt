@@ -58,6 +58,7 @@ class CameraXFragment : BaseFragment<FragmentCameraXBinding>(R.layout.fragment_c
     override fun init() {
         val mainActivity = activity as MainActivity
         mainActivity.hideBottomNavi(true)
+        mainActivity.setCameraFrameLayoutPaddingVerticle(bindingNonNull.constraint)
 
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
         cameraProviderFuture.addListener(Runnable {

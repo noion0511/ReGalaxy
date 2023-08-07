@@ -72,6 +72,7 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(
     override fun init() {
         val mainActivity = activity as MainActivity
         mainActivity.hideBottomNavi(true)
+        mainActivity.setCameraFrameLayoutPaddingVerticle(bindingNonNull.cameraFragmentContainer)
 
         if (checkCameraHardware(requireContext())) {
             initCamera()

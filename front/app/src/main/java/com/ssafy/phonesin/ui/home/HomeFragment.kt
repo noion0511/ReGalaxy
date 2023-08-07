@@ -6,18 +6,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.ssafy.phonesin.databinding.FragmentHomeBinding
+import com.ssafy.phonesin.ui.MainActivity
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var viewPager: ViewPager
     private lateinit var indicator: TabLayout
     private lateinit var rankRecyclerView: RecyclerView
+
+    override fun onResume() {
+        super.onResume()
+        val mainActivity = activity as MainActivity
+        mainActivity.hideBottomNavi(false)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,6 +38,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {}
         setBanner()
         setRank()
     }
@@ -53,8 +62,8 @@ class HomeFragment : Fragment() {
         rankRecyclerView = binding.recyclerViewRank
 
         val rankList = listOf<Int>(1,2,3,4,5)
-        binding.recyclerViewRank.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        binding.recyclerViewRank.adapter = HomeRankAdapter(rankList)
+        rankRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        rankRecyclerView.adapter = HomeRankAdapter(rankList)
 
     }
 

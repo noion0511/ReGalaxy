@@ -96,4 +96,9 @@
     <string name="success">success</string>
     <string name="make_qrcode">생성중</string>
     <string name="make_qrcode2">QR코드 생성</string>
+
+    <string name="date_list"> - 기간 : %s개월</string>
+    <string name="module_list"> - 원하는 기능 : %s</string>
+    <string name="price_list"> - 보증금 : %s</string>
+    <string name="address_list"> - 주소 : %s</string>
 </resources>

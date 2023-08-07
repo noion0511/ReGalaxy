@@ -2,16 +2,17 @@ package com.ssafy.phonesin.ui.mobile.rentalmobile
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentRentalPayBinding
 import com.ssafy.phonesin.ui.mobile.ViewPagerAdapter
+import com.ssafy.phonesin.ui.util.base.BaseFragment
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,14 +24,27 @@ private const val ARG_PARAM2 = "param2"
  * Use the [RentalPayFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class RentalPayFragment : Fragment() {
+class RentalPayFragment : BaseFragment<FragmentRentalPayBinding>(R.layout.fragment_rental_pay) {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
     private var indicators: MutableList<ImageView> = mutableListOf()
 
-    private lateinit var binding: FragmentRentalPayBinding
+    val rentalPayViewModel: RentalViewModel by activityViewModels()
+
+    override fun onCreateBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentRentalPayBinding {
+        return FragmentRentalPayBinding.inflate(layoutInflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
+        }
+    }
+
+    override fun init() {
+        setPayUi()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,24 +54,13 @@ class RentalPayFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        binding = FragmentRentalPayBinding.inflate(layoutInflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        setPayUi()
-    }
-
     private fun setPayUi() {
 
-        binding.buttonPayComplete.setOnClickListener {
+        bindingNonNull.textViewPayMoney.text =
+            "${(20000 * rentalPayViewModel.currentRentalListSize()!!)}원"
+
+        bindingNonNull.buttonPayComplete.setOnClickListener {
+            rentalPayViewModel.postRental()
             findNavController().navigate(
                 R.id.action_rentalPayFragment_to_rentalFinishFragment,
             )
@@ -71,10 +74,11 @@ class RentalPayFragment : Fragment() {
             // Add more images as needed
         )
         val adapter = ViewPagerAdapter(requireContext(), imageList)
-        binding.viewPagerCardList.adapter = adapter
+        bindingNonNull.viewPagerCardList.adapter = adapter
 
         // 뷰페이저의 페이지 변경 리스너를 설정합니다.
-        binding.viewPagerCardList.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        bindingNonNull.viewPagerCardList.addOnPageChangeListener(object :
+            ViewPager.OnPageChangeListener {
             override fun onPageScrolled(
                 position: Int,
                 positionOffset: Float,
@@ -95,7 +99,7 @@ class RentalPayFragment : Fragment() {
 
     private fun createIndicators(size: Int, currentPosition: Int) {
         indicators.clear()
-        binding.layoutIndicator.removeAllViews()
+        bindingNonNull.layoutIndicator.removeAllViews()
 
         for (i in 0 until size) {
             val indicator = ImageView(context)
@@ -106,7 +110,7 @@ class RentalPayFragment : Fragment() {
             indicator.layoutParams = layoutParams
             indicator.setImageResource(R.drawable.home)
             indicators.add(indicator)
-            binding.layoutIndicator.addView(indicator)
+            bindingNonNull.layoutIndicator.addView(indicator)
         }
 
         updateIndicators(currentPosition)
