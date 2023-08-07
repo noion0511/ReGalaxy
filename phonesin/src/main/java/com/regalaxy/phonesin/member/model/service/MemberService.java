@@ -215,4 +215,12 @@ public class MemberService {
         }
         return memberDtos;
     }
+
+    // 회원 블랙리스트 설정하기
+    public void blackListMember(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException(memberId + "인 ID는 존재하지 않습니다."));
+        member.setBlackList();
+        memberRepository.save(member);
+    }
 }

@@ -173,4 +173,8 @@ public class Member extends BaseTimeEntity {
     public void setVerified(boolean isVerified) {
         this.isVerified = isVerified;
     }
+
+    public void setBlackList() {
+        this.isBlackList = true;
+    }
 }
