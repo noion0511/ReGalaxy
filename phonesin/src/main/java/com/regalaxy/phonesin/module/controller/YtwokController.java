@@ -44,10 +44,10 @@ public class YtwokController {
     }
 
     @ApiOperation(value = "이미지다운로드")
-    @GetMapping(value = "images/{fileId}")
-    public ResponseEntity<Resource> getImage(@PathVariable("fileId") long fileId) {
+    @GetMapping(value = "images/{fileName}")
+    public ResponseEntity<Resource> getImage(@PathVariable("fileName") String fileName) {
         try {
-            ResponseEntity<Resource> result = ytwokService.loadImage(fileId);
+            ResponseEntity<Resource> result = ytwokService.loadImage(fileName);
             return result;
         } catch (Exception e) {
             return null;

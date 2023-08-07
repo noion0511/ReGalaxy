@@ -1,5 +1,6 @@
 package com.regalaxy.phonesin.back.model.service;
 
+import com.regalaxy.phonesin.back.model.BackAdminDto;
 import com.regalaxy.phonesin.back.model.BackDto;
 import com.regalaxy.phonesin.back.model.BackInfoDto;
 import com.regalaxy.phonesin.back.model.entity.Back;
@@ -13,6 +14,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -81,5 +85,19 @@ public class BackService {
         back.update(backDto);
         backRepository.save(back);
         return BackDto.fromEntity(back);
+    }
+
+    public List<BackAdminDto> list(){
+        List<Back> list = backRepository.findAll();
+        List<BackAdminDto> backAdminDtos = new ArrayList<>();
+        for(Back back : list){
+            BackAdminDto backAdminDto = new BackAdminDto();
+            backAdminDto.setBackStatus(back.getBackStatus());
+            backAdminDto.setReview(back.getReview());
+            backAdminDto.setBackId(back.getBackId());
+            backAdminDto.setCreateAt(back.getCreatedAt());
+            backAdminDtos.add(backAdminDto);
+        }
+        return backAdminDtos;
     }
 }

@@ -11,12 +11,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class RentalDetailDto {
 //    private Member member;//rental
-    private Long memberId;
     private Long rentalId;//rental
+    private Long memberId;
     private boolean isY2K;//rental
     private boolean isClimateHumidity;//rental
     private boolean isHomecam;//rental
-    private int count;//rental
     private LocalDateTime rentalStart;//rental
     private LocalDateTime rentalEnd;//rental
     private LocalDateTime applyDate;//rental

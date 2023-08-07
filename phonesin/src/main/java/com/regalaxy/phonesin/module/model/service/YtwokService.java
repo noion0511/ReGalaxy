@@ -89,8 +89,9 @@ public class YtwokService {
         }
     }
 
-    public ResponseEntity<Resource> loadImage(long fileId) throws Exception {
-        Ytwok file = ytwokRepository.findById(fileId).orElse(null);
+    public ResponseEntity<Resource> loadImage(String fileName) throws Exception {
+//        Ytwok file = ytwokRepository.findById(fileId).orElse(null);
+        Ytwok file = ytwokRepository.findBySaveFile(fileName);
 
         // file not found
         if (file == null) return null;

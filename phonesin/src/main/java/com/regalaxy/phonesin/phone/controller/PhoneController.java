@@ -3,35 +3,40 @@ package com.regalaxy.phonesin.phone.controller;
 import com.regalaxy.phonesin.member.model.SearchDto;
 import com.regalaxy.phonesin.phone.model.PhoneApplyDto;
 import com.regalaxy.phonesin.phone.model.PhoneDto;
+import com.regalaxy.phonesin.phone.model.PhoneSearchDto;
 import com.regalaxy.phonesin.phone.model.service.PhoneService;
+import com.regalaxy.phonesin.rental.model.RentalDto;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/admin/phone")
 @CrossOrigin("*")
 public class PhoneController {
     @Autowired
     private PhoneService phoneService;
+
     @ApiOperation(value = "휴대폰 목록 조회")
     @GetMapping("/list")
-    public ModelAndView list(@RequestBody SearchDto searchDto){
+    public ModelAndView list(){
+        PhoneSearchDto phoneSearchDto = new PhoneSearchDto();
+        List<PhoneDto> list = phoneService.list(phoneSearchDto);
         ModelAndView mav = new ModelAndView();
-        List<PhoneDto> list = phoneService.list(searchDto);
         mav.addObject("list", list);
-        mav.setViewName("");//어디로 이동할지 ex) rental/list
-        if(list != null) {
-            System.out.println("Success");
-            System.out.println(list.toString());
-        }
-        return null;
+        mav.addObject("title", "휴대폰");
+        mav.setViewName("/list");
+        return mav;
     }
+
     @ApiOperation(value = "휴대폰 상세 조회")
     @GetMapping("/info")
     public ModelAndView info(Long phone_id){

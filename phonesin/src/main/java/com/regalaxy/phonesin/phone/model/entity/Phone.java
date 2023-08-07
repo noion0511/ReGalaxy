@@ -19,8 +19,7 @@ public class Phone {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long phoneId;
-    @JsonIgnore
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "rental_id")
     private Rental rental;
     @ManyToOne
