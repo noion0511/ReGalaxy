@@ -1,6 +1,9 @@
 package com.ssafy.phonesin.ui.mobile.returnmobile
 
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.CheckBox
@@ -73,6 +76,10 @@ class ReturnMobileFragment : BaseFragment<FragmentReturnMobileBinding>(
                 checkBox.text = "${rental.modelName} No.${rental.phoneId}"
 //                radioButton.id = it.indexOf(rental)
                 checkBox.id = rental.phoneId.toString().toInt()
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
+                    checkBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
+                    checkBox.setTextColor(Color.BLACK)
+                }
                 layoutReturnCheckBox.addView(checkBox)
                 rentalCheckList.add(checkBox)
             }
@@ -109,6 +116,10 @@ class ReturnMobileFragment : BaseFragment<FragmentReturnMobileBinding>(
             }
         }
 
+    }
+
+    private fun applyStyle18(textView: CheckBox, styleId: Int) {
+        textView.setTextAppearance(context, styleId)
     }
 
     private fun isCheckBox(): Boolean {

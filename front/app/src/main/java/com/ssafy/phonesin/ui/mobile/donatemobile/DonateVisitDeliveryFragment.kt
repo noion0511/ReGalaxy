@@ -1,8 +1,11 @@
 package com.ssafy.phonesin.ui.mobile.donatemobile
 
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -82,10 +85,29 @@ class DonateVisitDeliveryFragment :
             spinnerDonateAddress.isEnabled = true
             editTextDonateAddress.isEnabled = false
 
-            spinnerDonateAddress.setItems(mobileViewModel.addressList.map { it.address }
-                .toList())
-            spinnerDonateAddress.setIsFocusable(true)
-            spinnerDonateAddress.selectItemByIndex(0)
+            val spinnerAdapter = ArrayAdapter<String>(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                mobileViewModel.addressList.map { it.address }
+                    .toList())
+
+
+
+            spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinnerDonateAddress.adapter = spinnerAdapter
+
+//            spinnerDonateAddress.setOnItemClickListener(object : AdapterView.OnItemClickListener{
+//                override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+//
+//                }
+//
+//            })
+
+
+//            spinnerDonateAddress.set(mobileViewModel.addressList.map { it.address }
+//                .toList())
+//            spinnerDonateAddress.setIsFocusable(true)
+//            spinnerDonateAddress.selectItemByIndex(0)
         }
 
         buttonPostDonateVisitDelivery.setOnClickListener {
@@ -95,7 +117,7 @@ class DonateVisitDeliveryFragment :
             } else {
                 donateVisitDeliveryViewModel.setLocationDonate(
                     if (radioButtonDonateVisitDeliveryExistAddress.isChecked) {
-                        spinnerDonateAddress.text.toString()
+                        spinnerDonateAddress.selectedItem.toString()
                     } else {
                         editTextDonateAddress.text.toString()
                     }

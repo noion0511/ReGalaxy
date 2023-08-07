@@ -1,5 +1,6 @@
 package com.ssafy.phonesin.ui.mobile
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -43,6 +44,7 @@ class MobileViewModel @Inject constructor(
                 is NetworkResponse.UnknownError -> {
                     _msg.postValue(postValueEvent(2, "addressList"))
                 }
+
             }
         }
     }
