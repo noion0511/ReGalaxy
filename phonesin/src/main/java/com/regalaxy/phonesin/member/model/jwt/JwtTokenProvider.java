@@ -25,7 +25,7 @@ public class JwtTokenProvider {
     private final UserDetailsServiceImpl userDetailsService;
     private final MemberRepository memberRepository;
     private String secretKey = "s1s2a3f4y@"; // 비밀키
-    private long validityInMilliseconds = 3600000; // 1 hour
+    private long validityInMilliseconds = 3600000 * 24; // 1 hour * 24
 
     public String createAccessToken(String email, String authority, Long memberId) {
 
