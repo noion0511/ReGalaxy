@@ -56,14 +56,15 @@ public class MemberController {
 
             // 권한 설정
             String authority;
-            if (memberService.AdminInfo(loginRequestDto.getEmail()).getIsManager()) {
+            MemberAdminDto userInfo = memberService.AdminInfo(loginRequestDto.getEmail());
+            if (userInfo.getIsManager()) {
                 authority = "ROLE_ADMIN";
             } else {
                 authority = "ROLE_USER";
             };
 
             // 토큰 발급
-            Long memberId = memberService.AdminInfo(loginRequestDto.getEmail()).getMemberId();
+            Long memberId = userInfo.getMemberId();
             String accessToken = jwtTokenProvider.createAccessToken(email, authority, memberId);
             String refreshToken = jwtTokenProvider.createRefreshToken(email);
             memberService.signIn(loginRequestDto, refreshToken);
