@@ -3,10 +3,7 @@ package com.regalaxy.phonesin.member.model.entity;
 import com.regalaxy.phonesin.address.model.entity.Address;
 import com.regalaxy.phonesin.donation.model.entity.Donation;
 import com.regalaxy.phonesin.global.BaseTimeEntity;
-import com.regalaxy.phonesin.member.model.MemberAdminDto;
-import com.regalaxy.phonesin.member.model.MemberDto;
-import com.regalaxy.phonesin.member.model.MemberSignUpDto;
-import com.regalaxy.phonesin.member.model.MemberUserDto;
+import com.regalaxy.phonesin.member.model.*;
 import com.regalaxy.phonesin.rental.model.entity.Rental;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -143,10 +140,10 @@ public class Member extends BaseTimeEntity {
     }
 
     // 사용자가 자신의 정보 변경
-    public void updateByUser(MemberUserDto memberUserDto) {
-        this.memberName = memberUserDto.getMemberName();
-        this.email = memberUserDto.getEmail();
-        this.phoneNumber = memberUserDto.getPhoneNumber();
+    public void updateByUser(String email, MemberUpdateByUserDto memberUpdateByUserDto) {
+        this.memberName = memberUpdateByUserDto.getMemberName();
+        this.email = email;
+        this.phoneNumber = memberUpdateByUserDto.getPhoneNumber();
     }
 
     // 비밀번호 변경

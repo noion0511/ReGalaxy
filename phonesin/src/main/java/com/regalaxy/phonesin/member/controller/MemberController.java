@@ -112,15 +112,11 @@ public class MemberController {
     }
 
     @ApiOperation(value = "사용자가 자신의 정보 상세 조회")
-    @PostMapping("/info/{memberId}")
-    public ResponseEntity<Map<String, Object>> memberInfo(@PathVariable("memberId") Long memberId, @ApiIgnore @RequestHeader String authorization) {
+    @GetMapping("/info")
+    public ResponseEntity<Map<String, Object>> memberInfo(@ApiIgnore @RequestHeader String authorization) {
         String token = authorization.replace("Bearer ", "");
+        Long memberId = jwtTokenProvider.getMemberId(token);
         Map<String, Object> resultMap = new HashMap<>();
-        if (jwtTokenProvider.getMemberId(token) != memberId) {
-            resultMap.put("message", "멤버 ID가 일치하지 않습니다.");
-            resultMap.put("status", 404);
-            return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.NOT_FOUND);
-        };
         resultMap.put("member", memberService.UserInfo(memberId));
         resultMap.put("message", "성공적으로 조회하였습니다.");
         resultMap.put("status", 200);
@@ -129,29 +125,21 @@ public class MemberController {
 
     @ApiOperation(value = "사용자가 회원 정보 수정")
     @PutMapping("/update")
-    public ResponseEntity<Map<String, Object>> update(@RequestBody MemberUserDto memberUserDto, @ApiIgnore @RequestHeader String authorization) {
+    public ResponseEntity<Map<String, Object>> update(@RequestBody MemberUpdateByUserDto memberUpdateByUserDto, @ApiIgnore @RequestHeader String authorization) {
         String token = authorization.replace("Bearer ", "");
+        String email = jwtTokenProvider.getEmail(token);
         Map<String, Object> resultMap = new HashMap<>();
-        if (!jwtTokenProvider.getEmail(token).equals(memberUserDto.getEmail())) {
-            resultMap.put("message", "Email이 일치하지 않습니다.");
-            resultMap.put("status", HttpStatus.UNAUTHORIZED.value());
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(resultMap);
-        }
-        ResponseEntity<Map<String, Object>> updateResponse = memberService.updateMemberByUser(memberUserDto);
+        ResponseEntity<Map<String, Object>> updateResponse = memberService.updateMemberByUser(email, memberUpdateByUserDto);
 
         return updateResponse;
     }
 
     @ApiOperation(value = "회원 탈퇴")
-    @PutMapping("/delete/{memberId}")
-    public ResponseEntity<Map<String, Object>> delete(@PathVariable("memberId") Long memberId, @ApiIgnore @RequestHeader String authorization) {
+    @PutMapping("/delete")
+    public ResponseEntity<Map<String, Object>> delete(@ApiIgnore @RequestHeader String authorization) {
         Map<String, Object> resultMap = new HashMap<>();
         String token = authorization.replace("Bearer ", "");
-        if (jwtTokenProvider.getMemberId(token) != memberId) {
-            resultMap.put("message", "멤버 ID가 일치하지 않습니다.");
-            resultMap.put("status", HttpStatus.NOT_FOUND.value());
-            return new ResponseEntity<>(resultMap, HttpStatus.NOT_FOUND);
-        }
+        Long memberId = jwtTokenProvider.getMemberId(token);
         memberService.deleteMember(memberId);
         resultMap.put("message", "성공적으로 삭제되었습니다.");
         resultMap.put("status", HttpStatus.OK.value());

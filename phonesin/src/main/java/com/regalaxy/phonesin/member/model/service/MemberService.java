@@ -109,19 +109,19 @@ public class MemberService {
     }
 
     // 사용자가 자신의 정보를 수정하는 서비스
-    public ResponseEntity<Map<String, Object>> updateMemberByUser(MemberUserDto memberUserDto) {
+    public ResponseEntity<Map<String, Object>> updateMemberByUser(String email, MemberUpdateByUserDto memberUpdateByUserDto) {
         Map<String, Object> response = new HashMap<>();
         Member member;
 
         // DB에 없는 ID를 검색하려고 하면 IllegalArgumentException
         try {
-            member = memberRepository.findByEmail(memberUserDto.getEmail()).get();
+            member = memberRepository.findByEmail(email).get();
         } catch (Exception e) {
-            response.put("message", memberUserDto.getEmail() + "은 존재하지 않습니다.");
+            response.put("message", email + "은 존재하지 않습니다.");
             response.put("status", HttpStatus.NOT_FOUND);
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         };
-        member.updateByUser(memberUserDto);
+        member.updateByUser(email, memberUpdateByUserDto);
         memberRepository.save(member);
         MemberDto updatedMemberDto = MemberDto.fromEntity(member);
 
