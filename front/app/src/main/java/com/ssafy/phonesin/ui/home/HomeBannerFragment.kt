@@ -34,7 +34,6 @@ class HomeBannerFragment(val index : Int) : Fragment() {
         } else {
             layout.setBackgroundResource(R.drawable.banner3)
         }
-
     }
 
     companion object {

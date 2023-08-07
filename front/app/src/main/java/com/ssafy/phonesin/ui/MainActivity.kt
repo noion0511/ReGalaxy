@@ -3,15 +3,19 @@ package com.ssafy.phonesin.ui
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.ActivityMainBinding
 import com.ssafy.phonesin.network.SSLConnect
+import com.ssafy.phonesin.ui.module.camera.CameraFragment
+import com.ssafy.phonesin.ui.module.camera.CameraXFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -62,6 +66,26 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        when (keyCode) {
+            KeyEvent.KEYCODE_VOLUME_UP,
+            KeyEvent.KEYCODE_VOLUME_DOWN -> {
+                val navHostFragment = supportFragmentManager.findFragmentById(R.id.containerMain) as NavHostFragment
+                val currentFragment = navHostFragment.childFragmentManager.primaryNavigationFragment
+
+                if (currentFragment is CameraFragment) {
+                    currentFragment.clickedTakePictureButton()
+                    return true
+                } else if(currentFragment is CameraXFragment) {
+                    currentFragment.clickedRemoteTakePictureButton()
+                    return true
+                }
+            }
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
 
     private fun setNav() {
         val navController =
