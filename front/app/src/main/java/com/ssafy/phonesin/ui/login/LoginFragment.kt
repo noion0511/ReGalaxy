@@ -38,6 +38,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         setLogInUi()
         initObserver()
         initLoginButton()
+        initSignupButton()
     }
 
     private fun initLoginButton(){
@@ -50,6 +51,14 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
             }
         }
     }
+
+
+    private fun initSignupButton(){
+        bindingNonNull.textViewSignUp.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
+        }
+    }
+
 
     private fun initObserver() {
         with(viewModel) {

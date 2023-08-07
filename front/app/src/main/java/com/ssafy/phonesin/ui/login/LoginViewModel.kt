@@ -24,8 +24,8 @@ class LoginViewModel @Inject constructor(
     private val _msg = MutableLiveData<Event<String>>()
     val errorMsg: LiveData<Event<String>> = _msg
 
-    private val _token = MutableLiveData<Token>()
-    val token: LiveData<Token> = _token
+    private val _token = MutableLiveData<Event<Token>>()
+    val token: LiveData<Event<Token>> = _token
 
     fun login(loginRequestDto: LoginRequestDto) {
         viewModelScope.launch {
@@ -36,7 +36,7 @@ class LoginViewModel @Inject constructor(
             val type = "jwt token"
             when (response) {
                 is NetworkResponse.Success -> {
-                    _token.postValue(response.body)
+                    _token.postValue(Event(response.body))
                 }
 
                 is NetworkResponse.ApiError -> {
