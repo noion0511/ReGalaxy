@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity() {
     fun setCameraFrameLayoutPaddingVerticle(layout: ConstraintLayout) {
         binding.containerMain.setPadding(0, 0, 0, 0)
         binding.mainActivityLayout.setPadding(0, 0, 0, 0)
-        layout.setPadding(0, statusBarHeight(), 0, 0)
+        layout.setPadding(0, 0, 0, navigationHeight())
     }
 
     fun setFrameLayoutPaddingVerticle(layout: FrameLayout) {
