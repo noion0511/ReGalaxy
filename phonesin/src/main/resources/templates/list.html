@@ -202,8 +202,8 @@
         };
 
 		function setBlack(email){
-			fetch(`black`, {
-				method: 'POST',
+			fetch(`blacklist/${email}`, {
+				method: 'PUT',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
 					black : document.getElementById("isBlack").className=='activeBtn',
@@ -216,6 +216,7 @@
 					setMemberHtml(data);
 				});
 		}
+		
 		function deletePhone(phoneId){
 			fetch(`delete/${phoneId}`, {
 				method: 'DELETE',
@@ -313,22 +314,6 @@
 					setMemberHtml(data);
 				});
 		};
-
-		function setBlack(email){
-			fetch(`blacklist/${email}`, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
-					black : document.getElementById("isBlack").className=='activeBtn',
-					cha : document.getElementById("isCha").className=='activeBtn'
-				}),
-			})
-				.then(response => response.json())
-				.then(data => {
-					console.log(data);
-					setMemberHtml(data);
-				});
-		}
 
 		//phone
 		function setPhoneHtml(data){
