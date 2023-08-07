@@ -5,12 +5,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.ssafy.phonesin.R
-import com.ssafy.phonesin.databinding.FragmentLogInBinding
+import com.ssafy.phonesin.databinding.FragmentLoginBinding
+import com.ssafy.phonesin.model.dto.LoginRequestDto
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class LoginFragment : BaseFragment<FragmentLogInBinding>(
+class LoginFragment : BaseFragment<FragmentLoginBinding>(
     R.layout.fragment_login
 ) {
     private val viewModel by activityViewModels<LoginViewModel>()
@@ -24,8 +25,8 @@ class LoginFragment : BaseFragment<FragmentLogInBinding>(
     override fun onCreateBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
-    ): FragmentLogInBinding {
-        return FragmentLogInBinding.inflate(inflater, container, false).apply {
+    ): FragmentLoginBinding {
+        return FragmentLoginBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = this@LoginFragment.viewModel
         }
@@ -33,5 +34,28 @@ class LoginFragment : BaseFragment<FragmentLogInBinding>(
 
     override fun init() {
         setLogInUi()
+        initObserver()
+        initLoginButton()
+    }
+
+    private fun initLoginButton(){
+        bindingNonNull.layoutLogIn.setOnClickListener {
+            val email = bindingNonNull.editTextLogInEmail.text.toString()
+            val password = bindingNonNull.editTextLogInPassword.text.toString()
+
+            if(viewModel.checkValidation(email, password)) {
+                viewModel.login(LoginRequestDto(email, password))
+            }
+        }
+    }
+
+    private fun initObserver() {
+        with(viewModel) {
+            errorMsg.observe(viewLifecycleOwner) { event ->
+                event.getContentIfNotHandled()?.let {
+                    showToast(it)
+                }
+            }
+        }
     }
 }

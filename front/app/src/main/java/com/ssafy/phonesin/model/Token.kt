@@ -1,3 +1,6 @@
 package com.ssafy.phonesin.model
 
-data class Token()
+data class Token(
+    val accessToken: String,
+    val refreshToken: String
+)

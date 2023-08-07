@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.ssafy.phonesin.ui.login.LoginViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -46,6 +48,7 @@
                 android:hint="@string/edit_id"
                 android:padding="20dp"
                 android:textSize="14sp"
+                android:inputType="textEmailAddress"
                 android:textColorHint="@color/gray"
                 app:layout_constraintStart_toStartOf="@id/textViewLogInEmail"
                 app:layout_constraintTop_toBottomOf="@id/textViewLogInEmail" />
@@ -69,6 +72,7 @@
                 android:hint="@string/edit_password"
                 android:padding="20dp"
                 android:textSize="14sp"
+                android:inputType="textPassword"
                 android:textColorHint="@color/gray"
                 android:textColor="@color/cameraFrame1"
                 app:layout_constraintStart_toStartOf="@id/textViewLogInPassword"
@@ -120,6 +124,8 @@
                 android:background="@drawable/button_black_corner_40"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textViewSignUp">
 
                 <ImageView
@@ -149,6 +155,8 @@
                 android:backgroundTint="#FEE500"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/layoutLogIn">
 
                 <ImageView
