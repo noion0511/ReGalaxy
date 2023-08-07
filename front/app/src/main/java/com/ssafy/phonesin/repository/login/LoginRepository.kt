@@ -7,4 +7,6 @@ import com.ssafy.phonesin.network.NetworkResponse
 
 interface LoginRepository {
     suspend fun login(loginRequestDto : LoginRequestDto) : NetworkResponse<Token, ErrorResponse>
+    suspend fun refreshAccessToken(token: Token) : NetworkResponse<Token, ErrorResponse>
+
 }

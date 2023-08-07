@@ -2,8 +2,6 @@ package com.ssafy.phonesin.network
 
 import com.ssafy.phonesin.model.ErrorResponse
 import com.ssafy.phonesin.model.PhotoResponse
-import com.ssafy.phonesin.model.Token
-import com.ssafy.phonesin.model.dto.LoginRequestDto
 import com.ssafy.phonesin.model.dto.MemberDto
 import okhttp3.MultipartBody
 import retrofit2.http.Body
@@ -17,9 +15,6 @@ interface ApiService {
     suspend fun uploadImage(
         @Part file: MultipartBody.Part
     ): NetworkResponse<PhotoResponse, ErrorResponse>
-
-    @POST("/member/login")
-    suspend fun login(@Body loginRequestDto : LoginRequestDto) : NetworkResponse<Token, ErrorResponse>
 
     @POST("/member/signup")
     suspend fun signup(@Body memberDto: MemberDto) : NetworkResponse<String, ErrorResponse>

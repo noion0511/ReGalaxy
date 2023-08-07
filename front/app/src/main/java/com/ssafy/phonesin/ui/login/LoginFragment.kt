@@ -4,7 +4,9 @@ import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
+import com.ssafy.phonesin.common.AppPreferences.initJwtToken
 import com.ssafy.phonesin.databinding.FragmentLoginBinding
 import com.ssafy.phonesin.model.dto.LoginRequestDto
 import com.ssafy.phonesin.ui.util.base.BaseFragment
@@ -54,6 +56,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
             errorMsg.observe(viewLifecycleOwner) { event ->
                 event.getContentIfNotHandled()?.let {
                     showToast(it)
+                }
+            }
+
+            token.observe(viewLifecycleOwner) {event ->
+                event.getContentIfNotHandled()?.let {
+                    initJwtToken(it)
+                    findNavController().navigate(R.id.action_loginFragment_to_home)
                 }
             }
         }
