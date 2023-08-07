@@ -15,6 +15,22 @@
 </head>
 
 <body>
+	<!-- Modal -->
+	<div id='modal'>
+		<div id='content'>
+			<div class="modalBtndiv">
+				<p class="modalBtn" th:onclick="closeModal()">X</p>
+			</div>
+			<label>serial number</label>
+			<input id='serialNumber'/><br/>
+			<label>phone model</label>
+			여긴 드롭박스<br/>
+			<label>기능</label>
+			여긴 체크박스 3개<br/>
+			<Button class="modalBtn" th:onclick="updatePhone()">수정</Button>
+		</div>
+	</div>
+
 	<!-- Header -->
 	<header id="header">
 		<div class="inner">
@@ -49,8 +65,10 @@
 			<div id="result">
 				<div th:block class="flex flex-4" th:if="${title=='휴대폰'}">
 					<article class="card" th:each="list : ${list}">
-						<header>
-							<h3 th:text="${list.phoneId}">폰아이디</h3>
+						<header class="flex flex-3" style="justify-content: space-between;">
+							<span> </span>
+							<h3 th:text="${list.phoneId}" style="margin-left:0.5em;">폰아이디</h3>
+							<span class="icon fa-pencil" th:onclick="openModal([[${list}]])"></span>
 						</header>
 						<p th:text="${list.serialNumber}"></p>
 						<p th:text="${list.modelName}"></p>
@@ -216,7 +234,7 @@
 					setMemberHtml(data);
 				});
 		}
-		
+
 		function deletePhone(phoneId){
 			fetch(`delete/${phoneId}`, {
 				method: 'DELETE',
@@ -315,6 +333,22 @@
 				});
 		};
 
+		function openModal(list){
+			var modal = document.getElementById('modal');
+                modal.style.display = 'block';
+		}
+
+		function closeModal(){
+			var modal = document.getElementById('modal');
+				modal.style.display='none';
+		}
+
+		function updatePhone(){
+			var modal = document.getElementById('modal');
+				modal.style.display='none';
+				//fetch로 데이터 넘기기
+		}
+
 		//phone
 		function setPhoneHtml(data){
 			document.getElementById('result').innerHTML = ``;
@@ -323,8 +357,10 @@
 			data.list.forEach(function(item) {
 				html += `
 						<article class="card">
-							<header>
-								<h3>${item.phoneId}</h3>
+							<header class="flex flex-3" style="justify-content: space-between;">
+								<span> </span>
+								<h3 style="margin-left:0.5em;">${item.phoneId}</h3>
+								<span class="icon fa-pencil" onclick="openModal(${item.phoneId})"></span>
 							</header>
 							<p>${item.serialNumber}</p>
 							<p>${item.modelName}</p>
@@ -349,7 +385,7 @@
 				if(item.rentalId == null) {
 					html += `
 							<p> 대여가능</p>
-							<button class="blackBtn" th:onclick="deletePhone(${item.phoneId})">삭제</button>`;
+							<button class="blackBtn" onclick="deletePhone(${item.phoneId})">삭제</button>`;
 				}
 				html += `
 						</article>`;
