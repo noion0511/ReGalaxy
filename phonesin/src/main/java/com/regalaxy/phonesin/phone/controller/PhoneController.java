@@ -82,13 +82,15 @@ public class PhoneController {
         return null;
     }
     @ApiOperation(value = "휴대폰 정보 삭제")
-    @DeleteMapping("/delete")
-    public ModelAndView delete(Long phone_id){
-        ModelAndView mav = new ModelAndView();
+    @DeleteMapping("/delete/{phoneId}")
+    public ResponseEntity<?> delete(@PathVariable("phoneId") Long phone_id, @RequestBody PhoneSearchDto phoneSearchDto, Model model){
         phoneService.delete(phone_id);
-        mav.setViewName("");//어디로 이동할지 ex) rental/list
-        System.out.println("Success");
-        return null;
+        List<PhoneDto> list = phoneService.list(phoneSearchDto);
+        Map<String, Object> map = new HashMap<>();
+        model.addAttribute("list", list);
+        model.addAttribute("title", "휴대폰");
+        map.put("list", list);
+        map.put("title", "휴대폰");
+        return ResponseEntity.ok(map);
     }
-
 }

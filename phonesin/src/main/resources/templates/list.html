@@ -61,6 +61,7 @@
 						</div>
 						<p class="rental" th:if="${list.rentalId != null}"> 대여중</p>
 						<p th:if="${list.rentalId == null}">대여가능</p>
+						<button th:if="${list.rentalId == null}" class="blackBtn" th:onclick="deletePhone([[${list.phoneId}]])">삭제</button>
 					</article>
 				</div>
 				<div class="flex flex-4" th:if="${title=='기증'}">
@@ -116,8 +117,9 @@
 						<p th:text="${list.email}">이메일</p>
 						<p th:text="${list.phoneNumber}">폰 번호</p>
 						<p th:text="${list.createdAt}">생성 날짜</p>
-						<p th:if="${list.isBlackList}">블랙리스트</p>
 						<p th:if="${list.isCha}">차상위계층</p>
+						<p th:if="${list.isBlackList}">블랙리스트</p>
+						<button th:if="${!list.isBlackList}" class="blackBtn" th:onclick="setBlack([[${list.email}]])">블랙리스트 추가</button>
 					</article>
 				</div>
 			</div>
@@ -134,7 +136,22 @@
 	<script>
         document.getElementById("isRental").onclick = function(){
             var container = document.getElementById("isRental");
-			isRental != isRental;
+			phoneActive(container);
+        };
+        document.getElementById("isY2K").onclick = function(){
+            var container = document.getElementById("isY2K");
+			phoneActive(container);
+        };
+        document.getElementById("isClimateHumidity").onclick = function(){
+            var container = document.getElementById("isClimateHumidity");
+			phoneActive(container);
+        };
+        document.getElementById("isHomecam").onclick = function(){
+            var container = document.getElementById("isHomecam");
+			phoneActive(container);
+        };
+
+		function phoneActive(container){
             if(container.className != 'activeBtn'){
             	container.classList.add('activeBtn');
 				phoneHtml();
@@ -142,37 +159,7 @@
 				container.classList.remove('activeBtn');
             	phoneHtml();
             }
-        };
-        document.getElementById("isY2K").onclick = function(){
-            var container = document.getElementById("isY2K");
-            if(container.className != 'activeBtn'){
-            	container.classList.add('activeBtn');
-				phoneHtml();
-            }else{
-				container.classList.remove('activeBtn');
-				phoneHtml();
-            }
-        };
-        document.getElementById("isClimateHumidity").onclick = function(){
-            var container = document.getElementById("isClimateHumidity");
-            if(container.className != 'activeBtn'){
-            	container.classList.add('activeBtn');
-				phoneHtml();
-            }else{
-				container.classList.remove('activeBtn');
-				phoneHtml();
-            }
-        };
-        document.getElementById("isHomecam").onclick = function(){
-            var container = document.getElementById("isHomecam");
-            if(container.className != 'activeBtn'){
-            	container.classList.add('activeBtn');
-				phoneHtml();
-            }else{
-				container.classList.remove('activeBtn');
-				phoneHtml();
-            }
-        };
+		}
         function ready(){
             var container = document.getElementById("ready");
             if(container.className != 'activeBtn'){
@@ -213,6 +200,39 @@
 				memberHtml();
             }
         };
+
+		function setBlack(email){
+			fetch(`black`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					black : document.getElementById("isBlack").className=='activeBtn',
+					cha : document.getElementById("isCha").className=='activeBtn'
+				}),
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					setMemberHtml(data);
+				});
+		}
+		function deletePhone(phoneId){
+			fetch(`delete/${phoneId}`, {
+				method: 'DELETE',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					rental : document.getElementById("isRental").className == 'activeBtn',
+					y2K : document.getElementById("isY2K").className=='activeBtn',
+					climateHumidity : document.getElementById("isClimateHumidity").className=='activeBtn',
+					homecam: document.getElementById("isHomecam").className=='activeBtn',
+				}),
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					setPhoneHtml(data);
+				});
+		}
         function rentalApply(rentalId){
 			fetch(`apply`, {
 				method: 'POST',
@@ -226,69 +246,7 @@
 				.then(response => response.json())
 				.then(data => {
 					console.log(data);
-					if(data.back){
-						console.log("????" + data.back);
-						alert("대여할 휴대폰이 없습니다.");
-					}
-					else{
-						document.getElementById('result').innerHTML = ``;
-						var html = `
-								<div class="flex flex-4">`;
-						data.list.forEach(function(item) {
-							html += `
-									<article class="card">
-										<header>
-											<h3>${item.rentalId}</h3>
-										</header>
-										<p>${item.applyDate}</p>
-										<div class="module flex flex-3">`;
-							if(item.y2K) {
-								html += `
-								<p>Y2K</p>`;
-							}
-							if(item.climateHumidity) {
-								html += `
-								<p>습온도계</p>`;
-							}
-							if(item.homecam) {
-								html += `
-								<p>홈캠</p>`;
-							}
-							html += `</div>
-							<div class="flex flex-3" style="justify-content: center;">`;
-							if(item.rentalStatus == 1) {
-								html += `
-										<button class="blackBtn" onclick="rentalApply(${item.rentalId})">수락</button>
-										<button class="blackBtn" onclick="rentalBack(${item.rentalId})">반려</button>`;
-							}
-							html += `</div>`;
-							if(item.rentalStatus == 2) {
-								html += `
-										<p> 배달 대기 중</p>`;
-							}
-							if(item.rentalStatus == 3) {
-								html += `
-										<p> 배달 중</p>`;
-							}
-							if(item.rentalStatus == 4) {
-								html += `
-										<p> 대여 중</p>`;
-							}
-							if(item.rentalStatus == 5) {
-								html += `
-										<p> 반납 완료</p>`;
-							}
-							if(item.rentalStatus == -1) {
-								html += `
-										<p> 신청 거절</p>`;
-							}
-							html += `
-									</article>`;
-						});
-						html += `
-							</div>`;
-						document.getElementById('result').innerHTML += html;
-					}
+					setRentalHtml(data)
 				});
         };
         function rentalBack(rentalId){
@@ -304,63 +262,7 @@
 				.then(response => response.json())
 				.then(data => {
 					console.log(data);
-					document.getElementById('result').innerHTML = ``;
-					var html = `
-							<div class="flex flex-4">`;
-					data.list.forEach(function(item) {
-						html += `
-								<article class="card">
-									<header>
-										<h3>${item.rentalId}</h3>
-									</header>
-									<p>${item.applyDate}</p>
-									<div class="module flex flex-3">`;
-						if(item.y2K) {
-							html += `
-							<p>Y2K</p>`;
-						}
-						if(item.climateHumidity) {
-							html += `
-							<p>습온도계</p>`;
-						}
-						if(item.homecam) {
-							html += `
-							<p>홈캠</p>`;
-						}
-						html += `</div>
-						<div class="flex flex-3" style="justify-content: center;">`;
-						if(item.rentalStatus == 1) {
-							html += `
-									<button class="blackBtn" onclick="rentalApply(${item.rentalId})">수락</button>
-									<button class="blackBtn" onclick="rentalBack(${item.rentalId})">반려</button>`;
-						}
-						html += `</div>`;
-						if(item.rentalStatus == 2) {
-							html += `
-									<p> 배달 대기 중</p>`;
-						}
-						if(item.rentalStatus == 3) {
-							html += `
-									<p> 배달 중</p>`;
-						}
-						if(item.rentalStatus == 4) {
-							html += `
-									<p> 대여 중</p>`;
-						}
-						if(item.rentalStatus == 5) {
-							html += `
-									<p> 반납 완료</p>`;
-						}
-						if(item.rentalStatus == -1) {
-							html += `
-									<p> 신청 거절</p>`;
-						}
-						html += `
-								</article>`;
-					});
-					html += `
-						</div>`;
-					document.getElementById('result').innerHTML += html;
+					setRentalHtml(data);
 				});
         };
 
@@ -378,46 +280,7 @@
 				.then(response => response.json())
 				.then(data => {
 					console.log(data);
-					document.getElementById('result').innerHTML = ``;
-					var html = `
-							<div class="flex flex-4">`;
-					data.list.forEach(function(item) {
-						html += `
-								<article class="card">
-									<header>
-										<h3>${item.phoneId}</h3>
-									</header>
-									<p>${item.serialNumber}</p>
-									<p>${item.modelName}</p>
-									<div class="module flex flex-3">`;
-						if(item.y2K) {
-							html += `
-							<p>Y2K</p>`;
-						}
-						if(item.climateHumidity) {
-							html += `
-							<p>습온도계</p>`;
-						}
-						if(item.homecam) {
-							html += `
-							<p>홈캠</p>`;
-						}
-						html += `</div>`;
-						if(item.rentalId != null) {
-							html += `
-									<p class="rental"> 대여중</p>`;
-						}
-						if(item.rentalId == null) {
-							html += `
-									<p> 대여가능</p>`;
-						}
-						html += `
-								</article>`;
-					});
-					html += `
-						</div>`;
-					document.getElementById('result').innerHTML += html;
-				});
+					setPhoneHtml(data);});
 		};
 
 		function rentalHtml(){
@@ -431,67 +294,170 @@
 				.then(response => response.json())
 				.then(data => {
 					console.log(data);
-					console.log("!!!!" + data.back);
-					document.getElementById('result').innerHTML = ``;
-					var html = `
-							<div class="flex flex-4">`;
-					data.list.forEach(function(item) {
+					setRentalHtml(data);
+				});
+		};
+
+		function memberHtml(){
+			fetch(`list`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					black : document.getElementById("isBlack").className=='activeBtn',
+					cha : document.getElementById("isCha").className=='activeBtn'
+				}),
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					setMemberHtml(data);
+				});
+		};
+		
+		//Member
+		function setMemberHtml(data){
+			document.getElementById('result').innerHTML = ``;
+			var html = `
+					<div class="flex flex-4">`;
+			data.list.forEach(function(item) {
 						html += `
 								<article class="card">
 									<header>
-										<h3>${item.rentalId}</h3>
+										<h3>${item.memberName}</h3>
 									</header>
-									<p>${item.applyDate}</p>
-									<div class="module flex flex-3">`;
-						if(item.y2K) {
+									<p>${item.email}</p>
+									<p>${item.phoneNumber}</p>
+									<p>${item.createdAt}</p>`;
+						if(item.isCha) {
 							html += `
-							<p>Y2K</p>`;
+							<p>차상위계층</p>`;
 						}
-						if(item.climateHumidity) {
+						if(item.isBlackList) {
 							html += `
-							<p>습온도계</p>`;
-						}
-						if(item.homecam) {
+							<p>블랙리스트</p>`;
+						}else{
 							html += `
-							<p>홈캠</p>`;
-						}
-						html += `</div>
-						<div class="flex flex-3" style="justify-content: center;">`;
-						if(item.rentalStatus == 1) {
-							html += `
-									<button class="blackBtn" onclick="rentalApply(${item.rentalId})">수락</button>
-									<button class="blackBtn" onclick="rentalBack(${item.rentalId})">반려</button>`;
-						}
-						html += `</div>`;
-						if(item.rentalStatus == 2) {
-							html += `
-									<p> 배달 대기 중</p>`;
-						}
-						if(item.rentalStatus == 3) {
-							html += `
-									<p> 배달 중</p>`;
-						}
-						if(item.rentalStatus == 4) {
-							html += `
-									<p> 대여 중</p>`;
-						}
-						if(item.rentalStatus == 5) {
-							html += `
-									<p> 반납 완료</p>`;
-						}
-						if(item.rentalStatus == -1) {
-							html += `
-									<p> 신청 거절</p>`;
+									<button class="blackBtn" th:onclick="setBlack(${item.email})">블랙리스트 추가</button>`;
 						}
 						html += `
-								</article>`;
+							</article>`;
 					});
 					html += `
 						</div>`;
 					document.getElementById('result').innerHTML += html;
-				});
-		};
+		}
 
+		//phone
+		function setPhoneHtml(data){
+			document.getElementById('result').innerHTML = ``;
+			var html = `
+					<div class="flex flex-4">`;
+			data.list.forEach(function(item) {
+				html += `
+						<article class="card">
+							<header>
+								<h3>${item.phoneId}</h3>
+							</header>
+							<p>${item.serialNumber}</p>
+							<p>${item.modelName}</p>
+							<div class="module flex flex-3">`;
+				if(item.y2K) {
+					html += `
+					<p>Y2K</p>`;
+				}
+				if(item.climateHumidity) {
+					html += `
+					<p>습온도계</p>`;
+				}
+				if(item.homecam) {
+					html += `
+					<p>홈캠</p>`;
+				}
+				html += `</div>`;
+				if(item.rentalId != null) {
+					html += `
+							<p class="rental"> 대여중</p>`;
+				}
+				if(item.rentalId == null) {
+					html += `
+							<p> 대여가능</p>
+							<button class="blackBtn" th:onclick="deletePhone(${item.phoneId})">삭제</button>`;
+				}
+				html += `
+						</article>`;
+			});
+			html += `
+				</div>`;
+			document.getElementById('result').innerHTML += html;
+		}
+
+		//rental
+		function setRentalHtml(data){
+			if(data.back){
+				alert("대여할 휴대폰이 없습니다.");
+			}
+			else{
+				document.getElementById('result').innerHTML = ``;
+				var html = `
+						<div class="flex flex-4">`;
+				data.list.forEach(function(item) {
+					html += `
+							<article class="card">
+								<header>
+									<h3>${item.rentalId}</h3>
+								</header>
+								<p>${item.applyDate}</p>
+								<div class="module flex flex-3">`;
+					if(item.y2K) {
+						html += `
+						<p>Y2K</p>`;
+					}
+					if(item.climateHumidity) {
+						html += `
+						<p>습온도계</p>`;
+					}
+					if(item.homecam) {
+						html += `
+						<p>홈캠</p>`;
+					}
+					html += `</div>
+					<div class="flex flex-3" style="justify-content: center;">`;
+					if(item.rentalStatus == 1) {
+						html += `
+								<button class="blackBtn" onclick="rentalApply(${item.rentalId})">수락</button>
+								<button class="blackBtn" onclick="rentalBack(${item.rentalId})">반려</button>`;
+					}
+					html += `</div>`;
+					if(item.rentalStatus == 2) {
+						html += `
+								<p> 배달 대기 중</p>`;
+					}
+					if(item.rentalStatus == 3) {
+						html += `
+								<p> 배달 중</p>`;
+					}
+					if(item.rentalStatus == 4) {
+						html += `
+								<p> 대여 중</p>`;
+					}
+					if(item.rentalStatus == 5) {
+						html += `
+								<p> 반납 완료</p>`;
+					}
+					if(item.rentalStatus == -1) {
+						html += `
+								<p> 신청 거절</p>`;
+					}
+					html += `
+							</article>`;
+				});
+				html += `
+					</div>`;
+				document.getElementById('result').innerHTML += html;
+			}
+		}
+
+		//return
 		function backHtml(){
 			fetch(`list`, {
 				method: 'POST',
@@ -524,47 +490,6 @@
 							html += `
 								<p>${item.review}</p>
 							</article>`;
-					});
-					html += `
-						</div>`;
-					document.getElementById('result').innerHTML += html;
-				});
-		};
-
-		function memberHtml(){
-			fetch(`list`, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
-					black : document.getElementById("isBlack").className=='activeBtn',
-					cha : document.getElementById("isCha").className=='activeBtn'
-				}),
-			})
-				.then(response => response.json())
-				.then(data => {
-					console.log(data);
-					document.getElementById('result').innerHTML = ``;
-					var html = `
-							<div class="flex flex-4">`;
-					data.list.forEach(function(item) {
-						html += `
-								<article class="card">
-									<header>
-										<h3>${item.memberName}</h3>
-									</header>
-									<p>${item.email}</p>
-									<p>${item.phoneNumber}</p>
-									<p>${item.createdAt}</p>`;
-						if(item.isBlackList) {
-							html += `
-							<p>블랙리스트</p>`;
-						}
-						if(item.isCha) {
-							html += `
-							<p>차상위계층</p>`;
-						}
-							html += `
-								</article>`;
 					});
 					html += `
 						</div>`;
