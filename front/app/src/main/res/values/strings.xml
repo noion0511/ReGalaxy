@@ -24,6 +24,17 @@
     <string name="my_page">마이</string>
     <string name="add_rental_mobile">+물품추가</string>
     <string name="item_rental_change_option">옵션 변경</string>
+
+    <string name="email">email</string>
+    <string name="edit_id">아이디를 입력하세요.</string>
+    <string name="password">Password</string>
+    <string name="edit_password">비밀번호를 입력하세요.</string>
+    <string name="find_password">비밀번호 찾기</string>
+    <string name="if_not_id">아직 아이디가 없다면?</string>
+    <string name="sign_up">회원가입</string>
+    <string name="log_in">로그인</string>
+    <string name="kakao_log_in">카카오 로그인</string>
+
     <string name="moduleWeekChart">한눈에 보기</string>
     <string name="donate_agent">대리점 기증</string>
     <string name="donate_visit_delivery">방문 택배 기증</string>
@@ -76,6 +87,7 @@
     <string name="return_mobile_select">반납 기기 선택</string>
     <string name="review">후기</string>
     <string name="return_visit_delivery">방문 택배 반납</string>
+
 
     <!-- module -->
     <string name="module_type_camera_title">y2k 사진 부스</string>
