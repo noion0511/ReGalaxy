@@ -103,13 +103,8 @@ public class NoticeService {
     }
 
     @Transactional
-    public void noticeToProcess(Long noticeId) throws Exception {
+    public void noticeUpdate(Long noticeId, int status) throws Exception {
         Notice notice = noticeRepository.findById(noticeId).get();
-        if(notice.getStatus() != 2) notice.setStatus(2);
-    }
-    @Transactional
-    public void noticeToEnd(Long noticeId) throws Exception {
-        Notice notice = noticeRepository.findById(noticeId).get();
-        if(notice.getStatus() != 3) notice.setStatus(3);
+        if(notice.getStatus() != status) notice.setStatus(status);
     }
 }

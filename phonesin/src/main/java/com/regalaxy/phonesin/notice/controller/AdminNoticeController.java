@@ -54,7 +54,7 @@ public class AdminNoticeController {
     @PutMapping("/toprocess/{noticeId}")
     public ResponseEntity<Map<String, Object>> noticeToProcess(@PathVariable Long noticeId) throws Exception {
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        noticeService.noticeToProcess(noticeId);
+        noticeService.noticeUpdate(noticeId, 2);
         resultMap.put("status", 200);
         resultMap.put("message", SUCCESS);
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
@@ -64,7 +64,7 @@ public class AdminNoticeController {
     @PutMapping("/toend/{noticeId}")
     public ResponseEntity<Map<String, Object>> noticeToEnd(@PathVariable Long noticeId) throws Exception {
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        noticeService.noticeToEnd(noticeId);
+        noticeService.noticeUpdate(noticeId, 3);
         resultMap.put("status", 200);
         resultMap.put("message", SUCCESS);
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
