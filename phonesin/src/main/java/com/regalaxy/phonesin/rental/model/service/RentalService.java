@@ -1,14 +1,11 @@
 package com.regalaxy.phonesin.rental.model.service;
 
 import com.regalaxy.phonesin.address.model.repository.AgencyRepository;
-import com.regalaxy.phonesin.member.model.SearchDto;
 import com.regalaxy.phonesin.member.model.entity.Member;
 import com.regalaxy.phonesin.member.model.repository.MemberRepository;
+import com.regalaxy.phonesin.phone.model.entity.Phone;
 import com.regalaxy.phonesin.phone.model.repository.PhoneRepository;
-import com.regalaxy.phonesin.rental.model.RentalApplyDto;
-import com.regalaxy.phonesin.rental.model.RentalDetailDto;
-import com.regalaxy.phonesin.rental.model.RentalDto;
-import com.regalaxy.phonesin.rental.model.RentalSearchDto;
+import com.regalaxy.phonesin.rental.model.*;
 import com.regalaxy.phonesin.rental.model.entity.Rental;
 import com.regalaxy.phonesin.rental.model.repository.RentalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,9 +92,18 @@ public class RentalService {
         }
     }
 
-    public boolean apply(Long rental_id, boolean accept){
-        Rental rental = rentalRepository.findById(rental_id).get();
-        if(accept) {//허락
+    public List<RentalDto> apply(AdminRentalApplyDto adminRentalApplyDto){
+        Rental rental = rentalRepository.findById(adminRentalApplyDto.getRentalId()).get();
+        if(adminRentalApplyDto.isApply()) {//허락
+            List<Phone> list = phoneRepository.findAll();
+            for(Phone phone : list){
+                if(phone.getRental()!=null) return null;
+                if(rental.isY2K() && !phone.isY2K()) return null;
+                if(rental.isHomecam() && !phone.isHomecam()) return null;
+                if(rental.isClimateHumidity() && !phone.isClimateHumidity()) return null;
+                phone.setRental(rental);
+                break;
+            }
             rental.setRentalStart(LocalDateTime.now());//대여 시작일
             int month = LocalDateTime.now().getMonthValue() + rental.getUsingDate();
             int year = LocalDateTime.now().getYear();
@@ -110,10 +116,12 @@ public class RentalService {
             rentalRepository.save(rental);
         }
         else {//반려
-            rental.setRentalStatus(3);
+            rental.setRentalStatus(-1);
             rentalRepository.save(rental);
         }
-        return true;
+        RentalSearchDto rentalSearchDto = new RentalSearchDto();
+        rentalSearchDto.setReady(adminRentalApplyDto.isReady());
+        return rentalRepository.search(rentalSearchDto);
     }
 
     public int count(Long member_id){ // status 1, 2, 3
