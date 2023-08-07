@@ -160,7 +160,7 @@ public class MemberController {
 
     @ApiOperation(value = "차상위 계층 인증")
     @PostMapping("/ischa")
-    public ResponseEntity<Map<String, Object>> isCha(@RequestBody Map<String, Object> requestMap) {
+    public ResponseEntity<Map<String, Object>> isCha(@RequestBody MemberIsChaDto memberIsChaDto) {
         Map<String, Object> resultMap = new HashMap<>();
         StringBuffer response = new StringBuffer();
         try {
@@ -172,11 +172,26 @@ public class MemberController {
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
 
+            Map<String, Object> dmSearch = new HashMap<>();
+            dmSearch.put("certfIssuDcd", "08");
+            dmSearch.put("aplyRelpsFlnm", memberIsChaDto.getMemberName());
+            dmSearch.put("aplyRelpsIdmbIdnfNo", "");
+            dmSearch.put("certfIssuNo", memberIsChaDto.getChaCode());
+            dmSearch.put("aplyRelpsRrnoBrdt", memberIsChaDto.getBirth());
+
+            Map<String, Object> dmScr = new HashMap<>();
+            dmScr.put("curScrId", "tbu/app/twoa/twoae/TWAL26100M");
+            dmScr.put("befScrId", "");
+
+            Map<String, Object> requestMap = new HashMap<>();
+            requestMap.put("dmSearch", dmSearch);
+            requestMap.put("dmScr", dmScr);
+
             // Body 입력
             String requestBody;
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
-                requestBody =  objectMapper.writeValueAsString(requestMap);
+                requestBody = objectMapper.writeValueAsString(requestMap);
             } catch (Exception e) {
                 e.printStackTrace();
                 requestBody = null;
