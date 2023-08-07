@@ -36,6 +36,7 @@ public class AdminRentalController {
         System.out.println(list.toString());
         mav.addObject("list", list);
         mav.addObject("title", "대여");
+        mav.addObject("back", false);
         mav.setViewName("/list");//어디로 이동할지 ex) rental/list
         return mav;
     }
@@ -47,8 +48,10 @@ public class AdminRentalController {
         Map<String, Object> map = new HashMap<>();
         model.addAttribute("list", list);
         model.addAttribute("title", "대여");
+        model.addAttribute("back", null);
         map.put("list", list);
         map.put("title", "대여");
+        map.put("back", false);
         return ResponseEntity.ok(map);
     }
 
@@ -59,8 +62,21 @@ public class AdminRentalController {
         Map<String, Object> map = new HashMap<>();
         model.addAttribute("list", list);
         model.addAttribute("title", "대여");
+        model.addAttribute("back", null);
         map.put("list", list);
         map.put("title", "대여");
+        map.put("back", false);
+        if(list==null){
+            model.addAttribute("back", "대여할 휴대폰이 없습니다.");
+            map.put("back", true);
+
+            RentalSearchDto rentalSearchDto = new RentalSearchDto();
+            rentalSearchDto.setReady(adminRentalApplyDto.isReady());
+            ModelAndView mav = new ModelAndView();
+            list = rentalService.infoList(rentalSearchDto);
+            model.addAttribute("list", list);
+            map.put("list", list);
+        }
         return ResponseEntity.ok(map);
     }
 }

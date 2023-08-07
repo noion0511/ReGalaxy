@@ -2,6 +2,7 @@ package com.regalaxy.phonesin.phone.model.repository;
 
 import com.regalaxy.phonesin.phone.model.PhoneDto;
 import com.regalaxy.phonesin.phone.model.PhoneSearchDto;
+import com.regalaxy.phonesin.phone.model.entity.Phone;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
