@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/home">
+    app:startDestination="@id/module">
 
     <fragment
         android:id="@+id/home"
@@ -63,6 +63,9 @@
         <action
             android:id="@+id/action_module_to_cameraFragment"
             app:destination="@id/cameraFragment" />
+        <action
+            android:id="@+id/action_module_to_cameraXFragment"
+            app:destination="@id/cameraXFragment" />
     </fragment>
     <fragment
         android:id="@+id/doateFinishFragment"
@@ -246,11 +249,11 @@
         tools:layout="@layout/fragment_camera">
         <action
             android:id="@+id/action_cameraFragment_to_cameraViewerFragment"
-            app:destination="@id/cameraViewerFragment" />
+            app:destination="@id/cameraViewerFragment"/>
     </fragment>
     <fragment
         android:id="@+id/notificationFragment"
-        android:name="com.ssafy.phonesin.ui.mypage.NotificationFragment"
+        android:name="com.ssafy.phonesin.ui.mypage.notification.NotificationFragment"
         android:label="NotificationFragment" >
         <action
             android:id="@+id/action_notificationFragment_to_my_page"
@@ -258,7 +261,7 @@
     </fragment>
     <fragment
         android:id="@+id/registChaFragment"
-        android:name="com.ssafy.phonesin.ui.mypage.RegistChaFragment"
+        android:name="com.ssafy.phonesin.ui.mypage.modifyinfo.RegistChaFragment"
         android:label="RegistChaFragment" >
         <action
             android:id="@+id/action_registChaFragment_to_my_page"
@@ -266,7 +269,7 @@
     </fragment>
     <fragment
         android:id="@+id/modifyInfoFragment"
-        android:name="com.ssafy.phonesin.ui.mypage.ModifyInfoFragment"
+        android:name="com.ssafy.phonesin.ui.mypage.modifyinfo.ModifyInfoFragment"
         android:label="ModifyInfoFragment" >
         <action
             android:id="@+id/action_modifyInfoFragment_to_my_page"
@@ -277,19 +280,19 @@
     </fragment>
     <fragment
         android:id="@+id/addAddressFragment"
-        android:name="com.ssafy.phonesin.ui.mypage.AddAddressFragment"
+        android:name="com.ssafy.phonesin.ui.mypage.modifyinfo.AddAddressFragment"
         android:label="AddAddressFragment" />
     <fragment
         android:id="@+id/rentalListFragment"
-        android:name="com.ssafy.phonesin.ui.mypage.RentalListFragment"
+        android:name="com.ssafy.phonesin.ui.mypage.mobilelist.RentalListFragment"
         android:label="RentalListFragment" />
     <fragment
         android:id="@+id/returnListFragment"
-        android:name="com.ssafy.phonesin.ui.mypage.ReturnListFragment"
+        android:name="com.ssafy.phonesin.ui.mypage.mobilelist.ReturnListFragment"
         android:label="ReturnListFragment" />
     <fragment
         android:id="@+id/donateListFragment"
-        android:name="com.ssafy.phonesin.ui.mypage.DonateListFragment"
+        android:name="com.ssafy.phonesin.ui.mypage.mobilelist.DonateListFragment"
         android:label="DonateListFragment" />
     <fragment
         android:id="@+id/cameraViewerFragment"
@@ -297,24 +300,59 @@
         android:label="CameraViewerFragment"
         tools:layout="@layout/fragment_camera_viewer">
         <action
-            android:id="@+id/action_cameraViewerFragment_to_frameFragment"
-            app:destination="@id/frameFragment"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/frameFragment" />
+            android:id="@+id/action_cameraViewerFragment_to_frameViewerFragment"
+            app:destination="@id/frameViewerFragment"/>
     </fragment>
     <fragment
         android:id="@+id/frameFragment"
         android:name="com.ssafy.phonesin.ui.module.camera.FrameFragment"
         android:label="FrameFragment"
         tools:layout="@layout/fragment_frame">
+        <action
+            android:id="@+id/action_frameFragment_to_QRCodeFragment"
+            app:destination="@id/QRCodeFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/QRCodeFragment"
+        android:name="com.ssafy.phonesin.ui.module.camera.QRCodeFragment"
+        android:label="QRCodeFragment"
+        tools:layout="@layout/fragment_q_r_code">
+        <action
+            android:id="@+id/action_QRCodeFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/cameraFragment" />
+        <action
+            android:id="@+id/action_QRCodeFragment_to_cameraXFragment"
+            app:destination="@id/cameraXFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/cameraXFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/frameViewerFragment"
+        android:name="com.ssafy.phonesin.ui.module.camera.FrameViewerFragment"
+        android:label="FrameViewerFragment"
+        tools:layout="@layout/fragment_frame_viewer">
+        <action
+            android:id="@+id/action_frameViewerFragment_to_frameFragment"
+            app:destination="@id/frameFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/cameraXFragment"
+        android:name="com.ssafy.phonesin.ui.module.camera.CameraXFragment"
+        android:label="CameraXFragment" >
+        <action
+            android:id="@+id/action_cameraXFragment_to_cameraViewerFragment"
+            app:destination="@id/cameraViewerFragment"/>
     </fragment>
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.ssafy.phonesin.ui.mypage.SplashFragment"
+        android:name="com.ssafy.phonesin.ui.splash.SplashFragment"
         android:label="SplashFragment" />
     <fragment
         android:id="@+id/onboardingDonateFragment"
-        android:name="com.ssafy.phonesin.ui.mypage.OnboardingDonateFragment"
+        android:name="com.ssafy.phonesin.ui.onboarding.OnboardingDonateFragment"
         android:label="OnboardingDonateFragment" >
         <action
             android:id="@+id/action_onboardingDonateFragment_to_onboardingRentalFragment"
@@ -325,7 +363,7 @@
     </fragment>
     <fragment
         android:id="@+id/onboardingRentalFragment"
-        android:name="com.ssafy.phonesin.ui.mypage.OnboardingRentalFragment"
+        android:name="com.ssafy.phonesin.ui.onboarding.OnboardingRentalFragment"
         android:label="fragment_onboarding_rental"
         tools:layout="@layout/fragment_onboarding_rental" >
         <action
@@ -337,7 +375,7 @@
     </fragment>
     <fragment
         android:id="@+id/onboardingModuleFragment"
-        android:name="com.ssafy.phonesin.ui.mypage.OnboardingModuleFragment"
+        android:name="com.ssafy.phonesin.ui.onboarding.OnboardingModuleFragment"
         android:label="fragment_onboarding_module"
         tools:layout="@layout/fragment_onboarding_module" >
         <action
@@ -349,7 +387,7 @@
     </fragment>
     <fragment
         android:id="@+id/onboardingPlanFragment"
-        android:name="com.ssafy.phonesin.ui.mypage.OnboardingPlanFragment"
+        android:name="com.ssafy.phonesin.ui.onboarding.OnboardingPlanFragment"
         android:label="fragment_onboarding_plan"
         tools:layout="@layout/fragment_onboarding_plan" >
         <action

@@ -1,4 +1,4 @@
-package com.ssafy.phonesin.ui.mypage
+package com.ssafy.phonesin.ui.onboarding
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -9,7 +9,10 @@ import lombok.*;
 @AllArgsConstructor
 public class PhoneDto {
     private Long phoneId;
+    private String serialNumber;
     private String modelName;
-    private String nickname;
     private Long rentalId;
+    private boolean isY2K;
+    private boolean isClimateHumidity;
+    private boolean isHomecam;
 }

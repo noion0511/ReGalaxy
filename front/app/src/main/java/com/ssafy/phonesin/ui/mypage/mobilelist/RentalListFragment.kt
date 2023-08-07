@@ -1,4 +1,4 @@
-package com.ssafy.phonesin.ui.mypage
+package com.ssafy.phonesin.ui.mypage.mobilelist
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,7 +11,6 @@ import com.ssafy.phonesin.databinding.FragmentMyPageRentalListBinding
 import com.ssafy.phonesin.model.mypage.MyRental
 import com.ssafy.phonesin.model.mypage.MyRentalToggle
 import com.ssafy.phonesin.ui.MainActivity
-import com.ssafy.phonesin.ui.mypage.mobilelist.MyRentalListAdapter
 
 class RentalListFragment : Fragment() {
     private lateinit var binding: FragmentMyPageRentalListBinding

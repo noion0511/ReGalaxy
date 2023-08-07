@@ -1,4 +1,4 @@
-package com.ssafy.phonesin.ui.mypage
+package com.ssafy.phonesin.ui.mypage.notification
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

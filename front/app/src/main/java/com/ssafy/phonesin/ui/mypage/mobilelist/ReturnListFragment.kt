@@ -1,4 +1,4 @@
-package com.ssafy.phonesin.ui.mypage
+package com.ssafy.phonesin.ui.mypage.mobilelist
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,7 +11,6 @@ import com.ssafy.phonesin.databinding.FragmentMyPageReturnListBinding
 import com.ssafy.phonesin.model.mypage.MyReturn
 import com.ssafy.phonesin.model.mypage.MyReturnToggle
 import com.ssafy.phonesin.ui.MainActivity
-import com.ssafy.phonesin.ui.mypage.mobilelist.MyReturnListAdapter
 
 class ReturnListFragment : Fragment() {
     private lateinit var binding: FragmentMyPageReturnListBinding

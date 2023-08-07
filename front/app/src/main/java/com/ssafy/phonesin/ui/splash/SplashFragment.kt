@@ -1,7 +1,6 @@
-package com.ssafy.phonesin.ui.mypage
+package com.ssafy.phonesin.ui.splash
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

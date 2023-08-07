@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
+import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentHomeBinding
 import com.ssafy.phonesin.ui.MainActivity
 
@@ -46,6 +47,7 @@ class HomeFragment : Fragment() {
     private fun setBanner() {
         viewPager = binding.viewPagerBanner
         indicator = binding.indicatorBanner
+        val images = listOf(R.drawable.banner1, R.drawable.banner2, R.drawable.banner3)
 
         indicator.setupWithViewPager(viewPager)
         viewPager.adapter = HomeViewPagerAdapter(childFragmentManager)
@@ -56,6 +58,7 @@ class HomeFragment : Fragment() {
             p.setMargins(0, 0, 10, 0)
             tab.requestLayout()
         }
+
     }
 
     private fun setRank() {
@@ -65,15 +68,5 @@ class HomeFragment : Fragment() {
         rankRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         rankRecyclerView.adapter = HomeRankAdapter(rankList)
 
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-
-                }
-            }
     }
 }

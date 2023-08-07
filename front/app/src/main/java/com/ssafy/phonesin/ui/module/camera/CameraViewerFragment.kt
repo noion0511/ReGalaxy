@@ -1,16 +1,16 @@
 package com.ssafy.phonesin.ui.module.camera
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentCameraViewerBinding
+import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
-import me.relex.circleindicator.CircleIndicator
 
 @AndroidEntryPoint
 class CameraViewerFragment : BaseFragment<FragmentCameraViewerBinding>(
@@ -21,6 +21,8 @@ class CameraViewerFragment : BaseFragment<FragmentCameraViewerBinding>(
 
     private lateinit var viewPager: ViewPager
     private lateinit var pagerAdapter: CameraPageAdapter
+    private lateinit var photoPathStrings: List<String>
+
     override fun onCreateBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -32,27 +34,53 @@ class CameraViewerFragment : BaseFragment<FragmentCameraViewerBinding>(
     }
 
     override fun init() {
-        val photoPaths = arguments?.getStringArrayList("photo_paths") ?: emptyList<String>()
-        val cameraFacing = arguments?.getStringArrayList("cameraFacing") ?: emptyList<String>()
+        val mainActivity = activity as MainActivity
+        mainActivity.hideBottomNavi(true)
 
         viewPager = bindingNonNull.viewPagerPhotoViewer
-        pagerAdapter = CameraPageAdapter(childFragmentManager, photoPaths, cameraFacing)
+        pagerAdapter = CameraPageAdapter(childFragmentManager)
         viewPager.adapter = pagerAdapter
 
-        val indicator: CircleIndicator = bindingNonNull.indicator
-        indicator.setViewPager(viewPager)
-
-        bindingNonNull.buttonPrintPicture.setOnClickListener {
+        bindingNonNull.buttonChoicePicture.setOnClickListener {
             val currentImagePosition = viewPager.currentItem
-            val currentImagePath = photoPaths[currentImagePosition]
-            val currentCameraFace = cameraFacing[currentImagePosition]
+            val currentImagePath = photoPathStrings[currentImagePosition]
+            val paths = listOf<String>(currentImagePath)
+            viewModel.setSelectedImagePaths(paths)
+        }
 
-            val bundle = Bundle().apply {
-                putString("imagePath", currentImagePath)
-                putString("cameraFacing", currentCameraFace)
+        bindingNonNull.textAllChoice.setOnClickListener {
+            viewModel.setSelectedImagePaths(photoPathStrings)
+        }
+
+        bindingNonNull.buttonArrowLeft.setOnClickListener {
+            if (viewPager.currentItem == 0) viewPager.currentItem = pagerAdapter.count - 1
+            else viewPager.currentItem = (viewPager.currentItem - 1) % pagerAdapter.count
+
+        }
+
+        bindingNonNull.buttonArrowRight.setOnClickListener {
+            viewPager.currentItem = (viewPager.currentItem + 1) % pagerAdapter.count
+        }
+
+        initObserver()
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+
+        }
+    }
+
+    private fun initObserver() {
+        with(viewModel) {
+            photoPaths.observe(viewLifecycleOwner) {
+                photoPathStrings = it
+                pagerAdapter.setPhotoPath(it)
+                bindingNonNull.indicator.setViewPager(viewPager)
             }
 
-            findNavController().navigate(R.id.action_cameraViewerFragment_to_frameFragment, bundle)
+            selectedImagePaths.observe(viewLifecycleOwner) {
+                if (!it.isNullOrEmpty())
+                    findNavController().navigate(R.id.action_cameraViewerFragment_to_frameViewerFragment)
+            }
         }
     }
 }

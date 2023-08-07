@@ -1,4 +1,4 @@
-package com.ssafy.phonesin.ui.mypage
+package com.ssafy.phonesin.ui.mypage.mobilelist
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,8 +11,6 @@ import com.ssafy.phonesin.databinding.FragmentMyPageDonateListBinding
 import com.ssafy.phonesin.model.mypage.MyDonate
 import com.ssafy.phonesin.model.mypage.MyDonateToggle
 import com.ssafy.phonesin.ui.MainActivity
-import com.ssafy.phonesin.ui.mypage.mobilelist.MyDonateListAdapter
-import com.ssafy.phonesin.ui.mypage.mobilelist.MyReturnListAdapter
 
 class DonateListFragment : Fragment() {
     private lateinit var binding: FragmentMyPageDonateListBinding

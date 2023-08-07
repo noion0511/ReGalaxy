@@ -1,6 +1,5 @@
-package com.ssafy.phonesin.ui.mypage
+package com.ssafy.phonesin.ui.mypage.modifyinfo
 
-import RegistedAddressAdapter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater

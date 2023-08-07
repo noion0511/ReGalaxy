@@ -1,4 +1,4 @@
-package com.ssafy.phonesin.ui.mypage
+package com.ssafy.phonesin.ui.onboarding
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentOnboardingPlanBinding
 import com.ssafy.phonesin.ui.MainActivity
 
