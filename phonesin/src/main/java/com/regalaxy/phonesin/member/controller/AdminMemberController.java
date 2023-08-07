@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
@@ -51,8 +52,8 @@ public class AdminMemberController {
     }
 
     @ApiOperation(value = "로그인")
-    @PostMapping("/login")
-    public ModelAndView login(@RequestBody LoginRequestDto loginRequestDto) {
+    @PostMapping("/login2")
+    public ModelAndView login2(@RequestBody LoginRequestDto loginRequestDto) {
         ModelAndView mav = new ModelAndView();
         mav.addObject("status", "기본 응답");
         try {
@@ -88,6 +89,46 @@ public class AdminMemberController {
         }
     }
 
+    @ApiOperation(value = "로그인")
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequestDto loginRequestDto) {
+        Map<String, String> response = new HashMap<>();
+        try {
+            String email = loginRequestDto.getEmail();
+            // 이메일과 비밀번호 인증
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, loginRequestDto.getPassword()));
+
+            // 권한 설정
+            String authority;
+            System.out.println(memberService.AdminInfo(loginRequestDto.getEmail()).getIsManager());
+            if (memberService.AdminInfo(loginRequestDto.getEmail()).getIsManager()) {
+                authority = "ROLE_ADMIN";
+            } else {
+                response.put("error", "일반 회원입니다.");
+                return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
+            };
+
+            // 토큰 발급
+            Long memberId = memberService.AdminInfo(loginRequestDto.getEmail()).getMemberId();
+            String accessToken = jwtTokenProvider.createAccessToken(email, authority, memberId);
+            String refreshToken = jwtTokenProvider.createRefreshToken(email);
+            memberService.signIn(loginRequestDto, refreshToken);
+
+            response.put("email", email);
+            response.put("accessToken", accessToken);
+            response.put("refreshToken", refreshToken);
+
+            return new ResponseEntity(response, HttpStatus.OK);
+        } catch (AuthenticationException e) {
+            response.put("error", "이메일 또는 비밀번호가 일치하지 않습니다.");
+            return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+    @ApiOperation(value = "로그인")
+    @GetMapping("/login")
+    public String loginpage() {
+        return "login";
+    }
 
     @ApiOperation(value = "회원 목록 조회")
     @GetMapping("/list")

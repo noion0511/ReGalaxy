@@ -97,8 +97,19 @@
             }
         });
 
+        document.getElementById("pwd-input").addEventListener("keydown",function(e){
+            if (e.key === 'Enter') {
+                login()
+            }
+        });
+
         // 로그인 전송
         document.getElementById("login").addEventListener("click",function(e){
+            login()
+        });
+
+        function login(){
+
             var id = document.getElementById("id-input").value;
             var pwd = document.getElementById("pwd-input").value;
 
@@ -115,7 +126,7 @@
             };
             $.ajax({
                 // url : '/member/admin/login/',
-                url : '/member/login/',
+                url : '/admin/member/login/',
                 type : 'POST',
                 dataType : 'json',
                 contentType : 'application/json',
@@ -127,19 +138,11 @@
                     sessionStorage.setItem("refreshToken", response['refreshToken'])
                     location.href="/"
                 },
-                error : function (request, status, error){
-                    alert('아이디와 비밀번호를 확인해 주세요');
+                error : function (response, status, error){
+                    alert(response['responseJSON']['error']);
                 }
             })
-            // fetch(`/member/admin/login/`, data)
-            //     .then((response) => {
-            //         response.json()
-            //         console.log(response)
-            //     })
-            //     .then((data) => {
-            //         console.log(data)
-            //     })
-        });
+        }
     </script>
 
 <!-- Scripts -->

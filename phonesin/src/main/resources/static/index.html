@@ -20,7 +20,7 @@
 					<a href="index.html" class="logo"><img style="object-fit: cover; width:2em" src="images/logo.PNG" /></a>
 					<div id="dropdown" style="display: inline-block;" class="c dropdown">
 						<ul>
-							<li class="dropdownBtn" id="login"><button onClick="location.href='member/admin/login'" class="blackBtn">login</button></li>
+							<li class="dropdownBtn" id="login"><button onClick="location.href='admin/member/login'" class="blackBtn">login</button></li>
 							<li class="dropdownBtn" id="logout" style="display: none"><button onClick=logout() class="blackBtn">logout</button></li>
 							<li class="dropdownBtn" id="clickArea">
 								<button class="blackBtn" onclick ="clickshow(this,'list')">admin</button>
@@ -123,6 +123,7 @@
 			}
 
 			function logout() {
+				alert("로그아웃 되었습니다.")
 				sessionStorage.clear()
 				reload()
 			}
