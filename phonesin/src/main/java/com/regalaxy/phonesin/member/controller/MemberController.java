@@ -17,6 +17,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -55,7 +56,6 @@ public class MemberController {
 
             // 권한 설정
             String authority;
-            System.out.println(memberService.AdminInfo(loginRequestDto.getEmail()).getIsManager());
             if (memberService.AdminInfo(loginRequestDto.getEmail()).getIsManager()) {
                 authority = "ROLE_ADMIN";
             } else {
@@ -93,18 +93,26 @@ public class MemberController {
         return ResponseEntity.ok(response);
     }
 
-    @ApiOperation(value = "회원 정보 상세 조회")
+    @ApiOperation(value = "사용자가 자신의 정보 상세 조회")
     @PostMapping("/info/{memberId}")
-    public ResponseEntity<Map<String, Object>> memberInfo(@PathVariable("memberId") Long memberId) {
+    public ResponseEntity<Map<String, Object>> memberInfo(@PathVariable("memberId") Long memberId, @ApiIgnore @RequestHeader String authorization) {
+        String token = authorization.replace("Bearer ", "");
         Map<String, Object> resultMap = new HashMap<>();
+        if (jwtTokenProvider.getMemberId(token) != memberId) {
+            throw new IllegalStateException("멤버 ID가 일치하지 않습니다.");
+        };
         resultMap.put("member", memberService.UserInfo(memberId));
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 
     @ApiOperation(value = "사용자가 회원 정보 수정")
     @PutMapping("/update")
-    public ResponseEntity<String> update(@RequestBody MemberUserDto memberUserDto) {
+    public ResponseEntity<String> update(@RequestBody MemberUserDto memberUserDto, @ApiIgnore @RequestHeader String authorization) {
+        String token = authorization.replace("Bearer ", "");
         Map<String, Object> resultMap = new HashMap<>();
+        if (!jwtTokenProvider.getEmail(token).equals(memberUserDto.getEmail())) {
+            throw new IllegalStateException("Email이 일치하지 않습니다.");
+        }
         MemberDto updatedMemberDto = memberService.updateMemberByUser(memberUserDto);
         resultMap.put("updatedMember", updatedMemberDto);
         return new ResponseEntity<String>("Success", HttpStatus.OK);
@@ -112,7 +120,11 @@ public class MemberController {
 
     @ApiOperation(value = "회원 탈퇴")
     @PutMapping("/delete/{memberId}")
-    public ResponseEntity<String> delete(@PathVariable("memberId") Long memberId) {
+    public ResponseEntity<String> delete(@PathVariable("memberId") Long memberId, @ApiIgnore @RequestHeader String authorization) {
+        String token = authorization.replace("Bearer ", "");
+        if (jwtTokenProvider.getMemberId(token) != memberId) {
+            throw new IllegalStateException("멤버 ID가 일치하지 않습니다.");
+        }
         memberService.deleteMember(memberId);
         return new ResponseEntity<String>("Success", HttpStatus.OK);
     }
@@ -122,6 +134,7 @@ public class MemberController {
     public ResponseEntity<String> isCha(@RequestBody Map<String, Object> requestMap) {
         StringBuffer response = new StringBuffer();
         try {
+            // URL 설정
             URL url = new URL("https://www.bokjiro.go.kr/ssis-tbu/TWAL26100M/twatza/certfIssuAplyMng/selectCertfTruflsIdnty.do");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setDoOutput(true);
@@ -129,6 +142,7 @@ public class MemberController {
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
 
+            // Body 입력
             String requestBody;
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
@@ -143,6 +157,7 @@ public class MemberController {
             in.flush();
             in.close();
 
+            // response 출력
             Charset charset = Charset.forName("UTF-8");
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), charset));
             String inputLine;
@@ -161,6 +176,7 @@ public class MemberController {
         if (response.toString().split(":")[1].split("}")[0].equals("null")) {
             return new ResponseEntity<String>("요청하신 문서번호는 발급된 내역이 없는 증명서로 확인 되었습니다.", HttpStatus.OK);
         } else {
+            // 차상위 인증에 성공했을 경우를 테스트 할 수 없어서 우선 메시지를 띄우도록 설정
             return new ResponseEntity<String>(response.toString().split(":")[1].split("}")[0], HttpStatus.OK);
         }
     }
@@ -174,5 +190,19 @@ public class MemberController {
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @ApiOperation(value = "이메일 인증")
+    @PostMapping("/email-verification")
+    public ResponseEntity<String> requestEmailVerification(@RequestBody EmailVerificationConfirmationDto requestDto) {
+        memberService.requestEmailVerification(requestDto.getEmail());
+        return new ResponseEntity<>("이메일 인증 코드가 발송되었습니다.", HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "이메일 인증 코드 확인")
+    @PostMapping("/email-verification/confirm")
+    public ResponseEntity<String> confirmEmailVerification(@RequestBody EmailVerificationConfirmationDto confirmationDto) {
+        memberService.confirmEmailVerification(confirmationDto.getEmail(), confirmationDto.getCode());
+        return new ResponseEntity<>("이메일이 성공적으로 인증되었습니다.", HttpStatus.OK);
     }
 }
