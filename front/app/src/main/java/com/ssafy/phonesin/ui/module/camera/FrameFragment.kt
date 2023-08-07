@@ -1,6 +1,5 @@
 package com.ssafy.phonesin.ui.module.camera
 
-import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
@@ -10,7 +9,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
-import android.provider.OpenableColumns
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -26,7 +24,6 @@ import com.ssafy.phonesin.databinding.FragmentFrameBinding
 import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.internal.Contexts.getApplication
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
@@ -159,14 +156,17 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
         val frameBitmap = layoutToBitmap(bindingNonNull.rootView)
 
         frameBitmap?.let {
-            val timeStamp =
+            val imageTimeStamp =
                 SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+            val frameTimeStamp =
+                SimpleDateFormat("yyyy.MM.dd", Locale.getDefault()).format(Date())
+            bindingNonNull.textViewTime.text = frameTimeStamp
             val storageDir =
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
             val imageFile =
                 File(
                     storageDir,
-                    "IMG_${timeStamp}_${viewModel.getPrintCountFromPrefs() + 1}.jpeg"
+                    "IMG_${imageTimeStamp}_${viewModel.getPrintCountFromPrefs() + 1}.jpeg"
                 ).apply {
                     parentFile?.let {
                         if (!it.exists()) it.mkdirs()
@@ -176,7 +176,7 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 val uri = saveBitmapToGallery(
                     it,
-                    "IMG_${timeStamp}_${viewModel.getPrintCountFromPrefs() + 1}.jpeg",
+                    "IMG_${imageTimeStamp}_${viewModel.getPrintCountFromPrefs() + 1}.jpeg",
                     "image/jpeg"
                 )
                 viewModel.uploadImage(uri)
