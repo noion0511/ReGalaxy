@@ -3,6 +3,7 @@ package com.regalaxy.phonesin.rental.model.service;
 import com.regalaxy.phonesin.address.model.repository.AgencyRepository;
 import com.regalaxy.phonesin.member.model.entity.Member;
 import com.regalaxy.phonesin.member.model.repository.MemberRepository;
+import com.regalaxy.phonesin.phone.model.entity.Phone;
 import com.regalaxy.phonesin.phone.model.repository.PhoneRepository;
 import com.regalaxy.phonesin.rental.model.*;
 import com.regalaxy.phonesin.rental.model.entity.Rental;
@@ -101,6 +102,15 @@ public class RentalService {
     public List<RentalDto> apply(AdminRentalApplyDto adminRentalApplyDto){
         Rental rental = rentalRepository.findById(adminRentalApplyDto.getRentalId()).get();
         if(adminRentalApplyDto.isApply()) {//허락
+            List<Phone> list = phoneRepository.findAll();
+            for(Phone phone : list){
+                if(phone.getRental()!=null) return null;
+                if(rental.isY2K() && !phone.isY2K()) return null;
+                if(rental.isHomecam() && !phone.isHomecam()) return null;
+                if(rental.isClimateHumidity() && !phone.isClimateHumidity()) return null;
+                phone.setRental(rental);
+                break;
+            }
             rental.setRentalStart(LocalDateTime.now());//대여 시작일
             int month = LocalDateTime.now().getMonthValue() + rental.getUsingDate();
             int year = LocalDateTime.now().getYear();
