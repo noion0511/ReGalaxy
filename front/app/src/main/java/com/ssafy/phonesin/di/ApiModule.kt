@@ -3,7 +3,7 @@ package com.ssafy.phonesin.di
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.ssafy.phonesin.common.AppPreferences.getAccessToken
-import com.ssafy.phonesin.network.ApiService
+import com.ssafy.phonesin.network.service.ApiService
 import com.ssafy.phonesin.network.NetworkResponseAdapterFactory
 import com.ssafy.phonesin.network.TokenAuthenticator
 import dagger.Module

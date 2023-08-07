@@ -3,8 +3,8 @@ package com.ssafy.phonesin.repository.login
 import com.ssafy.phonesin.model.ErrorResponse
 import com.ssafy.phonesin.model.Token
 import com.ssafy.phonesin.model.dto.LoginRequestDto
-import com.ssafy.phonesin.network.AuthApiService
 import com.ssafy.phonesin.network.NetworkResponse
+import com.ssafy.phonesin.network.service.AuthApiService
 import javax.inject.Inject
 
 class LoginRepositoryImpl @Inject constructor(

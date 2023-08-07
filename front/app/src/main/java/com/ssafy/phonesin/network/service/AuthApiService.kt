@@ -1,8 +1,9 @@
-package com.ssafy.phonesin.network
+package com.ssafy.phonesin.network.service
 
 import com.ssafy.phonesin.model.ErrorResponse
 import com.ssafy.phonesin.model.Token
 import com.ssafy.phonesin.model.dto.LoginRequestDto
+import com.ssafy.phonesin.network.NetworkResponse
 import retrofit2.http.Body
 import retrofit2.http.POST
 
