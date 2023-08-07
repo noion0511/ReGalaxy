@@ -28,24 +28,24 @@ public class MemberService {
     private final Random random = new SecureRandom();
 
     // 회원가입
-    public ResponseEntity<Member> signUp(MemberDto memberDto) {
-        if (memberRepository.existsByEmail(memberDto.getEmail()) && !memberRepository.findByEmail(memberDto.getEmail()).get().getIsDelete()) {
+    public ResponseEntity<Member> signUp(MemberSignUpDto memberSignUpDto) {
+        if (memberRepository.existsByEmail(memberSignUpDto.getEmail()) && !memberRepository.findByEmail(memberSignUpDto.getEmail()).get().getIsDelete()) {
             throw new RuntimeException("이미 존재하는 이메일입니다.");
         } else {
             // 비밀번호 암호화
-            String encodedPassword = passwordEncoder.encode(memberDto.getPassword());
+            String encodedPassword = passwordEncoder.encode(memberSignUpDto.getPassword());
 
             Member member;
-            if (!memberRepository.existsByEmail(memberDto.getEmail())) {
+            if (!memberRepository.existsByEmail(memberSignUpDto.getEmail())) {
                 member = new Member();
-                member.update(memberDto, encodedPassword);
+                member.update(memberSignUpDto, encodedPassword);
 
                 Member savedMember = memberRepository.save(member);
             } else {
                 // 삭제한 이메일로 다시 한 번 회원가입 할 때
-                member = memberRepository.findByEmail(memberDto.getEmail()).get();
+                member = memberRepository.findByEmail(memberSignUpDto.getEmail()).get();
 
-                member.update(memberDto, encodedPassword);
+                member.update(memberSignUpDto, encodedPassword);
 
                 Member savedMember = memberRepository.save(member);
             }

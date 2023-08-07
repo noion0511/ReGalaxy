@@ -1,14 +1,12 @@
 package com.regalaxy.phonesin.member.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.regalaxy.phonesin.member.model.*;
 import com.regalaxy.phonesin.member.model.jwt.JwtTokenProvider;
 import com.regalaxy.phonesin.member.model.service.MemberService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,7 +14,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.io.BufferedReader;
@@ -41,8 +38,8 @@ public class MemberController {
 
     @ApiOperation(value = "회원가입")
     @PostMapping("/signup")
-    public ResponseEntity<String> signUp(@RequestBody MemberDto memberDto) {
-        memberService.signUp(memberDto);
+    public ResponseEntity<String> signUp(@RequestBody MemberSignUpDto memberSignUpDto) {
+        memberService.signUp(memberSignUpDto);
         return ResponseEntity.ok("Success");
     }
 

@@ -5,6 +5,7 @@ import com.regalaxy.phonesin.donation.model.entity.Donation;
 import com.regalaxy.phonesin.global.BaseTimeEntity;
 import com.regalaxy.phonesin.member.model.MemberAdminDto;
 import com.regalaxy.phonesin.member.model.MemberDto;
+import com.regalaxy.phonesin.member.model.MemberSignUpDto;
 import com.regalaxy.phonesin.member.model.MemberUserDto;
 import com.regalaxy.phonesin.rental.model.entity.Rental;
 import io.swagger.annotations.ApiModelProperty;
@@ -153,15 +154,15 @@ public class Member extends BaseTimeEntity {
         this.password = encode;
     }
 
-    public void update(MemberDto memberDto, String encodedPassword) {
-        this.memberName = memberDto.getMemberName();
-        this.email = memberDto.getEmail();
-        this.phoneNumber = memberDto.getPhoneNumber();
+    public void update(MemberSignUpDto memberSignUpDto, String encodedPassword) {
+        this.memberName = memberSignUpDto.getMemberName();
+        this.email = memberSignUpDto.getEmail();
+        this.phoneNumber = memberSignUpDto.getPhoneNumber();
         this.password = encodedPassword;
-        this.isCha = memberDto.getIsCha();
-        this.isManager = memberDto.getIsManager();
-        this.isBlackList = memberDto.getIsBlackList();
-        this.isDelete = memberDto.getIsDelete();
+        this.isCha = false;
+        this.isManager = false;
+        this.isBlackList = false;
+        this.isDelete = false;
     }
 
     public void setVerificationCode(String email, String code) {
