@@ -117,6 +117,7 @@ public class Member extends BaseTimeEntity {
         this.refreshToken = refreshToken;
     }
 
+    // 관리자가 회원 정보 변경
     public void updateByAdmin(MemberAdminDto memberAdminDto) {
         this.memberName = memberAdminDto.getMemberName();
         this.email = memberAdminDto.getEmail();
@@ -127,15 +128,21 @@ public class Member extends BaseTimeEntity {
         this.isDelete = memberAdminDto.getIsDelete();
     }
 
-    // isDelete, 리프레시 토큰 초기화
+    // isDelete를 true로 변경, 리프레시 토큰 초기화
     public void delete() {
         this.isDelete = true;
         this.refreshToken = null;
     }
 
+    // 사용자가 자신의 정보 변경
     public void updateByUser(MemberUserDto memberUserDto) {
         this.memberName = memberUserDto.getMemberName();
         this.email = memberUserDto.getEmail();
         this.phoneNumber = memberUserDto.getPhoneNumber();
+    }
+
+    // 비밀번호 변경
+    public void updatePassword(String encode) {
+        this.password = encode;
     }
 }

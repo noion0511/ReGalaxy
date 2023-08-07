@@ -1,8 +1,6 @@
 package com.regalaxy.phonesin.donation.controller;
 
 import com.regalaxy.phonesin.donation.model.service.DonationService;
-import com.regalaxy.phonesin.member.model.SearchDto;
-import com.regalaxy.phonesin.rental.model.RentalDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

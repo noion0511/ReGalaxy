@@ -1,6 +1,7 @@
 package com.regalaxy.phonesin.back.model.service;
 
 import com.regalaxy.phonesin.back.model.BackAdminDto;
+import com.regalaxy.phonesin.back.model.BackAdminSearschDto;
 import com.regalaxy.phonesin.back.model.BackDto;
 import com.regalaxy.phonesin.back.model.BackInfoDto;
 import com.regalaxy.phonesin.back.model.entity.Back;
@@ -87,10 +88,11 @@ public class BackService {
         return BackDto.fromEntity(back);
     }
 
-    public List<BackAdminDto> list(){
+    public List<BackAdminDto> list(BackAdminSearschDto backAdminSearschDto ){
         List<Back> list = backRepository.findAll();
         List<BackAdminDto> backAdminDtos = new ArrayList<>();
         for(Back back : list){
+            if(backAdminSearschDto.isSuccess() && back.getBackStatus()==1) continue;
             BackAdminDto backAdminDto = new BackAdminDto();
             backAdminDto.setBackStatus(back.getBackStatus());
             backAdminDto.setReview(back.getReview());

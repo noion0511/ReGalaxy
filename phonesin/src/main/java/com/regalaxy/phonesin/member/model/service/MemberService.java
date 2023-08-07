@@ -1,9 +1,6 @@
 package com.regalaxy.phonesin.member.model.service;
 
-import com.regalaxy.phonesin.member.model.MemberAdminDto;
-import com.regalaxy.phonesin.member.model.MemberUserDto;
-import com.regalaxy.phonesin.member.model.LoginRequestDto;
-import com.regalaxy.phonesin.member.model.MemberDto;
+import com.regalaxy.phonesin.member.model.*;
 import com.regalaxy.phonesin.member.model.entity.Member;
 import com.regalaxy.phonesin.member.model.jwt.JwtTokenProvider;
 import com.regalaxy.phonesin.member.model.repository.MemberRepository;
@@ -12,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -76,15 +75,22 @@ public class MemberService {
         memberRepository.save(member);
     }
 
+    // 사용자가 자신의 정보를 조회하는 서비스
     public MemberUserDto UserInfo(Long memberId) {
         return Member.toUserDto(memberRepository.findById(memberId).get());
     }
 
+    // 관리자가 회원의 정보를 조회하는 서비스(ID)
+    public MemberAdminDto UserInfoByAdmin(Long memberId) {
+        return Member.toAdminDto(memberRepository.findById(memberId).get());
+    }
+
+    // 관리자가 회원의 정보를 조회하는 서비스(Email)
     public MemberAdminDto AdminInfo(String email) {
         return Member.toAdminDto(memberRepository.findByEmail(email).get());
     }
 
-    // 회원 정보 수정
+    // 관리자가 회원의 정보를 수정하는 서비스
     public MemberDto updateMemberByAdmin(MemberAdminDto memberAdminDto) {
         // DB에 없는 ID를 검색하려고 하면 IllegalArgumentException
         Member member = memberRepository.findById(memberAdminDto.getMemberId())
@@ -94,6 +100,7 @@ public class MemberService {
         return MemberDto.fromEntity(member);
     }
 
+    // 사용자가 자신의 정보를 수정하는 서비스
     public MemberDto updateMemberByUser(MemberUserDto memberUserDto) {
         // DB에 없는 ID를 검색하려고 하면 IllegalArgumentException
         Member member = memberRepository.findByEmail(memberUserDto.getEmail())
@@ -111,7 +118,36 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    public Object UserInfoByAdmin(Long memberId) {
-        return Member.toAdminDto(memberRepository.findById(memberId).get());
+    // 비밀번호 변경
+    public void changePassword(MemberUpdatePasswordDto requestDto) {
+        Member member = memberRepository.findByEmail(requestDto.getEmail())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이메일입니다."));
+
+        // 기존 비밀번호 안맞으면 Exception
+        if (!passwordEncoder.matches(requestDto.getOldPassword(), member.getPassword())) {
+            throw new IllegalArgumentException("기존 비밀번호가 일치하지 않습니다.");
+        }
+
+        member.updatePassword(passwordEncoder.encode(requestDto.getNewPassword()));
+        memberRepository.save(member);
+    }
+
+    public List<MemberDto> list(MemberSearchDto memberSearchDto){
+        List<Member> member = memberRepository.findAll();
+        List<MemberDto> memberDtos = new ArrayList<>();
+        for(Member m : member){
+            if(m.getIsManager()) continue;
+            if(memberSearchDto.isBlack() && !m.getIsBlackList()) continue;
+            if(memberSearchDto.isCha() && !m.getIsCha()) continue;
+            MemberDto memberDto = new MemberDto();
+            memberDto.setEmail(m.getEmail());
+            memberDto.setMemberName(m.getMemberName());
+            memberDto.setIsBlackList(m.getIsBlackList());
+            memberDto.setIsCha(m.getIsCha());
+            memberDto.setCreatedAt(m.getCreatedAt());
+            memberDto.setPhoneNumber(m.getPhoneNumber());
+            memberDtos.add(memberDto);
+        }
+        return memberDtos;
     }
 }

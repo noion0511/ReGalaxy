@@ -5,15 +5,13 @@ import com.regalaxy.phonesin.member.model.MemberAdminDto;
 import com.regalaxy.phonesin.member.model.MemberDto;
 import com.regalaxy.phonesin.member.model.jwt.JwtTokenProvider;
 import com.regalaxy.phonesin.member.model.service.MemberService;
-import com.regalaxy.phonesin.rental.model.RentalDto;
-import com.regalaxy.phonesin.rental.model.RentalSearchDto;
+import com.regalaxy.phonesin.member.model.MemberSearchDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
@@ -27,7 +25,7 @@ import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/member/admin")
+@RequestMapping("/admin/member")
 @Api(tags = "멤버 또는 토큰 관리 API(관리자)", description = "멤버 또는 토큰 관리 Controller(관리자)")
 public class AdminMemberController {
 
@@ -90,9 +88,28 @@ public class AdminMemberController {
         }
     }
 
-    @ApiOperation(value = "로그인")
-    @GetMapping("/login")
-    public String loginpage() {
-        return "login";
+
+    @ApiOperation(value = "회원 목록 조회")
+    @GetMapping("/list")
+    public ModelAndView list(){
+        MemberSearchDto memberSearchDto = new MemberSearchDto();
+        List<MemberDto> list = memberService.list(memberSearchDto);
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("list", list);
+        mav.addObject("title", "회원");
+        mav.setViewName("/list");
+        return mav;
+    }
+
+    @ApiOperation(value = "휴대폰 목록 조회 검색")
+    @PostMapping("/list")
+    public ResponseEntity<?> listSearch(@RequestBody MemberSearchDto memberSearchDto, Model model){
+        List<MemberDto> list = memberService.list(memberSearchDto);
+        Map<String, Object> map = new HashMap<>();
+        model.addAttribute("list", list);
+        model.addAttribute("title", "휴대폰");
+        map.put("list", list);
+        map.put("title", "휴대폰");
+        return ResponseEntity.ok(map);
     }
 }

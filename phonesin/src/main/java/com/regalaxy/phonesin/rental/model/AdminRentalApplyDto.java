@@ -7,6 +7,8 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RentalSearchDto {
+public class AdminRentalApplyDto {
+    private Long rentalId;
+    private boolean apply;
     private boolean ready;
 }
