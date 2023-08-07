@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,8 +30,8 @@ public class RentalController {
 
     @ApiOperation(value = "기기 대여 신청서 신청")
     @PostMapping("/apply")//신청하기
-    public ResponseEntity<?> infoApply(@RequestBody List<RentalApplyDto> rentalApplylistDto, @RequestHeader String authorization){
-        String token = authorization.split(" ")[1];
+    public ResponseEntity<?> infoApply(@RequestBody List<RentalApplyDto> rentalApplylistDto, @ApiIgnore @RequestHeader String authorization){
+        String token = authorization.replace("Bearer ", "");
         Long memberId = jwtTokenProvider.getMemberId(token);
         for (RentalApplyDto rentalApplyDto : rentalApplylistDto) {
             rentalService.infoApply(rentalApplyDto, memberId);
@@ -63,8 +64,8 @@ public class RentalController {
 
     @ApiOperation(value = "기기 대여 신청서 리스트 조회")
     @GetMapping("/apply/list")//신청 리스트
-    public ResponseEntity<?> infoList(@RequestHeader String authorization){
-        String token = authorization.split(" ")[1];
+    public ResponseEntity<?> infoList(@ApiIgnore @RequestHeader String authorization){
+        String token = authorization.replace("Bearer ", "");
         Long memberId = jwtTokenProvider.getMemberId(token);
         List<RentalDto> list = rentalService.clientInfoList(memberId);
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -92,8 +93,8 @@ public class RentalController {
 
     @ApiOperation(value = "기기 대여 신청 수")
     @GetMapping("/apply/count")//신청 연장
-    public ResponseEntity<?> count(@RequestHeader String authorization){
-        String token = authorization.split(" ")[1];
+    public ResponseEntity<?> count(@ApiIgnore @RequestHeader String authorization){
+        String token = authorization.replace("Bearer ", "");
         Long memberId = jwtTokenProvider.getMemberId(token);
         int cnt = rentalService.count(memberId);
         Map<String, Object> resultMap = new HashMap<String, Object>();

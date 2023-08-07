@@ -24,7 +24,13 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         HttpServletRequest httpRequest = (HttpServletRequest) req;
         String path = httpRequest.getRequestURI();
 
-        if (!path.startsWith("/member/login") && !path.startsWith("/member/signup") && !path.startsWith("/member/token/refresh")) {
+        if (!path.startsWith("/member/login") &&
+                !path.startsWith("/member/signup") &&
+                !path.startsWith("/member/token/refresh") &&
+                !path.startsWith("/v3/api-docs") &&
+                !path.startsWith("/swagger-ui") &&
+                !path.startsWith("/swagger-resources")) {
+
             String token = jwtTokenProvider.resolveToken(httpRequest);
             if (token != null) {
                 try {
