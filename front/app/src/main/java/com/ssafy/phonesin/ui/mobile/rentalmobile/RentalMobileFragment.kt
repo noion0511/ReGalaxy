@@ -1,15 +1,16 @@
 package com.ssafy.phonesin.ui.mobile.rentalmobile
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentRentalMoblieBinding
 import com.ssafy.phonesin.ui.MainActivity
+import com.ssafy.phonesin.ui.util.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,11 +22,81 @@ private const val ARG_PARAM2 = "param2"
  * Use the [RentalMobileFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class RentalMobileFragment : Fragment() {
+
+@AndroidEntryPoint
+class RentalMobileFragment :
+    BaseFragment<FragmentRentalMoblieBinding>(R.layout.fragment_rental_moblie) {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    private lateinit var binding: FragmentRentalMoblieBinding
+    val rentalMobileViewModel: RentalViewModel by activityViewModels()
+    var rentalCount = 0
+
+    override fun onCreateBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentRentalMoblieBinding {
+        return FragmentRentalMoblieBinding.inflate(layoutInflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
+        }
+
+    }
+
+    override fun init() {
+        rentalMobileUi()
+        setRentalMobileAdapter()
+    }
+
+    private fun setRentalMobileAdapter() {
+        val rentalMobileAdapter = RentalMobileAdapter()
+        rentalMobileAdapter.deleteRentalMobileListener =
+            object : RentalMobileAdapter.DeleteRentalMobileListener {
+                override fun onClick(id: Int) {
+                    rentalMobileViewModel.deleteRental(id)
+                }
+            }
+        rentalMobileAdapter.plusRentalMobileListener =
+            object : RentalMobileAdapter.PlusRentalMobileListener {
+                override fun onClick(id: Int) {
+                    val count = currentRentalList() ?: 0
+                    if (count < rentalCount) {
+                        rentalMobileViewModel.plusRental(id)
+                        bindingNonNull.rentalNum.text =
+                            "대여 갯수:${currentRentalList()}"
+                    } else {
+                        showToast("최대 갯수 입니다.")
+                    }
+
+                }
+            }
+        rentalMobileAdapter.minusRentalMobileListener =
+            object : RentalMobileAdapter.MinusRentalMobileListener {
+                override fun onClick(id: Int) {
+                    rentalMobileViewModel.minusRental(id)
+                    bindingNonNull.rentalNum.text =
+                        "대여 갯수:${currentRentalList()}"
+                }
+            }
+        rentalMobileAdapter.updateRentalMobileListener =
+            object : RentalMobileAdapter.UpdateRentalMobileListener {
+                override fun onClick(id: Int) {
+                    //TODO : 옵션 변경 기능
+                }
+            }
+        bindingNonNull.rentalListRv.adapter = rentalMobileAdapter
+
+
+        rentalMobileViewModel.rentalList.observe(viewLifecycleOwner) {
+            bindingNonNull.rentalNum.text =
+                "대여 갯수:${currentRentalList()}"
+            rentalMobileAdapter.submitList(it)
+        }
+
+    }
+
+    fun currentRentalList(): Int? {
+        return rentalMobileViewModel.rentalList.value?.sumOf { it.count }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,34 +104,42 @@ class RentalMobileFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+        rentalMobileViewModel.getAddressList()
+        rentalMobileViewModel.getPossibleRentalCount()
         val mainActivity = activity as MainActivity
         mainActivity.hideBottomNavi(true)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        binding = FragmentRentalMoblieBinding.inflate(layoutInflater, container, false)
-        return binding.root
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        rentalMobileUi()
-    }
 
-    private fun rentalMobileUi() {
-        binding.mobileAdd.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_rentalMobileFragment_to_rentalAddFragment,
-            )
+    private fun rentalMobileUi() = with(bindingNonNull) {
+        rentalNum.text = "대여 갯수:0"
+
+        rentalMobileViewModel.possibleRentalCount.observe(viewLifecycleOwner) { count ->
+            rentalCount = count
+            rentalPossibleNum.text = "신청 가능 갯수:${count}개"
         }
-        binding.postRental.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_rentalMobileFragment_to_rentalPayFragment,
-            )
+
+        mobileAdd.setOnClickListener {
+            val temp = currentRentalList() ?: 0
+            if (temp == rentalCount) {
+                showToast("최대 갯수 입니다.")
+            } else {
+                findNavController().navigate(
+                    R.id.action_rentalMobileFragment_to_rentalAddFragment,
+                )
+            }
+        }
+
+        postRental.setOnClickListener {
+
+            if (rentalMobileViewModel.rentalList.value?.size == 0) {
+                showToast("1개 이상을 추가해주세요")
+            } else {
+                findNavController().navigate(
+                    R.id.action_rentalMobileFragment_to_rentalPayFragment,
+                )
+            }
         }
     }
 

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentModuleBinding
 import com.ssafy.phonesin.model.ModuleType
+import com.ssafy.phonesin.ui.MainActivity
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -20,6 +21,11 @@ class ModuleFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    override fun onResume() {
+        super.onResume()
+        val mainActivity = activity as MainActivity
+        mainActivity.hideBottomNavi(false)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

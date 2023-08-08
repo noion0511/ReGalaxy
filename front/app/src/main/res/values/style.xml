@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--  switch  -->
+    <style name="SwitchThemeAnimation" parent="Theme.AppCompat.Light">
+        <!-- 스위치의 애니메이션 ON 상태일 때의 색상 -->
+        <item name="colorControlActivated">@color/keyColor1</item>
+        <!-- 스위치의 애니메이션 OFF 상태일 때의 색상 -->
+        <item name="colorControlNormal">@color/unselectedLightColor</item>
+    </style>
+
     <!-- Custom font style 일괄적용 -->
     <style name="TextViewStyle" parent="@android:style/Widget.DeviceDefault.TextView">
         <item name="android:fontFamily">@font/pretendard_medium</item>
@@ -27,11 +35,25 @@
     <!--  제목 및 컨텐츠 font 지정  -->
     <style name="textview_content_black">
         <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
     </style>
 
     <style name="textview_content_gray">
         <item name="android:textColor">@color/gray</item>
         <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
+    </style>
+
+    <style name="textview_explain_gray">
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
+    </style>
+
+    <style name="textview_edit_black">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
     </style>
 
     <style name="textview_title_secondary">
@@ -39,9 +61,20 @@
         <item name="android:fontFamily">@font/pretendard_bold</item>
     </style>
 
-    <style name="textview_title_onboarding">
-        <item name="android:textSize">28sp</item>
+    <style name="textview_onboarding_title">
+        <item name="android:textSize">22sp</item>
         <item name="android:fontFamily">@font/pretendard_black</item>
+    </style>
+
+    <style name="textview_onboarding_text">
+        <item name="android:textSize">13sp</item>
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+    </style>
+
+    <style name="textview_onboarding_explain_gray">
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:textSize">15sp</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
     </style>
 
     <style name="textview_title">
@@ -58,6 +91,70 @@
     <style name="textview_button_white_big">
         <item name="android:textSize">20sp</item>
         <item name="android:fontFamily">@font/pretendard_bold</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="textview_dialog_title">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/pretendard_bold</item>
+    </style>
+
+    <style name="textview_dialog_content_gray">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/pretendard_medium</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="textview_dialog_choose_blue">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textColor">@color/keyColor1</item>
+    </style>
+
+    <style name="textview_card_title">
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/pretendard_semibold</item>
+    </style>
+
+    <style name="textview_card_state_selected">
+        <item name="android:textSize">13sp</item>
+        <item name="fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textColor">@color/keyColor1</item>
+    </style>
+
+    <style name="textview_card_state_unselected">
+        <item name="android:textSize">13sp</item>
+        <item name="fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="textview_card_content_big">
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="textview_card_content_small">
+        <item name="android:textSize">15sp</item>
+        <item name="fontFamily">@font/pretendard_medium</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="textview_card_content_date">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/pretendard_regular</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="textview_card_guide_blue">
+        <item name="android:textSize">15sp</item>
+        <item name="fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textColor">@color/keyColor1</item>
+    </style>
+
+    <style name="textview_card_button_white">
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/pretendard_semibold</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
