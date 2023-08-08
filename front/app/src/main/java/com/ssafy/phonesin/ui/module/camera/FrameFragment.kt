@@ -63,6 +63,7 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
 
         initObserver()
 
+        // lottie 분기
         bindingNonNull.buttonNextQR.setOnClickListener {
             findNavController().navigate(R.id.action_frameFragment_to_QRCodeFragment)
         }
