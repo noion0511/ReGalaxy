@@ -127,14 +127,4 @@ class MyPageFragment : Fragment() {
         shape.setColor(Color.WHITE)
         dialog.window?.setBackgroundDrawable(shape)
     }
-
-
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MyPageFragment().apply {
-                arguments = Bundle().apply {
-                }
-            }
-    }
 }
