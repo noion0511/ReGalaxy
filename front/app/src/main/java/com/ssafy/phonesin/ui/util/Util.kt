@@ -38,6 +38,10 @@ object Util {
         return dateFormat.format(Date(time))
     }
 
+    fun convertCalendarToDateHyphen(time: Long): String {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        return dateFormat.format(Date(time))
+    }
     fun convertToDate(year: Int, month: Int, day: Int): String {
         //val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
         return "$year.$month.$day"

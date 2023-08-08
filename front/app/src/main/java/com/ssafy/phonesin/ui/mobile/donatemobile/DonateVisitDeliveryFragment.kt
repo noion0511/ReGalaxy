@@ -123,7 +123,7 @@ class DonateVisitDeliveryFragment :
                     }
                 )
 
-                //donateVisitDeliveryViewModel.uploadDonation()
+                donateVisitDeliveryViewModel.uploadDonation()
                 findNavController().navigate(
                     R.id.action_donateVisitDeliveryFragment_to_doateFinishFragment,
                 )

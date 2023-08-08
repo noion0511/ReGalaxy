@@ -18,7 +18,7 @@ class DonateViewModel @Inject constructor(
 
     fun uploadDonation() {
         viewModelScope.launch {
-            //  repository.uploadDonation(_donation)
+              repository.uploadDonation(_donation)
         }
     }
 
