@@ -5,11 +5,11 @@ import com.ssafy.phonesin.model.dto.EmailCheckRequestDto
 import com.ssafy.phonesin.model.dto.EmailRequestDto
 import com.ssafy.phonesin.model.MemberDto
 import com.ssafy.phonesin.network.NetworkResponse
-import com.ssafy.phonesin.network.service.UserService
+import com.ssafy.phonesin.network.service.UserApiService
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
-    private val apiService: UserService,
+    private val apiService: UserApiService,
 ) : UserRepository {
     override suspend fun signup(memberDto: MemberDto): NetworkResponse<String, ErrorResponse> {
         return apiService.signup(memberDto)

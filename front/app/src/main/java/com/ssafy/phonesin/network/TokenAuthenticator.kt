@@ -14,38 +14,39 @@ import okhttp3.Response
 import okhttp3.Route
 import javax.inject.Inject
 
-class TokenAuthenticator @Inject constructor(private val repository: LoginRepository) : Authenticator {
+class TokenManager @Inject constructor(private val apiServiceHolder: ApiServiceHolder) {
 
-    override fun authenticate(route: Route?, response: Response): Request? {
-        if (response.code() == 401) {
-            val newAccessToken = runBlocking {
-                fetchNewAccessToken()
-            }
-
-            if (newAccessToken != null) {
-                return response.request().newBuilder()
-                    .header("Authorization", "$newAccessToken")
-                    .build()
-            }
-        }
-
-        return null
-    }
-
-
-    private suspend fun fetchNewAccessToken(): String? = withContext(Dispatchers.IO) {
-        try {
-            val response = repository.refreshAccessToken(Token(getAccessToken(), getRefreshToken()))
-            val answer = when (response) {
+    suspend fun fetchNewAccessToken(): String? {
+        val apiService = apiServiceHolder.apiService ?: return null
+        return try {
+            val response = apiService.refreshAccessToken(Token(getAccessToken(), getRefreshToken()))
+            when (response) {
                 is NetworkResponse.Success -> {
                     initJwtToken(response.body)
                     response.body.accessToken
                 }
                 else -> null
             }
-            return@withContext answer
         } catch (e: Exception) {
-            return@withContext null
+            null
         }
     }
 }
+
+class TokenAuthenticator @Inject constructor(private val tokenManager: TokenManager) : Authenticator {
+
+    override fun authenticate(route: Route?, response: Response): Request? {
+        if (response.code() == 401) {
+            val newAccessToken = runBlocking {
+                tokenManager.fetchNewAccessToken()
+            } ?: return null // 로그아웃 또는 적절한 처리를 수행합니다.
+
+            return response.request().newBuilder()
+                .header("Authorization", "$newAccessToken")
+                .build()
+        }
+
+        return null
+    }
+}
+

@@ -8,7 +8,7 @@ import com.ssafy.phonesin.network.NetworkResponse
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-interface UserService {
+interface UserApiService {
     @POST("/member/signup")
     suspend fun signup(@Body memberDto: MemberDto) : NetworkResponse<String, ErrorResponse>
 

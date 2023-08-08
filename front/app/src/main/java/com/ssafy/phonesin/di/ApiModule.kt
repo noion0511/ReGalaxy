@@ -6,6 +6,8 @@ import com.ssafy.phonesin.common.AppPreferences.getAccessToken
 import com.ssafy.phonesin.network.NetworkResponseAdapterFactory
 import com.ssafy.phonesin.network.TokenAuthenticator
 import com.ssafy.phonesin.network.service.ApiService
+import com.ssafy.phonesin.network.service.AuthApiService
+import com.ssafy.phonesin.network.service.UserApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -65,5 +67,17 @@ object ApiModule {
     @Singleton
     fun provideApiService(retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthService(retrofit: Retrofit): AuthApiService {
+        return retrofit.create(AuthApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserService(retrofit: Retrofit): UserApiService {
+        return retrofit.create(UserApiService::class.java)
     }
 }
