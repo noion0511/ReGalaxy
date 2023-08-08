@@ -53,12 +53,12 @@ public class Rental extends BaseTimeEntity {
     private boolean isExtension;
     @Column(name = "rental_delivery_location")
     private String rentalDeliveryLocation;
-    private int rentalZipcode;
     private String waybillNumber;
     private int fund;
     private int usingDate;
-    @OneToMany(mappedBy = "rental", cascade = ALL, orphanRemoval = true)
-    private List<Phone> phoneList = new ArrayList<Phone>();
+    @ManyToOne
+    @JoinColumn(name = "phone_id")
+    private Phone phone;
     public void extension(){
         this.isExtension = true;
     }

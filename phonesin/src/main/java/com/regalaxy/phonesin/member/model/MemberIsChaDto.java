@@ -10,23 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberIsChaDto {
-    private DmSearch dmSearch;
-    private DmScr dmScr;
-
-    @Getter
-    @Setter
-    public static class DmSearch {
-        private String certfIssuDcd;
-        private String aplyRelpsFlnm;
-        private String aplyRelpsIdmbIdnfNo;
-        private String certfIssuNo;
-        private String aplyRelpsRrnoBrdt;
-    }
-
-    @Getter
-    @Setter
-    public static class DmScr {
-        private String curScrId;
-        private String befScrId;
-    }
+    private String memberName;
+    private String birth;
+    private String chaCode;
 }
