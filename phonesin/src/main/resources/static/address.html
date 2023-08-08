@@ -3,13 +3,16 @@
 <head>
 </head>
 <body>
+<!-- HELLO DAUM! -->
 
 <!-- iOS에서는 position:fixed 버그가 있음, 적용하는 사이트에 맞게 position:absolute 등을 이용하여 top,left값 조정 필요 -->
 <div id="layer" style="display:block;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
 
 </div>
 
-<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<!-- <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> -->
 <script>
 
 
@@ -70,10 +73,12 @@
                 if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
                     extraRoadAddr += data.bname;
                 }
+
                 // 건물명이 있고, 공동주택일 경우 추가한다.
                 if(data.buildingName !== '' && data.apartment === 'Y'){
                     extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
                 }
+
                 // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
                 if(extraRoadAddr !== ''){
                     extraRoadAddr = ' (' + extraRoadAddr + ')';
@@ -83,8 +88,7 @@
                     fullRoadAddr += extraRoadAddr;
                 }
 
-                // 주소만 필요하므로 이것만 전송한다.
-                window.MysosoApp.processDATA(fullRoadAddr);
+                window.Android.processDATA(fullRoadAddr); // data.zonecode + ", " +
             },
             width : '100%',
             height : '100%'
@@ -95,7 +99,10 @@
 
         // iframe을 넣은 element의 위치를 화면의 가운데로 이동시킨다.
         initLayerPosition();
+
+
     }
+
     // 브라우저의 크기 변경에 따라 레이어를 가운데로 이동시키고자 하실때에는
     // resize이벤트나, orientationchange이벤트를 이용하여 값이 변경될때마다 아래 함수를 실행 시켜 주시거나,
     // 직접 element_layer의 top,left값을 수정해 주시면 됩니다.
@@ -112,7 +119,8 @@
         element_layer.style.left = (((window.innerWidth || document.documentElement.clientWidth) - width)/2 - borderWidth) + 'px';
         element_layer.style.top = (((window.innerHeight || document.documentElement.clientHeight) - height)/2 - borderWidth) + 'px';
     }
+
 </script>
+
 </body>
 </html>
-
