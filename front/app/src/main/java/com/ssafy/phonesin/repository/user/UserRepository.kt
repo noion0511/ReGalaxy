@@ -8,7 +8,7 @@ import com.ssafy.phonesin.model.MemberDto
 import com.ssafy.phonesin.network.NetworkResponse
 
 interface UserRepository {
-    suspend fun signup(memberDto: MemberDto) : NetworkResponse<String, ErrorResponse>
+    suspend fun signup(memberDto: MemberDto) : NetworkResponse<BaseResponse, ErrorResponse>
     suspend fun verifyEmail(emailRequestDto: EmailRequestDto) : NetworkResponse<BaseResponse, ErrorResponse>
     suspend fun verifyEmailConfirm(emailCheckRequestDto: EmailCheckRequestDto) : NetworkResponse<BaseResponse, ErrorResponse>
 }

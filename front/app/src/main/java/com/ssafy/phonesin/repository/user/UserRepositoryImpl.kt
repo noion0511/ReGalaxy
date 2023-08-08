@@ -12,7 +12,7 @@ import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor(
     private val apiService: UserApiService,
 ) : UserRepository {
-    override suspend fun signup(memberDto: MemberDto): NetworkResponse<String, ErrorResponse> {
+    override suspend fun signup(memberDto: MemberDto): NetworkResponse<BaseResponse, ErrorResponse> {
         return apiService.signup(memberDto)
     }
 

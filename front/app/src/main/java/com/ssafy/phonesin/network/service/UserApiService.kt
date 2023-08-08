@@ -11,7 +11,7 @@ import retrofit2.http.POST
 
 interface UserApiService {
     @POST("/member/signup")
-    suspend fun signup(@Body memberDto: MemberDto) : NetworkResponse<String, ErrorResponse>
+    suspend fun signup(@Body memberDto: MemberDto) : NetworkResponse<BaseResponse, ErrorResponse>
 
     @POST("/member/email-verification")
     suspend fun verifyEmail(@Body emailRequestDto: EmailRequestDto) : NetworkResponse<BaseResponse, ErrorResponse>

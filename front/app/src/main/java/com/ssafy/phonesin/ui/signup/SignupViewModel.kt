@@ -53,7 +53,7 @@ class SignupViewModel @Inject constructor(
             val type = "signup"
             when (response) {
                 is NetworkResponse.Success -> {
-                    _msg.postValue(Event(response.body))
+                    _msg.postValue(Event(response.body.message))
                 }
 
                 is NetworkResponse.ApiError -> {
@@ -135,12 +135,8 @@ class SignupViewModel @Inject constructor(
             validationErrors.add(MemberValidation.SHORT_PASSWORD)
         }
 
-        if (signUp.password == signUp.passwordCheck) {
+        if (signUp.password != signUp.passwordCheck) {
             validationErrors.add(MemberValidation.PASSWORD_MISMATCH)
-        }
-
-        if (!signUp.emailCheck) {
-            validationErrors.add(MemberValidation.EMAIL_NOT_VERIFIED)
         }
 
         if (signUp.email.isEmpty()) {
