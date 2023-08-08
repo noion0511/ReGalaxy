@@ -11,7 +11,8 @@ public class PhoneDto {
     private Long phoneId;
     private String serialNumber;
     private String modelName;
-    private Long rentalId;
+    private String nickname;
+    private boolean isRental;
     private boolean isY2K;
     private boolean isClimateHumidity;
     private boolean isHomecam;

@@ -30,8 +30,10 @@ public class AddressController {
 
     @ApiOperation(value = "주소 리스트 조회")
     @GetMapping("/list")//주소 목록
-    public ResponseEntity<?> addressList(Long member_id){
-        List<AddressDto> list = addressService.addressList(member_id);
+    public ResponseEntity<?> addressList(@ApiIgnore @RequestHeader String authorization){
+        String token = authorization.replace("Bearer ", "");
+        Long memberId = jwtTokenProvider.getMemberId(token);
+        List<AddressDto> list = addressService.addressList(memberId);
         return new ResponseEntity<List<AddressDto>>(list, HttpStatus.OK);
     }
 
@@ -56,14 +58,14 @@ public class AddressController {
         return new ResponseEntity<List<AgencyDto>>(list, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "대리점 주소 삭제")
+    @ApiOperation(value = "주소 삭제")
     @DeleteMapping("/delete")//삼성 대리점 목록//검색
     public ResponseEntity<?> delete(Long address_id){
         addressService.delete(address_id);
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "대리점 주소 생성")
+    @ApiOperation(value = "주소 생성")
     @PostMapping("/create")//삼성 대리점 목록//검색
     public ResponseEntity<?> create(String address, @ApiIgnore @RequestHeader String authorization){
         Long memberId = jwtTokenProvider.getMemberId(authorization.replace("Bearer ", ""));

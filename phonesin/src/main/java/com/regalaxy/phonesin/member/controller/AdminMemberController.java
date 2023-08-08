@@ -104,26 +104,32 @@ public class AdminMemberController {
         return mav;
     }
 
-    @ApiOperation(value = "휴대폰 목록 조회 검색")
+    @ApiOperation(value = "회원 목록 조회 검색")
     @PostMapping("/list")
     public ResponseEntity<?> listSearch(@RequestBody MemberSearchDto memberSearchDto, Model model){
         List<MemberDto> list = memberService.list(memberSearchDto);
         Map<String, Object> map = new HashMap<>();
         model.addAttribute("list", list);
-        model.addAttribute("title", "휴대폰");
+        model.addAttribute("title", "회원");
         map.put("list", list);
-        map.put("title", "휴대폰");
+        map.put("title", "회원");
         return ResponseEntity.ok(map);
     }
 
     @ApiOperation(value = "블랙리스트 설정")
     @PutMapping("/blacklist/{email}")
-    public ResponseEntity<String> blacklist(@PathVariable("email") String email) {
+    public ResponseEntity<?> blacklist(@PathVariable("email") String email, @RequestBody MemberSearchDto memberSearchDto, Model model) {
 //        String token = authorization.split(" ")[1]; 좀있다가 설정하기
 //        if (jwtTokenProvider.getMemberId(token) != memberId) {
 //            throw new IllegalStateException("멤버 ID가 일치하지 않습니다.");
 //        }
         memberService.blackListMember(email);
-        return new ResponseEntity<String>("Success", HttpStatus.OK);
+        List<MemberDto> list = memberService.list(memberSearchDto);
+        Map<String, Object> map = new HashMap<>();
+        model.addAttribute("list", list);
+        model.addAttribute("title", "회원");
+        map.put("list", list);
+        map.put("title", "회원");
+        return ResponseEntity.ok(map);
     }
 }

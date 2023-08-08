@@ -1,5 +1,6 @@
 package com.ssafy.phonesin.ui.module
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -66,7 +67,13 @@ class ModuleFragment : Fragment() {
         val adapter = ModuleAdapter(items, object : ModuleAdapter.OnItemClickListener {
             override fun onItemClick(item: ModuleType) {
                 when(item.title) {
-                    getString(R.string.module_type_camera_title) ->  findNavController().navigate(R.id.action_module_to_cameraFragment)
+                    getString(R.string.module_type_camera_title) ->  {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            findNavController().navigate(R.id.action_module_to_cameraXFragment)
+                        } else {
+                            findNavController().navigate(R.id.action_module_to_cameraFragment)
+                        }
+                    }
                     getString(R.string.module_type_cctv_title) -> findNavController().navigate(R.id.action_module_to_camListFragment)
                     getString(R.string.module_type_temperature_title) -> findNavController().navigate(R.id.action_module_to_hygrometerFragment)
                 }

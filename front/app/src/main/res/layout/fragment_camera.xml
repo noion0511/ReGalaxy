@@ -1,64 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/keyColorDark1">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/textViewCount"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/surfaceViewCamera"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:gravity="center"
-        android:textColor="@color/white"/>
+    <data>
+        <variable
+            name="viewModel"
+            type="com.ssafy.phonesin.ui.module.camera.CameraViewModel" />
+    </data>
 
-    <SurfaceView
-        android:id="@+id/surfaceViewCamera"
-        android:layout_width="300dp"
-        android:layout_height="400dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonTakePicture"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_weight="1" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/keyColorDark1">
 
-    <ImageView
-        android:id="@+id/buttonTakePicture"
-        android:layout_width="43dp"
-        android:layout_height="43dp"
-        android:background="@drawable/border_button_take_camera"
-        android:backgroundTint="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/surfaceViewCamera" />
+        <SurfaceView
+            android:id="@+id/surfaceViewCamera"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_weight="1" />
 
-    <ImageView
-        android:id="@+id/buttonChangeView"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
-        android:background="@drawable/border_button_turn_camera"
-        android:src="@drawable/switch_camera"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/buttonTakePicture"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/surfaceViewCamera" />
+        <ImageView
+            android:id="@+id/buttonTakePicture"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/border_button_take_camera"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.9" />
 
-    <ImageView
-        android:id="@+id/buttonTurnLight"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
-        android:background="@drawable/border_button_turn_camera"
-        android:src="@drawable/flashlight"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/buttonTakePicture"
-        app:layout_constraintTop_toBottomOf="@+id/surfaceViewCamera" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:indeterminate="false"
+            android:max="25"
+            android:progressDrawable="@drawable/circular_progress_bar"
+            android:rotation="-90"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/surfaceViewCamera"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.905" />
 
 
+        <TextView
+            android:id="@+id/textViewCountTime"
+            style="@style/textview_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/progressBar"
+            app:layout_constraintEnd_toEndOf="@+id/surfaceViewCamera"
+            app:layout_constraintStart_toStartOf="@+id/surfaceViewCamera"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
