@@ -24,4 +24,7 @@
     <color name="moduleBackgroundGreen">#F3FCE1</color>
     <color name="moduleBackgroundBlue">#EBF8FE</color>
     <color name="moduleBackgroundRed">#FFF2EC</color>
+
+    <color name="cameraFrame1">#377AB7</color>
+    <color name="cameraFrameDateText">#FBE99E</color>
 </resources>

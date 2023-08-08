@@ -44,6 +44,9 @@
         <action
             android:id="@+id/action_module_to_cameraFragment"
             app:destination="@id/cameraFragment" />
+        <action
+            android:id="@+id/action_module_to_cameraXFragment"
+            app:destination="@id/cameraXFragment" />
     </fragment>
     <fragment
         android:id="@+id/doateFinishFragment"
@@ -223,5 +226,62 @@
     <fragment
         android:id="@+id/cameraFragment"
         android:name="com.ssafy.phonesin.ui.module.camera.CameraFragment"
-        android:label="CameraFragment" />
+        android:label="CameraFragment"
+        tools:layout="@layout/fragment_camera">
+        <action
+            android:id="@+id/action_cameraFragment_to_cameraViewerFragment"
+            app:destination="@id/cameraViewerFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/cameraViewerFragment"
+        android:name="com.ssafy.phonesin.ui.module.camera.CameraViewerFragment"
+        android:label="CameraViewerFragment"
+        tools:layout="@layout/fragment_camera_viewer">
+        <action
+            android:id="@+id/action_cameraViewerFragment_to_frameViewerFragment"
+            app:destination="@id/frameViewerFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/frameFragment"
+        android:name="com.ssafy.phonesin.ui.module.camera.FrameFragment"
+        android:label="FrameFragment"
+        tools:layout="@layout/fragment_frame">
+        <action
+            android:id="@+id/action_frameFragment_to_QRCodeFragment"
+            app:destination="@id/QRCodeFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/QRCodeFragment"
+        android:name="com.ssafy.phonesin.ui.module.camera.QRCodeFragment"
+        android:label="QRCodeFragment"
+        tools:layout="@layout/fragment_q_r_code">
+        <action
+            android:id="@+id/action_QRCodeFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/cameraFragment" />
+        <action
+            android:id="@+id/action_QRCodeFragment_to_cameraXFragment"
+            app:destination="@id/cameraXFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/cameraXFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/frameViewerFragment"
+        android:name="com.ssafy.phonesin.ui.module.camera.FrameViewerFragment"
+        android:label="FrameViewerFragment"
+        tools:layout="@layout/fragment_frame_viewer">
+        <action
+            android:id="@+id/action_frameViewerFragment_to_frameFragment"
+            app:destination="@id/frameFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/cameraXFragment"
+        android:name="com.ssafy.phonesin.ui.module.camera.CameraXFragment"
+        android:label="CameraXFragment" >
+        <action
+            android:id="@+id/action_cameraXFragment_to_cameraViewerFragment"
+            app:destination="@id/cameraViewerFragment"/>
+    </fragment>
 </navigation>
