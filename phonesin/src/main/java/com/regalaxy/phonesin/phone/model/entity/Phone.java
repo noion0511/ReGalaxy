@@ -23,8 +23,7 @@ public class Phone {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long phoneId;
-    @OneToMany(mappedBy = "phone", cascade = ALL, orphanRemoval = true)
-    private List<Rental> rentalList = new ArrayList<Rental>();
+    private boolean isRental;
     @ManyToOne
     @JoinColumn(name="model_id")
     private Model model;
