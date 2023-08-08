@@ -11,29 +11,26 @@ import java.time.LocalDateTime;
 
 @Getter @Setter
 @RequiredArgsConstructor
-public class BackDto {
+public class BackUserDto {
     private Long backId;
     private Long rentalId;
     private Long phoneId;
-    private int backStatus;
+    private Long memberId;
     @JsonFormat(pattern = "yyyy/MM/dd")
     private LocalDate backDeliveryDate;
     private String backDeliveryLocationType;
     private String backDeliveryLocation;
     private String review;
-    private Boolean phoneStatus;
 
     // Entity를 Dto로 바꾸는 메서드
     // 혹시 builder 사용할 수 있으면 바꿔보기!!
-    public static BackDto fromEntity(Back back) {
-        BackDto backDto = new BackDto();
-        backDto.setBackStatus(back.getBackStatus());
-        backDto.setBackDeliveryDate(back.getBackDeliveryDate());
-        backDto.setBackDeliveryLocationType(back.getBackDeliveryLocationType());
-        backDto.setBackDeliveryLocation(back.getBackDeliveryLocation());
-        backDto.setReview(back.getReview());
-        backDto.setPhoneStatus(back.getPhoneStatus());
-        return backDto;
+    public static BackUserDto fromEntity(Back back) {
+        BackUserDto backUserDto = new BackUserDto();
+        backUserDto.setBackDeliveryDate(back.getBackDeliveryDate());
+        backUserDto.setBackDeliveryLocationType(back.getBackDeliveryLocationType());
+        backUserDto.setBackDeliveryLocation(back.getBackDeliveryLocation());
+        backUserDto.setReview(back.getReview());
+        return backUserDto;
     }
 
     // Entity에 Rental을 build
@@ -41,12 +38,10 @@ public class BackDto {
         return Back.builder()
                 .rental(rental)
                 .phoneId(this.phoneId)
-                .backStatus(this.backStatus)
                 .backDeliveryDate(this.backDeliveryDate)
                 .backDeliveryLocationType(this.backDeliveryLocationType)
                 .backDeliveryLocation(this.backDeliveryLocation)
                 .review(this.review)
-                .phoneStatus(this.phoneStatus)
                 .build();
     }
 

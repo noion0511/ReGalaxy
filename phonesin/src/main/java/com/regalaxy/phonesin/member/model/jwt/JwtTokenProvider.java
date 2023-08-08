@@ -32,7 +32,7 @@ public class JwtTokenProvider {
         // email과 권한 정보 claims에 담기
         Claims claims = Jwts.claims().setSubject(email);
         claims.put("memberId", memberId);
-        claims.put("authorities", authority);
+        claims.put("authority", authority);
 
         // 만료 시간 계산
         Date now = new Date();
@@ -61,6 +61,14 @@ public class JwtTokenProvider {
 
     public Long getMemberId(String token) {
         return Long.valueOf(Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("memberId").toString());
+    }
+
+    public Boolean getIsManager(String token) {
+        if (Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("authority").toString().equals("ROLE_ADMIN")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean validateToken(String token) {
