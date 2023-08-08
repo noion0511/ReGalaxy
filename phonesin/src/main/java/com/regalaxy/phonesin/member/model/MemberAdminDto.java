@@ -21,6 +21,8 @@ public class MemberAdminDto {
     private Boolean isBlackList;
     private Boolean isDelete;
     private Boolean isManager;
+    private String verificationCode;
+    private Boolean isVerified;
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private LocalDateTime createdAt;
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
@@ -38,5 +40,7 @@ public class MemberAdminDto {
         this.isManager = member.getIsManager();
         this.createdAt = member.getCreatedAt();
         this.updatedAt = member.getUpdatedAt();
+        this.verificationCode = member.getVerificationCode();
+        this.isVerified = member.getIsVerified();
     }
 }

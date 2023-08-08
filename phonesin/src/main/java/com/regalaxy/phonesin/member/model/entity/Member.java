@@ -3,8 +3,7 @@ package com.regalaxy.phonesin.member.model.entity;
 import com.regalaxy.phonesin.address.model.entity.Address;
 import com.regalaxy.phonesin.donation.model.entity.Donation;
 import com.regalaxy.phonesin.global.BaseTimeEntity;
-import com.regalaxy.phonesin.member.model.MemberAdminDto;
-import com.regalaxy.phonesin.member.model.MemberUserDto;
+import com.regalaxy.phonesin.member.model.*;
 import com.regalaxy.phonesin.rental.model.entity.Rental;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -59,6 +58,12 @@ public class Member extends BaseTimeEntity {
 
     @ApiModelProperty(value = "리프레시 토큰")
     private String refreshToken;
+
+    @ApiModelProperty(value = "이메일 인증 코드")
+    private String verificationCode;
+
+    @ApiModelProperty(value = "이메일 인증 여부")
+    private Boolean isVerified;
 
     @Builder
     public Member(Long memberId, String email, String memberName, String password, String phoneNumber, Boolean isCha, Boolean isBlackList, Boolean isDelete, Boolean isManager, LocalDateTime createdAt) {
@@ -135,14 +140,39 @@ public class Member extends BaseTimeEntity {
     }
 
     // 사용자가 자신의 정보 변경
-    public void updateByUser(MemberUserDto memberUserDto) {
-        this.memberName = memberUserDto.getMemberName();
-        this.email = memberUserDto.getEmail();
-        this.phoneNumber = memberUserDto.getPhoneNumber();
+    public void updateByUser(String email, MemberUpdateByUserDto memberUpdateByUserDto) {
+        this.memberName = memberUpdateByUserDto.getMemberName();
+        this.email = email;
+        this.phoneNumber = memberUpdateByUserDto.getPhoneNumber();
     }
 
     // 비밀번호 변경
     public void updatePassword(String encode) {
         this.password = encode;
+    }
+
+    public void update(MemberSignUpDto memberSignUpDto, String encodedPassword) {
+        this.memberName = memberSignUpDto.getMemberName();
+        this.email = memberSignUpDto.getEmail();
+        this.phoneNumber = memberSignUpDto.getPhoneNumber();
+        this.password = encodedPassword;
+        this.isCha = false;
+        this.isManager = false;
+        this.isBlackList = false;
+        this.isDelete = false;
+    }
+
+    public void setVerificationCode(String email, String code) {
+        this.email = email;
+        this.verificationCode = code;
+        this.isDelete = true;
+    }
+
+    public void setVerified(boolean isVerified) {
+        this.isVerified = isVerified;
+    }
+
+    public void setBlackList() {
+        this.isBlackList = true;
     }
 }

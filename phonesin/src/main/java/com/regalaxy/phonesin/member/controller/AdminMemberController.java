@@ -52,44 +52,6 @@ public class AdminMemberController {
     }
 
     @ApiOperation(value = "로그인")
-    @PostMapping("/login2")
-    public ModelAndView login2(@RequestBody LoginRequestDto loginRequestDto) {
-        ModelAndView mav = new ModelAndView();
-        mav.addObject("status", "기본 응답");
-        try {
-            String email = loginRequestDto.getEmail();
-            // 이메일과 비밀번호 인증
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, loginRequestDto.getPassword()));
-
-            // 권한 설정
-            String authority;
-            if (memberService.AdminInfo(loginRequestDto.getEmail()).getIsManager()) {
-                authority = "ROLE_ADMIN";
-            } else {
-                mav.addObject("error", "일반 사용자는 어플을 이용해주세요");
-                mav.setViewName("/list");//어디로 이동할지 ex) rental/list
-                return mav;
-            };
-
-            // 토큰 발급
-            Long memberId = memberService.AdminInfo(loginRequestDto.getEmail()).getMemberId();
-            String accessToken = jwtTokenProvider.createAccessToken(email, authority, memberId);
-            String refreshToken = jwtTokenProvider.createRefreshToken(email);
-            memberService.signIn(loginRequestDto, refreshToken);
-
-            mav.addObject("accessToken", accessToken);
-            mav.addObject("refreshToken", refreshToken);
-            mav.setViewName("/list");//어디로 이동할지 ex) rental/list
-            return mav;
-
-        } catch (AuthenticationException e) {
-            mav.addObject("error", "이메일 또는 비밀번호가 일치하지 않습니다.");
-            mav.setViewName("/login");//어디로 이동할지 ex) rental/list
-            return mav;
-        }
-    }
-
-    @ApiOperation(value = "로그인")
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequestDto loginRequestDto) {
         Map<String, String> response = new HashMap<>();
@@ -124,7 +86,7 @@ public class AdminMemberController {
             return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
         }
     }
-    @ApiOperation(value = "로그인")
+    @ApiOperation(value = "로그인 페이지 이동")
     @GetMapping("/login")
     public String loginpage() {
         return "login";
@@ -152,5 +114,16 @@ public class AdminMemberController {
         map.put("list", list);
         map.put("title", "휴대폰");
         return ResponseEntity.ok(map);
+    }
+
+    @ApiOperation(value = "블랙리스트 설정")
+    @PutMapping("/blacklist/{email}")
+    public ResponseEntity<String> blacklist(@PathVariable("email") String email) {
+//        String token = authorization.split(" ")[1]; 좀있다가 설정하기
+//        if (jwtTokenProvider.getMemberId(token) != memberId) {
+//            throw new IllegalStateException("멤버 ID가 일치하지 않습니다.");
+//        }
+        memberService.blackListMember(email);
+        return new ResponseEntity<String>("Success", HttpStatus.OK);
     }
 }
