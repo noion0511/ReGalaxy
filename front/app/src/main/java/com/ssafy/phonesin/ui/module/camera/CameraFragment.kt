@@ -1,10 +1,8 @@
 package com.ssafy.phonesin.ui.module.camera
 
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.hardware.Camera
-import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Environment
 import android.util.Log
@@ -12,87 +10,82 @@ import android.view.LayoutInflater
 import android.view.SurfaceHolder
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.net.toUri
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentCameraBinding
+import com.ssafy.phonesin.ui.MainActivity
+import com.ssafy.phonesin.ui.util.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CameraFragment : Fragment(), SurfaceHolder.Callback {
-    private var _binding: FragmentCameraBinding? = null
-    private val binding get() = _binding!!
+@AndroidEntryPoint
+class CameraFragment : BaseFragment<FragmentCameraBinding>(
+    R.layout.fragment_camera
+), SurfaceHolder.Callback {
+
+    private val viewModel by activityViewModels<CameraViewModel>()
 
     private lateinit var camera: Camera
     private lateinit var surfaceHolder: SurfaceHolder
     private var isSafeToTakePicture = false
-
-    private var isFlashOn = false
     private lateinit var params: Camera.Parameters
 
     private var photoCount = 0
     private val maxPhotos = 4
     private var photoPaths = ArrayList<String>()
-    private var cameraFacing = ArrayList<String>()
 
     private var cameraId = Camera.CameraInfo.CAMERA_FACING_BACK
     private val pictureCallback = Camera.PictureCallback { data, _ ->
         val photoPath = savePictureToPublicDir(data)
-        val cameraFaceType =
-            if (cameraId == Camera.CameraInfo.CAMERA_FACING_FRONT) "FRONT" else "BACK"
         photoPaths.add(photoPath)
-        cameraFacing.add(cameraFaceType)
         if (photoCount < maxPhotos) {
             restartPreview()
         } else {
             photoCount = 0
-            binding.buttonTakePicture.isEnabled = true
-            val intent = Intent(requireContext(), CameraViewerActivity::class.java)
-            intent.putStringArrayListExtra("photo_paths", photoPaths)
-            intent.putStringArrayListExtra("cameraFacing", cameraFacing)
-            photoPaths = ArrayList<String>()
-            cameraFacing = ArrayList<String>()
-            startActivity(intent)
+            bindingNonNull.buttonTakePicture.isEnabled = true
+            bindingNonNull.progressBar.progress = 0
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentCameraBinding.inflate(inflater, container, false)
-        return binding.root
+    override fun onCreateBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentCameraBinding {
+        return FragmentCameraBinding.inflate(inflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
+            viewModel = this@CameraFragment.viewModel
+        }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun init() {
+        val mainActivity = activity as MainActivity
+        mainActivity.hideBottomNavi(true)
+
         if (checkCameraHardware(requireContext())) {
             initCamera()
         } else {
             requireActivity().finish()
         }
 
-        surfaceHolder = binding.surfaceViewCamera.holder
+
+        surfaceHolder = bindingNonNull.surfaceViewCamera.holder
         surfaceHolder.addCallback(this)
 
-        binding.textViewCount.text = "1 / 4"
+        bindingNonNull.progressBar.progress = 0
 
-        binding.buttonTakePicture.setOnClickListener {
+        bindingNonNull.buttonTakePicture.setOnClickListener {
             if (isSafeToTakePicture) {
-                binding.textViewCount.text = "1 / 4"
+                bindingNonNull.progressBar.progress = 0
                 startCountdownAndTakePicture()
             }
         }
 
-        binding.buttonChangeView.setOnClickListener {
-            changeCamera()
-        }
-
-        binding.buttonTurnLight.setOnClickListener {
-            toggleFlash()
-        }
+        initObserver()
     }
 
     private fun initCamera() {
@@ -102,57 +95,38 @@ class CameraFragment : Fragment(), SurfaceHolder.Callback {
         params = camera.parameters
     }
 
-    private fun changeCamera() {
-        // 카메라 ID를 변경합니다. 후면이면 전면으로, 전면이면 후면으로 변경합니다.
-        cameraId = if (cameraId == Camera.CameraInfo.CAMERA_FACING_BACK) {
-            Camera.CameraInfo.CAMERA_FACING_FRONT
-        } else {
-            Camera.CameraInfo.CAMERA_FACING_BACK
-        }
-        initCamera() // 카메라를 다시 초기화합니다.
-        startCameraPreview() // 카메라 프리뷰를 시작합니다.
-    }
-
-    private fun toggleFlash() {
-        if (isFlashOn) {
-            params.flashMode = Camera.Parameters.FLASH_MODE_OFF
-            camera.parameters = params
-            isFlashOn = false
-        } else {
-            params.flashMode = Camera.Parameters.FLASH_MODE_TORCH
-            camera.parameters = params
-            isFlashOn = true
-        }
-    }
-
-    private fun showToast(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-    }
-
     private fun startCountdownAndTakePicture() {
-        binding.buttonTakePicture.visibility = View.INVISIBLE
+        bindingNonNull.buttonTakePicture.visibility = View.INVISIBLE
+        var allCountDown = 24
 
-        object : CountDownTimer(15000, 3000) { // 총 12초 동안 3초마다
+        object : CountDownTimer(
+            26000,
+            1000
+        ) {
             override fun onTick(millisUntilFinished: Long) {
-                val secondsRemaining = millisUntilFinished / 1000
-                binding.textViewCount.text = "${(5 - (secondsRemaining) / 3)} / 4"
-                takePicture()
+                if (allCountDown < 0) return
+
+                val countTime = (allCountDown % 6)
+                bindingNonNull.textViewCountTime.visibility = if (countTime == 0) {
+                    View.INVISIBLE
+                } else {
+                    View.VISIBLE
+                }
+                bindingNonNull.textViewCountTime.text = countTime.toString()
+                bindingNonNull.progressBar.progress += 1
+
+                if (countTime == 0 && allCountDown != 24) {
+                    takePicture()
+                }
+                allCountDown--
             }
 
             override fun onFinish() {
-                binding.buttonTakePicture.visibility = View.VISIBLE
+                viewModel.updatePhotoPaths(photoPaths)
+                bindingNonNull.buttonTakePicture.visibility = View.VISIBLE
+                photoPaths = ArrayList<String>()
             }
         }.start()
-    }
-
-    private fun startCameraPreview() {
-        try {
-            camera.setPreviewDisplay(surfaceHolder)
-            camera.startPreview()
-            isSafeToTakePicture = true
-        } catch (e: Exception) {
-            Log.d("CameraFragment", "Failed to start camera preview: ${e.message}")
-        }
     }
 
     private val shutterCallback = Camera.ShutterCallback {}
@@ -170,7 +144,7 @@ class CameraFragment : Fragment(), SurfaceHolder.Callback {
         if (checkCameraHardware(requireContext())) {
             initCamera()
 
-            surfaceHolder = binding.surfaceViewCamera.holder
+            surfaceHolder = bindingNonNull.surfaceViewCamera.holder
             surfaceHolder.addCallback(this)
 
             try {
@@ -200,14 +174,26 @@ class CameraFragment : Fragment(), SurfaceHolder.Callback {
     private fun restartPreview() {
         camera.startPreview()
         isSafeToTakePicture = true
-        binding.buttonTakePicture.isEnabled = true
+        bindingNonNull.buttonTakePicture.isEnabled = true
+    }
+
+    private fun initObserver() {
+        with(viewModel) {
+            photoPaths.observe(viewLifecycleOwner) {
+                if (it.isNotEmpty())
+                    findNavController().navigate(R.id.action_cameraFragment_to_cameraViewerFragment)
+            }
+        }
     }
 
     private fun savePictureToPublicDir(data: ByteArray): String {
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val storageDir =
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-        val imageFile = File(storageDir, "IMG_$timeStamp.jpg")
+        val storageDir = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val imageFile = File(storageDir, "IMG_$timeStamp.jpg").apply {
+            parentFile?.let {
+                if (!it.exists()) it.mkdirs()
+            }
+        }
 
         try {
             val fos = FileOutputStream(imageFile)
@@ -215,12 +201,6 @@ class CameraFragment : Fragment(), SurfaceHolder.Callback {
 
             fos.close()
 
-            requireContext().sendBroadcast(
-                Intent(
-                    Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
-                    imageFile.toUri()
-                )
-            )
             Log.d("tag", "사진 저장 ${imageFile.toUri()}")
         } catch (e: Exception) {
             showToast("사진 저장 실패")
@@ -244,11 +224,6 @@ class CameraFragment : Fragment(), SurfaceHolder.Callback {
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {
         camera.release()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     companion object {

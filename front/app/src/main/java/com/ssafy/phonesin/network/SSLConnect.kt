@@ -1,4 +1,4 @@
-package com.ssafy.phonesin.ui.util
+package com.ssafy.phonesin.network
 
 import java.io.IOException
 import java.net.MalformedURLException
