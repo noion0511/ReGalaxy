@@ -1,8 +1,6 @@
 package com.ssafy.phonesin.ui.mobile.donatemobile
 
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
@@ -34,6 +32,7 @@ class DonateVisitDeliveryFragment :
     private var param2: String? = null
     val donateVisitDeliveryViewModel: DonateViewModel by activityViewModels()
     val mobileViewModel: MobileViewModel by activityViewModels()
+    lateinit var spinnerAdapter: ArrayAdapter<String>
 
     override fun onCreateBinding(
         inflater: LayoutInflater,
@@ -57,6 +56,7 @@ class DonateVisitDeliveryFragment :
         }
     }
 
+
     private fun setDonateVisitDeliveryUi() = with(bindingNonNull) {
 
         radioGroupDonateDelivery.setOnCheckedChangeListener { _, checkedId ->
@@ -74,27 +74,26 @@ class DonateVisitDeliveryFragment :
             }
         }
 
-        if (mobileViewModel.addressList.size == 0) {
+
+
+        setAdapter(R.layout.custom_text_style_black)
+
+        if (mobileViewModel.addressList.size == 1 && mobileViewModel.addressList[0].addressId == -1) {
+            spinnerAdapter = setAdapter(R.layout.custom_text_style_gray)
+
             radioButtonDonateVisitDeliveryNewAddress.isChecked = true
             radioButtonDonateVisitDeliveryExistAddress.isChecked = false
             radioButtonDonateVisitDeliveryExistAddress.isClickable = false
             spinnerDonateAddress.isEnabled = false
         } else {
+            spinnerAdapter = setAdapter(R.layout.custom_text_style_black)
+            spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
             radioButtonDonateVisitDeliveryNewAddress.isChecked = false
             radioButtonDonateVisitDeliveryExistAddress.isChecked = true
             spinnerDonateAddress.isEnabled = true
             editTextDonateAddress.isEnabled = false
 
-            val spinnerAdapter = ArrayAdapter<String>(
-                requireContext(),
-                android.R.layout.simple_spinner_item,
-                mobileViewModel.addressList.map { it.address }
-                    .toList())
-
-
-
-            spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinnerDonateAddress.adapter = spinnerAdapter
 
 //            spinnerDonateAddress.setOnItemClickListener(object : AdapterView.OnItemClickListener{
 //                override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
@@ -109,6 +108,8 @@ class DonateVisitDeliveryFragment :
 //            spinnerDonateAddress.setIsFocusable(true)
 //            spinnerDonateAddress.selectItemByIndex(0)
         }
+
+        spinnerDonateAddress.adapter = spinnerAdapter
 
         buttonPostDonateVisitDelivery.setOnClickListener {
 
@@ -130,6 +131,15 @@ class DonateVisitDeliveryFragment :
             }
 
         }
+    }
+
+    private fun setAdapter(id: Int): ArrayAdapter<String> {
+        val spinnerAdapter = ArrayAdapter<String>(
+            requireContext(),
+            id,
+            mobileViewModel.addressList.map { it.address }
+                .toList())
+        return spinnerAdapter
     }
 
     companion object {

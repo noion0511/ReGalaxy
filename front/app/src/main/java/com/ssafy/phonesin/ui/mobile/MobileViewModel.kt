@@ -1,6 +1,5 @@
 package com.ssafy.phonesin.ui.mobile
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -25,6 +24,10 @@ class MobileViewModel @Inject constructor(
 
     private val _msg = MutableLiveData<Event<String>>()
     val errorMsg: LiveData<Event<String>> = _msg
+
+    init {
+        _addressList.add(Address("기존 주소지", -1))
+    }
 
     fun getAddressList() {
         viewModelScope.launch {

@@ -3,6 +3,7 @@ package com.ssafy.phonesin.ui.mobile.returnmobile
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -29,6 +30,8 @@ class ReturnVisitDeliveryFragment :
     private var param2: String? = null
     val mobileViewModel: MobileViewModel by activityViewModels()
     val returnViewModel: ReturnViewModel by activityViewModels()
+    lateinit var spinnerAdapter: ArrayAdapter<String>
+
     override fun onCreateBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -67,22 +70,25 @@ class ReturnVisitDeliveryFragment :
             }
         }
 
-        if (mobileViewModel.addressList.size == 0) {
+        setAdapter(R.layout.custom_text_style_black)
+
+        if (mobileViewModel.addressList.size == 1 && mobileViewModel.addressList[0].addressId == -1) {
+            spinnerAdapter = setAdapter(R.layout.custom_text_style_gray)
             radioButtonVisitDeliveryNewAddress.isChecked = true
             radioButtonVisitDeliveryExistAddress.isChecked = false
             radioButtonVisitDeliveryExistAddress.isClickable = false
             spinnerReturnAddress.isEnabled = false
         } else {
+            spinnerAdapter = setAdapter(R.layout.custom_text_style_black)
+            spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
             radioButtonVisitDeliveryNewAddress.isChecked = false
             radioButtonVisitDeliveryExistAddress.isChecked = true
             spinnerReturnAddress.isEnabled = true
             editTextReturnAddress.isEnabled = false
 
-            spinnerReturnAddress.setItems(mobileViewModel.addressList.map { it.address }
-                .toList())
-            spinnerReturnAddress.setIsFocusable(true)
-            spinnerReturnAddress.selectItemByIndex(0)
         }
+        spinnerReturnAddress.adapter = spinnerAdapter
 
         buttonPostReturnVisitDelivery.setOnClickListener {
             if (editTextReturnAddress.text.toString() == "" && radioButtonVisitDeliveryNewAddress.isChecked) {
@@ -90,7 +96,7 @@ class ReturnVisitDeliveryFragment :
             } else {
                 returnViewModel.setReturnListAddress(
                     if (radioButtonVisitDeliveryExistAddress.isChecked) {
-                        spinnerReturnAddress.text.toString()
+                        spinnerReturnAddress.selectedItem.toString()
                     } else {
                         editTextReturnAddress.text.toString()
                     }
@@ -101,6 +107,15 @@ class ReturnVisitDeliveryFragment :
                 )
             }
         }
+    }
+
+    private fun setAdapter(id: Int): ArrayAdapter<String> {
+        val spinnerAdapter = ArrayAdapter<String>(
+            requireContext(),
+            id,
+            mobileViewModel.addressList.map { it.address }
+                .toList())
+        return spinnerAdapter
     }
 
     companion object {

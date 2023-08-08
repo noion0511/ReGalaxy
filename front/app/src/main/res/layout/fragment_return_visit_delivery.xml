@@ -56,8 +56,7 @@
                     android:layout_height="wrap_content"
                     android:checked="true"
                     android:text="@string/exist_address" />
-
-                <com.skydoves.powerspinner.PowerSpinnerView
+                <Spinner
                     android:id="@+id/spinnerReturnAddress"
                     style="@style/textview_content_black"
                     android:layout_width="match_parent"
@@ -65,11 +64,8 @@
                     android:layout_marginHorizontal="20dp"
                     android:background="@drawable/rectangle"
                     android:padding="10dp"
-                    app:spinner_arrow_tint="@color/black"
-                    app:spinner_divider_color="@color/black"
-                    app:spinner_divider_show="true"
-                    app:spinner_divider_size="0.4dp"
-                    app:spinner_popup_background="@color/white" />
+                    android:popupBackground="@color/white"
+                    />
 
                 <RadioButton
                     android:id="@+id/radioButtonVisitDeliveryNewAddress"

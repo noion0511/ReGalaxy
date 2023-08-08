@@ -3,10 +3,10 @@ package com.ssafy.phonesin.ui.mobile.rentalmobile
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.ssafy.phonesin.ApplicationClass.Companion.MEMBER_ID
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentRentalAddBinding
 import com.ssafy.phonesin.model.RentalBody
@@ -31,6 +31,7 @@ class RentalAddFragment :
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    lateinit var spinnerAdapter: ArrayAdapter<String>
 
     private val parentViewModel: RentalViewModel by activityViewModels()
     private val mobileViewModel: MobileViewModel by activityViewModels()
@@ -75,22 +76,26 @@ class RentalAddFragment :
             }
         }
 
-        if (mobileViewModel.addressList.size == 0) {
+        setAdapter(R.layout.custom_text_style_black)
+
+        if (mobileViewModel.addressList.size == 1 && mobileViewModel.addressList[0].addressId == -1) {
+            spinnerAdapter = setAdapter(R.layout.custom_text_style_gray)
+
             radioButtonNewAddress.isChecked = true
             radioButtonExistAddress.isChecked = false
             radioButtonExistAddress.isClickable = false
             spinnerRentalAddAddress.isEnabled = false
         } else {
+            spinnerAdapter = setAdapter(R.layout.custom_text_style_black)
+            spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
             radioButtonNewAddress.isChecked = false
             radioButtonExistAddress.isChecked = true
             spinnerRentalAddAddress.isEnabled = true
             editTextRentalAddAddress.isEnabled = true
 
-            spinnerRentalAddAddress.setItems(mobileViewModel.addressList.map { it.address }
-                .toList())
-            spinnerRentalAddAddress.setIsFocusable(true)
-            spinnerRentalAddAddress.selectItemByIndex(0)
         }
+        spinnerRentalAddAddress.adapter = spinnerAdapter
 
         buttonSelectMobile.setOnClickListener {
             if (!checkBoxHomeCam.isChecked && !checkBoxTemperature.isChecked && !checkBoxPicture.isChecked) {
@@ -100,7 +105,7 @@ class RentalAddFragment :
             } else {
                 //TODO : memberId삭제
                 val address = if (radioButtonExistAddress.isChecked) {
-                    spinnerRentalAddAddress.text.toString()
+                    spinnerRentalAddAddress.selectedItem.toString()
                 } else {
                     editTextRentalAddAddress.text.toString()
                 }
@@ -151,6 +156,15 @@ class RentalAddFragment :
         } else {
             6
         }
+    }
+
+    private fun setAdapter(id: Int): ArrayAdapter<String> {
+        val spinnerAdapter = ArrayAdapter<String>(
+            requireContext(),
+            id,
+            mobileViewModel.addressList.map { it.address }
+                .toList())
+        return spinnerAdapter
     }
 
 
