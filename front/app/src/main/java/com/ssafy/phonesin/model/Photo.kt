@@ -7,6 +7,7 @@ data class Photo(
 )
 
 data class PhotoResponse(
-    override val message: String,
-    val photos: List<Photo>
-) : BaseResponse(message)
+    val message: String,
+    val status: String,
+    val photos: Photo
+)

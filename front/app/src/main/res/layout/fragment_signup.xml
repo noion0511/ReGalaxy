@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.ssafy.phonesin.ui.signup.SignupViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:orientation="vertical"
+                android:padding="10dp"
+                tools:context=".ui.login.LoginFragment">
+
+                <TextView
+                    android:id="@+id/TextViewSignUpTitle"
+                    style="@style/textview_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sign_up"
+                    android:layout_margin="5dp"
+                    android:layout_gravity="center" />
+
+                <TextView
+                    android:id="@+id/TextViewSignUpExplain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/textview_content_gray"
+                    android:text="@string/signup_explain"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:id="@+id/textViewSignUpEmail"
+                    style="@style/textview_content_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:text="@string/signup_email" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/editTextSignUpEmail"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:inputType="textEmailAddress"
+                        android:background="@drawable/border_log_in"
+                        android:hint="@string/signup_email_hint"
+                        android:padding="20dp"
+                        android:textColorHint="@color/gray"
+                        android:textSize="14sp" />
+
+                    <Button
+                        android:id="@+id/buttonVerifyEmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/signup_email_confirm"
+                        style="@style/textview_title_secondary"
+                        android:textColor="@color/white"
+                        android:background="@drawable/round_corners_key_color_solid"/>
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/textViewEmailExplain"
+                    style="@style/textview_content_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"/>
+
+                <TextView
+                    android:id="@+id/textViewSignUpPassword"
+                    style="@style/textview_content_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/signup_password" />
+
+                <EditText
+                    android:id="@+id/editTextSignUpPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/border_log_in"
+                    android:hint="@string/signup_password_hint"
+                    android:inputType="textPassword"
+                    android:padding="20dp"
+                    android:textColor="@color/cameraFrame1"
+                    android:textColorHint="@color/gray"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/editTextSignUpPasswordCheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:inputType="textPassword"
+                    android:background="@drawable/border_log_in"
+                    android:hint="@string/signup_password_check_hint"
+                    android:padding="20dp"
+                    android:textColor="@color/cameraFrame1"
+                    android:textColorHint="@color/gray"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/textViewSignUpPasswordExplain"
+                    style="@style/textview_content_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"/>
+
+                <TextView
+                    android:id="@+id/textViewSignUpPhoneNumber"
+                    style="@style/textview_content_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/signup_phone_number" />
+
+                <EditText
+                    android:id="@+id/editTextSignUpPhoneNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_log_in"
+                    android:hint="@string/signup_phone_number_hint"
+                    android:padding="20dp"
+                    android:inputType="phone"
+                    android:textColorHint="@color/gray"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/textViewSignUpPhoneNumberExplain"
+                    style="@style/textview_content_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+                <TextView
+                    android:id="@+id/textViewSignUpName"
+                    style="@style/textview_content_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/signup_name" />
+
+                <EditText
+                    android:id="@+id/editTextSignUpName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_log_in"
+                    android:hint="@string/signup_name_hint"
+                    android:padding="20dp"
+                    android:inputType="textPersonName"
+                    android:textColorHint="@color/gray"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/textViewSignUpNameExplain"
+                    style="@style/textview_content_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <Button
+            android:id="@+id/buttonSigunUp"
+            style="@style/textview_button_white_big"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:background="@drawable/button_black_corner_0"
+            android:text="@string/sign_up"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </LinearLayout>
+</layout>

@@ -2,8 +2,10 @@ package com.ssafy.phonesin.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.ssafy.phonesin.network.ApiService
+import com.ssafy.phonesin.common.AppPreferences.getAccessToken
 import com.ssafy.phonesin.network.NetworkResponseAdapterFactory
+import com.ssafy.phonesin.network.TokenAuthenticator
+import com.ssafy.phonesin.network.service.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,13 +14,18 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object ApiModule {
 
-    private const val baseUrl = "http://3.36.49.178:8080"
+
+    //private const val baseUrl = "http://3.36.49.178:8080"
+
+    private const val baseUrl = "http://i9d102.p.ssafy.io:8080"
+
 
     private val gson: Gson = GsonBuilder()
         .setLenient()
@@ -26,23 +33,20 @@ object ApiModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
+    fun provideOkHttpClient(tokenAuthenticator: TokenAuthenticator): OkHttpClient {
         return OkHttpClient.Builder()
-            .addInterceptor { chain ->
-                val originalRequest = chain.request()
-                val token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdW5nb29uMDY0NkBnbWFpbC5jb20iLCJtZW1iZXJJZCI6MiwiYXV0aG9yaXRpZXMiOiJST0xFX0FETUlOIiwiaWF0IjoxNjkxMzg4Nzc4LCJleHAiOjE2OTE0NzUxNzh9.hY9TO4KsdYoHwrRyWm05X6kFnqD4ZxLnQT2CgRbfKjU"// 저장된 JWT 토큰을 가져옵니다.
-
-                // JWT 토큰을 Authorization 헤더에 첨부합니다.
-                val requestBuilder = originalRequest.newBuilder()
-                    .header("Authorization", "Bearer $token")
-                    .method(originalRequest.method(), originalRequest.body())
-
-                val request = requestBuilder.build()
-//                HttpLoggingInterceptor().apply {
-//                    level = HttpLoggingInterceptor.Level.BODY
-//                }
-                chain.proceed(request)
-            }
+            .addInterceptor(HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            }).addInterceptor {
+                it.proceed(it.request().newBuilder().apply {
+                    addHeader(
+                        "Authorization",
+                        getAccessToken()
+                    )
+                }.build())
+            }.authenticator(tokenAuthenticator) // Authenticator 추가
+            .readTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(30, TimeUnit.SECONDS)
             .build()
     }
 
@@ -52,7 +56,7 @@ object ApiModule {
         return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(NetworkResponseAdapterFactory())
             .build()
     }

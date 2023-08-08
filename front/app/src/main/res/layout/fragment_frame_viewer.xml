@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.ssafy.phonesin.ui.module.camera.CameraViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/frameView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/cameraFrame1">
+
+
+        <ImageView
+            android:id="@+id/imageViewFrameLogo"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/logo"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewOne"
+            app:layout_constraintVertical_bias="0.20999998" />
+
+        <ImageView
+            android:id="@+id/imageViewFrameLogo2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/textlogo"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/imageViewOne"
+            app:layout_constraintStart_toStartOf="@+id/imageViewOne"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewOne" />
+
+        <include
+            android:id="@+id/imageViewOne"
+            layout="@layout/item_image_view"
+            android:layout_width="300dp"
+            android:layout_height="400dp"
+            android:layout_centerInParent="true"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.20999998" />
+
+        <LinearLayout
+            android:id="@+id/imageViewFour"
+            android:layout_width="300dp"
+            android:layout_height="400dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.20999998">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <include
+                    android:id="@+id/photoViewer1"
+                    layout="@layout/item_image_view"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <include
+                    android:id="@+id/photoViewer2"
+                    layout="@layout/item_image_view"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <include
+                    android:id="@+id/photoViewer3"
+                    layout="@layout/item_image_view"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+
+                <include
+                    android:id="@+id/photoViewer4"
+                    layout="@layout/item_image_view"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageViewFramePuppy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/puppy"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/buttonChoicePicture"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/border_button_take_camera"
+            android:padding="10dp"
+            android:src="@drawable/baseline_color_lens_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.901" />
+
+        <ImageView
+            android:id="@+id/buttonArrowLeft"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="5dp"
+            android:src="@drawable/baseline_keyboard_arrow_left_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/buttonChoicePicture"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.901"
+            app:tint="@color/white" />
+
+        <ImageView
+            android:id="@+id/buttonArrowRight"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="5dp"
+            android:src="@drawable/baseline_keyboard_arrow_right_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/buttonChoicePicture"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.901"
+            app:tint="@color/white" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

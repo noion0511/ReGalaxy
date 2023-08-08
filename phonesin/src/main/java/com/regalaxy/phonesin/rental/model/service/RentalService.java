@@ -8,6 +8,7 @@ import com.regalaxy.phonesin.phone.model.repository.PhoneRepository;
 import com.regalaxy.phonesin.rental.model.RentalApplyDto;
 import com.regalaxy.phonesin.rental.model.RentalDetailDto;
 import com.regalaxy.phonesin.rental.model.RentalDto;
+import com.regalaxy.phonesin.rental.model.RentalSearchDto;
 import com.regalaxy.phonesin.rental.model.entity.Rental;
 import com.regalaxy.phonesin.rental.model.repository.RentalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,8 +67,8 @@ public class RentalService {
         return true;
     }
 
-    public List<RentalDto> infoList(SearchDto searchDto){
-        return rentalRepository.search(searchDto);
+    public List<RentalDto> infoList(RentalSearchDto rentalSearchDto){
+        return rentalRepository.search(rentalSearchDto);
     }
 
     public List<RentalDto> clientInfoList(Long member_id){

@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class RentalDto {
     private Long rentalId;
+    private LocalDateTime applyDate;
     private LocalDateTime rentalStart;
     private LocalDateTime rentalEnd;
     private int rentalStatus;
@@ -19,4 +20,7 @@ public class RentalDto {
     private String modelName;
     private Long phoneId;
     private String waybillNumber;
+    private boolean isY2K;
+    private boolean isClimateHumidity;
+    private boolean isHomecam;
 }

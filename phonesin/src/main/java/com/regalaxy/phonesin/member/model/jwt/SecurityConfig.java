@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -22,12 +23,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable() // csrf 보안 비활성화 (실제 배포환경에서는 위험할 수 있음)
+                .csrf().disable(); // csrf 보안 비활성화 (실제 배포환경에서는 위험할 수 있음)
 //                .authorizeRequests()
 //                .antMatchers("/member/signup", "/member/login", "/member/token/refresh").permitAll()
 //                .anyRequest().authenticated()
 //                .and()
-                .apply(jwtConfigure());
+//                .apply(jwtConfigure());
     }
 
     @Bean

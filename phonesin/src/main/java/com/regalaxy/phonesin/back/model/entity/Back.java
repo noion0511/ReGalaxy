@@ -37,17 +37,15 @@ public class Back extends BaseTimeEntity {
     private LocalDate backDeliveryDate;
     private String backDeliveryLocationType; // 배달, 서비스센터 제출, 직접 제출
     private String backDeliveryLocation; // 1 배달의 경우 배달지 주소, 서비스센터 제출의 경우 서비스센터 주소
-    private String backZipcode; // 주소의 우편번호
     private String review; // 사용 후기 또는 조기 반납 이유
     private Boolean phoneStatus; // 휴대폰 상태
 
     @Builder
-    public Back(Rental rental, int backStatus, LocalDate backDeliveryDate, String backDeliveryLocationType, String backDeliveryLocation, String backZipcode, String review, Long phoneId, Boolean phoneStatus) {
+    public Back(Rental rental, int backStatus, LocalDate backDeliveryDate, String backDeliveryLocationType, String backDeliveryLocation, String review, Long phoneId, Boolean phoneStatus) {
         this.backStatus = backStatus;
         this.backDeliveryDate = backDeliveryDate;
         this.backDeliveryLocationType = backDeliveryLocationType;
         this.backDeliveryLocation = backDeliveryLocation;
-        this.backZipcode = backZipcode;
         this.review = review;
         this.phoneId = phoneId;
         this.rental = rental;
@@ -59,7 +57,6 @@ public class Back extends BaseTimeEntity {
         this.backDeliveryDate = backDto.getBackDeliveryDate();
         this.backDeliveryLocationType = backDto.getBackDeliveryLocationType();
         this.backDeliveryLocation = backDto.getBackDeliveryLocation();
-        this.backZipcode = backDto.getBackZipcode();
         this.review = backDto.getReview();
         this.phoneStatus = backDto.getPhoneStatus();
     }
