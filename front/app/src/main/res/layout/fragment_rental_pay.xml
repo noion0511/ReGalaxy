@@ -1,142 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.mobile.rentalmobile.RentalPayFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/textViewPayDeposit"
-        style="@style/textview_title_secondary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/deposit"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
 
-    <TextView
-        android:id="@+id/textViewPayMoney"
-        style="@style/textview_content_gray"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="70dp"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@id/textViewPayDeposit"
-        app:layout_constraintTop_toTopOf="@id/textViewPayDeposit"
-        tools:text="20,000원" />
+    </data>
 
-    <View
-        android:id="@+id/viewPayMobileDivider"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="50dp"
-        android:background="#eeeff1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewPayMoney" />
+        android:layout_height="match_parent"
+        tools:context=".ui.mobile.rentalmobile.RentalPayFragment">
 
-    <TextView
-        android:id="@+id/textViewSavedCard"
-        style="@style/textview_title_secondary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/saved_cards"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/viewPayMobileDivider" />
-
-    <TextView
-        android:id="@+id/textViewAddCard"
-        style="@style/textview_content_black"
-        android:layout_width="wrap_content"
-        android:textColor="@color/keyColor1"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/add_new_card"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/viewPayMobileDivider" />
-
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPagerCardList"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewSavedCard" />
-
-    <LinearLayout
-        android:id="@+id/layoutIndicator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/viewPagerCardList" />
-
-    <TextView
-        android:id="@+id/textViewSelectOtherPayment"
-        style="@style/textview_title_secondary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/other_payment_options"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layoutIndicator" />
-
-    <RadioGroup
-        android:id="@+id/radioGroupPayWay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewSelectOtherPayment">
-
-        <RadioButton
+        <TextView
+            android:id="@+id/textViewPayDeposit"
+            style="@style/textview_title_secondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/no_passbook_pay" />
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/deposit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <RadioButton
+        <TextView
+            android:id="@+id/textViewPayMoney"
+            style="@style/textview_content_gray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/general_pay" />
+            android:layout_marginStart="70dp"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@id/textViewPayDeposit"
+            app:layout_constraintTop_toTopOf="@id/textViewPayDeposit"
+            tools:text="20,000원" />
 
-        <RadioButton
+        <View
+            android:id="@+id/viewPayMobileDivider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="50dp"
+            android:background="#eeeff1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewPayMoney" />
+
+        <TextView
+            android:id="@+id/textViewSavedCard"
+            style="@style/textview_title_secondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/naver_pay" />
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/saved_cards"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewPayMobileDivider" />
 
-        <RadioButton
+        <TextView
+            android:id="@+id/textViewAddCard"
+            style="@style/textview_content_black"
+            android:layout_width="wrap_content"
+            android:textColor="@color/keyColor1"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/add_new_card"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewPayMobileDivider" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPagerCardList"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewSavedCard" />
+
+        <LinearLayout
+            android:id="@+id/layoutIndicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/viewPagerCardList" />
+
+        <TextView
+            android:id="@+id/textViewSelectOtherPayment"
+            style="@style/textview_title_secondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/kakao_pay" />
-    </RadioGroup>
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/other_payment_options"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutIndicator" />
 
-    <TextView
-        android:id="@+id/textViewCheckConsent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:text="@string/check_consent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/radioGroupPayWay" />
+        <RadioGroup
+            android:id="@+id/radioGroupPayWay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewSelectOtherPayment">
 
-    <Button
-        android:id="@+id/buttonPayComplete"
-        style="@style/textview_button_white_big"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/button_black_corner_0"
-        android:text="@string/pay"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_passbook_pay" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/general_pay" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/naver_pay" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/kakao_pay" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/textViewCheckConsent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="@string/check_consent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/radioGroupPayWay" />
+
+        <Button
+            android:id="@+id/buttonPayComplete"
+            style="@style/textview_button_white_big"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button_black_corner_0"
+            android:text="@string/pay"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
