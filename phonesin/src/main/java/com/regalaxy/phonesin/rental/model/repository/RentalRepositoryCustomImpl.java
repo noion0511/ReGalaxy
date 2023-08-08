@@ -19,7 +19,7 @@ public class RentalRepositoryCustomImpl implements RentalRepositoryCustom {
     @Override
     public List<RentalDto> search(RentalSearchDto rentalSearchDto) {
         String s = "select new com.regalaxy.phonesin.rental.model.RentalDto(r.rentalId, r.applyDate, r.rentalStart, r.rentalEnd, r.rentalStatus, r.rentalDeliveryLocation, r.fund, m.modelName, p.phoneId, r.waybillNumber, r.isY2K, r.isClimateHumidity, r.isHomecam) "
-            + "from rental r left join phone p on r.rentalId = p.rental.rentalId "
+            + "from rental r left join phone p on r.phone.phoneId = p.phoneId "
                 + "left join model m on p.model.modelId = m.modelId ";
         int n = 0;
         if(rentalSearchDto.isReady()){//이메일 검색을 했을 경우

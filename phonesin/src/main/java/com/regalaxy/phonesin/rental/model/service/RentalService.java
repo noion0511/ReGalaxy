@@ -97,11 +97,10 @@ public class RentalService {
         if(adminRentalApplyDto.isApply()) {//허락
             List<Phone> list = phoneRepository.findAll();
             for(Phone phone : list){
-//                if(phone.getRental()!=null) return null;
+                if(!phone.isRental()) return null;
                 if(rental.isY2K() && !phone.isY2K()) return null;
                 if(rental.isHomecam() && !phone.isHomecam()) return null;
                 if(rental.isClimateHumidity() && !phone.isClimateHumidity()) return null;
-//                phone.setRental(rental);
                 break;
             }
             rental.setRentalStart(LocalDateTime.now());//대여 시작일
