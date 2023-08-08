@@ -140,6 +140,26 @@
 						<button th:if="${!list.isBlackList}" class="blackBtn" th:onclick="setBlack([[${list.email}]])">블랙리스트 추가</button>
 					</article>
 				</div>
+				<div class="flex flex-4" th:if="${title=='공지'}">
+					<article class="card" th:each="list : ${list}">
+						<header>
+							<h3 th:text="${list.noticeId}">대여아이디</h3>
+						</header>
+						<p th:text="${list.applyDate}">신청 날짜</p>
+						<div class="module flex flex-3">
+							<p th:if="${list.isY2K}">Y2K</p>
+							<p th:if="${list.isClimateHumidity}">습온도계</p>
+							<p th:if="${list.isHomecam}">홈캠</p>
+						</div>
+						<div class="flex flex-3" style="justify-content: center;">
+							<button th:if="${list.rentalStatus==1}" class="blackBtn" th:onclick="rentalApply([[${list.rentalId}]])">수락</button>
+							<button th:if="${list.rentalStatus==1}" class="blackBtn" th:onclick="rentalBack([[${list.rentalId}]])">반려</button>
+						</div>
+						<p th:if="${list.status==1}">공지 예정</p>
+						<p th:if="${list.status==2}">공지 중</p>
+						<p th:if="${list.status==3}">공지 종료</p>
+					</article>
+				</div>
 			</div>
 		</div>
 	</section>

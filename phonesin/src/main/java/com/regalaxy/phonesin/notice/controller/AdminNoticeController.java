@@ -4,6 +4,8 @@ import com.regalaxy.phonesin.member.model.jwt.JwtTokenProvider;
 import com.regalaxy.phonesin.notice.model.NoticeRequestDto;
 import com.regalaxy.phonesin.notice.model.NoticeResponseDto;
 import com.regalaxy.phonesin.notice.model.service.NoticeService;
+import com.regalaxy.phonesin.rental.model.RentalDto;
+import com.regalaxy.phonesin.rental.model.RentalSearchDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.HashMap;
@@ -28,13 +31,23 @@ public class AdminNoticeController {
 
     @ApiOperation(value = "공지 리스트 조회")
     @GetMapping("/list")
-    public ResponseEntity<Map<String, Object>> noticeList(@RequestParam(required = false) Integer status, @RequestParam(required = false) Integer type) throws Exception {
-        Map<String, Object> resultMap = new HashMap<String, Object>();
+    public ModelAndView noticeList(@RequestParam(required = false) Integer status, @RequestParam(required = false) Integer type) throws Exception {
+
         List<NoticeResponseDto> noticeList = noticeService.noticeList(status, type);
+
+        Map<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put("notice", noticeList);
         resultMap.put("status", 200);
         resultMap.put("message", SUCCESS);
-        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+//        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+
+        RentalSearchDto rentalSearchDto = new RentalSearchDto();
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("list", noticeList);
+        mav.addObject("title", "공지");
+        mav.addObject("back", false);
+        mav.setViewName("/list");//어디로 이동할지 ex) rental/list
+        return mav;
     }
 
     @ApiOperation(value = "공지 신청")

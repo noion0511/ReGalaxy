@@ -67,7 +67,7 @@ public class NoticeService {
         else {throw new Exception("noticeType가 없습니다..");}
 
         // 파일 경로 지정
-        String uploadPath = new File("").getAbsolutePath() + "\\" + "images/" + noticeTypeName;
+        String uploadPath = new File("").getAbsolutePath() + "\\" + "resources/static/images/" + noticeTypeName;
 
         String saveFolder = uploadPath + File.separator;
 
