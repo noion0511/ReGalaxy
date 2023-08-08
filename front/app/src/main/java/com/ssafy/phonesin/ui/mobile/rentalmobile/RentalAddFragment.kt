@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.ApplicationClass.Companion.MEMBER_ID
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentRentalAddBinding
-import com.ssafy.phonesin.model.Rental
+import com.ssafy.phonesin.model.RentalBody
 import com.ssafy.phonesin.ui.mobile.MobileViewModel
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -107,14 +107,11 @@ class RentalAddFragment :
                 val month = checkDate()
 
 
-                val data = Rental(
+                val data = RentalBody(
                     checkBoxTemperature.isChecked,
                     1,
-                    -1,
                     20000,
                     checkBoxHomeCam.isChecked,
-                    MEMBER_ID,
-                    -1,
                     address,
                     month,
                     checkBoxPicture.isChecked

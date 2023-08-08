@@ -8,6 +8,7 @@ import com.ssafy.phonesin.model.PhotoResponse
 import com.ssafy.phonesin.model.RentalResponse
 
 import com.ssafy.phonesin.model.Rental
+import com.ssafy.phonesin.model.RentalBody
 import com.ssafy.phonesin.model.Return
 
 import okhttp3.MultipartBody
@@ -28,20 +29,20 @@ interface ApiService {
     ): NetworkResponse<PhotoResponse, ErrorResponse>
 
 
-    @GET("/rental/apply/list/{member_id}")
-    suspend fun getRentalList(@Path("member_id") memberId: Int): List<RentalResponse>
+    @GET("/rental/apply/list")
+    suspend fun getRentalList(): RentalResponse
 
     @GET("/address/list")
     suspend fun getAddressList(@Query("member_id") memberId: Int): NetworkResponse<List<Address>, ErrorResponse>
 
-    @GET("/rental/apply/count/{member_id}")
-    suspend fun getPossibleRentalCount(@Path("member_id") memberId: Int): NetworkResponse<Int, ErrorResponse>
+    @GET("/rental/apply/count")
+    suspend fun getPossibleRentalCount(): NetworkResponse<Int, ErrorResponse>
 
 
     @POST("/back/apply")
     suspend fun postReturn(@Body backDtos : List<Return>)
     @POST("/rental/apply")
-    suspend fun postRental(@Body rentalApplylistDto: List<Rental>)
+    suspend fun postRental(@Body rentalApplylistDto: List<RentalBody>)
 
 
     @POST("/donation/apply")

@@ -1,6 +1,6 @@
 package com.ssafy.phonesin.ui.util
 
-import com.ssafy.phonesin.model.Rental
+import com.ssafy.phonesin.model.RentalBody
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -8,7 +8,7 @@ import java.util.Locale
 import java.util.TimeZone
 
 object Util {
-    fun selectModule(rental: Rental): String {
+    fun selectModule(rental: RentalBody): String {
         var string = ""
         if (rental.y2K)
             string += "사진, "
@@ -38,7 +38,7 @@ object Util {
         return dateFormat.format(Date(time))
     }
 
-    fun convertToDate(year:Int,month:Int,day:Int): String {
+    fun convertToDate(year: Int, month: Int, day: Int): String {
         //val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
         return "$year.$month.$day"
     }

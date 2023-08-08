@@ -3,9 +3,8 @@ package com.ssafy.phonesin.ui.mobile.rentalmobile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.ssafy.phonesin.ApplicationClass.Companion.MEMBER_ID
 import com.ssafy.phonesin.model.Event
-import com.ssafy.phonesin.model.Rental
+import com.ssafy.phonesin.model.RentalBody
 import com.ssafy.phonesin.network.NetworkResponse
 import com.ssafy.phonesin.repository.rental.RentalRepository
 import com.ssafy.phonesin.ui.util.base.BaseViewModel
@@ -17,8 +16,8 @@ import javax.inject.Inject
 class RentalViewModel @Inject constructor(
     private val rentalRepository: RentalRepository
 ) : BaseViewModel() {
-    private val _rentalList = MutableLiveData<MutableList<Rental>>()
-    val rentalList: LiveData<MutableList<Rental>>
+    private val _rentalList = MutableLiveData<MutableList<RentalBody>>()
+    val rentalList: LiveData<MutableList<RentalBody>>
         get() = _rentalList
 
     private val _possibleRentalCount = MutableLiveData<Int>()
@@ -42,7 +41,7 @@ class RentalViewModel @Inject constructor(
 
     fun getPossibleRentalCount() {
         viewModelScope.launch {
-            when (val rentalCountResponse = rentalRepository.getPossibleRentalCount(MEMBER_ID)) {
+            when (val rentalCountResponse = rentalRepository.getPossibleRentalCount()) {
                 is NetworkResponse.Success -> {
                     _possibleRentalCount.value = 10 - rentalCountResponse.body
                 }
@@ -67,7 +66,7 @@ class RentalViewModel @Inject constructor(
     }
 
 
-    fun addRental(rental: Rental) {
+    fun addRental(rental: RentalBody) {
         _rentalList.value?.add(rental)
     }
 

@@ -28,9 +28,22 @@ object ApiModule {
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            }).build()
+            .addInterceptor { chain ->
+                val originalRequest = chain.request()
+                val token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdW5nb29uMDY0NkBnbWFpbC5jb20iLCJtZW1iZXJJZCI6MiwiYXV0aG9yaXRpZXMiOiJST0xFX0FETUlOIiwiaWF0IjoxNjkxMzg4Nzc4LCJleHAiOjE2OTE0NzUxNzh9.hY9TO4KsdYoHwrRyWm05X6kFnqD4ZxLnQT2CgRbfKjU"// 저장된 JWT 토큰을 가져옵니다.
+
+                // JWT 토큰을 Authorization 헤더에 첨부합니다.
+                val requestBuilder = originalRequest.newBuilder()
+                    .header("Authorization", "Bearer $token")
+                    .method(originalRequest.method(), originalRequest.body())
+
+                val request = requestBuilder.build()
+//                HttpLoggingInterceptor().apply {
+//                    level = HttpLoggingInterceptor.Level.BODY
+//                }
+                chain.proceed(request)
+            }
+            .build()
     }
 
     @Provides
