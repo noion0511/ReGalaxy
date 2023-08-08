@@ -2063,7 +2063,7 @@
 		padding: 0.75em 1em;
 	}
 
-	input[type="checkbox"],
+	/* input[type="checkbox"],
 	input[type="radio"] {
 		-moz-appearance: none;
 		-webkit-appearance: none;
@@ -2132,7 +2132,7 @@
 
 	input[type="checkbox"] + label:before {
 		border-radius: 0;
-	}
+	} */
 
 	input[type="radio"] + label:before {
 		border-radius: 100%;
@@ -3302,25 +3302,43 @@
 	top: 0;
 	width:100%;
 	height:100%;
-
+	z-index: 20000;
 }
 .modalBtndiv{
 	display: flex;
-	justify-content: flex-end;
+	justify-content: space-between;
+	height: 0.7em;
 }
-.modalBtndiv > .modalBtn{
+.modalBtn{
 	top:4px;
 	right:4px;	
 	font-size:20px;
-	border:0;
+	border:none;
+	background-color: #ffffff;
 	color:#000;
 }
+#modal label{
+	margin-bottom: 0;
+	margin-top: 1em;
+}
+#modal .modalNickname{
+	background: #ffffff;
+	font-size: small;
+	color: #000;
+	border: solid 2px #555555;
+}
+#modal .modalNickname:focus{
+	border-color: #0080ff;
+	box-shadow: 0 0 0 1px #0080ff;
+}
+
 #modal>#content{
 	width:300px;
 	margin:100px auto;
 	padding:20px;
 	position: relative;
 	background-color:#fff;
+	border-radius: 40px;
 }
 
 #modal .close{

@@ -15,21 +15,6 @@
 </head>
 
 <body>
-	<!-- Modal -->
-	<div id='modal'>
-		<div id='content'>
-			<div class="modalBtndiv">
-				<p class="modalBtn" th:onclick="closeModal()">X</p>
-			</div>
-			<label>serial number</label>
-			<input id='serialNumber'/><br/>
-			<label>phone model</label>
-			여긴 드롭박스<br/>
-			<label>기능</label>
-			여긴 체크박스 3개<br/>
-			<Button class="modalBtn" th:onclick="updatePhone()">수정</Button>
-		</div>
-	</div>
 
 	<!-- Header -->
 	<header id="header">
@@ -68,10 +53,14 @@
 						<header class="flex flex-3" style="justify-content: space-between;">
 							<span> </span>
 							<h3 th:text="${list.phoneId}" style="margin-left:0.5em;">폰아이디</h3>
-							<span class="icon fa-pencil" th:onclick="openModal([[${list}]])"></span>
+							<span class="icon fa-pencil" th:onclick="openModal([[${list.phoneId}]], [[${list.modelName}]], [[${list.serialNumber}]])"></span>
 						</header>
 						<p th:text="${list.serialNumber}"></p>
-						<p th:text="${list.modelName}"></p>
+						<div class="flex flex-3" style="justify-content: center;">
+							<p th:text="${list.modelName}"></p>
+							<p>/</p>
+							<p th:text="${list.nickname}"></p>
+						</div>
 						<div class="module flex flex-3">
 							<p th:if="${list.isY2K}">Y2K</p>
 							<p th:if="${list.isClimateHumidity}">습온도계</p>
@@ -143,6 +132,9 @@
 			</div>
 		</div>
 	</section>
+	<div id='modal'>
+
+	</div>
 
 	<!-- Scripts -->
 	<script th:src="@{/assets/js/jquery.min.js}"></script>
@@ -333,20 +325,82 @@
 				});
 		};
 
-		function openModal(list){
-			var modal = document.getElementById('modal');
-                modal.style.display = 'block';
+		function openModal(phoneId, modelName, serialNumber){
+			fetch(`model`, {
+				method: 'GET',
+				headers: { 'Content-Type': 'application/json' }
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					var modal = document.getElementById('modal');
+					modal.style.display='block';
+					modal.innerHTML = ``;
+					var html = `
+							<div id='content'>
+								<div class="modalBtndiv">
+									<p id="modalPhoneId">${phoneId}</p>
+									<Button class="modalBtn" onclick="closeModal()">X</Button>
+								</div>
+								<label>serial number</label>
+								<input id='modalSerialNumber' value='${serialNumber}'/><br/>
+								<label>phone model</label>
+								<select class='modalNickname' id="modalModelId">`;
+					data.list.forEach(function(item){
+						if(item.modelName==modelName){
+							html += `
+									<option value="${item.modelId}" selected>${item.modelName}-${item.nickname}</option>`;
+						}
+						else{
+							html += `
+									<option value="${item.modelId}">${item.modelName}-${item.nickname}</option>`;
+						}
+					});
+					html += `
+								</select><br/>
+								<label style="margin:0;">기능</label>
+								<input type="checkbox" id="isY2KCheckBox">Y2K<br/>
+								<input type="checkbox" id="isHomecamCheckBox">홈캠<br/>
+								<input type="checkbox" id="isClimateHumidityCheckBox">습온도계<br/>
+								<Button class="blackBtn" style="margin-top:1em; padding:0em 0.5em 0em 0.5em;" onclick="updatePhone()">수정</Button>
+							</div>`;
+					modal.innerHTML += html;
+				});
 		}
 
 		function closeModal(){
 			var modal = document.getElementById('modal');
-				modal.style.display='none';
+			modal.style.display='none';
+			modal.innerHTML = ``;
 		}
 
 		function updatePhone(){
+			fetch(`update`, {
+				method: 'PUT',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					phoneId : document.getElementById("modalPhoneId").innerHTML,
+					donationId : 0,
+					serialNumber : document.getElementById("modalSerialNumber").value,
+					modelId : document.getElementById("modalModelId").value,
+					y2K : document.getElementById("isY2KCheckBox").checked,
+					homecam : document.getElementById("isHomecamCheckBox").checked,
+					climateHumidity : document.getElementById("isClimateHumidityCheckBox").checked,
+					searchRental : document.getElementById("isRental").className == 'activeBtn',
+					searchY2K : document.getElementById("isY2K").className=='activeBtn',
+					searchClimateHumidity : document.getElementById("isClimateHumidity").className=='activeBtn',
+					searchHomecam: document.getElementById("isHomecam").className=='activeBtn',
+				}),
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					setPhoneHtml(data);
+				});
 			var modal = document.getElementById('modal');
-				modal.style.display='none';
-				//fetch로 데이터 넘기기
+			modal.style.display='none';
+			modal.innerHTML = ``;
+			//fetch로 데이터 넘기기
 		}
 
 		//phone
@@ -360,10 +414,14 @@
 							<header class="flex flex-3" style="justify-content: space-between;">
 								<span> </span>
 								<h3 style="margin-left:0.5em;">${item.phoneId}</h3>
-								<span class="icon fa-pencil" onclick="openModal(${item.phoneId})"></span>
+								<span class="icon fa-pencil" onclick="openModal(${item.phoneId}, '${item.modelName}', '${item.serialNumber}')"></span>
 							</header>
 							<p>${item.serialNumber}</p>
-							<p>${item.modelName}</p>
+							<div class="flex flex-3" style="justify-content: center;">
+								<p>${item.modelName}</p>
+								<p>/</p>
+								<p>${item.nickname}</p>
+							</div>
 							<div class="module flex flex-3">`;
 				if(item.y2K) {
 					html += `
