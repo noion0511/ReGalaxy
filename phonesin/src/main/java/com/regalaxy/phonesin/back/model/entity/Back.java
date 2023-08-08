@@ -24,7 +24,6 @@ public class Back extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long backId;
-    private Long phoneId;
 
     @JsonIgnore
     @ManyToOne
@@ -47,7 +46,6 @@ public class Back extends BaseTimeEntity {
         this.backDeliveryLocationType = backDeliveryLocationType;
         this.backDeliveryLocation = backDeliveryLocation;
         this.review = review;
-        this.phoneId = phoneId;
         this.rental = rental;
         this.phoneStatus = phoneStatus;
     }
