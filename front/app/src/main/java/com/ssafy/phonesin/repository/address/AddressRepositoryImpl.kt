@@ -9,8 +9,8 @@ import javax.inject.Inject
 class AddressRepositoryImpl @Inject constructor(
     private val apiService: ApiService
 ) : AddressRepository {
-    override suspend fun getAddress(memberId: Int): NetworkResponse<List<Address>, ErrorResponse> {
-        return apiService.getAddressList(memberId)
+    override suspend fun getAddress(): NetworkResponse<List<Address>, ErrorResponse> {
+        return apiService.getAddressList()
     }
 
 }

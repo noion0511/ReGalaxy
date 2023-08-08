@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentRentalFinishBinding
+import com.ssafy.phonesin.ui.util.Util.getCurrentKoreaTime
 import com.ssafy.phonesin.ui.util.Util.selectModule
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 import java.text.SimpleDateFormat
@@ -82,20 +83,6 @@ class RentalFinishFragment :
         }
         temp = temp.removeRange(temp.length - 2, temp.length)
         return temp
-    }
-
-    fun getCurrentKoreaTime(): String {
-        val koreaTimeZone = "Asia/Seoul"
-        val koreaLocale = Locale("ko", "KR")
-        val sdf = SimpleDateFormat("yyyy년 MM월 dd일 a hh:mm", koreaLocale)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            sdf.timeZone = TimeZone.getTimeZone(koreaTimeZone)
-        }
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            sdf.format(Calendar.getInstance(TimeZone.getTimeZone(koreaTimeZone), koreaLocale).time)
-        } else {
-            TODO("VERSION.SDK_INT < N")
-        }
     }
 
     companion object {

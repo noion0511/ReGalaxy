@@ -3,9 +3,9 @@ package com.ssafy.phonesin.di
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.ssafy.phonesin.common.AppPreferences.getAccessToken
-import com.ssafy.phonesin.network.service.ApiService
 import com.ssafy.phonesin.network.NetworkResponseAdapterFactory
 import com.ssafy.phonesin.network.TokenAuthenticator
+import com.ssafy.phonesin.network.service.ApiService
 import com.ssafy.phonesin.network.service.AuthApiService
 import com.ssafy.phonesin.network.service.UserApiService
 import dagger.Module
@@ -23,7 +23,11 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object ApiModule {
 
+
+    //private const val baseUrl = "http://3.36.49.178:8080"
+
     private const val baseUrl = "http://i9d102.p.ssafy.io:8080"
+
 
     private val gson: Gson = GsonBuilder()
         .setLenient()
@@ -42,7 +46,8 @@ object ApiModule {
                         getAccessToken()
                     )
                 }.build())
-            }.authenticator(tokenAuthenticator) // Authenticator 추가
+            }
+            .authenticator(tokenAuthenticator) // Authenticator 추가
             .readTimeout(30, TimeUnit.SECONDS)
             .connectTimeout(30, TimeUnit.SECONDS)
             .build()

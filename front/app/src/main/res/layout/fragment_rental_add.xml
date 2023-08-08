@@ -15,6 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/buttonSelectMobile"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -58,19 +59,29 @@
                             android:checked="true"
                             android:text="@string/exist_address" />
 
-                        <com.skydoves.powerspinner.PowerSpinnerView
+                        <Spinner
                             android:id="@+id/spinnerRentalAddAddress"
+                            style="@style/textview_content_black"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="20dp"
-                            android:padding="10dp"
-                            app:spinner_arrow_tint="@color/black"
-                            app:spinner_popup_background="@color/white"
                             android:background="@drawable/rectangle"
-                            style="@style/textview_content_black"
-                            app:spinner_divider_color="@color/black"
-                            app:spinner_divider_show="true"
-                            app:spinner_divider_size="0.4dp" />
+                            android:padding="10dp"
+                            android:popupBackground="@color/white" />
+
+<!--                        <com.skydoves.powerspinner.PowerSpinnerView-->
+<!--                            android:id="@+id/spinnerRentalAddAddress"-->
+<!--                            style="@style/textview_content_black"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginHorizontal="20dp"-->
+<!--                            android:background="@drawable/rectangle"-->
+<!--                            android:padding="10dp"-->
+<!--                            app:spinner_arrow_tint="@color/black"-->
+<!--                            app:spinner_divider_color="@color/black"-->
+<!--                            app:spinner_divider_show="true"-->
+<!--                            app:spinner_divider_size="0.4dp"-->
+<!--                            app:spinner_popup_background="@color/white" />-->
 
                         <RadioButton
                             android:id="@+id/radioButtonNewAddress"
@@ -81,12 +92,12 @@
 
                         <EditText
                             android:id="@+id/editTextRentalAddAddress"
+                            style="@style/textview_content_black"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginHorizontal="20dp"
-                            style="@style/textview_content_black"
                             android:background="@drawable/border_spinner_layout"
-                            android:hint="주소지를 입력해 주세요"
+                            android:hint="@string/hint_edit_address"
                             android:padding="10dp" />
 
                     </RadioGroup>

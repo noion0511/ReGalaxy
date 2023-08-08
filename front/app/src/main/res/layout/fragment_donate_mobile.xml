@@ -94,17 +94,17 @@
 
                         <RadioButton
                             android:id="@+id/radioButtonDonateVisitDelivery"
+                            style="@style/textview_content_black"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checked="true"
-                            style="@style/textview_content_black"
                             android:text="@string/visit_delivery_select" />
 
                         <RadioButton
                             android:id="@+id/radioButtonDonateAgent"
+                            style="@style/textview_content_black"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            style="@style/textview_content_black"
                             android:text="@string/samsung_agent_select" />
 
                     </RadioGroup>
@@ -114,11 +114,13 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layoutDonateCalendar"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_margin="10dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/border_mobile_add_layout"
                     android:padding="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/layoutDonateChooseWay">
 
@@ -133,9 +135,10 @@
 
                     <CalendarView
                         android:id="@+id/calendarDonate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_marginTop="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/textViewDonateCalendarMessage" />
 
