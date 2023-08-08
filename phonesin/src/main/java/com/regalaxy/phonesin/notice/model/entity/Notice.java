@@ -24,7 +24,7 @@ public class Notice extends BaseTimeEntity {
     String title;
     String posterUrl;
     Integer status; // 1: 예정, 2: 진행중, 3: 종료
-    Integer noticeType; // 0: 배너 , 1: 바텀 공지
+    Integer noticeType; // 1: 배너 , 2: 바텀 공지
 
     @Builder
     public Notice(Member member, String title, String posterUrl, Integer status, Integer noticeType) {

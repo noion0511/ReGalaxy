@@ -62,8 +62,9 @@ public class NoticeService {
         String title = noticeRequestDto.getTitle();
         Integer noticeType = noticeRequestDto.getNoticeType();
         String noticeTypeName;
-        if (noticeType == 0) noticeTypeName = "banner";
-        else noticeTypeName = "bottom";
+        if (noticeType == 1) noticeTypeName = "banner";
+        else if (noticeType == 2) noticeTypeName = "bottom";
+        else {throw new Exception("noticeType가 없습니다..");}
 
         // 파일 경로 지정
         String uploadPath = new File("").getAbsolutePath() + "\\" + "images/" + noticeTypeName;
@@ -93,8 +94,11 @@ public class NoticeService {
 
     public List<NoticeResponseDto> noticeList(Integer status, Integer type) throws Exception {
         List<Notice> noticeList;
-        if (status == null) noticeList = noticeRepository.findByStatusIsNotNullAndNoticeTypeEquals(type);
+        if (status == null && type == null) noticeList = noticeRepository.findAll();
+        else if (status == null) noticeList = noticeRepository.findByStatusIsNotNullAndNoticeTypeEquals(type);
+        else if (type == null) noticeList = noticeRepository.findByStatusEqualsAndNoticeTypeIsNotNull(status);
         else noticeList = noticeRepository.findByStatusEqualsAndNoticeTypeEquals(status, type);
+
         List<NoticeResponseDto> result = noticeList
             .stream()
             .map(notice -> new NoticeResponseDto(notice))
