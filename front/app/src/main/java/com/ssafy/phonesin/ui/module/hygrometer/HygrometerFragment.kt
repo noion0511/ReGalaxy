@@ -1,46 +1,77 @@
 package com.ssafy.phonesin.ui.module.hygrometer
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.content.Context
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import com.ssafy.phonesin.R
-import com.ssafy.phonesin.databinding.FragmentHomeCamBinding
 import com.ssafy.phonesin.databinding.FragmentHygrometerBinding
+import com.ssafy.phonesin.ui.util.base.BaseFragment
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class HygrometerFragment : BaseFragment<FragmentHygrometerBinding>(R.layout.fragment_hygrometer),
+    SensorEventListener {
 
-class HygrometerFragment : Fragment() {
-    private lateinit var binding: FragmentHygrometerBinding
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var sensorManager: SensorManager
+    private var humiditySensor: Sensor? = null
+    private var temperatureSensor: Sensor? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    override fun onCreateBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentHygrometerBinding {
+        return FragmentHygrometerBinding.inflate(inflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentHygrometerBinding.inflate(inflater, container, false)
-        return binding.root
+    override fun init() {
+        sensorManager = requireContext().getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        humiditySensor = sensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY)
+        temperatureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE)
+
+        if (humiditySensor == null) {
+            showToast("Humidity sensor not available!")
+        }
+
+        if (temperatureSensor == null) {
+            showToast("Temperature sensor not available!")
+        }
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HygrometerFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onResume() {
+        super.onResume()
+        humiditySensor?.let {
+            sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL)
+        }
+        temperatureSensor?.let {
+            sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        sensorManager.unregisterListener(this)
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+        // Handle sensor accuracy changes if needed
+    }
+
+    override fun onSensorChanged(event: SensorEvent?) {
+        event?.let {
+            when (it.sensor.type) {
+                Sensor.TYPE_RELATIVE_HUMIDITY -> {
+                    val humidity = it.values[0]
+                    bindingNonNull.textViewHumidity.text = "Humidity: $humidity%"
+                }
+                Sensor.TYPE_AMBIENT_TEMPERATURE -> {
+                    val temperature = it.values[0]
+                    bindingNonNull.textViewTemperature.text = "Temperature: $temperature°C"
                 }
             }
+        }
     }
 }
