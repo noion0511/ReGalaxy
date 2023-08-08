@@ -5,6 +5,7 @@ import com.regalaxy.phonesin.member.model.entity.Member;
 import com.regalaxy.phonesin.member.model.jwt.JwtTokenProvider;
 import com.regalaxy.phonesin.member.model.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -12,10 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -28,34 +26,32 @@ public class MemberService {
     private final Random random = new SecureRandom();
 
     // 회원가입
-    public ResponseEntity<Member> signUp(MemberDto memberDto) {
-        if (memberRepository.existsByEmail(memberDto.getEmail()) && !memberRepository.findByEmail(memberDto.getEmail()).get().getIsDelete()) {
-            throw new RuntimeException("이미 존재하는 이메일입니다.");
+    public ResponseEntity<String> signUp(MemberSignUpDto memberSignUpDto) {
+        if (memberRepository.existsByEmail(memberSignUpDto.getEmail()) && !memberRepository.findByEmail(memberSignUpDto.getEmail()).get().getIsDelete()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미 존재하는 이메일입니다.");
         } else {
             // 비밀번호 암호화
-            String encodedPassword = passwordEncoder.encode(memberDto.getPassword());
+            String encodedPassword = passwordEncoder.encode(memberSignUpDto.getPassword());
 
             Member member;
-            if (!memberRepository.existsByEmail(memberDto.getEmail())) {
-                member = new Member();
-                member.update(memberDto, encodedPassword);
-
-                Member savedMember = memberRepository.save(member);
+            if (!memberRepository.existsByEmail(memberSignUpDto.getEmail()) || !memberRepository.findByEmail(memberSignUpDto.getEmail()).get().getIsVerified()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이메일 인증을 진행해주세요.");
             } else {
                 // 삭제한 이메일로 다시 한 번 회원가입 할 때
-                member = memberRepository.findByEmail(memberDto.getEmail()).get();
+                member = memberRepository.findByEmail(memberSignUpDto.getEmail()).get();
 
-                member.update(memberDto, encodedPassword);
+                member.update(memberSignUpDto, encodedPassword);
 
                 Member savedMember = memberRepository.save(member);
             }
 
-            return ResponseEntity.ok(member);
+            return ResponseEntity.status(HttpStatus.OK).body("회원 가입에 성공하였습니다.");
         }
     }
 
     // 로그인 및 토큰 발급
-    public ResponseEntity<String> signIn(LoginRequestDto loginRequestDto, String refreshToken) {
+    public ResponseEntity<Map<String, Object>> signIn(LoginRequestDto loginRequestDto, String refreshToken) {
+        Map<String, Object> response = new HashMap<>();
         Optional<Member> memberOptional = memberRepository.findByEmail(loginRequestDto.getEmail());
         memberOptional.get().updateRefreshToken(refreshToken);
         memberRepository.save(memberOptional.get());
@@ -64,15 +60,19 @@ public class MemberService {
             if (memberOptional.isPresent()) {
                 Member member = memberOptional.get();
                 if (passwordEncoder.matches(loginRequestDto.getPassword(), member.getPassword())) {
-                    return ResponseEntity.ok("로그인에 성공하였습니다.");
+                    response.put("message", "로그인에 성공하였습니다.");
+                    return ResponseEntity.status(HttpStatus.OK).body(response);
                 } else {
-                    return ResponseEntity.status(401).body("비밀번호가 일치하지 않습니다.");
+                    response.put("message", "비밀번호가 일치하지 않습니다.");
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
                 }
             } else {
-                return ResponseEntity.status(404).body("사용자를 찾을 수 없습니다.");
+                response.put("message", "사용자를 찾을 수 없습니다.");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
         } else {
-            return ResponseEntity.status(404).body("탈퇴한 유저입니다.");
+            response.put("message", "탈퇴한 유저입니다.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
     }
 
@@ -109,13 +109,26 @@ public class MemberService {
     }
 
     // 사용자가 자신의 정보를 수정하는 서비스
-    public MemberDto updateMemberByUser(MemberUserDto memberUserDto) {
+    public ResponseEntity<Map<String, Object>> updateMemberByUser(String email, MemberUpdateByUserDto memberUpdateByUserDto) {
+        Map<String, Object> response = new HashMap<>();
+        Member member;
+
         // DB에 없는 ID를 검색하려고 하면 IllegalArgumentException
-        Member member = memberRepository.findByEmail(memberUserDto.getEmail())
-                .orElseThrow(() -> new IllegalArgumentException(memberUserDto.getEmail() + "은 존재하지 않습니다."));
-        member.updateByUser(memberUserDto);
+        try {
+            member = memberRepository.findByEmail(email).get();
+        } catch (Exception e) {
+            response.put("message", email + "은 존재하지 않습니다.");
+            response.put("status", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        };
+        member.updateByUser(email, memberUpdateByUserDto);
         memberRepository.save(member);
-        return MemberDto.fromEntity(member);
+        MemberDto updatedMemberDto = MemberDto.fromEntity(member);
+
+        response.put("message", "회원 정보가 성공적으로 수정되었습니다.");
+        response.put("status", HttpStatus.OK.value());
+
+        return ResponseEntity.ok(response);
     }
 
     // 회원 탈퇴

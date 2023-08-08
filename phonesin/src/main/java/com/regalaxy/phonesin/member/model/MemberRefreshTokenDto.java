@@ -9,8 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberIsChaDto {
-    private String memberName;
-    private String birth;
-    private String chaCode;
+public class MemberRefreshTokenDto {
+
+    private String refreshToken;
 }
