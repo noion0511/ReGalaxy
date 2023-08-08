@@ -29,7 +29,7 @@ public class Back extends BaseTimeEntity {
 
     @JsonIgnore
     @OneToOne
-    @JoinColumn(name = "rental_id")
+    @JoinColumn(name = "rental_id", unique = true)
     private Rental rental;
 
     @Column(nullable = false)

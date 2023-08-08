@@ -12,10 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,15 +25,24 @@ public class BackController {
     // RequestBody로 JSON 데이터로 받기
     @ApiOperation(value = "기기 반납 신청서 작성")
     @PostMapping("/back/apply")
-    public ResponseEntity<String> apply(@RequestBody List<BackDto> backDtos) {
-        List<Map<String, Object>> resultMaps = new ArrayList<>();
-        for (int i = 0; i < backDtos.size(); i++) {
-            Map<String, Object> resultMap = new HashMap<>();
-            backService.apply(backDtos.get(i));
-            resultMap.put("back", backDtos.get(i));
-            resultMaps.add(resultMap);
+    public ResponseEntity<Map<String, Object>> apply(@RequestBody List<BackDto> backDtos) {
+        Set<Long> rentalIds = new HashSet<>();
+        Map<String, Object> resultMap = new HashMap<>();
+
+        for (BackDto backDto : backDtos) {
+            if (rentalIds.contains(backDto.getRentalId())) {
+                resultMap.put("message", "rentalId가 중복되었습니다.");
+                resultMap.put("status", HttpStatus.BAD_REQUEST.value());
+
+                return new ResponseEntity<>(resultMap, HttpStatus.BAD_REQUEST);
+            }
+            rentalIds.add(backDto.getRentalId());
+
+            backService.apply(backDto);
+            resultMap.put("message", "성공적으로 작성되었습니다.");
+            resultMap.put("status", HttpStatus.OK.value());
         }
-        return new ResponseEntity<String>("Success", HttpStatus.OK);
+        return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
     // 반납 신청서 상세 정보보기
