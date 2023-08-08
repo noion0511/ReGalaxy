@@ -40,8 +40,7 @@ public class BackService {
     @Transactional
     public BackInfoDto backInfo(Long backId) {
         Back back = backRepository.findById(backId).get();
-        Phone phone = phoneRepository.findById(back.getPhoneId()).get();
-        return new BackInfoDto(back, phone);
+        return new BackInfoDto(back);
     }
 
     // 전체 반납 신청서 조회/검색/페이징

@@ -10,6 +10,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static javax.persistence.CascadeType.ALL;
 
 @Entity(name="phone")
 @Getter
@@ -19,9 +23,8 @@ public class Phone {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long phoneId;
-    @OneToOne
-    @JoinColumn(name = "rental_id")
-    private Rental rental;
+    @OneToMany(mappedBy = "phone", cascade = ALL, orphanRemoval = true)
+    private List<Rental> rentalList = new ArrayList<Rental>();
     @ManyToOne
     @JoinColumn(name="model_id")
     private Model model;
