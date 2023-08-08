@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -40,7 +41,9 @@ class CameraXFragment : BaseFragment<FragmentCameraXBinding>(R.layout.fragment_c
     private var photoCount = 0
     private val maxPhotos = 4
     private var photoPaths = ArrayList<String>()
+    private var cameraState = 0
 
+    private var countDownTimer: CountDownTimer? = null
     private val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
     override fun onCreateBinding(
         inflater: LayoutInflater,
@@ -55,6 +58,7 @@ class CameraXFragment : BaseFragment<FragmentCameraXBinding>(R.layout.fragment_c
     override fun init() {
         val mainActivity = activity as MainActivity
         mainActivity.hideBottomNavi(true)
+        mainActivity.setCameraFrameLayoutPaddingVerticle(bindingNonNull.constraint)
 
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
         cameraProviderFuture.addListener(Runnable {
@@ -90,9 +94,15 @@ class CameraXFragment : BaseFragment<FragmentCameraXBinding>(R.layout.fragment_c
         }
 
         initObserver()
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+
+        }
     }
 
     private fun startCountdownAndTakePicture() {
+        bindingNonNull.textViewCountPicture.text = "$photoCount / $maxPhotos"
+        cameraState = 2
         bindingNonNull.buttonTakePicture.visibility = View.INVISIBLE
         var allCountDown = 24
 
@@ -119,13 +129,60 @@ class CameraXFragment : BaseFragment<FragmentCameraXBinding>(R.layout.fragment_c
             }
 
             override fun onFinish() {
+
+            }
+        }.start()
+    }
+
+    private fun remoteTakePicture() {
+        bindingNonNull.textViewCountPicture.text = "$photoCount / $maxPhotos"
+        bindingNonNull.buttonTakePicture.visibility = View.INVISIBLE
+        bindingNonNull.textViewCountTime.visibility = View.INVISIBLE
+
+        var allCountDown = 24
+
+        countDownTimer = object : CountDownTimer(
+            26000,
+            1000
+        ) {
+            override fun onTick(millisUntilFinished: Long) {
+                if (allCountDown < 0) return
+
+                bindingNonNull.textViewCountTime.text = allCountDown.toString()
+                bindingNonNull.progressBar.progress += 1
+
+                if (allCountDown == 12 && photoCount == 0) {
+                    bindingNonNull.textViewCountTime.visibility = View.VISIBLE
+                    takePicture()
+                } else if (allCountDown == 9 && photoCount == 1) {
+                    bindingNonNull.textViewCountTime.visibility = View.VISIBLE
+                    takePicture()
+                } else if (allCountDown == 6 && photoCount == 2) {
+                    bindingNonNull.textViewCountTime.visibility = View.VISIBLE
+                    takePicture()
+                } else if (allCountDown == 0 && photoCount == 3) {
+                    bindingNonNull.textViewCountTime.visibility = View.VISIBLE
+                    takePicture()
+                }
+
+                allCountDown--
+            }
+
+            override fun onFinish() {
                 viewModel.updatePhotoPaths(photoPaths)
-                bindingNonNull.buttonTakePicture.visibility = View.VISIBLE
                 photoPaths = ArrayList<String>()
             }
         }.start()
     }
 
+    fun clickedRemoteTakePictureButton() {
+        if (cameraState == 0) {
+            remoteTakePicture()
+            cameraState = 1
+        } else if (cameraState == 1) {
+            takePicture()
+        }
+    }
 
     private fun takePicture() {
         sound.play(MediaActionSound.SHUTTER_CLICK)
@@ -141,10 +198,14 @@ class CameraXFragment : BaseFragment<FragmentCameraXBinding>(R.layout.fragment_c
                     val modifiedPhotoPath = savedUri.replace("file://", "")
                     Log.d(TAG, "onImageSaved: $savedUri")
                     photoPaths.add(modifiedPhotoPath)
-                    if (photoCount < maxPhotos) {
-                    } else {
-                        photoCount = 0
+                    photoCount++
+                    bindingNonNull.textViewCountPicture.text = "$photoCount / $maxPhotos"
+
+                    if (photoCount >= maxPhotos) {
                         viewModel.updatePhotoPaths(photoPaths)
+                        photoPaths = ArrayList<String>()
+                        countDownTimer?.cancel()
+                        return
                     }
                 }
 

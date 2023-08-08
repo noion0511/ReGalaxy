@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardViewDonateMobile"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@color/white"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="5dp"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="15dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutToggleUp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25dp">
+
+            <TextView
+                android:id="@+id/textViewDonateDate"
+                style="@style/textview_card_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2023/08/18"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/layoutState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imageViewToggle"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/textViewStateRegist"
+                    style="@style/textview_card_state_unselected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="신청" />
+
+                <TextView
+                    style="@style/textview_card_state_unselected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" - " />
+
+                <TextView
+                    android:id="@+id/textViewStateApprove"
+                    style="@style/textview_card_state_unselected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="승인" />
+
+                <TextView
+                    style="@style/textview_card_state_unselected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" - " />
+
+                <TextView
+                    android:id="@+id/textViewStatePickup"
+                    style="@style/textview_card_state_unselected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="수거" />
+
+                <TextView
+                    style="@style/textview_card_state_unselected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" - " />
+
+                <TextView
+                    android:id="@+id/textViewStateDone"
+                    style="@style/textview_card_state_unselected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="완료" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imageViewToggle"
+                android:layout_width="20sp"
+                android:layout_height="20sp"
+                android:src="@drawable/baseline_keyboard_arrow_down_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/dividerToggle"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:visibility="gone"
+            app:dividerColor="@color/borderColor" />
+
+        <LinearLayout
+            android:id="@+id/layoutToggleDown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25dp"
+            android:gravity="start"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:id="@+id/layoutDone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+
+                <TextView
+                    style="@style/textview_card_guide_blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="기증이 완료되었습니다." />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+
+                <TextView
+                    style="@style/textview_content_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="따뜻한 마음으로 휴대폰을 기증해 주셔서 감사합니다.\n기증해 주신 휴대폰은 업사이클링을 통해 환경에 도움이 되는 소중한 자원이 될 것입니다." />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutPickup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+
+                <TextView
+                    style="@style/textview_card_guide_blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="수거가 완료되었습니다." />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+
+                <TextView
+                    style="@style/textview_content_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="기증해주신 휴대폰이 안전하게 이동 중입니다." />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutApprove"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/textview_card_content_small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="수거 날짜 : " />
+
+                    <TextView
+                        android:id="@+id/textViewPickupDate"
+                        style="@style/textview_card_content_small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2023/08/18" />
+
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/textview_card_content_small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="수거 장소 : " />
+
+                    <TextView
+                        android:id="@+id/textViewPickupAddress"
+                        style="@style/textview_card_content_small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="경상북도 구미시 진평동 291-2" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutRegist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:paddingVertical="15dp">
+
+                <Button
+                    android:id="@+id/buttonModifyRegist"
+                    style="@style/textview_card_button_white"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_blue_corner_12"
+                    android:minHeight="0dp"
+                    android:text="수정" />
+
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/buttonCancelRegist"
+                    style="@style/textview_card_button_white"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_blue_corner_12"
+                    android:minHeight="0dp"
+                    android:text="취소" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

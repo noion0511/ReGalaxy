@@ -27,11 +27,9 @@ class HomeRankAdapter(private val rankList: List<Int>) :
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-//        viewHolder.textView.text = rankList[position]
         viewHolder.bind(rankList[position])
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = rankList.size
 
 }
