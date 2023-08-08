@@ -153,4 +153,15 @@ public class AdminMemberController {
         map.put("title", "휴대폰");
         return ResponseEntity.ok(map);
     }
+
+    @ApiOperation(value = "블랙리스트 설정")
+    @PutMapping("/blacklist/{email}")
+    public ResponseEntity<String> blacklist(@PathVariable("email") String email) {
+//        String token = authorization.split(" ")[1]; 좀있다가 설정하기
+//        if (jwtTokenProvider.getMemberId(token) != memberId) {
+//            throw new IllegalStateException("멤버 ID가 일치하지 않습니다.");
+//        }
+        memberService.blackListMember(email);
+        return new ResponseEntity<String>("Success", HttpStatus.OK);
+    }
 }
