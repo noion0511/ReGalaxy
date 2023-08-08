@@ -27,18 +27,18 @@ public class AddressRepositoryCustomImpl implements AddressRepositoryCustom {
 
     @Override
     public List<AgencyDto> samsungList(LocationDto locationDto) {
-        String s = "select new com.regalaxy.phonesin.address.model.AgencyDto(a.agencyPhoneNum, a.agencyLocation, a.agencyName, a.agencyPhotoUrl) "
+        String s = "select new com.regalaxy.phonesin.address.model.AgencyDto(a.agencyPhoneNum, a.agencyLocation, a.agencyName, a.agencyPhotoUrl, a.agencyX, a.agencyY, a.agencyX) "
                 + "from agency a "
-                + "order by (a.agencyX-" + locationDto.getLatitude() + ")*(a.agencyX-"+locationDto.getLatitude()+")+(a.agencyY-"+locationDto.getLongitude()+")*(a.agencyY-"+locationDto.getLongitude()+")";
+                + "order by (a.agencyY-" + locationDto.getLatitude() + ")*(a.agencyY-"+locationDto.getLatitude()+")+(a.agencyX-"+locationDto.getLongitude()+")*(a.agencyX-"+locationDto.getLongitude()+")";
         return em.createQuery(s, AgencyDto.class).getResultList();
     }
 
     @Override
     public List<AgencyDto> samsungListSearch(LocationDto locationDto) {
-        String s = "select new com.regalaxy.phonesin.address.model.AgencyDto(a.agencyPhoneNum, a.agencyLocation, a.agencyName, a.agencyPhotoUrl) "
+        String s = "select new com.regalaxy.phonesin.address.model.AgencyDto(a.agencyPhoneNum, a.agencyLocation, a.agencyName, a.agencyPhotoUrl, a.agencyX, a.agencyY, a.agencyX) "
                 + "from agency a "
                 + "where agencyLocation like '%"+locationDto.getSearch()+"%'"
-                + "order by (a.agencyX-" + locationDto.getLatitude() + ")*(a.agencyX-"+locationDto.getLatitude()+")+(a.agencyY-"+locationDto.getLongitude()+")*(a.agencyY-"+locationDto.getLongitude()+")";
+                + "order by (a.agencyY-" + locationDto.getLatitude() + ")*(a.agencyY-"+locationDto.getLatitude()+")+(a.agencyX-"+locationDto.getLongitude()+")*(a.agencyX-"+locationDto.getLongitude()+")";
         return em.createQuery(s, AgencyDto.class).getResultList();
     }
 }
