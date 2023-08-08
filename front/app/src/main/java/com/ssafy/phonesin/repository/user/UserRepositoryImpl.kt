@@ -1,5 +1,6 @@
 package com.ssafy.phonesin.repository.user
 
+import com.ssafy.phonesin.model.BaseResponse
 import com.ssafy.phonesin.model.ErrorResponse
 import com.ssafy.phonesin.model.dto.EmailCheckRequestDto
 import com.ssafy.phonesin.model.dto.EmailRequestDto
@@ -15,11 +16,11 @@ class UserRepositoryImpl @Inject constructor(
         return apiService.signup(memberDto)
     }
 
-    override suspend fun verifyEmail(emailRequestDto: EmailRequestDto): NetworkResponse<String, ErrorResponse> {
+    override suspend fun verifyEmail(emailRequestDto: EmailRequestDto): NetworkResponse<BaseResponse, ErrorResponse> {
         return apiService.verifyEmail(emailRequestDto)
     }
 
-    override suspend fun verifyEmailConfirm(emailCheckRequestDto: EmailCheckRequestDto): NetworkResponse<String, ErrorResponse> {
+    override suspend fun verifyEmailConfirm(emailCheckRequestDto: EmailCheckRequestDto): NetworkResponse<BaseResponse, ErrorResponse> {
         return apiService.verifyEmailConfirm(emailCheckRequestDto)
     }
 }

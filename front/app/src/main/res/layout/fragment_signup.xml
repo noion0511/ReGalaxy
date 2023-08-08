@@ -87,6 +87,7 @@
                     style="@style/textview_content_gray"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/keyColor1"
                     android:layout_marginTop="5dp"/>
 
                 <TextView
@@ -128,6 +129,7 @@
                     style="@style/textview_content_gray"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/keyColor1"
                     android:layout_marginTop="5dp"/>
 
                 <TextView
@@ -153,6 +155,7 @@
                     android:id="@+id/textViewSignUpPhoneNumberExplain"
                     style="@style/textview_content_gray"
                     android:layout_width="wrap_content"
+                    android:textColor="@color/keyColor1"
                     android:layout_height="wrap_content"/>
 
 
@@ -179,6 +182,7 @@
                     android:id="@+id/textViewSignUpNameExplain"
                     style="@style/textview_content_gray"
                     android:layout_width="wrap_content"
+                    android:textColor="@color/keyColor1"
                     android:layout_height="wrap_content"/>
 
             </LinearLayout>
@@ -189,7 +193,6 @@
             style="@style/textview_button_white_big"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:enabled="false"
             android:background="@drawable/button_black_corner_0"
             android:text="@string/sign_up"
             app:layout_constraintBottom_toBottomOf="parent"

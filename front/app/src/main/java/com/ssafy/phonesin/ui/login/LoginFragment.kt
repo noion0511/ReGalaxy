@@ -9,6 +9,7 @@ import com.ssafy.phonesin.R
 import com.ssafy.phonesin.common.AppPreferences.initJwtToken
 import com.ssafy.phonesin.databinding.FragmentLoginBinding
 import com.ssafy.phonesin.model.dto.LoginRequestDto
+import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -35,6 +36,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     }
 
     override fun init() {
+        val mainActivity = activity as MainActivity
+        mainActivity.hideBottomNavi(true)
+
         setLogInUi()
         initObserver()
         initLoginButton()

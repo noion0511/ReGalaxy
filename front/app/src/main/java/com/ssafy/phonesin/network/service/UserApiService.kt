@@ -1,5 +1,6 @@
 package com.ssafy.phonesin.network.service
 
+import com.ssafy.phonesin.model.BaseResponse
 import com.ssafy.phonesin.model.ErrorResponse
 import com.ssafy.phonesin.model.dto.EmailCheckRequestDto
 import com.ssafy.phonesin.model.dto.EmailRequestDto
@@ -13,8 +14,8 @@ interface UserApiService {
     suspend fun signup(@Body memberDto: MemberDto) : NetworkResponse<String, ErrorResponse>
 
     @POST("/member/email-verification")
-    suspend fun verifyEmail(@Body emailRequestDto: EmailRequestDto) : NetworkResponse<String, ErrorResponse>
+    suspend fun verifyEmail(@Body emailRequestDto: EmailRequestDto) : NetworkResponse<BaseResponse, ErrorResponse>
 
     @POST("/member/email-verification/confirm")
-    suspend fun verifyEmailConfirm(@Body emailCheckRequestDto: EmailCheckRequestDto) : NetworkResponse<String, ErrorResponse>
+    suspend fun verifyEmailConfirm(@Body emailCheckRequestDto: EmailCheckRequestDto) : NetworkResponse<BaseResponse, ErrorResponse>
 }

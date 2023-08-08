@@ -34,8 +34,15 @@ class SignupViewModel @Inject constructor(
     private val _emailAddress = MutableLiveData<String>()
     val emailAddress: LiveData<String> = _emailAddress
 
+    private val _emailConfirmStatus = MutableLiveData(false)
+    val emailConfirmStatus: LiveData<Boolean> = _emailConfirmStatus
+
     fun setUserInputEmail(email: String) {
         _emailAddress.value = email
+    }
+
+    fun setEmailConfirmStatus(status: Boolean) {
+        _emailConfirmStatus.value = status
     }
 
     fun signup(memberDto: MemberDto) {
@@ -73,7 +80,7 @@ class SignupViewModel @Inject constructor(
             val type = "이메일 인증"
             when (response) {
                 is NetworkResponse.Success -> {
-                    _msg.postValue(Event(response.body))
+                    _msg.postValue(Event(response.body.message))
                 }
 
                 is NetworkResponse.ApiError -> {
@@ -99,7 +106,7 @@ class SignupViewModel @Inject constructor(
             val type = "이메일 인증 확인"
             when (response) {
                 is NetworkResponse.Success -> {
-                    _emailCheck.postValue(Event(response.body))
+                    _emailCheck.postValue(Event(response.body.message))
                 }
 
                 is NetworkResponse.ApiError -> {

@@ -3,11 +3,13 @@ package com.ssafy.phonesin.ui.signup
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentSignupBinding
 import com.ssafy.phonesin.model.MemberDto
 import com.ssafy.phonesin.model.MemberValidation
 import com.ssafy.phonesin.model.SignUpInformation
+import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,12 +31,15 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
     }
 
     override fun init() {
+        val mainActivity = activity as MainActivity
+        mainActivity.hideBottomNavi(true)
+
         initObserver()
 
         bindingNonNull.buttonVerifyEmail.setOnClickListener {
             val email = bindingNonNull.editTextSignUpEmail.text.toString()
             viewModel.setUserInputEmail(email)
-//            findNavController().navigate(R.id.action_si)
+            findNavController().navigate(R.id.action_signupFragment_to_emailCheckFragment)
         }
 
         bindingNonNull.buttonSigunUp.setOnClickListener {
@@ -93,11 +98,10 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
                 }
             }
 
-            emailCheck.observe(viewLifecycleOwner) { event ->
-                event.getContentIfNotHandled()?.let {
-                    if(it == "") {
-                        emailCheckStatue = true
-                    }
+            emailConfirmStatus.observe(viewLifecycleOwner) {
+                if(it == true) {
+                    bindingNonNull.textViewEmailExplain.text = getString(R.string.signup_email_confirm_ok)
+                    bindingNonNull.editTextSignUpEmail.setText(emailAddress.value.toString())
                 }
             }
         }

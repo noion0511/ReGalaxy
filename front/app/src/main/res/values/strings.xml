@@ -52,12 +52,16 @@
     <string name="signup_phone_number_hint">-없이 숫자로만 입력해주세요.</string>
     <string name="signup_name_hint">실명을 입력해주세요.</string>
     <string name="signup_email_confirm">인증</string>
+    <string name="signup_email_confirm_ok">인증되었습니다.</string>
     <string name="signup_email_empty">이메일을 입력해주세요.</string>
     <string name="signup_invalid_email_format">유효한 이메일 형식이 아닙니다.</string>
     <string name="signup_short_password">비밀번호는 8자 이상으로 입력해주세요.</string>
     <string name="signup_password_mismatch">비밀번호가 일치하지 않습니다.</string>
     <string name="signup_email_not_verified">이메일 인증을 받아주세요.</string>
-
+    <string name="signup_email_verify_explain">[%s]으로 전송되었습니다.\n전송된 인증번호를 확인 한 후 5분 내에 인증해주세요.</string>
+    <string name="signup_email_verify_post">전송하기</string>
+    <string name="signup_email_verify_confirm">인증하기</string>
+    <string name="signup_email_verify_number">인증번호*</string>
 
     <string name="moduleWeekChart">한눈에 보기</string>
     <string name="donate_agent">대리점 기증</string>
