@@ -21,8 +21,6 @@ public class BackDto {
     private String backDeliveryLocationType;
     private String backDeliveryLocation;
     private String review;
-    @JsonFormat(pattern = "yyyy/MM/dd")
-    private LocalDateTime createdAt;
     private Boolean phoneStatus;
 
     // Entity를 Dto로 바꾸는 메서드

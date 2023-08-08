@@ -26,7 +26,7 @@ public class Back extends BaseTimeEntity {
     private Long backId;
 
     @JsonIgnore
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "rental_id")
     private Rental rental;
 
