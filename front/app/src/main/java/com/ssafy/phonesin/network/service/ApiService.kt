@@ -6,6 +6,7 @@ import com.ssafy.phonesin.model.Donation
 import com.ssafy.phonesin.model.ErrorResponse
 import com.ssafy.phonesin.model.PhotoResponse
 import com.ssafy.phonesin.model.RentalBody
+import com.ssafy.phonesin.model.RentalCountResponse
 import com.ssafy.phonesin.model.RentalResponse
 import com.ssafy.phonesin.model.Return
 import com.ssafy.phonesin.network.NetworkResponse
@@ -33,7 +34,7 @@ interface ApiService {
     suspend fun getAddressList(@Query("member_id") memberId: Int): NetworkResponse<List<Address>, ErrorResponse>
 
     @GET("/rental/apply/count")
-    suspend fun getPossibleRentalCount(): NetworkResponse<Int, ErrorResponse>
+    suspend fun getPossibleRentalCount(): NetworkResponse<RentalCountResponse, ErrorResponse>
 
 
     @POST("/back/apply")

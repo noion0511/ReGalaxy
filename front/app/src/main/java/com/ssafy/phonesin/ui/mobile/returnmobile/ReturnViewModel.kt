@@ -1,5 +1,6 @@
 package com.ssafy.phonesin.ui.mobile.returnmobile
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.ssafy.phonesin.model.Return
 import com.ssafy.phonesin.repository.returnmobile.ReturnRepository
@@ -18,6 +19,7 @@ class ReturnViewModel @Inject constructor(
 
     fun uploadReturn() {
         viewModelScope.launch {
+            Log.e("싸피", _returnList.toString())
             repository.postReturnList(_returnList)
         }
     }

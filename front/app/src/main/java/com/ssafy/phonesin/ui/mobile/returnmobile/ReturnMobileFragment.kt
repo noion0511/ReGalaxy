@@ -3,6 +3,7 @@ package com.ssafy.phonesin.ui.mobile.returnmobile
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup

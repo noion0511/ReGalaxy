@@ -2,7 +2,7 @@ package com.ssafy.phonesin.repository.returnmobile
 
 import com.ssafy.phonesin.model.RentalResponse
 import com.ssafy.phonesin.model.Return
-import com.ssafy.phonesin.network.ApiService
+import com.ssafy.phonesin.network.service.ApiService
 import javax.inject.Inject
 
 class ReturnRepositoryImpl @Inject constructor(

@@ -5,14 +5,14 @@ data class Rental(
     val climateHumidity: Boolean,
     val fund: Int,
     val homecam: Boolean,
-    val modelName: Any,
-    val phoneId: Any,
+    val modelName: String,
+    val phoneId: Int,
     val rentalDeliveryLocation: String,
-    val rentalEnd: Any,
+    val rentalEnd: String,
     val rentalId: Int,
-    val rentalStart: Any,
+    val rentalStart: String,
     val rentalStatus: Int,
-    val waybillNumber: Any,
+    val waybillNumber: String,
     val y2K: Boolean
 ) {
     constructor() : this(

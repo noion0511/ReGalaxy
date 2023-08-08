@@ -50,7 +50,7 @@ abstract class RepositoryModule {
         repositoryImpl: AddressRepositoryImpl
     ): AddressRepository
 
-
+    @Binds
     abstract fun bindsLoginRepository(
         repositoryImpl: LoginRepositoryImpl
     ): LoginRepository

@@ -43,7 +43,7 @@ class RentalViewModel @Inject constructor(
         viewModelScope.launch {
             when (val rentalCountResponse = rentalRepository.getPossibleRentalCount()) {
                 is NetworkResponse.Success -> {
-                    _possibleRentalCount.value = 10 - rentalCountResponse.body
+                    _possibleRentalCount.value = 10 - rentalCountResponse.body.rentalCount
                 }
 
                 is NetworkResponse.ApiError -> {

@@ -46,7 +46,8 @@ object ApiModule {
                         getAccessToken()
                     )
                 }.build())
-            }.authenticator(tokenAuthenticator) // Authenticator 추가
+            }
+            .authenticator(tokenAuthenticator) // Authenticator 추가
             .readTimeout(30, TimeUnit.SECONDS)
             .connectTimeout(30, TimeUnit.SECONDS)
             .build()

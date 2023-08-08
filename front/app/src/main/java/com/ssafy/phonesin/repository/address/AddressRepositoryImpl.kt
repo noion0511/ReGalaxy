@@ -2,8 +2,8 @@ package com.ssafy.phonesin.repository.address
 
 import com.ssafy.phonesin.model.Address
 import com.ssafy.phonesin.model.ErrorResponse
-import com.ssafy.phonesin.network.ApiService
 import com.ssafy.phonesin.network.NetworkResponse
+import com.ssafy.phonesin.network.service.ApiService
 import javax.inject.Inject
 
 class AddressRepositoryImpl @Inject constructor(
