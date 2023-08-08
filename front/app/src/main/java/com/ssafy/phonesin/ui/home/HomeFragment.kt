@@ -47,7 +47,6 @@ class HomeFragment : Fragment() {
     private fun setBanner() {
         viewPager = binding.viewPagerBanner
         indicator = binding.indicatorBanner
-        val images = listOf(R.drawable.banner1, R.drawable.banner2, R.drawable.banner3)
 
         indicator.setupWithViewPager(viewPager)
         viewPager.adapter = HomeViewPagerAdapter(childFragmentManager)
@@ -58,7 +57,6 @@ class HomeFragment : Fragment() {
             p.setMargins(0, 0, 10, 0)
             tab.requestLayout()
         }
-
     }
 
     private fun setRank() {

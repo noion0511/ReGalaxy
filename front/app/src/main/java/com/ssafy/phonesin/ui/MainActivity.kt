@@ -43,13 +43,13 @@ class MainActivity : AppCompatActivity() {
         ssl.postHttps("https://map.kakao.com/", 1000, 1000)
 
         setStatusBarTransparent()
-
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            Log.d("version", "onCreate: 젤리빈")
-            setNav()
-        } else {
-            setSplash()
-        }
+        setNav()
+//        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+//            Log.d("version", "onCreate: 젤리빈")
+//            setNav()
+//        } else {
+//            setSplash()
+//        }
 
         val permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {

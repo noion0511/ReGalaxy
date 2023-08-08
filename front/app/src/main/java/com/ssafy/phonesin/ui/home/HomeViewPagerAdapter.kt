@@ -8,7 +8,8 @@ import androidx.fragment.app.FragmentPagerAdapter
 class HomeViewPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
     override fun getItem(position: Int): Fragment {
         Log.d("ViewPager", "Creating fragment at position $position")
-        return HomeBannerFragment.newInstance(position)
+        val calculatedPosition = position % 3
+        return HomeBannerFragment.newInstance(calculatedPosition)
     }
 
     override fun getCount(): Int {
