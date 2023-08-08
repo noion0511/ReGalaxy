@@ -3,6 +3,7 @@ package com.ssafy.phonesin.ui.login
 import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
@@ -38,6 +39,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     override fun init() {
         val mainActivity = activity as MainActivity
         mainActivity.hideBottomNavi(true)
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            requireActivity().finish()
+        }
 
         setLogInUi()
         initObserver()
