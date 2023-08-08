@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -76,6 +77,10 @@ class QRCodeFragment : BaseFragment<FragmentQRCodeBinding>(
     }
 
     private fun initObserver() {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            bindingNonNull.LinearLayoutLoading.visibility = View.GONE
+        }
+
         with(viewModel) {
             errorMsg.observe(viewLifecycleOwner) { event ->
                 event.getContentIfNotHandled()?.let {
@@ -88,7 +93,7 @@ class QRCodeFragment : BaseFragment<FragmentQRCodeBinding>(
                     if (it.message == getString(R.string.success)) {
                         Glide.with(requireContext())
                             .load("https://chart.apis.google.com/chart?cht=qr&chs=300x300&chl=http://i9d102.p.ssafy.io:8080/ytwok/images/${it.photos.saveFile}")
-                            .listener(object: RequestListener<Drawable> {
+                            .listener(object : RequestListener<Drawable> {
                                 override fun onLoadFailed(
                                     e: GlideException?,
                                     model: Any?,
