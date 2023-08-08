@@ -7,7 +7,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PhoneApplyDto {
+public class PhoneUpdateDto {
     private Long phoneId;
     private Long donationId;
     private String serialNumber;
@@ -15,4 +15,9 @@ public class PhoneApplyDto {
     private boolean isY2K;
     private boolean isClimateHumidity;
     private boolean isHomecam;
+
+    private boolean searschRental;
+    private boolean searschY2K;
+    private boolean searschClimateHumidity;
+    private boolean searschHomecam;
 }
