@@ -118,4 +118,6 @@ dependencies {
     //서버와 이미지 처리를 위한 gilde
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+
+    implementation 'com.github.pedroSG94.rtmp-rtsp-stream-client-java:rtplibrary:2.2.4'
 }

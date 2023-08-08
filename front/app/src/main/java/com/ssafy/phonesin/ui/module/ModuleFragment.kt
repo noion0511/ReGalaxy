@@ -80,7 +80,7 @@ class ModuleFragment : Fragment() {
                             findNavController().navigate(R.id.action_module_to_cameraFragment)
                         }
                     }
-                    getString(R.string.module_type_cctv_title) -> findNavController().navigate(R.id.action_module_to_camListFragment)
+                    getString(R.string.module_type_cctv_title) -> findNavController().navigate(R.id.action_module_to_homeCamFragment)
                     getString(R.string.module_type_temperature_title) -> findNavController().navigate(R.id.action_module_to_hygrometerFragment)
                 }
             }

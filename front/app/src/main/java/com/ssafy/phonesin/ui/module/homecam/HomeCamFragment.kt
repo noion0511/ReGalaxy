@@ -1,59 +1,104 @@
 package com.ssafy.phonesin.ui.module.homecam
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.Manifest
+import android.content.pm.PackageManager
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
+import androidx.core.content.ContextCompat
+import com.pedro.rtplibrary.rtsp.RtspCamera1
+import com.pedro.rtsp.utils.ConnectCheckerRtsp
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentHomeCamBinding
-import com.ssafy.phonesin.databinding.FragmentModuleBinding
+import com.ssafy.phonesin.ui.util.base.BaseFragment
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class HomeCamFragment : BaseFragment<FragmentHomeCamBinding>(R.layout.fragment_home_cam),
+    ConnectCheckerRtsp {
 
-class HomeCamFragment : Fragment() {
-    private lateinit var binding: FragmentHomeCamBinding
+    private lateinit var rtspCamera1: RtspCamera1
 
-    private var param1: String? = null
-    private var param2: String? = null
+    override fun onCreateBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentHomeCamBinding {
+        return FragmentHomeCamBinding.inflate(inflater, container, false)
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    override fun init() {
+        if (checkPermissions()) {
+        }
+
+        initRtsp()
+        bindingNonNull.startStreamButton.setOnClickListener { startStream() }
+        bindingNonNull.pauseStreamButton.setOnClickListener { pauseStream() }
+        bindingNonNull.stopStreamButton.setOnClickListener { stopStream() }
+    }
+
+    private fun initRtsp() {
+        rtspCamera1 = RtspCamera1(bindingNonNull.surfaceView, this)
+        rtspCamera1.prepareAudio()
+        rtspCamera1.prepareVideo()
+    }
+
+    private fun startStream() {
+        if (rtspCamera1.isStreaming) {
+            showToast("Already Streaming")
+            return
+        }
+        rtspCamera1.startStream("rtsp://your-server-address/your-stream-path")
+        showToast("Stream Started")
+    }
+
+    private fun pauseStream() {
+        if (rtspCamera1.isStreaming) {
+            rtspCamera1.stopStream()
+            showToast("Stream Paused")
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentHomeCamBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initToolbar()
-    }
-
-    private fun initToolbar() {
-        binding.textViewPlus.toolbarBackButtonTitle.text = getString(R.string.moduleHomeCamDetail)
-        binding.textViewPlus.toolbarBackButton.setOnClickListener {
-            findNavController().navigate(R.id.action_homeCamFragment_to_camListFragment)
+    private fun stopStream() {
+        if (rtspCamera1.isStreaming) {
+            rtspCamera1.stopStream()
         }
+        rtspCamera1.stopPreview()
+        showToast("Stream Stopped")
     }
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeCamFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+
+    private fun checkPermissions(): Boolean {
+        val permissions = arrayOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+        for (permission in permissions) {
+            if (ContextCompat.checkSelfPermission(requireContext(), permission) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(permissions, 1)
+                return false
             }
+        }
+
+        return true
+    }
+
+    override fun onAuthErrorRtsp() {
+        showToast("Auth Error")
+    }
+
+    override fun onAuthSuccessRtsp() {
+        showToast("Auth Success")
+    }
+
+    override fun onConnectionFailedRtsp(reason: String) {
+        showToast("Connection Failed: $reason")
+        rtspCamera1.stopStream()
+    }
+
+    override fun onConnectionStartedRtsp(rtspUrl: String) {
+        showToast("Connection Started: $rtspUrl")
+    }
+
+    override fun onConnectionSuccessRtsp() {
+        showToast("Connection Success")
+    }
+
+    override fun onDisconnectRtsp() {
+        showToast("Disconnected")
+    }
+
+    override fun onNewBitrateRtsp(bitrate: Long) {
+        //비트레이트 처리가 필요한 경우 ?
     }
 }
