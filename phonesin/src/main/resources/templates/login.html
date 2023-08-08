@@ -9,14 +9,15 @@
     <title>Projection by TEMPLATED</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="../static/assets/css/login.css" />
+<!--    <link rel="stylesheet" href="assets/css/login.css" />-->
+    <link rel="stylesheet" th:href="@{/assets/css/login.css}" />
 </head>
 <body>
 
     <!-- Header -->
     <header id="header">
         <div class="inner">
-            <a href="../static/index.html" class="logo"><img style="object-fit: cover; width:2em" src="../static/images/logo.PNG" /></a>
+            <a href="/" class="logo"><img style="object-fit: cover; width:2em" th:src="@{/images/logo.PNG}" /></a>
         </div>
     </header>
     <!-- Banner -->
@@ -27,7 +28,7 @@
             </header>
             <div style="padding-left:9em; padding-right:9em" class="container-id" id="id-container">
                 <br/><br/><br/>
-                <label id="id-label">아이디</label>
+                <label id="id-label">이메일</label>
                 <input type="text" id="id-input">
             </div>
             <div style="padding-left:9em; padding-right:9em" class="container-pwd" id="pwd-container">
@@ -88,20 +89,67 @@
 
         document.getElementById("pwd-input").addEventListener("input",function(e){
             var id = document.getElementById("id-input");
-            var pwd = document.getElementById("pwd-input");;
+            var pwd = document.getElementById("pwd-input");
             if(id.value!="" && pwd.value!=""){
                 document.getElementById("login").disabled=false;
             }else{
                 document.getElementById("login").disabled=true;
             }
         });
+
+        document.getElementById("pwd-input").addEventListener("keydown",function(e){
+            if (e.key === 'Enter') {
+                login()
+            }
+        });
+
+        // 로그인 전송
+        document.getElementById("login").addEventListener("click",function(e){
+            login()
+        });
+
+        function login(){
+
+            var id = document.getElementById("id-input").value;
+            var pwd = document.getElementById("pwd-input").value;
+
+            const obj = {
+                "email": id,
+                "password": pwd
+            };
+            const data = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(obj)
+            };
+            $.ajax({
+                // url : '/member/admin/login/',
+                url : '/admin/member/login/',
+                type : 'POST',
+                dataType : 'json',
+                contentType : 'application/json',
+                data :  JSON.stringify(obj),
+                async : false,
+                success : function (response){
+                    // console.log("response", response)
+                    sessionStorage.setItem("accessToken", response['accessToken'])
+                    sessionStorage.setItem("refreshToken", response['refreshToken'])
+                    location.href="/"
+                },
+                error : function (response, status, error){
+                    alert(response['responseJSON']['error']);
+                }
+            })
+        }
     </script>
 
 <!-- Scripts -->
-<script src="../static/assets/js/jquery.min.js"></script>
-<script src="../static/assets/js/skel.min.js"></script>
-<script src="../static/assets/js/util.js"></script>
-<script src="../static/assets/js/main.js"></script>
+<script th:src="@{/assets/js/jquery.min.js}"></script>
+<script th:src="@{/assets/js/skel.min.js}"></script>
+<script th:src="@{/assets/js/util.js}"></script>
+<script th:src="@{/assets/js/main.js}"></script>
 
 </body>
 </html>

@@ -8,8 +8,5 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RentalSearchDto {
-    private boolean isBack;
-    private boolean isApply;
-    private boolean notApply;
-    private boolean isExtension;
+    private boolean ready;
 }

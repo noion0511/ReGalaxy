@@ -1,6 +1,5 @@
 package com.regalaxy.phonesin.phone.controller;
 
-import com.regalaxy.phonesin.member.model.SearchDto;
 import com.regalaxy.phonesin.phone.model.PhoneApplyDto;
 import com.regalaxy.phonesin.phone.model.PhoneDto;
 import com.regalaxy.phonesin.phone.model.PhoneSearchDto;
@@ -15,8 +14,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.function.EntityResponse;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/admin/phone")
@@ -35,6 +37,18 @@ public class PhoneController {
         mav.addObject("title", "휴대폰");
         mav.setViewName("/list");
         return mav;
+    }
+
+    @ApiOperation(value = "휴대폰 목록 조회 검색")
+    @PostMapping("/list")
+    public ResponseEntity<?> listSearch(@RequestBody PhoneSearchDto phoneSearchDto, Model model){
+        List<PhoneDto> list = phoneService.list(phoneSearchDto);
+        Map<String, Object> map = new HashMap<>();
+        model.addAttribute("list", list);
+        model.addAttribute("title", "휴대폰");
+        map.put("list", list);
+        map.put("title", "휴대폰");
+        return ResponseEntity.ok(map);
     }
 
     @ApiOperation(value = "휴대폰 상세 조회")
