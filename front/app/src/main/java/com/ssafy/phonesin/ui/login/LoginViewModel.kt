@@ -70,10 +70,10 @@ class LoginViewModel @Inject constructor(
             return false
         }
 
-        if (password.length < 8) {
-            _msg.postValue(Event("Password must be at least 8 characters long"))
-            return false
-        }
+//        if (password.length < 8) {
+//            _msg.postValue(Event("Password must be at least 8 characters long"))
+//            return false
+//        }
         return true
     }
 }
