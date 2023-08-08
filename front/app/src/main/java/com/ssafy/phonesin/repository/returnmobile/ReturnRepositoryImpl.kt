@@ -9,8 +9,8 @@ class ReturnRepositoryImpl @Inject constructor(
     private val apiService: ApiService
 ) : ReturnRepository {
 
-    override suspend fun getRentalList(memberId: Int): List<RentalResponse> {
-        return apiService.getRentalList(memberId)
+    override suspend fun getRentalList(): RentalResponse {
+        return apiService.getRentalList()
     }
 
     override suspend fun postReturnList(returnList: List<Return>) {

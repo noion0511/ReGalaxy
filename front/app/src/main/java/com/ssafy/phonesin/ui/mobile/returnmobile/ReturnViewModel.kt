@@ -18,15 +18,16 @@ class ReturnViewModel @Inject constructor(
 
     fun uploadReturn() {
         viewModelScope.launch {
-//              repository.postReturnList(_returnList)
+            repository.postReturnList(_returnList)
         }
     }
 
-    fun setReturnList(id: List<Int>) {
+    fun setReturnList(phoneId: List<Int>, rentalId: List<Int>) {
         _returnList.clear()
-        id.forEach {
-            _returnList.add(Return("", "", "", -1, -1, "", it, true, -1, ""))
+        for (i in phoneId.indices) {
+            _returnList.add(Return("", "", "", -1, -1, "", phoneId[i], true, rentalId[i], ""))
         }
+
     }
 
     fun setReturnListContent(content: String) {

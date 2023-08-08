@@ -76,6 +76,7 @@ class ReturnMobileFragment : BaseFragment<FragmentReturnMobileBinding>(
                 checkBox.text = "${rental.modelName} No.${rental.phoneId}"
 //                radioButton.id = it.indexOf(rental)
                 checkBox.id = rental.phoneId.toString().toInt()
+                checkBox.tag = rental.rentalId
                 if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
                     checkBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
                     checkBox.setTextColor(Color.BLACK)
@@ -98,7 +99,7 @@ class ReturnMobileFragment : BaseFragment<FragmentReturnMobileBinding>(
             } else if (editTextReturnContent.text.toString() == "") {
                 showToast("후기를 적어주세요")
             } else {
-                returnViewModel.setReturnList(getCheckBox())
+                returnViewModel.setReturnList(getPhoneIdCheckBox(),getRentalIdCheckBox())
                 returnViewModel.setReturnListDate(convertCalendarToDate(calendarReturn.date))
                 returnViewModel.setReturnListContent(editTextReturnContent.text.toString())
 
@@ -118,19 +119,22 @@ class ReturnMobileFragment : BaseFragment<FragmentReturnMobileBinding>(
 
     }
 
-    private fun applyStyle18(textView: CheckBox, styleId: Int) {
-        textView.setTextAppearance(context, styleId)
-    }
-
     private fun isCheckBox(): Boolean {
         return rentalCheckList.any { it.isChecked }
     }
 
-    private fun getCheckBox(): List<Int> {
+    private fun getPhoneIdCheckBox(): List<Int> {
         return bindingNonNull.layoutReturnCheckBox.children
             .filterIsInstance<CheckBox>()
             .filter { it.isChecked }
             .map { it.id }.toList()
+    }
+
+    private fun getRentalIdCheckBox(): List<Int> {
+        return bindingNonNull.layoutReturnCheckBox.children
+            .filterIsInstance<CheckBox>()
+            .filter { it.isChecked }
+            .map { it.tag.toString().toInt() }.toList()
     }
 
     companion object {
