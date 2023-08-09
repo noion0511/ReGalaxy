@@ -31,10 +31,9 @@
                 android:id="@+id/powerOnButton"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:background="@drawable/remote_circle_red"
-                android:elevation="5dp"
+                android:background="@drawable/selector_remote_on"
                 android:padding="15dp"
-                android:scaleType="fitCenter"
+                android:scaleType="centerCrop"
                 android:src="@drawable/remote_power"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -55,6 +54,8 @@
                 <LinearLayout
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/selector_remote_button"
+                    android:clickable="true"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -89,11 +90,15 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
+
                 <LinearLayout
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/selector_remote_button"
+                    android:clickable="true"
                     android:gravity="center"
                     android:orientation="vertical">
+
                     <TextView
                         style="@style/textview_remote_white_big"
                         android:layout_width="wrap_content"
@@ -116,11 +121,15 @@
                 app:layout_constraintEnd_toStartOf="@+id/button3"
                 app:layout_constraintStart_toEndOf="@+id/button1"
                 app:layout_constraintTop_toTopOf="parent">
+
                 <LinearLayout
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/selector_remote_button"
+                    android:clickable="true"
                     android:gravity="center"
                     android:orientation="vertical">
+
                     <TextView
                         style="@style/textview_remote_white_big"
                         android:layout_width="wrap_content"
@@ -142,11 +151,15 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
+
                 <LinearLayout
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/selector_remote_button"
+                    android:clickable="true"
                     android:gravity="center"
                     android:orientation="vertical">
+
                     <TextView
                         style="@style/textview_remote_white_big"
                         android:layout_width="wrap_content"
@@ -184,6 +197,8 @@
                 <LinearLayout
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/selector_remote_button"
+                    android:clickable="true"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -213,6 +228,8 @@
                 <LinearLayout
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/selector_remote_button"
+                    android:clickable="true"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -241,6 +258,8 @@
                 <LinearLayout
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/selector_remote_button"
+                    android:clickable="true"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -279,6 +298,8 @@
                 <LinearLayout
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/selector_remote_button"
+                    android:clickable="true"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -308,6 +329,8 @@
                 <LinearLayout
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/selector_remote_button"
+                    android:clickable="true"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -336,6 +359,8 @@
                 <LinearLayout
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/selector_remote_button"
+                    android:clickable="true"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -375,6 +400,8 @@
                 <LinearLayout
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/selector_remote_button"
+                    android:clickable="true"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -416,6 +443,8 @@
                     <LinearLayout
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/selector_remote_button_big"
+                        android:clickable="true"
                         android:gravity="center"
                         android:orientation="vertical">
 
@@ -426,6 +455,7 @@
                         <ImageView
                             android:layout_width="50dp"
                             android:layout_height="50dp"
+                            android:padding="2dp"
                             android:src="@drawable/remote_volume_up" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -463,12 +493,15 @@
                     <LinearLayout
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/selector_remote_button_big"
+                        android:clickable="true"
                         android:gravity="center"
                         android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="50dp"
                             android:layout_height="50dp"
+                            android:padding="2dp"
                             android:src="@drawable/remote_volume_down" />
 
                         <Space
@@ -476,7 +509,6 @@
                             android:layout_height="20dp" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
-
             </LinearLayout>
 
             <LinearLayout
@@ -498,8 +530,11 @@
                     <LinearLayout
                         android:layout_width="100dp"
                         android:layout_height="100dp"
+                        android:background="@drawable/selector_remote_button"
+                        android:clickable="true"
                         android:gravity="center"
                         android:orientation="vertical">
+
                         <TextView
                             style="@style/textview_remote_white_small"
                             android:layout_width="wrap_content"
@@ -507,10 +542,11 @@
                             android:padding="5dp"
                             android:text="MUTE"
                             android:textAlignment="center" />
+
                         <ImageView
                             android:layout_width="35dp"
                             android:layout_height="35dp"
-                            android:src="@drawable/remote_mute"/>
+                            android:src="@drawable/remote_mute" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
@@ -534,6 +570,8 @@
                     <LinearLayout
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/selector_remote_button_big"
+                        android:clickable="true"
                         android:gravity="center"
                         android:orientation="vertical">
 
@@ -581,6 +619,8 @@
                     <LinearLayout
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/selector_remote_button_big"
+                        android:clickable="true"
                         android:gravity="center"
                         android:orientation="vertical">
 
@@ -599,7 +639,6 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
         <TextView
