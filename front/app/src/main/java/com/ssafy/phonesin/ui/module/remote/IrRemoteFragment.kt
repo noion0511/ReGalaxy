@@ -3,16 +3,19 @@ package com.ssafy.phonesin.ui.module.remote
 import android.content.Context
 import android.hardware.ConsumerIrManager
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentIrRemoteBinding
+import com.ssafy.phonesin.model.DeviceType
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 
 class IrRemoteFragment : BaseFragment<FragmentIrRemoteBinding>(R.layout.fragment_ir_remote) {
 
     private lateinit var irManager: ConsumerIrManager
+    private var selectedDevice: DeviceType = DeviceType.TV
 
     override fun onCreateBinding(
         inflater: LayoutInflater,
@@ -40,10 +43,23 @@ class IrRemoteFragment : BaseFragment<FragmentIrRemoteBinding>(R.layout.fragment
         initVolumeButton()
         initChannelButton()
         initNumberButton()
+
     }
 
-    private fun getSamsungTvPowerOnCode() = createIrPattern(0xE0E09966)
-    private fun getSamsungTvPowerOffCode() = createIrPattern(0xE0E040BF)
+    private fun getPowerOnCode(deviceType: DeviceType): IntArray {
+        return when (deviceType) {
+            DeviceType.TV -> createIrPattern(0xE0E09966)
+            DeviceType.AIR_CONDITIONER -> createIrPattern(0xAABBCCDD)
+        }
+    }
+
+    private fun getPowerOffCode(deviceType: DeviceType): IntArray {
+        return when (deviceType) {
+            DeviceType.TV -> createIrPattern(0xE0E040BF)
+            DeviceType.AIR_CONDITIONER -> createIrPattern(0xAABB8877)
+        }
+    }
+
     private fun getSamsungTvVolumeUpCode() = createIrPattern(0xE0E0E01F)
     private fun getSamsungTvVolumeDownCode() = createIrPattern(0xE0E0D02F)
     private fun getSamsungTvChannelUpCode() = createIrPattern(0xE0E048B7)
@@ -84,14 +100,16 @@ class IrRemoteFragment : BaseFragment<FragmentIrRemoteBinding>(R.layout.fragment
         return pattern.toIntArray()
     }
 
+
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     private fun initPowerButton() {
         bindingNonNull.powerOnButton.setOnClickListener {
-            irManager.transmit(38000, getSamsungTvPowerOnCode())
+            irManager.transmit(38000, getPowerOnCode(selectedDevice))
+            Log.d("TAG", "initPowerButton: ")
         }
 
         bindingNonNull.powerOffButton.setOnClickListener {
-            irManager.transmit(38000, getSamsungTvPowerOffCode())
+            irManager.transmit(38000, getPowerOffCode(selectedDevice))
         }
     }
 
