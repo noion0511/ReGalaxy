@@ -42,6 +42,8 @@
 				<p id="isY2K" th:if="${title=='휴대폰'}">Y2K</p>
 				<p id="isClimateHumidity" th:if="${title=='휴대폰'}">습온도계</p>
 				<p id="isHomecam" th:if="${title=='휴대폰'}">홈캠</p>
+				<p id="isAccept" th:if="${title=='기증'}" onclick="donationAccept()">수락</p>
+				<p id="isReceive" th:if="${title=='기증'}" onclick="donationReceive()">수령</p>
 				<p id="ready" th:if="${title=='대여'}" onclick="ready()">대기중</p>
 				<p id="success" th:if="${title=='반납'}" onclick="success()">완료</p>
 				<p id="isBlack" th:if="${title=='회원'}" onclick="isBlack()" style="width: 6em;">블랙리스트</p>
@@ -74,13 +76,15 @@
 				<div class="flex flex-4" th:if="${title=='기증'}">
 					<article class="card" th:each="list : ${list}">
 						<header>
-							<h3 th:text="${list.donationId}">폰아이디</h3>
+							<h3 th:text="${list.donationId}">기증아이디</h3>
 						</header>
+						<p th:text="${list.donationCreatedAt}"></p>
+						<p th:text="${list.donationDeliveryDate}"></p>
 						<p th:if="${list.donationStatus==1}">신청 대기 중</p>
 						<p th:if="${list.donationStatus==2}">수거 중</p>
 						<p th:if="${list.donationStatus==3}">수거 완료</p>
-						<p th:text="${list.donationCreatedAt}"></p>
-						<p th:text="${list.donationDeliveryDate}"></p>
+						<button th:if="${list.donationStatus==1}" class="blackBtn" th:onclick="acceptApply([[${list.donationId}]])">수락</button>
+						<button th:if="${list.donationStatus==2}" class="blackBtn" th:onclick="doApply([[${list.donationId}]])">수령</button>
 					</article>
 				</div>
 				<div class="flex flex-4" th:if="${title=='대여'}">
@@ -170,6 +174,30 @@
             	phoneHtml();
             }
 		}
+		function donationAccept(){
+            var container1 = document.getElementById("isAccept");
+            var container2 = document.getElementById("isReceive");
+            if(container1.className != 'activeBtn'){
+            	container1.classList.add('activeBtn');
+				container2.classList.remove('activeBtn');
+				donationHtml();
+            }else{
+				container1.classList.remove('activeBtn');
+				donationHtml();
+            }
+		}
+		function donationReceive(){
+            var container1 = document.getElementById("isAccept");
+            var container2 = document.getElementById("isReceive");
+            if(container2.className != 'activeBtn'){
+            	container2.classList.add('activeBtn');
+				container1.classList.remove('activeBtn');
+				donationHtml();
+            }else{
+				container2.classList.remove('activeBtn');
+				donationHtml();
+            }
+		}
         function ready(){
             var container = document.getElementById("ready");
             if(container.className != 'activeBtn'){
@@ -210,6 +238,29 @@
 				memberHtml();
             }
         };
+
+		function acceptApply(donationId){
+			fetch(`accept/${donationId}`, {
+				method: 'PUT',
+				headers: { 'Content-Type': 'application/json' },
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					setDonationHtml(data);
+				});
+		}
+		function doApply(donationId){
+			fetch(`receive/${donationId}`, {
+				method: 'PUT',
+				headers: { 'Content-Type': 'application/json' },
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					setDonationHtml(data);
+				});
+		}
 
 		function setBlack(email){
 			fetch(`blacklist/${email}`, {
@@ -293,6 +344,23 @@
 					console.log(data);
 					setPhoneHtml(data);});
 		};
+
+		function donationHtml(){
+			console.log(document.getElementById("isAccept").className == 'activeBtn');
+			console.log(document.getElementById("isReceive").className == 'activeBtn');
+			fetch(`list`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					accept : document.getElementById("isAccept").className == 'activeBtn',
+					receive : document.getElementById("isReceive").className=='activeBtn',
+				}),
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					setDonationHtml(data);});
+		}
 
 		function rentalHtml(){
 			fetch(`list`, {
@@ -453,6 +521,38 @@
 			document.getElementById('result').innerHTML += html;
 		}
 
+		//donation
+		function setDonationHtml(data){
+			document.getElementById('result').innerHTML = ``;
+			var html = `
+				<div class="flex flex-4">`;
+			data.list.forEach(function(item) {
+				html += `
+					<article class="card">
+						<header>
+							<h3>${item.donationId}</h3>
+						</header>
+						<p>${item.donationCreatedAt}</p>
+						<p>${item.donationDeliveryDate}</p>`;
+				if(item.donationStatus==1){
+					html += `
+						<p>신청 대기 중</p>
+						<button class="blackBtn" onclick="acceptApply(${item.donationId})">수락</button>`;
+				}else if(item.donationStatus==2){
+					html += `
+						<p>수거 중</p>
+						<button class="blackBtn" onclick="doApply(${item.donationId})">수령</button>`;
+				}else if(item.donationStatus==3){
+					html += `
+						<p>수거 완료</p>`;
+				}
+					html += `							
+							</article>`;
+			});
+			html += `</div>`;
+			document.getElementById('result').innerHTML+=html;
+		}
+
 		//rental
 		function setRentalHtml(data){
 			if(data.back){
@@ -582,7 +682,7 @@
 							<p>블랙리스트</p>`;
 						}else{
 							html += `
-									<button class="blackBtn" th:onclick="setBlack(${item.email})">블랙리스트 추가</button>`;
+									<button class="blackBtn" onclick="setBlack(${item.email})">블랙리스트 추가</button>`;
 						}
 						html += `
 							</article>`;
