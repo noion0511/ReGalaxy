@@ -172,7 +172,7 @@ class MainActivity : AppCompatActivity() {
     private fun navigationHeight(): Int {
         val resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
 
-        return if (resourceId > 0) resources.getDimensionPixelSize(resourceId)
-        else 0
+        return if (resourceId <= 0 || Build.VERSION.SDK_INT <= 27) 0
+        else resources.getDimensionPixelSize(resourceId)
     }
 }
