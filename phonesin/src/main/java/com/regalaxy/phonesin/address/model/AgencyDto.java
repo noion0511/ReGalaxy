@@ -8,8 +8,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AgencyDto {
-    private String agency_phone_num;
-    private String agency_location;
-    private String agency_name;
-    private String agency_photo_url;
+    private String agencyPhoneNum;
+    private String agencyLocation;
+    private String agencyName;
+    private String agencyPhotoUrl;
+    private double agencyX;
+    private double agencyY;
+    private double distance;
 }
