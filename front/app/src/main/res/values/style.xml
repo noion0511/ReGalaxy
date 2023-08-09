@@ -61,4 +61,10 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="textview_remote_white">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
 </resources>
