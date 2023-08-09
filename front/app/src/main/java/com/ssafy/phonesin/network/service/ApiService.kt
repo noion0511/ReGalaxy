@@ -1,6 +1,7 @@
 package com.ssafy.phonesin.network.service
 
 
+import com.google.android.gms.common.internal.safeparcel.SafeParcelable.Param
 import com.ssafy.phonesin.model.Address
 import com.ssafy.phonesin.model.Donation
 import com.ssafy.phonesin.model.ErrorResponse
@@ -12,10 +13,12 @@ import com.ssafy.phonesin.model.Return
 import com.ssafy.phonesin.network.NetworkResponse
 import okhttp3.MultipartBody
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 
@@ -50,4 +53,10 @@ interface ApiService {
     @GET("donation/king")
     suspend fun getKing(): NetworkResponse<PhotoResponse, ErrorResponse>
 
+
+    @POST("/address/create/{address}")
+    suspend fun postAddress(@Path("address") address: String): NetworkResponse<String, ErrorResponse>
+
+    @DELETE("/address/delete/{addressId}")
+    suspend fun removeAddress(@Path("addressId") addressId: Int): NetworkResponse<String, ErrorResponse>
 }
