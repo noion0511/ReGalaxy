@@ -66,8 +66,8 @@ public class AddressController {
     }
 
     @ApiOperation(value = "주소 생성")
-    @PostMapping("/create")//삼성 대리점 목록//검색
-    public ResponseEntity<?> create(@RequestBody String address, @ApiIgnore @RequestHeader String authorization){
+    @PostMapping("/create/{address}")//삼성 대리점 목록//검색
+    public ResponseEntity<?> create(@PathVariable("address") String address, @ApiIgnore @RequestHeader String authorization){
         Long memberId = jwtTokenProvider.getMemberId(authorization.replace("Bearer ", ""));
         addressService.create(address, memberId);
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
