@@ -175,22 +175,26 @@
             }
 		}
 		function donationAccept(){
-            var container = document.getElementById("isAccept");
-            if(container.className != 'activeBtn'){
-            	container.classList.add('activeBtn');
+            var container1 = document.getElementById("isAccept");
+            var container2 = document.getElementById("isReceive");
+            if(container1.className != 'activeBtn'){
+            	container1.classList.add('activeBtn');
+				container2.classList.remove('activeBtn');
 				donationHtml();
             }else{
-				container.classList.remove('activeBtn');
+				container1.classList.remove('activeBtn');
 				donationHtml();
             }
 		}
 		function donationReceive(){
-            var container = document.getElementById("isReceive");
-            if(container.className != 'activeBtn'){
-            	container.classList.add('activeBtn');
+            var container1 = document.getElementById("isAccept");
+            var container2 = document.getElementById("isReceive");
+            if(container2.className != 'activeBtn'){
+            	container2.classList.add('activeBtn');
+				container1.classList.remove('activeBtn');
 				donationHtml();
             }else{
-				container.classList.remove('activeBtn');
+				container2.classList.remove('activeBtn');
 				donationHtml();
             }
 		}
