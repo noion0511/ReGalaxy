@@ -26,7 +26,7 @@ public class PhoneRepositoryCustomImpl implements PhoneRepositoryCustom{
             if(n==0){
                 s+="where ";
             }
-            s += "p.isRental=false";//서브쿼리로 member_id 찾기
+            s += "p.isRental=true";//서브쿼리로 member_id 찾기
             n++;
         }
         if(phoneSearchDto.isY2K()){//가능

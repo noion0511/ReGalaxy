@@ -41,6 +41,7 @@ public class RentalService {
             rental.setRentalDeliveryLocation(rentalApplyDto.getRentalDeliveryLocation());//배송지
             rental.setFund(rentalApplyDto.getFund());//가격
             rental.setUsingDate(rentalApplyDto.getUsingDate());//사용 기간
+            rental.setPhone(null);
             rentalRepository.save(rental);
         }
         return true;
