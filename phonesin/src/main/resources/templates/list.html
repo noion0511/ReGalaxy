@@ -48,11 +48,11 @@
 				<p id="success" th:if="${title=='반납'}" onclick="success()">완료</p>
 				<p id="isBlack" th:if="${title=='회원'}" onclick="isBlack()" style="width: 6em;">블랙리스트</p>
 				<p id="isCha" th:if="${title=='회원'}" onclick="isCha()" style="width: 6em;">차상위계층</p>
-				<p id="isBanner" th:if="${title=='공지'}" onclick="" style="width: 6em;">배너용</p>
-				<p id="isBottom" th:if="${title=='공지'}" onclick="" style="width: 6em;">바텀용</p>
-				<p id="isReserve" th:if="${title=='공지'}" onclick="" style="width: 6em;">예약됨</p>
-				<p id="isProcess" th:if="${title=='공지'}" onclick="" style="width: 6em;">진행중</p>
-				<p id="isEnd" th:if="${title=='공지'}" onclick="" style="width: 6em;">종료됨</p>
+				<p id="isBanner" th:if="${title=='공지'}" onclick="notiType(1)" style="width: 6em;">배너용</p>
+				<p id="isBottom" th:if="${title=='공지'}" onclick="notiType(2)" style="width: 6em;">바텀용</p>
+				<p id="isReserve" th:if="${title=='공지'}" onclick="notistatus(1)" style="width: 6em;">예약됨</p>
+				<p id="isProcess" th:if="${title=='공지'}" onclick="notistatus(2)" style="width: 6em;">진행중</p>
+				<p id="isEnd" th:if="${title=='공지'}" onclick="notistatus(3)" style="width: 6em;">종료됨</p>
 			</div>
 			<div id="result">
 				<div th:block class="flex flex-4" th:if="${title=='휴대폰'}">
@@ -139,7 +139,7 @@
 					</article>
 				</div>
 				<div class="flex flex-4" th:if="${title=='공지'}">
-					<article class="card" th:each="list : ${list}">
+					<article class="card" th:each="list : ${list}" th:id="${'cardnoti' + list.noticeId}">
 						<header>
 							<h3 th:text="${list.noticeId}">대여아이디</h3>
 						</header>
@@ -352,21 +352,22 @@
 					setRentalHtml(data);
 				});
         };
+
 		/*<![CDATA[*/
-		function noticeProcessing(noticeId){
-			let list = /*[[${list}]]*/
+		function noticeProcessing(noticeId) {
+			let list = /*[[${list}]]*/;
 			const id = noticeId;
-			for(let i = 0; i < list.length; i++){
-				if(list[i].noticeId == noticeId) {
-					if (list[i].status == 1){
-						document.getElementById('notist'+noticeId).innerText = '진행중'
-						document.getElementById('notibtn'+noticeId).innerText = '종료시켜'
-						document.getElementById('notibtn'+noticeId).onclick = function noticeEnding(){
+			for (let i = 0; i < list.length; i++) {
+				if (list[i].noticeId == noticeId) {
+					if (list[i].status == 1) {
+						document.getElementById('notist' + noticeId).innerText = '진행중'
+						document.getElementById('notibtn' + noticeId).innerText = '종료시켜'
+						document.getElementById('notibtn' + noticeId).onclick = function noticeEnding() {
 							let list = /*[[${list}]]*/;
-							for(let i = 0; i<list.length; i++){
-								if(list[i].noticeId == id) {
-									document.getElementById('notist'+noticeId).innerText = '종료됨'
-									document.getElementById('notibtn'+noticeId).style.display = 'none'
+							for (let i = 0; i < list.length; i++) {
+								if (list[i].noticeId == id) {
+									document.getElementById('notist' + noticeId).innerText = '종료됨'
+									document.getElementById('notibtn' + noticeId).style.display = 'none'
 									fetch(`/admin/notice/toend/${noticeId}`, {
 										method: 'PUT'
 									})
@@ -379,9 +380,9 @@
 						})
 						list[i].status = 2
 					}
-					else if (list[i].status == 2){
-						document.getElementById('notist'+noticeId).innerText = '종료됨'
-						document.getElementById('notibtn'+noticeId).style.display = 'none'
+					else if (list[i].status == 2) {
+						document.getElementById('notist' + noticeId).innerText = '종료됨'
+						document.getElementById('notibtn' + noticeId).style.display = 'none'
 						fetch(`/admin/notice/toend/${noticeId}`, {
 							method: 'PUT'
 						})
@@ -391,25 +392,86 @@
 			}
 		};
 		/*]]>*/
-		/*<![CDATA[*/
-		function noticeEnding(noticeId){
-			let list = /*[[${list}]]*/
-			console.log(list)
-			for(let i = 0; i<list.length; i++){
-				if(list[i].noticeId == noticeId) {
-					console.log(2222222222222)
-					document.getElementById('notist'+noticeId).innerText = '종료됨'
-					document.getElementById('notibtn'+noticeId).style.display = 'none'
-					fetch(`/admin/notice/toend/${noticeId}`, {
-						method: 'PUT'
-					})
-					list[i].status = 3
-				}
+		
+
+		function notiType(type) {
+			const banner = document.getElementById('isBanner');
+			const bottom = document.getElementById('isBottom');
+			if ((type == 1 && banner.classList.contains('activeBtn')) || (type == 2 && bottom.classList.contains('activeBtn'))) {
+				banner.classList.remove('activeBtn');
+				bottom.classList.remove('activeBtn');
+				localStorage.setItem('type', null);
 			}
-			console.log(list)
+			else if (type == 1) { // banner
+				banner.classList.add('activeBtn');
+				bottom.classList.remove('activeBtn');
+				localStorage.setItem('type', type);
+			} else if (type == 2) { // bottom
+				bottom.classList.add('activeBtn');
+				banner.classList.remove('activeBtn');
+				localStorage.setItem('type', type);
+			}
+			showListUpdate();
+		};
+
+		function notistatus(status) {
+			const reserve = document.getElementById('isReserve');
+			const process = document.getElementById('isProcess');
+			const end = document.getElementById('isEnd');
+
+			if ((status == 1 && reserve.classList.contains('activeBtn')) || (status == 2 && process.classList.contains('activeBtn')) || (status == 3 && end.classList.contains('activeBtn'))) {
+				reserve.classList.remove('activeBtn');
+				process.classList.remove('activeBtn');
+				end.classList.remove('activeBtn');
+				localStorage.setItem('status', null)
+			}
+			else if (status == 1) { // 예정
+				reserve.classList.add('activeBtn');
+				process.classList.remove('activeBtn');
+				end.classList.remove('activeBtn');
+				localStorage.setItem('status', status)
+			} else if (status == 2) { // 진행
+				reserve.classList.remove('activeBtn');
+				process.classList.add('activeBtn');
+				end.classList.remove('activeBtn');
+				localStorage.setItem('status', status)
+			} else if (status == 3) { // 종료
+				reserve.classList.remove('activeBtn');
+				process.classList.remove('activeBtn');
+				end.classList.add('activeBtn');
+				localStorage.setItem('status', status)
+			}
+			showListUpdate();
+		};
+
+
+
+		/*<![CDATA[*/
+		function showListUpdate() {
+			const globalstatus = localStorage.getItem('status');
+			const globaltype = localStorage.getItem('type');
+			const list = /*[[${list}]]*/;
+			list.forEach((noti) => {
+				if (globalstatus == 'null' && globaltype == 'null') {
+					document.getElementById('cardnoti' + noti.noticeId).style.display = '';
+				} else if (globalstatus == 'null') {
+					if (noti.noticeType == globaltype) document.getElementById('cardnoti' + noti.noticeId).style.display = '';
+					else document.getElementById('cardnoti' + noti.noticeId).style.display = 'none';
+				} else if (globaltype == 'null') {
+					if (noti.status == globalstatus) document.getElementById('cardnoti' + noti.noticeId).style.display = '';
+					else document.getElementById('cardnoti' + noti.noticeId).style.display = 'none';
+				} else {
+					if (noti.status == globalstatus && noti.noticeType == globaltype) document.getElementById('cardnoti' + noti.noticeId).style.display = '';
+					else document.getElementById('cardnoti' + noti.noticeId).style.display = 'none';
+				}
+			})
 		};
 		/*]]>*/
-		function phoneHtml(){
+
+
+		
+
+		function phoneHtml() {
 			fetch(`list`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
