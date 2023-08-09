@@ -35,13 +35,6 @@ public class AdminNoticeController {
 
         List<NoticeResponseDto> noticeList = noticeService.noticeList(status, type);
 
-        Map<String, Object> resultMap = new HashMap<String, Object>();
-        resultMap.put("notice", noticeList);
-        resultMap.put("status", 200);
-        resultMap.put("message", SUCCESS);
-//        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
-
-        RentalSearchDto rentalSearchDto = new RentalSearchDto();
         ModelAndView mav = new ModelAndView();
         mav.addObject("list", noticeList);
         mav.addObject("title", "공지");

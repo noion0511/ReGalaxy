@@ -46,6 +46,11 @@
 				<p id="success" th:if="${title=='반납'}" onclick="success()">완료</p>
 				<p id="isBlack" th:if="${title=='회원'}" onclick="isBlack()" style="width: 6em;">블랙리스트</p>
 				<p id="isCha" th:if="${title=='회원'}" onclick="isCha()" style="width: 6em;">차상위계층</p>
+				<p id="isBanner" th:if="${title=='공지'}" onclick="" style="width: 6em;">배너용</p>
+				<p id="isBottom" th:if="${title=='공지'}" onclick="" style="width: 6em;">바텀용</p>
+				<p id="isReserve" th:if="${title=='공지'}" onclick="" style="width: 6em;">예약됨</p>
+				<p id="isProcess" th:if="${title=='공지'}" onclick="" style="width: 6em;">진행중</p>
+				<p id="isEnd" th:if="${title=='공지'}" onclick="" style="width: 6em;">종료됨</p>
 			</div>
 			<div id="result">
 				<div th:block class="flex flex-4" th:if="${title=='휴대폰'}">
@@ -134,18 +139,18 @@
 						<header>
 							<h3 th:text="${list.noticeId}">대여아이디</h3>
 						</header>
-						<img th:if="${list.noticeType == 1}" th:src="${'/images/banner/' + list.posterUrl}">
-						<img th:if="${list.noticeType == 2}" th:src="${'/images/bottom/' + list.posterUrl}">
+						<img th:if="${list.noticeType == 1}" th:src="${'/notice/image/' + list.posterUrl}" style="width: 50px">
+						<img th:if="${list.noticeType == 2}" th:src="${'/notice/image/' + list.posterUrl}" style="width: 50px">
 						<div class="module flex flex-3">
 							<p th:if="${list.noticeType == 1}">배너용</p>
 							<p th:if="${list.noticeType == 2}">바텀용</p>
-							<p th:if="${list.status == 1}">예약됨</p>
-							<p th:if="${list.status == 2}">진행중</p>
-							<p th:if="${list.status == 3}">종료됨</p>
+							<p th:id="${'notist' + list.noticeId}" th:if="${list.status == 1}">예약됨</p>
+							<p th:id="${'notist' + list.noticeId}" th:if="${list.status == 2}">진행중</p>
+							<p th:id="${'notist' + list.noticeId}" th:if="${list.status == 3}">종료됨</p>
 						</div>
 						<div class="flex flex-3" style="justify-content: center;">
-							<button th:if="${list.status == 1}" class="blackBtn" th:onclick="noticeProcess([[${list.noticeId}]])">진행시켜</button>
-							<button th:if="${list.status == 2}" class="blackBtn" th:onclick="noticeEnd([[${list.noticeId}]])">종료시켜</button>
+							<button th:id="${'notibtn' + list.noticeId}" th:if="${list.status == 1}" class="blackBtn" th:onclick="noticeProcessing([[${list.noticeId}]])">진행시켜</button>
+							<button th:id="${'notibtn' + list.noticeId}" th:if="${list.status == 2}" class="blackBtn" th:onclick="noticeProcessing([[${list.noticeId}]])">종료시켜</button>
 						</div>
 					</article>
 				</div>
@@ -163,7 +168,7 @@
 	<script th:src="@{/assets/js/main.js}"></script>
 	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
-	<script>
+	<script th:inline="javascript">
         document.getElementById("isRental").onclick = function(){
             var container = document.getElementById("isRental");
 			phoneActive(container);
@@ -296,27 +301,63 @@
 					setRentalHtml(data);
 				});
         };
-		function noticeProcess(noticeId){
-			fetch(`/admin/notice/toprocess/${noticeId}`, {
-				method: 'PUT'
-			})
-			.then(response => response.json())
-			.then(data => {
-				console.log(data);
-				setRentalHtml(data)
-			});
+		/*<![CDATA[*/
+		function noticeProcessing(noticeId){
+			let list = /*[[${list}]]*/
+			const id = noticeId;
+			for(let i = 0; i < list.length; i++){
+				if(list[i].noticeId == noticeId) {
+					if (list[i].status == 1){
+						document.getElementById('notist'+noticeId).innerText = '진행중'
+						document.getElementById('notibtn'+noticeId).innerText = '종료시켜'
+						document.getElementById('notibtn'+noticeId).onclick = function noticeEnding(){
+							let list = /*[[${list}]]*/;
+							for(let i = 0; i<list.length; i++){
+								if(list[i].noticeId == id) {
+									document.getElementById('notist'+noticeId).innerText = '종료됨'
+									document.getElementById('notibtn'+noticeId).style.display = 'none'
+									fetch(`/admin/notice/toend/${noticeId}`, {
+										method: 'PUT'
+									})
+									list[i].status = 3
+								}
+							}
+						}
+						fetch(`/admin/notice/toprocess/${noticeId}`, {
+							method: 'PUT'
+						})
+						list[i].status = 2
+					}
+					else if (list[i].status == 2){
+						document.getElementById('notist'+noticeId).innerText = '종료됨'
+						document.getElementById('notibtn'+noticeId).style.display = 'none'
+						fetch(`/admin/notice/toend/${noticeId}`, {
+							method: 'PUT'
+						})
+						list[i].status = 3
+					}
+				}
+			}
 		};
-
-		function noticeEnd(noticeId){
-			fetch(`/admin/notice/toend/${noticeId}`, {
-				method: 'PUT'
-			})
-			.then(response => response.json())
-			.then(data => {
-				console.log(data);
-				setRentalHtml(data)
-			});
+		/*]]>*/
+		/*<![CDATA[*/
+		function noticeEnding(noticeId){
+			let list = /*[[${list}]]*/
+			console.log(list)
+			for(let i = 0; i<list.length; i++){
+				if(list[i].noticeId == noticeId) {
+					console.log(2222222222222)
+					document.getElementById('notist'+noticeId).innerText = '종료됨'
+					document.getElementById('notibtn'+noticeId).style.display = 'none'
+					fetch(`/admin/notice/toend/${noticeId}`, {
+						method: 'PUT'
+					})
+					list[i].status = 3
+				}
+			}
+			console.log(list)
 		};
+		/*]]>*/
 		function phoneHtml(){
 			fetch(`list`, {
 				method: 'POST',
