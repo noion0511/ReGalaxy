@@ -1,13 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <Button
-        android:id="@+id/sendIrButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Send IR Code"
-        android:background="@color/keyColor1"
-        android:layout_centerInParent="true"/>
-</RelativeLayout>
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/remote_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#f0f0f0"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/powerOnButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="Power +" />
+
+            <Button
+                android:id="@+id/powerOffButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="Power -" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/volumeDownButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Volume -" />
+
+            <Button
+                android:id="@+id/volumeUpButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Volume +" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/channelDownButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Channel -" />
+
+            <Button
+                android:id="@+id/channelUpButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Channel +" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

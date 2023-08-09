@@ -3,82 +3,96 @@ package com.ssafy.phonesin.ui.module.remote
 import android.content.Context
 import android.hardware.ConsumerIrManager
 import android.os.Build
-import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import com.ssafy.phonesin.R
+import com.ssafy.phonesin.databinding.FragmentIrRemoteBinding
+import com.ssafy.phonesin.ui.util.base.BaseFragment
 
-class IrRemoteFragment : Fragment() {
+class IrRemoteFragment : BaseFragment<FragmentIrRemoteBinding>(R.layout.fragment_ir_remote) {
 
     private lateinit var irManager: ConsumerIrManager
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_ir_remote, container, false)
+    override fun onCreateBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentIrRemoteBinding {
+        return FragmentIrRemoteBinding.inflate(inflater, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun init() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-            Toast.makeText(activity, "Your device does not support IR transmission.", Toast.LENGTH_SHORT).show()
+            showToast("Your device does not support IR transmission.")
             return
         }
 
-        irManager = activity?.getSystemService(Context.CONSUMER_IR_SERVICE) as ConsumerIrManager
+        irManager = requireContext().getSystemService(Context.CONSUMER_IR_SERVICE) as ConsumerIrManager
 
         if (!irManager.hasIrEmitter()) {
-            Toast.makeText(activity, "No IR emitter found on this device.", Toast.LENGTH_SHORT).show()
+            showToast("No IR emitter found on this device.")
             return
         }
 
-        val sendIrButton: Button = view.findViewById(R.id.sendIrButton)
-        sendIrButton.setOnClickListener {
-            val frequency = 38000 // 대부분의 장치에서 사용하는 통신 주파수
-            val pattern = getSamsungTvPowerCode()
-            irManager.transmit(frequency, pattern)
+        // 여기에 버튼 이벤트 리스너 설정
+        bindingNonNull.powerOnButton.setOnClickListener {
+            irManager.transmit(38000, getSamsungTvPowerOnCode())
+            showToast("on")
+        }
 
-            Toast.makeText(requireContext(), "on and off", Toast.LENGTH_SHORT).show()
+        bindingNonNull.powerOffButton.setOnClickListener {
+            irManager.transmit(38000, getSamsungTvPowerOffCode())
+            showToast("off")
+        }
+
+        bindingNonNull.volumeUpButton.setOnClickListener {
+            irManager.transmit(38000, getSamsungTvVolumeUpCode())
+        }
+
+        bindingNonNull.volumeDownButton.setOnClickListener {
+            irManager.transmit(38000, getSamsungTvVolumeDownCode())
+        }
+
+        bindingNonNull.channelUpButton.setOnClickListener {
+            irManager.transmit(38000, getSamsungTvChannelUpCode())
+        }
+
+        bindingNonNull.channelDownButton.setOnClickListener {
+            irManager.transmit(38000, getSamsungTvChannelDownCode())
         }
     }
 
-    private fun getSamsungTvPowerCode(): IntArray {
-        val customCode = "0707".toInt(16)
-        val data = "02".toInt(16)
-        val complementData = "FD".toInt(16)
+    private fun getSamsungTvPowerOnCode() = createIrPattern(0xE0E09966)
+    private fun getSamsungTvPowerOffCode() = createIrPattern(0xE0E040BF)
+    private fun getSamsungTvVolumeUpCode() = createIrPattern(0xE0E0E01F)
+    private fun getSamsungTvVolumeDownCode() = createIrPattern(0xE0E0D02F)
+    private fun getSamsungTvChannelUpCode() = createIrPattern(0xE0E048B7)
+    private fun getSamsungTvChannelDownCode() = createIrPattern(0xE0E08877)
 
+
+    private fun createIrPattern(hexCode: Long): IntArray {
         val pattern = mutableListOf<Int>()
-        // Leader
-        pattern.add(4500) // low
-        pattern.add(4500) // high
 
-        // Custom Code
-        for (i in 15 downTo 0) {
-            val bit = (customCode shr i) and 1
-            pattern.add(700)
-            pattern.add(if (bit == 0) 400 else 1600)
-        }
+        // Header
+        pattern.add(SAMSUNG_HDR_MARK)
+        pattern.add(SAMSUNG_HDR_SPACE)
 
         // Data
-        for (i in 7 downTo 0) {
-            val bit = (data shr i) and 1
-            pattern.add(700)
-            pattern.add(if (bit == 0) 400 else 1600)
+        for (i in 31 downTo 0) {
+            pattern.add(SAMSUNG_BIT_MARK)
+            pattern.add(if ((hexCode shr i and 1L) == 1L) SAMSUNG_ONE_SPACE else SAMSUNG_ZERO_SPACE)
         }
 
-        // Complement Data
-        for (i in 7 downTo 0) {
-            val bit = (complementData shr i) and 1
-            pattern.add(700)
-            pattern.add(if (bit == 0) 400 else 1600)
-        }
+        // Footer
+        pattern.add(SAMSUNG_BIT_MARK)
+        pattern.add(SAMSUNG_MIN_GAP)
 
         return pattern.toIntArray()
+    }
+
+    companion object {
+        private const val SAMSUNG_TICK = 560
+        private const val SAMSUNG_HDR_MARK = SAMSUNG_TICK * 8
+        private const val SAMSUNG_HDR_SPACE = SAMSUNG_TICK * 8
+        private const val SAMSUNG_BIT_MARK = SAMSUNG_TICK
+        private const val SAMSUNG_ONE_SPACE = SAMSUNG_TICK * 3
+        private const val SAMSUNG_ZERO_SPACE = SAMSUNG_TICK
+        private const val SAMSUNG_MIN_GAP = SAMSUNG_TICK * 100 // Choose an appropriate value here
     }
 }
