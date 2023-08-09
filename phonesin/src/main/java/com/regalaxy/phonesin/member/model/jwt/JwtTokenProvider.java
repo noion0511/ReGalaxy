@@ -64,7 +64,9 @@ public class JwtTokenProvider {
     }
 
     public Boolean getIsManager(String token) {
-        if (Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("authority").toString().equals("ROLE_ADMIN")) {
+        Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+        String string = claims.get("authorities").toString();
+        if (string.equals("ROLE_ADMIN")) {
             return true;
         } else {
             return false;

@@ -36,10 +36,14 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
                 !path.startsWith("/member/signup") &&
                 !path.startsWith("/member/token/refresh") &&
                 !path.startsWith("/admin/member/login") &&
-                !path.startsWith("/") &&
                 !path.startsWith("/v3/api-docs") &&
+                !path.equals("/") &&
+                !path.startsWith("/assets") &&
+                !path.startsWith("/images") &&
+                !path.startsWith("/error") &&
                 !path.startsWith("/swagger-ui") &&
-                !path.startsWith("/swagger-resources")) {
+                !path.startsWith("/swagger-resources") &&
+                !path.startsWith("/download/phonegojisin")) {
 
 
             if (token != null) {
