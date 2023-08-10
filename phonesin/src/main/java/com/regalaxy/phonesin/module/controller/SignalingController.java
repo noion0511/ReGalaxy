@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.sql.SQLOutput;
 import java.util.Set;
 
 @Controller
@@ -19,6 +20,7 @@ public class SignalingController {
 
     @MessageMapping("/signal")
     public void handleSignal(@RequestBody SignalDto signalDto) {
+        System.out.println(signalDto.getContent().toString());
         messagingTemplate.convertAndSend("/topic/"+signalDto.getRoomId(), signalDto.getContent());
     }
 }
