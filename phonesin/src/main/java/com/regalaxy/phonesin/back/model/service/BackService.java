@@ -35,9 +35,9 @@ public class BackService {
 
     // backId인 반납 신청서 read
     @Transactional
-    public BackInfoDto backInfo(BackDto backDto, String token) {
-        Back back = backRepository.findById(backDto.getBackId()).get();
-        if (backDto.getMemberId(back) != jwtTokenProvider.getMemberId(token)) {
+    public BackInfoDto backInfo(Long backId, String token) {
+        Back back = backRepository.findById(backId).get();
+        if (back.getRental().getMember().getMemberId() != jwtTokenProvider.getMemberId(token)) {
             throw new IllegalArgumentException("해당 유저가 아닙니다.");
         };
         return new BackInfoDto(back);

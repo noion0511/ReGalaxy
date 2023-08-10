@@ -25,7 +25,6 @@ public class Back extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long backId;
-    private Long phoneId;
 
     @JsonIgnore
     @OneToOne
@@ -59,7 +58,6 @@ public class Back extends BaseTimeEntity {
         this.backDeliveryLocation = backDto.getBackDeliveryLocation();
         this.review = backDto.getReview();
         this.phoneStatus = backDto.getPhoneStatus();
-        this.phoneId = backDto.getPhoneId();
     }
 
     public void updateByUser(BackUserDto backUserDto) {
@@ -67,6 +65,5 @@ public class Back extends BaseTimeEntity {
         this.backDeliveryLocationType = backUserDto.getBackDeliveryLocationType();
         this.backDeliveryLocation = backUserDto.getBackDeliveryLocation();
         this.review = backUserDto.getReview();
-        this.phoneId = backUserDto.getPhoneId();
     }
 }

@@ -39,21 +39,31 @@ public class BackController {
             rentalIds.add(backDto.getRentalId());
 
             backService.apply(backDto);
-            resultMap.put("message", "성공적으로 작성되었습니다.");
-            resultMap.put("status", HttpStatus.OK.value());
         }
+        resultMap.put("message", "성공적으로 작성되었습니다.");
+        resultMap.put("status", HttpStatus.OK.value());
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
     // 반납 신청서 상세 정보보기
     @ApiOperation(value = "기기 반납 신청서 상세 조회")
-    @GetMapping("/back/info")
-    public ResponseEntity<Map<String, Object>> backInfo(@RequestBody BackDto backDto, @ApiIgnore @RequestHeader String authorization) {
+    @GetMapping("/back/info/{backId}")
+    public ResponseEntity<Map<String, Object>> backInfo(@PathVariable Long backId, @ApiIgnore @RequestHeader String authorization) {
         String token = authorization.replace("Bearer ", "");
 
         Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("back", backService.backInfo(backDto, token));
-        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+        try {
+            resultMap.put("data", backService.backInfo(backId, token));
+            resultMap.put("message", "성공적으로 조회하였습니다.");
+            resultMap.put("status", HttpStatus.OK.value());
+
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        } catch (Exception e) {
+            resultMap.put("message", e.getMessage());
+            resultMap.put("status", HttpStatus.FORBIDDEN.value());
+
+            return new ResponseEntity<>(resultMap, HttpStatus.FORBIDDEN);
+        }
     }
 
     // 반납 신청서 수정
