@@ -76,7 +76,7 @@ public class BackService {
         return findall;
     }
 
-    // 반납 신청서 수정 메서드
+    // 관리자가 반납 신청서 수정
     @Transactional
     public BackDto updateBackByAdmin(BackDto backDto) {
         // DB에 없는 ID를 검색하려고 하면 IllegalArgumentException
@@ -87,6 +87,7 @@ public class BackService {
         return BackDto.fromEntity(back);
     }
 
+    // 사용자가 자신의 반납 신청서 수정
     @Transactional
     public BackDto updateBackByUser(BackUserDto backUserDto, String authorization) {
         // DB에 없는 ID를 검색하려고 하면 IllegalArgumentException
@@ -101,6 +102,7 @@ public class BackService {
         return BackDto.fromEntity(back);
     }
 
+    // 반납 리스트 조회
     public List<BackAdminDto> list(BackAdminSearschDto backAdminSearschDto ){
         List<Back> list = backRepository.findAll();
         List<BackAdminDto> backAdminDtos = new ArrayList<>();
