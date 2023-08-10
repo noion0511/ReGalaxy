@@ -28,6 +28,8 @@ class HomeRankAdapter(private val rankList: MutableLiveData<List<Rank>>) :
             val stringBuilder = StringBuilder(name)
             if (stringBuilder.length > 1) {
                 stringBuilder.setCharAt(1, '*')
+                stringBuilder.insert(1, ' ')
+                stringBuilder.insert(3, ' ')
             }
 
             return stringBuilder.toString()
