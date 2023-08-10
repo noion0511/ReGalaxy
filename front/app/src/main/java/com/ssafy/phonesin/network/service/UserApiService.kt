@@ -5,8 +5,10 @@ import com.ssafy.phonesin.model.ErrorResponse
 import com.ssafy.phonesin.model.dto.EmailCheckRequestDto
 import com.ssafy.phonesin.model.dto.EmailRequestDto
 import com.ssafy.phonesin.model.MemberDto
+import com.ssafy.phonesin.model.UserResponse
 import com.ssafy.phonesin.network.NetworkResponse
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 
@@ -22,4 +24,7 @@ interface UserApiService {
 
     @PUT("/member/delete")
     suspend fun withdrawal(): NetworkResponse<BaseResponse, ErrorResponse>
+
+    @GET("/member/info")
+    suspend fun getUserInfo(): UserResponse
 }

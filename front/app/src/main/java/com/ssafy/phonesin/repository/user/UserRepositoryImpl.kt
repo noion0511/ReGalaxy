@@ -5,6 +5,7 @@ import com.ssafy.phonesin.model.ErrorResponse
 import com.ssafy.phonesin.model.dto.EmailCheckRequestDto
 import com.ssafy.phonesin.model.dto.EmailRequestDto
 import com.ssafy.phonesin.model.MemberDto
+import com.ssafy.phonesin.model.UserResponse
 import com.ssafy.phonesin.network.NetworkResponse
 import com.ssafy.phonesin.network.service.UserApiService
 import javax.inject.Inject
@@ -26,5 +27,9 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun withdrawl(): NetworkResponse<BaseResponse, ErrorResponse> {
         return apiService.withdrawal()
+    }
+
+    override suspend fun getUserInfo(): UserResponse {
+        return apiService.getUserInfo()
     }
 }

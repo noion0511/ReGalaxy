@@ -1,8 +1,10 @@
 package com.ssafy.phonesin.ui.mypage
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ssafy.phonesin.model.Address
+import com.ssafy.phonesin.model.User
 import com.ssafy.phonesin.network.NetworkResponse
 import com.ssafy.phonesin.repository.address.AddressRepository
 import com.ssafy.phonesin.repository.user.UserRepository
@@ -20,6 +22,10 @@ class UserViewModel @Inject constructor(
     private val _address = MutableLiveData<List<Address>>()
     val addressList: MutableLiveData<List<Address>>
         get() = _address
+
+    private val _user = MutableLiveData<User>()
+    val user: MutableLiveData<User>
+        get() = _user
 
     fun postAddress(address: String) {
         viewModelScope.launch {
@@ -49,6 +55,15 @@ class UserViewModel @Inject constructor(
     fun withdrawal() {
         viewModelScope.launch {
             userRepository.withdrawl()
+        }
+    }
+
+    fun getUserInfo() {
+        viewModelScope.launch {
+            val response = userRepository.getUserInfo()
+            if (response.status == 200) {
+                _user.value = response.member
+            }
         }
     }
 }

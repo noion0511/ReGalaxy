@@ -14,6 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.common.AppPreferences
@@ -42,7 +43,17 @@ class MyPageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setUser()
         setOnClick()
+    }
+
+    private fun setUser() = with(binding) {
+        userViewModel.getUserInfo()
+        userViewModel.user.observe(viewLifecycleOwner, Observer {
+            textViewMypageName.text = userViewModel.user.value?.memberName ?: "알수없음"
+            textViewEmail.text = userViewModel.user.value?.email ?: "unknown"
+            imageViewIconCha.visibility = if(userViewModel.user.value?.isCha ?: false) View.VISIBLE else View.GONE
+        })
     }
 
     private fun setOnClick() = with(binding) {
