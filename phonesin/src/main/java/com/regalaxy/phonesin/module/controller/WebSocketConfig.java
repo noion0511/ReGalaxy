@@ -1,23 +1,24 @@
 package com.regalaxy.phonesin.module.controller;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.socket.config.annotation.EnableWebSocket;
-import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
-import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
+import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
+import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 
 @Configuration
-@EnableWebSocket
-public class WebSocketConfig implements WebSocketConfigurer {
+@EnableWebSocketMessageBroker
+public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
-    private final StreamingWebSocketHandler streamingWebSocketHandler;
-
-    public WebSocketConfig(StreamingWebSocketHandler streamingWebSocketHandler) {
-        this.streamingWebSocketHandler = streamingWebSocketHandler;
+    @Override
+    public void configureMessageBroker(MessageBrokerRegistry config) {
+        config.enableSimpleBroker("/topic");//보내기
+        config.setApplicationDestinationPrefixes("/app");//받기
     }
 
     @Override
-    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(streamingWebSocketHandler, "/websocket-endpoint")
-                .setAllowedOrigins("*"); // You can restrict origins if needed
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+        registry.addEndpoint("/signal").withSockJS();//연결 시작
     }
 }
+
