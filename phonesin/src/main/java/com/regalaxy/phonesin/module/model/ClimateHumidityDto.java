@@ -7,12 +7,12 @@ import lombok.*;
 @Getter
 @NoArgsConstructor
 public class ClimateHumidityDto {
-    private Float logitude;
+    private Float longitude;
     private Float latitude;
 
     @Builder
-    public ClimateHumidityDto (Float logitude, Float latitude){
-        this.logitude = logitude;
+    public ClimateHumidityDto (Float longitude, Float latitude){
+        this.longitude = longitude;
         this.latitude = latitude;
     }
 }
