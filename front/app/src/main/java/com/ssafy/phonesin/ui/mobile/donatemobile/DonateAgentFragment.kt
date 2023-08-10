@@ -64,10 +64,10 @@ class DonateAgentFragment :
             override fun onClick(id: Int) {
                 val data = donateAgentViewModel.agentAddress.value?.get(id)
                 val bundle = bundleOf()
-                bundle.putString("address", data?.address)
-                bundle.putString("name", data?.name)
-                data?.let { bundle.putDouble("longitude", it.longitude) }
-                data?.let { bundle.putDouble("latitude", it.latitude) }
+                bundle.putString("address", data?.agencyLocation)
+                bundle.putString("name", data?.agencyName)
+                data?.let { bundle.putDouble("longitude", it.agencyX) }
+                data?.let { bundle.putDouble("latitude", it.agencyY) }
 
                 findNavController().navigate(
                     R.id.action_donateAgentFragment_to_donateAgentDetailFragment, bundle
@@ -111,6 +111,7 @@ class DonateAgentFragment :
                     // 위치 정보를 가져왔을 때 처리하는 로직
                     if (location != null) {
                         current = location
+                        donateAgentViewModel.getAgentAddress(current.latitude, current.longitude)
                         // TODO: 위도(latitude)와 경도(longitude)를 이용해 원하는 작업 수행
                         // 예를 들어, 지도에 현재 위치 표시 등
                     }
@@ -128,10 +129,10 @@ class DonateAgentFragment :
             override fun onQueryTextSubmit(query: String): Boolean {
                 // 검색 버튼을 눌렀을 때 호출되는 콜백
                 // 여기서 검색어(query)를 이용하여 검색 작업을 수행하면 됩니다.
-                if (query == "") {
-                    donateAgentViewModel.getCurrentAgentAddress(query)
-                }
-                donateAgentViewModel.getAgentAddress(query)
+//                if (query == "") {
+//                    donateAgentViewModel.getSearchAgentAddress(current.latitude,current.longitude,query)
+//                }
+//                donateAgentViewModel.getAgentAddress(query)
                 return true
             }
 
@@ -139,9 +140,13 @@ class DonateAgentFragment :
                 // 검색어가 변경될 때마다 호출되는 콜백
                 // 여기서 변경된 검색어(newText)를 이용하여 실시간 검색 기능을 구현할 수 있습니다.
                 if (newText == "") {
-                    donateAgentViewModel.getCurrentAgentAddress(newText)
+                    donateAgentViewModel.getAgentAddress(current.latitude, current.longitude)
                 }
-                donateAgentViewModel.getAgentAddress(newText)
+                donateAgentViewModel.getSearchAgentAddress(
+                    current.latitude,
+                    current.longitude,
+                    newText
+                )
                 return true
             }
         })

@@ -1,5 +1,10 @@
 package com.ssafy.phonesin.ui.util
 
+import android.content.Context
+import android.util.Base64
+import android.widget.ImageView
+import com.bumptech.glide.Glide
+import com.ssafy.phonesin.R
 import com.ssafy.phonesin.model.RentalBody
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -45,5 +50,15 @@ object Util {
     fun convertToDate(year: Int, month: Int, day: Int): String {
         //val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
         return "$year.$month.$day"
+    }
+
+    fun getImage(context: Context, view: ImageView, url: String) {
+        Glide.with(context)
+            .load(url)
+            .into(view)
+    }
+
+    fun convertKm(dis : Double) : Int {
+        return dis.toInt()/1000
     }
 }

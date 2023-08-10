@@ -103,10 +103,10 @@ class ReturnAgentFragment :
             override fun onClick(id: Int) {
                 val data = returnAgentViewModel.agentAddress.value?.get(id)
                 val bundle = bundleOf()
-                bundle.putString("address", data?.address)
-                bundle.putString("name", data?.name)
-                data?.let { bundle.putDouble("longitude", it.longitude) }
-                data?.let { bundle.putDouble("latitude", it.latitude) }
+                bundle.putString("address", data?.agencyLocation)
+                bundle.putString("name", data?.agencyName)
+                data?.let { bundle.putDouble("longitude", it.agencyY) }
+                data?.let { bundle.putDouble("latitude", it.agencyX) }
 
                 findNavController().navigate(
                     R.id.action_returnAgentFragment_to_returnAgentDetailFragment, bundle

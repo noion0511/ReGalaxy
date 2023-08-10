@@ -3,7 +3,6 @@ package com.ssafy.phonesin.ui.mobile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.ssafy.phonesin.ApplicationClass.Companion.MEMBER_ID
 import com.ssafy.phonesin.model.Address
 import com.ssafy.phonesin.model.Event
 import com.ssafy.phonesin.network.NetworkResponse
@@ -31,7 +30,7 @@ class MobileViewModel @Inject constructor(
 
     fun getAddressList() {
         viewModelScope.launch {
-            when (val addressResponse = addressRepository.getAddress(MEMBER_ID)) {
+            when (val addressResponse = addressRepository.getAddress()) {
                 is NetworkResponse.Success -> {
                     _addressList = addressResponse.body.toMutableList()
                 }

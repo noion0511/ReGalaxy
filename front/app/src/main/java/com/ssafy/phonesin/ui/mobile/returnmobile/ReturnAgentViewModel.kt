@@ -22,16 +22,16 @@ class ReturnAgentViewModel @Inject constructor(
     val agentAddress: LiveData<MutableList<AgentAddress>> = _agentAddress
 
     init {
-        val temp = mutableListOf<AgentAddress>(
-            AgentAddress(
-                "구미 서비스 센터",
-                "경상북도 구미시 인동가산로 9-3 노블레스타워 1층",
-                1234,
-                36.111179,
-                128.413741
-            )
-        )
-        _agentAddress.value = temp
+//        val temp = mutableListOf<AgentAddress>(
+//            AgentAddress(
+//                "구미 서비스 센터",
+//                "경상북도 구미시 인동가산로 9-3 노블레스타워 1층",
+//                1234,
+//                36.111179,
+//                128.413741
+//            )
+//        )
+//        _agentAddress.value = temp
         getCurrentAgentAddress("")
     }
 
