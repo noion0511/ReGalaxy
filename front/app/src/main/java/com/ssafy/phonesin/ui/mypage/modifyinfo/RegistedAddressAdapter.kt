@@ -3,7 +3,6 @@ package com.ssafy.phonesin.ui.mypage.modifyinfo
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.phonesin.databinding.ItemAddressListBinding
 import com.ssafy.phonesin.model.Address

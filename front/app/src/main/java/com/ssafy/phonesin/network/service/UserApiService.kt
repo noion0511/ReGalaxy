@@ -8,14 +8,18 @@ import com.ssafy.phonesin.model.MemberDto
 import com.ssafy.phonesin.network.NetworkResponse
 import retrofit2.http.Body
 import retrofit2.http.POST
+import retrofit2.http.PUT
 
 interface UserApiService {
     @POST("/member/signup")
-    suspend fun signup(@Body memberDto: MemberDto) : NetworkResponse<BaseResponse, ErrorResponse>
+    suspend fun signup(@Body memberDto: MemberDto): NetworkResponse<BaseResponse, ErrorResponse>
 
     @POST("/member/email-verification")
-    suspend fun verifyEmail(@Body emailRequestDto: EmailRequestDto) : NetworkResponse<BaseResponse, ErrorResponse>
+    suspend fun verifyEmail(@Body emailRequestDto: EmailRequestDto): NetworkResponse<BaseResponse, ErrorResponse>
 
     @POST("/member/email-verification/confirm")
-    suspend fun verifyEmailConfirm(@Body emailCheckRequestDto: EmailCheckRequestDto) : NetworkResponse<BaseResponse, ErrorResponse>
+    suspend fun verifyEmailConfirm(@Body emailCheckRequestDto: EmailCheckRequestDto): NetworkResponse<BaseResponse, ErrorResponse>
+
+    @PUT("/member/delete")
+    suspend fun withdrawal(): NetworkResponse<BaseResponse, ErrorResponse>
 }

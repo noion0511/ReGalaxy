@@ -1,34 +1,35 @@
-package com.ssafy.phonesin.ui.mypage.modifyinfo
+package com.ssafy.phonesin.ui.mypage
 
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ssafy.phonesin.model.Address
 import com.ssafy.phonesin.network.NetworkResponse
 import com.ssafy.phonesin.repository.address.AddressRepository
+import com.ssafy.phonesin.repository.user.UserRepository
 import com.ssafy.phonesin.ui.util.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AddressViewModel @Inject constructor(
-    private val repository: AddressRepository
+class UserViewModel @Inject constructor(
+    private val addressRepository: AddressRepository,
+    private val userRepository: UserRepository,
 ) : BaseViewModel() {
+
     private val _address = MutableLiveData<List<Address>>()
     val addressList: MutableLiveData<List<Address>>
         get() = _address
 
     fun postAddress(address: String) {
         viewModelScope.launch {
-            Log.d("post", "postAddress: ${repository.postAddress(address)}")
+            addressRepository.postAddress(address)
         }
     }
 
     fun getAddress() {
         viewModelScope.launch {
-            val response = repository.getAddress()
+            val response = addressRepository.getAddress()
             when (response) {
                 is NetworkResponse.Success -> {
                     _address.value = response.body
@@ -40,8 +41,14 @@ class AddressViewModel @Inject constructor(
 
     fun removeAddress(addressId: Int) {
         viewModelScope.launch {
-            repository.removeAddress(addressId)
+            addressRepository.removeAddress(addressId)
             getAddress()
+        }
+    }
+
+    fun withdrawal() {
+        viewModelScope.launch {
+            userRepository.withdrawl()
         }
     }
 }

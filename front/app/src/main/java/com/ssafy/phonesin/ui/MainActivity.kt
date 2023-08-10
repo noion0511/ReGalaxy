@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
 
         window.decorView.postDelayed({
             if (!AppPreferences.isOnBoardingShowed()) {
-//                AppPreferences.checkOnBoardingShowed()
+                AppPreferences.checkOnBoardingShowed()
                 navController?.navigate(R.id.onboardingDonateFragment)
             } else {
                 setNav()

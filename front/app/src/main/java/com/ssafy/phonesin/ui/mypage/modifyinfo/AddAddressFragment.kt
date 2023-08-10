@@ -20,13 +20,14 @@ import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentMyPageAddAddressBinding
 import com.ssafy.phonesin.ui.MainActivity
+import com.ssafy.phonesin.ui.mypage.UserViewModel
 
 
 class AddAddressFragment : Fragment() {
     private lateinit var binding: FragmentMyPageAddAddressBinding
     private lateinit var searchDialog: Dialog
 
-    val addressViewModel: AddressViewModel by activityViewModels()
+    val userViewModel: UserViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +65,7 @@ class AddAddressFragment : Fragment() {
         buttonSaveNewAddress.setOnClickListener {
             val newAddress = "${editTextRoadAddress.text} ${editTextDetailAddress.text}"
             Log.d("buttonSaveNewAddress", "setOnClick: $newAddress")
-            addressViewModel.postAddress(newAddress)
+            userViewModel.postAddress(newAddress)
             findNavController().navigate(R.id.modifyInfoFragment)
         }
     }

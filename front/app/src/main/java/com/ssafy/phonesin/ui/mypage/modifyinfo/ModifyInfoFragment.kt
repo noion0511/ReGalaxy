@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -18,12 +19,13 @@ import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentMyPageModifyInfoBinding
 import com.ssafy.phonesin.model.Address
 import com.ssafy.phonesin.ui.MainActivity
+import com.ssafy.phonesin.ui.mypage.UserViewModel
 
 class ModifyInfoFragment : Fragment() {
     private lateinit var binding: FragmentMyPageModifyInfoBinding
     private lateinit var addressRecyclerView: RecyclerView
 
-    val addressViewModel: AddressViewModel by activityViewModels()
+    val userViewModel: UserViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +45,9 @@ class ModifyInfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            findNavController().navigate(R.id.my_page)
+        }
         setOnClick()
         setRegistedAddress()
     }
@@ -61,15 +66,15 @@ class ModifyInfoFragment : Fragment() {
     private fun setRegistedAddress() {
         addressRecyclerView = binding.recyclerViewAddress
 
-        addressViewModel.getAddress()
+        userViewModel.getAddress()
         addressRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        addressRecyclerView.adapter = RegistedAddressAdapter(addressViewModel.addressList, object : RegistedAddressAdapter.OnRemoveClickListener {
+        addressRecyclerView.adapter = RegistedAddressAdapter(userViewModel.addressList, object : RegistedAddressAdapter.OnRemoveClickListener {
             override fun onRemoveClick(addressId: Int) {
-                addressViewModel.removeAddress(addressId)
+                userViewModel.removeAddress(addressId)
                 Toast.makeText(requireContext(), "주소가 삭제되었습니다.", Toast.LENGTH_SHORT).show()
             }
         })
-        addressViewModel.addressList.observe(viewLifecycleOwner, Observer {addressList ->
+        userViewModel.addressList.observe(viewLifecycleOwner, Observer {addressList ->
             addressRecyclerView.adapter?.notifyDataSetChanged()
         })
     }

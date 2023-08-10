@@ -23,4 +23,8 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun verifyEmailConfirm(emailCheckRequestDto: EmailCheckRequestDto): NetworkResponse<BaseResponse, ErrorResponse> {
         return apiService.verifyEmailConfirm(emailCheckRequestDto)
     }
+
+    override suspend fun withdrawl(): NetworkResponse<BaseResponse, ErrorResponse> {
+        return apiService.withdrawal()
+    }
 }
