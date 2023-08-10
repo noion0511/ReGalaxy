@@ -10,6 +10,7 @@ import androidx.annotation.RequiresApi
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentIrRemoteBinding
 import com.ssafy.phonesin.model.DeviceType
+import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 
 class IrRemoteFragment : BaseFragment<FragmentIrRemoteBinding>(R.layout.fragment_ir_remote) {
@@ -25,6 +26,10 @@ class IrRemoteFragment : BaseFragment<FragmentIrRemoteBinding>(R.layout.fragment
     }
 
     override fun init() {
+        val mainActivity = activity as MainActivity
+        mainActivity.hideBottomNavi(true)
+        mainActivity.setRemotePadding(bindingNonNull.remoteLayout)
+
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             showToast("Your device does not support IR transmission.")
             return
@@ -180,6 +185,13 @@ class IrRemoteFragment : BaseFragment<FragmentIrRemoteBinding>(R.layout.fragment
         bindingNonNull.button9.setOnClickListener {
             irManager.transmit(38000, getSamsungTvNumberCode(9))
         }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        val mainActivity = activity as MainActivity
+        mainActivity.hideBottomNavi(false)
+        mainActivity.setPadding()
     }
 
     companion object {

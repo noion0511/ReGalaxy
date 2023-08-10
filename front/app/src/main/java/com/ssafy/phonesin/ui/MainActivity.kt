@@ -14,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.WindowCompat
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.widget.NestedScrollView
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -139,6 +140,12 @@ class MainActivity : AppCompatActivity() {
         binding.containerMain.setPadding(0, 0, 0, 0)
         binding.mainActivityLayout.setPadding(0, 0, 0, 0)
         layout.setPadding(0, 0, 0, navigationHeight())
+    }
+
+    fun setRemotePadding(layout: ConstraintLayout) {
+        binding.containerMain.setPadding(0, 0, 0, 0)
+        binding.mainActivityLayout.setPadding(0, 0, 0, 0)
+        layout.setPadding(50, statusBarHeight() + 25, 50, navigationHeight())
     }
 
     fun setFrameLayoutPaddingVerticle(layout: FrameLayout) {
