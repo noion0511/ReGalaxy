@@ -929,14 +929,14 @@
 								html += `<p id="${'notist' + item.noticeId}">종료됨</p></div>`;
 							}
 
-							html += `<div className="flex flex-3" style="justify-content: center;">`;
+							html += `<div class="flex flex-3" style="justify-content: center;">`;
 
 							if(item.status == 1){
-								html += `<button id="${'notibtn' + item.noticeId}" className="blackBtn"
+								html += `<button id="${'notibtn' + item.noticeId}" class="blackBtn"
 						onclick="noticeProcessing(${item.noticeId})">진행시켜
 						</button></div>`;
 							} else if (item.status == 2){
-								html += `<button id="${'notibtn' + item.noticeId}" className="blackBtn"
+								html += `<button id="${'notibtn' + item.noticeId}" class="blackBtn"
 						onclick="noticeProcessing(${item.noticeId})">종료시켜
 						</button></div>`;
 							}
