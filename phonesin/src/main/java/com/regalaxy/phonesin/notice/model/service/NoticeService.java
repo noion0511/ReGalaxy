@@ -1,24 +1,25 @@
 package com.regalaxy.phonesin.notice.model.service;
 
-import com.regalaxy.phonesin.donation.model.DonationRequestDto;
-import com.regalaxy.phonesin.donation.model.DonationResponseDto;
-import com.regalaxy.phonesin.donation.model.entity.Donation;
-import com.regalaxy.phonesin.donation.model.repository.DonationRepository;
 import com.regalaxy.phonesin.member.model.entity.Member;
 import com.regalaxy.phonesin.member.model.repository.MemberRepository;
-import com.regalaxy.phonesin.module.model.YtwokDto;
-import com.regalaxy.phonesin.module.model.entity.Ytwok;
 import com.regalaxy.phonesin.notice.model.NoticeRequestDto;
 import com.regalaxy.phonesin.notice.model.NoticeResponseDto;
 import com.regalaxy.phonesin.notice.model.entity.Notice;
 import com.regalaxy.phonesin.notice.model.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriUtils;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -67,7 +68,7 @@ public class NoticeService {
         else {throw new Exception("noticeType가 없습니다..");}
 
         // 파일 경로 지정
-        String uploadPath = new File("").getAbsolutePath() + "\\" + "images/" + noticeTypeName;
+        String uploadPath = new File("").getAbsolutePath() + "\\" + "src/main/resources/static/images/" + noticeTypeName;
 
         String saveFolder = uploadPath + File.separator;
 
@@ -110,5 +111,29 @@ public class NoticeService {
     public void noticeUpdate(Long noticeId, int status) throws Exception {
         Notice notice = noticeRepository.findById(noticeId).get();
         if(notice.getStatus() != status) notice.setStatus(status);
+    }
+
+
+    public ResponseEntity<Resource> loadImage(String posterUrl) throws Exception {
+        Notice notice = noticeRepository.findByPosterUrl(posterUrl);
+
+        String SaveFileName = posterUrl;
+
+        // 한글 인코딩
+        String contentDisposition = "attachment; filename=\"" + posterUrl + "\"";
+
+        String type;
+        if (notice.getNoticeType() == 1) type = "banner/";
+        else if (notice.getNoticeType() == 2) type = "bottom/";
+        else throw new Exception("공지 타입이 지원하지 않는 타입입니다.");
+
+        String absolutePath = new File("").getAbsolutePath() + "\\" + "src/main/resources/static/images/" + type + SaveFileName;
+
+        Resource resource = new UrlResource("file:" + absolutePath);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(resource);
     }
 }
