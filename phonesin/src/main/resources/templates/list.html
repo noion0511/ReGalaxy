@@ -632,12 +632,10 @@
 
 			fetch(url, requestOptions)
 					.then(response => response.json())
-					.then(result => console.log(result))
+					.then(result => setNoticeHtml())
 					.catch(error => console.log('error', error));
 
-			var modal = document.getElementById('modal');
-			modal.style.display='none';
-			modal.innerHTML = ``;
+			closeModal()
 		}
 
 		function closeModal(){
@@ -868,6 +866,7 @@
 			document.getElementById('result').innerHTML = ``;
 			var html = `
 					<div class="flex flex-4">`;
+
 			data.list.forEach(function(item) {
 						html += `
 								<article class="card">
@@ -895,6 +894,60 @@
 						</div>`;
 					document.getElementById('result').innerHTML += html;
 		}
+
+		//Notice
+		function setNoticeHtml(){
+			document.getElementById('result').innerHTML = ``;
+			fetch(`/notice/list`, {
+				method: 'GET',
+				headers: { 'Content-Type': 'application/json' }
+			})
+					.then(response => response.json())
+					.then(data => {
+						var html = `
+		<div class="flex flex-4">`;
+						data.notice.forEach((item) => {
+							html += `
+			<article class="card" id="cardnoti + ${item.noticeId}">
+				<header>
+					<h3>${item.title}</h3>
+				</header>
+				<img src="${'/notice/image/' + item.posterUrl}" style="width: 100px">
+				<div class="module flex flex-3">`;
+
+							if(item.noticeType == 1){
+								html += `<p>배너용</p>`;
+							} else if (item.noticeType == 2){
+								html += `<p>바텀용</p>`;
+							}
+
+							if(item.status == 1){
+								html += `<p id="${'notist' + item.noticeId}">예약됨</p></div>`;
+							} else if (item.status == 2){
+								html += `<p id="${'notist' + item.noticeId}">진행중</p></div>`;
+							} else if (item.status == 3){
+								html += `<p id="${'notist' + item.noticeId}">종료됨</p></div>`;
+							}
+
+							html += `<div className="flex flex-3" style="justify-content: center;">`;
+
+							if(item.status == 1){
+								html += `<button id="${'notibtn' + item.noticeId}" className="blackBtn"
+						onclick="noticeProcessing(${item.noticeId})">진행시켜
+						</button></div>`;
+							} else if (item.status == 2){
+								html += `<button id="${'notibtn' + item.noticeId}" className="blackBtn"
+						onclick="noticeProcessing(${item.noticeId})">종료시켜
+						</button></div>`;
+							}
+
+							html += `</article>`;
+						});
+						html += `</div>`;
+						document.getElementById('result').innerHTML += html;
+					})
+		}
+
 	</script>
 
 </body>
