@@ -49,6 +49,9 @@ dependencies {
 
 	// Jasypt
 	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.3'
+
+	// JSONObject
+	implementation 'org.json:json:20210307'
 }
 
 tasks.named('test') {
