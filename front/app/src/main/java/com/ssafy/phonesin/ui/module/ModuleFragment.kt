@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentModuleBinding
 import com.ssafy.phonesin.model.ModuleType
-import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -62,25 +61,15 @@ class ModuleFragment : BaseFragment<FragmentModuleBinding>(
                     getString(R.string.module_type_camera_title) -> {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             findNavController().navigate(R.id.action_module_to_cameraXFragment)
-                        } else {
-                            findNavController().navigate(R.id.action_module_to_cameraFragment)
                         }
                     }
-                    getString(R.string.module_type_cctv_title) -> findNavController().navigate(R.id.action_module_to_camListFragment)
-                    getString(R.string.module_type_temperature_title) -> findNavController().navigate(
-                        R.id.action_module_to_hygrometerFragment
-                    )
+                    getString(R.string.module_type_cctv_title) -> showToast("준비중입니다.")
+                    getString(R.string.module_type_temperature_title) -> showToast("준비중입니다.")
                     getString(R.string.module_type_remote_title) -> findNavController().navigate(R.id.action_module_to_irRemoteFragment)
                 }
             }
         })
 
         bindingNonNull.recyclerViewModule.adapter = adapter
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val mainActivity = activity as MainActivity
-        mainActivity.hideBottomNavi(false)
     }
 }

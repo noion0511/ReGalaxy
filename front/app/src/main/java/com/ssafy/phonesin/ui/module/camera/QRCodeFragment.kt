@@ -4,7 +4,6 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +18,6 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentQRCodeBinding
-import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,15 +39,11 @@ class QRCodeFragment : BaseFragment<FragmentQRCodeBinding>(
     }
 
     override fun init() {
-        val mainActivity = activity as MainActivity
-        mainActivity.hideBottomNavi(true)
         initObserver()
 
         bindingNonNull.buttonCameraNext.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 findNavController().navigate(R.id.action_QRCodeFragment_to_cameraXFragment)
-            } else {
-                findNavController().navigate(R.id.action_QRCodeFragment_to_cameraFragment)
             }
         }
 
@@ -61,8 +55,6 @@ class QRCodeFragment : BaseFragment<FragmentQRCodeBinding>(
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 findNavController().navigate(R.id.action_QRCodeFragment_to_cameraXFragment)
-            } else {
-                findNavController().navigate(R.id.action_QRCodeFragment_to_cameraFragment)
             }
         }
     }

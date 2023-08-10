@@ -1,121 +1,9 @@
 <resources>
     <string name="app_name">폰고지신</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="mobile_home_message">SAMSUNG 기기로\n어떤걸 하고 싶으신가요?</string>
-    <string name="rental">대여</string>
-    <string name="give_up">반납</string>
-    <string name="rental_content_message">SAMSUNG 휴대폰 기기를 대여할 수 있습니다.</string>
-    <string name="give_up_content_message">대여한 기기를 반납해 보세요.</string>
-    <string name="donate">기증</string>
-    <string name="donate_content_message">서랍 속 잠들어있는 처치 곤란한 휴대폰들이 있나요? SAUMSUNG에 기증해 주세요. 필요한 이들에게 도움을 필요한 기기로 업사이클링 해줄 거예요.</string>
-    <string name="home">홈</string>
-    <string name="mobile">기기</string>
-    <string name="modulePlus">플러스기능</string>
-    <string name="moduleCall">연결하기</string>
-    <string name="moduleCamera">카메라</string>
-    <string name="moduleHomeCam">홈 캠</string>
-    <string name="moduleHomeCamDetail">자세한 화면</string>
-    <string name="moduleTodayHygrometer">현재 날씨</string>
-    <string name="moduleTodayHygrometerExample">18º</string>
-    <string name="moduleHygrometer">온습도계</string>
-    <string name="moduleLocation">구미시 진평동</string>
-    <string name="moduleDate">2023년 8월 8일</string>
-    <string name="my_page">마이</string>
-    <string name="add_rental_mobile">+물품추가</string>
-    <string name="item_rental_change_option">옵션 변경</string>
 
-    <string name="email">Email</string>
-    <string name="edit_id">아이디를 입력하세요.</string>
-    <string name="password">Password</string>
-    <string name="edit_password">비밀번호를 입력하세요.</string>
-    <string name="find_password">비밀번호 찾기</string>
-    <string name="if_not_id">아직 아이디가 없다면?</string>
-    <string name="sign_up">회원가입</string>
-    <string name="log_in">로그인</string>
-    <string name="kakao_log_in">카카오 로그인</string>
-
-    <!-- 회원가입 -->
-    <string name="signup_email_check">이메일이 인증되었습니다.</string>
-    <string name="signup_email_not_check">이메일이 인증을 해주세요.</string>
-    <string name="signup_password_check">비밀번호가 일치합니다.</string>
-    <string name="signup_password_not_check">비밀번호가 일치하지 않습니다.</string>
-    <string name="signup_name_not_check">이름을 입력해주세요.</string>
-    <string name="signup_explain">*표시가 있는 곳은 모두 입력해주세요.</string>
-    <string name="signup_email">이메일*</string>
-    <string name="signup_password">비밀번호*</string>
-    <string name="signup_phone_number">전화번호</string>
-    <string name="signup_name">이름*</string>
-    <string name="signup_email_hint">이메일을 입력해주세요.</string>
-    <string name="signup_password_hint">8자 이상</string>
-    <string name="signup_password_check_hint">위와 동일하게 입력해주세요.</string>
-    <string name="signup_phone_number_hint">-없이 숫자로만 입력해주세요.</string>
-    <string name="signup_name_hint">실명을 입력해주세요.</string>
-    <string name="signup_email_confirm">인증</string>
-    <string name="signup_email_confirm_ok">인증되었습니다.</string>
-    <string name="signup_email_empty">이메일을 입력해주세요.</string>
-    <string name="signup_invalid_email_format">유효한 이메일 형식이 아닙니다.</string>
-    <string name="signup_short_password">비밀번호는 8자 이상으로 입력해주세요.</string>
-    <string name="signup_password_mismatch">비밀번호가 일치하지 않습니다.</string>
-    <string name="signup_email_not_verified">이메일 인증을 받아주세요.</string>
-    <string name="signup_email_verify_explain">[%s]으로 전송되었습니다.\n전송된 인증번호를 확인 한 후 5분 내에 인증해주세요.</string>
-    <string name="signup_email_verify_post">전송하기</string>
-    <string name="signup_email_verify_confirm">인증하기</string>
-    <string name="signup_email_verify_number">인증번호*</string>
-
-    <string name="moduleWeekChart">한눈에 보기</string>
-    <string name="donate_agent">대리점 기증</string>
-    <string name="donate_visit_delivery">방문 택배 기증</string>
-    <string name="address">주소</string>
-    <string name="exist_address">기존 주소지</string>
-    <string name="new_address">새 주소지</string>
-    <string name="hint_edit_address">주소지를 입력해 주세요</string>
-    <string name="request">신청</string>
-    <string name="donate_request">기증 신청</string>
-    <string name="donate_mobile_select">기증 기기 선택</string>
-    <string name="choose_way_select">수거 방법 선택</string>
-    <string name="visit_delivery_select">방문 택배 선택</string>
-    <string name="samsung_agent_select">삼성 대리점 선택</string>
-    <string name="pick_date">수거 날짜</string>
-    <string name="next">다음으로</string>
-    <string name="center_time">센터 시간</string>
-    <string name="center_run_time">월 ~ 금 (평일) : 09:00 ~ 19:00\n토요일 : 09:00 ~ 13:00 (일요일 · 공휴일 : 휴무)</string>
-    <string name="request_complete">신청이 완료되었어요</string>
-    <string name="detail_info">상세 정보</string>
-    <string name="announce_message">안내말씀</string>
-    <string name="announce_detail_message">신청해 주셔서 감사합니다. 방문 택배 신청 시 신청 장소에 꼭 보관해 주시기 바랍니다. 대리점 신청 시 신청 대리점의 주소를 확인 후 방문해 주시기 바랍니다.</string>
-    <string name="go_home">홈으로</string>
-    <string name="donate_search">대리점 검색</string>
-    <string name="rental_list">대여 리스트</string>
-    <string name="module_select">기능 선택</string>
     <string name="module_y2k_camera">사진 부스 기능</string>
     <string name="module_home_cam">홈캠 기능</string>
     <string name="module_temperature">온도계,습도계 기능</string>
-    <string name="mobile_select">기기 선택</string>
-    <string name="six_months">6개월</string>
-    <string name="five_months">5개월</string>
-    <string name="four_months">4개월</string>
-    <string name="three_months">3개월</string>
-    <string name="two_months">2개월</string>
-    <string name="one_month">1개월</string>
-    <string name="date">날짜</string>
-    <string name="deposit">보증금</string>
-    <string name="saved_cards">Saved Cards</string>
-    <string name="other_payment_options">Other Payment Options</string>
-    <string name="pay">결제하기</string>
-    <string name="check_consent">동의서 확인</string>
-    <string name="kakao_pay">카카오 페이</string>
-    <string name="naver_pay">네이버 페이</string>
-    <string name="general_pay">일반결제</string>
-    <string name="no_passbook_pay">무통장입금</string>
-    <string name="announce_rental_message">신청해 주셔서 감사합니다.\n신청 주소 및 기능을 꼭 확인해주시기 바랍니다.</string>
-    <string name="add_new_card">+ Add New Card</string>
-    <string name="return_agent">대리점 반납</string>
-    <string name="return_request">반납 신청</string>
-    <string name="return_mobile_select">반납 기기 선택</string>
-    <string name="review">후기</string>
-    <string name="return_visit_delivery">방문 택배 반납</string>
-
 
     <!-- module -->
     <string name="module_type_camera_title">y2k 사진 부스</string>
@@ -130,17 +18,10 @@
     <string name="module_camera_qr_share_explain">
 1. QR 코드를 카메라로 스캔해 주세요. \n2. 링크에 접속하면 사진이 다운됩니다.</string>
     <string name="module_camera_qr_share_explain_title">QR로 사진 다운로드!</string>
-    <string name="module_camera_print_explain">
-1. 우측 상단의 출력 신청 버튼을 눌러주세요. \n2. 당일 신청번호 10번까지 출력해 드립니다. \n3. 다음 날 사진을 수령해 주세요.</string>
-    <string name="module_camera_print_explain_title">사진 출력 이벤트!</string>
-    <string name="module_camera_download">출력 신청</string>
     <string name="module_all_choice">모두 선택</string>
     <string name="success">success</string>
     <string name="make_qrcode">생성중</string>
     <string name="make_qrcode2">QR코드 생성</string>
-
-    <string name="date_list"> - 기간 : %s개월</string>
-    <string name="module_list"> - 원하는 기능 : %s</string>
-    <string name="price_list"> - 보증금 : %s</string>
-    <string name="address_list"> - 주소 : %s</string>
+    <string name="next">확인</string>
+    <string name="modulePlus">플러스 기능</string>
 </resources>

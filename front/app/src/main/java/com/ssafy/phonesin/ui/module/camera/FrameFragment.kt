@@ -21,7 +21,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentFrameBinding
-import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -42,7 +41,7 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
     private var selectedFrameColorInt by Delegates.notNull<Int>()
 
     private val colors = listOf(
-        R.color.cameraFrame1,
+        R.color.splachBackgroundBlue,
         R.color.keyColorDark1,
         R.color.keyColorLight1
     )
@@ -58,12 +57,8 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
     }
 
     override fun init() {
-        val mainActivity = activity as MainActivity
-        mainActivity.hideBottomNavi(true)
-
         initObserver()
 
-        // lottie 분기
         bindingNonNull.buttonNextQR.setOnClickListener {
             findNavController().navigate(R.id.action_frameFragment_to_QRCodeFragment)
         }
@@ -133,7 +128,7 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
         return when (color) {
             R.color.keyColorDark1 -> R.drawable.round_corners_key_dark_color
             R.color.keyColorLight1 -> R.drawable.round_corners_key_light_color
-            R.color.cameraFrame1 -> R.drawable.round_corners_frame
+            R.color.splachBackgroundBlue -> R.drawable.round_corners_frame
             else -> R.drawable.round_corners_frame
         }
     }
@@ -265,7 +260,7 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
 
 
                     when (selectedFrameColorInt) {
-                        R.color.cameraFrame1 -> {
+                        R.color.splachBackgroundBlue -> {
                             bindingNonNull.imageViewFramePuppy.visibility = View.VISIBLE
                             bindingNonNull.imageViewFrameLogo.visibility = View.GONE
                             bindingNonNull.imageViewFrameLogo2.visibility = View.GONE
