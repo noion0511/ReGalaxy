@@ -48,6 +48,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
+                        android:theme="@style/MyCheckBox"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/textViewAddRentalAddress">
 
@@ -57,7 +58,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checked="true"
-                            android:text="@string/exist_address" />
+                            android:text="@string/exist_address"
+                            android:theme="@style/MyCheckBox" />
 
                         <Spinner
                             android:id="@+id/spinnerRentalAddAddress"
@@ -65,30 +67,31 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="20dp"
-                            android:background="@drawable/rectangle"
+                            android:background="@drawable/stroke_rectangle_key_color"
                             android:padding="10dp"
                             android:popupBackground="@color/white" />
 
-<!--                        <com.skydoves.powerspinner.PowerSpinnerView-->
-<!--                            android:id="@+id/spinnerRentalAddAddress"-->
-<!--                            style="@style/textview_content_black"-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginHorizontal="20dp"-->
-<!--                            android:background="@drawable/rectangle"-->
-<!--                            android:padding="10dp"-->
-<!--                            app:spinner_arrow_tint="@color/black"-->
-<!--                            app:spinner_divider_color="@color/black"-->
-<!--                            app:spinner_divider_show="true"-->
-<!--                            app:spinner_divider_size="0.4dp"-->
-<!--                            app:spinner_popup_background="@color/white" />-->
+                        <!--                        <com.skydoves.powerspinner.PowerSpinnerView-->
+                        <!--                            android:id="@+id/spinnerRentalAddAddress"-->
+                        <!--                            style="@style/textview_content_black"-->
+                        <!--                            android:layout_width="match_parent"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:layout_marginHorizontal="20dp"-->
+                        <!--                            android:background="@drawable/rectangle"-->
+                        <!--                            android:padding="10dp"-->
+                        <!--                            app:spinner_arrow_tint="@color/black"-->
+                        <!--                            app:spinner_divider_color="@color/black"-->
+                        <!--                            app:spinner_divider_show="true"-->
+                        <!--                            app:spinner_divider_size="0.4dp"-->
+                        <!--                            app:spinner_popup_background="@color/white" />-->
 
                         <RadioButton
                             android:id="@+id/radioButtonNewAddress"
                             style="@style/textview_content_black"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/new_address" />
+                            android:text="@string/new_address"
+                            android:theme="@style/MyCheckBox" />
 
                         <EditText
                             android:id="@+id/editTextRentalAddAddress"
@@ -96,7 +99,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginHorizontal="20dp"
-                            android:background="@drawable/border_spinner_layout"
+                            android:background="@drawable/stroke_rectangle_key_color"
                             android:hint="@string/hint_edit_address"
                             android:padding="10dp" />
 
@@ -131,6 +134,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="@string/module_y2k_camera"
+                        android:theme="@style/MyCheckBox"
                         app:layout_constraintStart_toStartOf="@id/textViewAddModule"
                         app:layout_constraintTop_toBottomOf="@id/textViewAddModule" />
 
@@ -140,6 +144,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/module_home_cam"
+                        android:theme="@style/MyCheckBox"
                         app:layout_constraintStart_toStartOf="@id/checkBoxPicture"
                         app:layout_constraintTop_toBottomOf="@id/checkBoxPicture" />
 
@@ -149,6 +154,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/module_temperature"
+                        android:theme="@style/MyCheckBox"
                         app:layout_constraintStart_toStartOf="@id/checkBoxHomeCam"
                         app:layout_constraintTop_toBottomOf="@id/checkBoxHomeCam" />
 
@@ -167,6 +173,7 @@
 
                     <TextView
                         android:id="@+id/textViewAddDate"
+                        style="@style/textview_title_secondary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/date"
@@ -177,6 +184,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
+                        android:theme="@style/MyCheckBox"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/textViewAddDate">
 
@@ -184,37 +192,43 @@
                             android:id="@+id/radioButtonRentalAddOneMonth"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/one_month" />
+                            android:text="@string/one_month"
+                            android:theme="@style/MyCheckBox" />
 
                         <RadioButton
                             android:id="@+id/radioButtonRentalAddTwoMonth"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/two_months" />
+                            android:text="@string/two_months"
+                            android:theme="@style/MyCheckBox" />
 
                         <RadioButton
                             android:id="@+id/radioButtonRentalAddThreeMonth"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/three_months" />
+                            android:text="@string/three_months"
+                            android:theme="@style/MyCheckBox" />
 
                         <RadioButton
                             android:id="@+id/radioButtonRentalAddFourMonth"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/four_months" />
+                            android:text="@string/four_months"
+                            android:theme="@style/MyCheckBox" />
 
                         <RadioButton
                             android:id="@+id/radioButtonRentalAddFiveMonth"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/five_months" />
+                            android:text="@string/five_months"
+                            android:theme="@style/MyCheckBox" />
 
                         <RadioButton
                             android:id="@+id/radioButtonRentalAddSixMonth"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/six_months" />
+                            android:text="@string/six_months"
+                            android:theme="@style/MyCheckBox" />
                     </RadioGroup>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

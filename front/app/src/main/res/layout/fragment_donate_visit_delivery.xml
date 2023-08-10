@@ -46,6 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:theme="@style/MyCheckBox"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textViewDonateVisitDeliveryAddress">
 
@@ -55,7 +56,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="@string/exist_address" />
+                    android:text="@string/exist_address"
+                    android:theme="@style/MyCheckBox" />
 
                 <Spinner
                     android:id="@+id/spinnerDonateAddress"
@@ -63,17 +65,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
-                    android:background="@drawable/rectangle"
+                    android:background="@drawable/stroke_rectangle_key_color"
                     android:padding="10dp"
-                    android:popupBackground="@color/white"
-                     />
+                    android:popupBackground="@color/white" />
 
                 <RadioButton
                     android:id="@+id/radioButtonDonateVisitDeliveryNewAddress"
                     style="@style/textview_content_black"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/new_address" />
+                    android:text="@string/new_address"
+                    android:theme="@style/MyCheckBox" />
 
                 <EditText
                     android:id="@+id/editTextDonateAddress"
@@ -81,7 +83,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="20dp"
-                    android:background="@drawable/border_spinner_layout"
+                    android:background="@drawable/stroke_rectangle_key_color"
                     android:hint="@string/hint_edit_address"
                     android:padding="10dp" />
 
