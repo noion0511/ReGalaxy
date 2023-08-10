@@ -87,7 +87,7 @@ public class ClimateHumidityController {
             return new ResponseEntity<>(resultMap, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            resultMap.put("message", "Failure: " + e.getMessage());
+            resultMap.put("message", "위도 또는 경도가 누락되었습니다.");
             resultMap.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
             return new ResponseEntity<>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
         }
