@@ -60,10 +60,11 @@ public class Back extends BaseTimeEntity {
         this.phoneStatus = backDto.getPhoneStatus();
     }
 
-    public void updateByUser(BackUserDto backUserDto) {
+    public void updateByUser(BackUserDto backUserDto, Rental rental) {
         this.backDeliveryDate = backUserDto.getBackDeliveryDate();
         this.backDeliveryLocationType = backUserDto.getBackDeliveryLocationType();
         this.backDeliveryLocation = backUserDto.getBackDeliveryLocation();
         this.review = backUserDto.getReview();
+        this.rental = rental;
     }
 }

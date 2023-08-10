@@ -69,7 +69,7 @@ public class BackController {
     // 반납 신청서 수정
     @ApiOperation(value = "기기 반납 신청서 수정")
     @PutMapping("/back/update")
-    public ResponseEntity<Map<String, Object>> update(@RequestBody BackUserDto backUserDto, @RequestHeader String authorization) {
+    public ResponseEntity<Map<String, Object>> update(@RequestBody BackUserDto backUserDto, @ApiIgnore @RequestHeader String authorization) {
         Map<String, Object> resultMap = new HashMap<>();
 
         try {
@@ -80,9 +80,9 @@ public class BackController {
             return new ResponseEntity<>(resultMap, HttpStatus.OK);
         } catch (Exception e) {
             resultMap.put("message", e.getMessage());
-            resultMap.put("status", HttpStatus.NOT_FOUND.value());
+            resultMap.put("status", HttpStatus.FORBIDDEN.value());
 
-            return new ResponseEntity<>(resultMap, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(resultMap, HttpStatus.FORBIDDEN);
         }
     }
 }

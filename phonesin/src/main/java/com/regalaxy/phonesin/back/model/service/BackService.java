@@ -92,12 +92,21 @@ public class BackService {
     public BackDto updateBackByUser(BackUserDto backUserDto, String authorization) {
         // DB에 없는 ID를 검색하려고 하면 IllegalArgumentException
         Long memberId = jwtTokenProvider.getMemberId(authorization.replace("Bearer ", ""));
-        Back back = backRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException(memberId + "인 ID는 존재하지 않습니다."));
+        Back back = backRepository.findById(backUserDto.getBackId())
+                .orElseThrow(() -> new IllegalArgumentException(backUserDto.getBackId() + "인 backID는 존재하지 않습니다."));
+
+        Rental rental = rentalRepository.findById(backUserDto.getRentalId())
+                .orElseThrow(() -> new IllegalArgumentException(backUserDto.getRentalId() + "인 rentalID는 존재하지 않습니다."));
+
         if (backUserDto.getMemberId(back) != memberId) {
-            throw new IllegalArgumentException("현재 계정의 멤버 아이디가" + backUserDto.getMemberId(back) + "이 아닙니다.");
+            throw new IllegalArgumentException("수정하고자 하는 반납 신청서의 계정과 현재 계정이 일치하지 않습니다.");
         };
-        back.updateByUser(backUserDto);
+
+        if (rental.getMember().getMemberId() != memberId) {
+            throw new IllegalArgumentException("수정하고자 하는 대여 신청서의 계정과 현재 계정이 일치하지 않습니다.");
+        };
+
+        back.updateByUser(backUserDto, rental);
         backRepository.save(back);
         return BackDto.fromEntity(back);
     }

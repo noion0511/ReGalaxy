@@ -14,8 +14,6 @@ import java.time.LocalDateTime;
 public class BackUserDto {
     private Long backId;
     private Long rentalId;
-    private Long phoneId;
-    private Long memberId;
     @JsonFormat(pattern = "yyyy/MM/dd")
     private LocalDate backDeliveryDate;
     private String backDeliveryLocationType;
@@ -37,7 +35,6 @@ public class BackUserDto {
     public Back toEntity(Rental rental){
         return Back.builder()
                 .rental(rental)
-                .phoneId(this.phoneId)
                 .backDeliveryDate(this.backDeliveryDate)
                 .backDeliveryLocationType(this.backDeliveryLocationType)
                 .backDeliveryLocation(this.backDeliveryLocation)
