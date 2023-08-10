@@ -9,7 +9,9 @@ import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentIrRemoteBinding
 import com.ssafy.phonesin.model.DeviceType
 import com.ssafy.phonesin.ui.util.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class IrRemoteFragment : BaseFragment<FragmentIrRemoteBinding>(R.layout.fragment_ir_remote) {
 
     private lateinit var irManager: ConsumerIrManager
@@ -19,7 +21,9 @@ class IrRemoteFragment : BaseFragment<FragmentIrRemoteBinding>(R.layout.fragment
         inflater: LayoutInflater,
         container: ViewGroup?
     ): FragmentIrRemoteBinding {
-        return FragmentIrRemoteBinding.inflate(inflater, container, false)
+        return FragmentIrRemoteBinding.inflate(inflater, container, false).apply{
+            lifecycleOwner = viewLifecycleOwner
+        }
     }
 
     override fun init() {
@@ -61,13 +65,7 @@ class IrRemoteFragment : BaseFragment<FragmentIrRemoteBinding>(R.layout.fragment
 
     // 숫자 패턴 생성 메서드
     private fun getSamsungTvNumberCode(number: Int): IntArray {
-        val hexCodes = arrayOf(
-            0xE0E020DF, 0xE0E030CF, 0xE0E010EF,
-            0xE0E0906F, 0xE0E050AF, 0xE0E0609F,
-            0xE0E0708F, 0xE0E040BF, 0xE0E0807F,
-            0xE0E000FF // 0-9까지의 HEX 코드
-        )
-        return createIrPattern(hexCodes[number])
+        return createIrPattern(NUMBER_CODES[number])
     }
 
     // 음소거 패턴 생성 메서드
@@ -114,73 +112,73 @@ class IrRemoteFragment : BaseFragment<FragmentIrRemoteBinding>(R.layout.fragment
             irManager.transmit(38000, getPowerOnCode(selectedDevice))
         }
 
-        bindingNonNull.powerOff.setOnClickListener {
+        bindingNonNull.powerOffButton.setOnClickListener {
             irManager.transmit(38000, getPowerOffCode(selectedDevice))
         }
     }
 
     private fun initVolumeButton() {
-        bindingNonNull.volumeUp.setOnClickListener {
+        bindingNonNull.volumeUpButton.setOnClickListener {
             irManager.transmit(38000, getSamsungTvVolumeUpCode())
         }
 
-        bindingNonNull.volumeDown.setOnClickListener {
+        bindingNonNull.volumeDownButton.setOnClickListener {
             irManager.transmit(38000, getSamsungTvVolumeDownCode())
         }
 
-        bindingNonNull.mute.setOnClickListener {
+        bindingNonNull.muteButton.setOnClickListener {
             irManager.transmit(38000, getSamsungTvMuteCode())
         }
     }
 
     private fun initChannelButton() {
-        bindingNonNull.channelUp.setOnClickListener {
+        bindingNonNull.channelUpButton.setOnClickListener {
             irManager.transmit(38000, getSamsungTvChannelUpCode())
         }
 
-        bindingNonNull.channelDown.setOnClickListener {
+        bindingNonNull.channelDownButton.setOnClickListener {
             irManager.transmit(38000, getSamsungTvChannelDownCode())
         }
     }
 
     private fun initNumberButton() {
-        bindingNonNull.number0.setOnClickListener {
+        bindingNonNull.button0.setOnClickListener {
             irManager.transmit(38000, getSamsungTvNumberCode(0))
         }
 
-        bindingNonNull.number1.setOnClickListener {
+        bindingNonNull.button1.setOnClickListener {
             irManager.transmit(38000, getSamsungTvNumberCode(1))
         }
 
-        bindingNonNull.number2.setOnClickListener {
+        bindingNonNull.button2.setOnClickListener {
             irManager.transmit(38000, getSamsungTvNumberCode(2))
         }
 
-        bindingNonNull.number3.setOnClickListener {
+        bindingNonNull.button3.setOnClickListener {
             irManager.transmit(38000, getSamsungTvNumberCode(3))
         }
 
-        bindingNonNull.number4.setOnClickListener {
+        bindingNonNull.button4.setOnClickListener {
             irManager.transmit(38000, getSamsungTvNumberCode(4))
         }
 
-        bindingNonNull.number5.setOnClickListener {
+        bindingNonNull.button5.setOnClickListener {
             irManager.transmit(38000, getSamsungTvNumberCode(5))
         }
 
-        bindingNonNull.number6.setOnClickListener {
+        bindingNonNull.button6.setOnClickListener {
             irManager.transmit(38000, getSamsungTvNumberCode(6))
         }
 
-        bindingNonNull.number7.setOnClickListener {
+        bindingNonNull.button7.setOnClickListener {
             irManager.transmit(38000, getSamsungTvNumberCode(7))
         }
 
-        bindingNonNull.number8.setOnClickListener {
+        bindingNonNull.button8.setOnClickListener {
             irManager.transmit(38000, getSamsungTvNumberCode(8))
         }
 
-        bindingNonNull.number9.setOnClickListener {
+        bindingNonNull.button9.setOnClickListener {
             irManager.transmit(38000, getSamsungTvNumberCode(9))
         }
     }
@@ -193,5 +191,12 @@ class IrRemoteFragment : BaseFragment<FragmentIrRemoteBinding>(R.layout.fragment
         private const val SAMSUNG_ONE_SPACE = SAMSUNG_TICK * 3
         private const val SAMSUNG_ZERO_SPACE = SAMSUNG_TICK
         private const val SAMSUNG_MIN_GAP = SAMSUNG_TICK * 100
+
+        private val NUMBER_CODES = arrayOf(
+            0xE0E020DF, 0xE0E030CF, 0xE0E010EF,
+            0xE0E0906F, 0xE0E050AF, 0xE0E0609F,
+            0xE0E0708F, 0xE0E040BF, 0xE0E0807F,
+            0xE0E000FF
+        )
     }
 }
