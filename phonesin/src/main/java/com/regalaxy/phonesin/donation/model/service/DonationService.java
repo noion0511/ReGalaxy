@@ -1,9 +1,6 @@
 package com.regalaxy.phonesin.donation.model.service;
 
-import com.regalaxy.phonesin.donation.model.DonationDetailResponseDto;
-import com.regalaxy.phonesin.donation.model.DonationKingDto;
-import com.regalaxy.phonesin.donation.model.DonationRequestDto;
-import com.regalaxy.phonesin.donation.model.DonationResponseDto;
+import com.regalaxy.phonesin.donation.model.*;
 import com.regalaxy.phonesin.donation.model.entity.Donation;
 import com.regalaxy.phonesin.donation.model.repository.DonationRepository;
 import com.regalaxy.phonesin.member.model.entity.Member;
@@ -16,6 +13,7 @@ import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -38,6 +36,34 @@ public class DonationService {
                 .stream()
                 .map(donation -> new DonationResponseDto(donation))
                 .collect(Collectors.toList());
+        return result;
+    }
+
+    public List<DonationResponseDto> donationSearchList(DonationSearchDto donationSearchDto) throws Exception{
+        boolean accept = donationSearchDto.isAccept();
+        boolean receive = donationSearchDto.isReceive();
+        List<DonationResponseDto> result;
+        if(accept && receive) {//둘 다
+            result = donationRepository.findByDonationStatusEqualsAndDonationStatusEquals(1,2)
+                    .stream()
+                    .map(donation -> new DonationResponseDto(donation))
+                    .collect(Collectors.toList());
+        }else if(accept){//하나만
+            result = donationRepository.findByDonationStatusEquals(1)
+                    .stream()
+                    .map(donation -> new DonationResponseDto(donation))
+                    .collect(Collectors.toList());
+        }else if(receive){//하나만
+            result = donationRepository.findByDonationStatusEquals(2)
+                    .stream()
+                    .map(donation -> new DonationResponseDto(donation))
+                    .collect(Collectors.toList());
+        }else{//아무것도
+            result = donationRepository.findAll()
+                    .stream()
+                    .map(donation -> new DonationResponseDto(donation))
+                    .collect(Collectors.toList());
+        }
         return result;
     }
 
@@ -75,5 +101,13 @@ public class DonationService {
                 .map(donation -> new DonationResponseDto(donation))
                 .collect(Collectors.toList());
         return result;
+    }
+
+    @Transactional
+    public void adminDonationApply(Long donationId, int status){
+        Donation donation = donationRepository.findById(donationId).get();
+        donation.setDonationStatus(status);
+        System.out.println(donation.getDonationStatus());
+        donationRepository.save(donation);
     }
 }

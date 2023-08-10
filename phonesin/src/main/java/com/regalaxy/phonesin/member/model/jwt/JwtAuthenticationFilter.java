@@ -1,5 +1,6 @@
 package com.regalaxy.phonesin.member.model.jwt;
 
+import com.regalaxy.phonesin.member.model.exception.NotAdminException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,9 +24,28 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) req;
         String path = httpRequest.getRequestURI();
+        String token = jwtTokenProvider.resolveToken(httpRequest);
 
-        if (!path.startsWith("/member/login") && !path.startsWith("/member/signup") && !path.startsWith("/member/token/refresh")) {
-            String token = jwtTokenProvider.resolveToken(httpRequest);
+        if (path.startsWith("/admin") && !path.startsWith("/admin/member/login")){
+            if (!jwtTokenProvider.getIsManager(token)) {
+                throw new NotAdminException("관리자만 접근 가능합니다.");
+            }
+        }
+
+        if (!path.startsWith("/member/login") &&
+                !path.startsWith("/member/signup") &&
+                !path.startsWith("/member/token/refresh") &&
+                !path.startsWith("/admin/member/login") &&
+                !path.startsWith("/v3/api-docs") &&
+                !path.equals("/") &&
+                !path.startsWith("/assets") &&
+                !path.startsWith("/images") &&
+                !path.startsWith("/error") &&
+                !path.startsWith("/swagger-ui") &&
+                !path.startsWith("/swagger-resources") &&
+                !path.startsWith("/download/phonegojisin")) {
+
+
             if (token != null) {
                 try {
                     jwtTokenProvider.validateToken(token);

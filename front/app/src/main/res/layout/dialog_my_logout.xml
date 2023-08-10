@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/textview_title_secondary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="35dp"
+        android:text="로그아웃 하시겠습니까?" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:dividerColor="@color/borderColor"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/buttonCancel"
+            style="@style/textview_title_secondary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:background="@drawable/button_white_corner_bottom_left_20"
+            android:paddingHorizontal="60dp"
+            android:paddingVertical="5dp"
+            android:text="취소" />
+
+        <Button
+            android:id="@+id/buttonLogout"
+            style="@style/textview_button_white_small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/button_black_corner_bottom_right_20"
+            android:paddingHorizontal="60dp"
+            android:paddingVertical="5dp"
+            android:text="확인" />
+
+    </LinearLayout>
+
+</LinearLayout>

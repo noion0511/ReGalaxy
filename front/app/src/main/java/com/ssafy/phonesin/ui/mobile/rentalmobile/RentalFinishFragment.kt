@@ -1,13 +1,20 @@
 package com.ssafy.phonesin.ui.mobile.rentalmobile
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentRentalFinishBinding
+import com.ssafy.phonesin.ui.util.Util.selectModule
+import com.ssafy.phonesin.ui.util.base.BaseFragment
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
+import java.util.TimeZone
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -19,12 +26,13 @@ private const val ARG_PARAM2 = "param2"
  * Use the [RentalFinishFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class RentalFinishFragment : Fragment() {
+class RentalFinishFragment :
+    BaseFragment<FragmentRentalFinishBinding>(R.layout.fragment_rental_finish) {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var binding: FragmentRentalFinishBinding
+    val rentalFinishViewModel: RentalViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,25 +42,59 @@ class RentalFinishFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        binding = FragmentRentalFinishBinding.inflate(layoutInflater, container, false)
-        return binding.root
+    override fun onCreateBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentRentalFinishBinding {
+        return FragmentRentalFinishBinding.inflate(layoutInflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
+        }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun init() {
         setRentalFinishUi()
     }
 
-    private fun setRentalFinishUi() = with(binding) {
+
+    private fun setRentalFinishUi() = with(bindingNonNull) {
+
+        textViewMobileInfo.text = "총 갯수 ${rentalFinishViewModel.currentRentalListSize()}개"
+
+        textViewPostDate.text = "신청 일시 : ${getCurrentKoreaTime()}"
+
+        textViewDetailModule.text = getText()
+
         buttonMobileHome.setOnClickListener {
             findNavController().navigate(
                 R.id.action_rentalFinishFragment_to_mobile,
             )
+            rentalFinishViewModel.clearRentalList()
+        }
+    }
+
+    fun getText(): String {
+        var temp = ""
+        rentalFinishViewModel.rentalList.value?.forEach {
+            temp += " - 신청기능 : ${selectModule(it)}\n"
+            temp += " - 주소 : ${it.rentalDeliveryLocation}\n"
+            temp += " - 기간 : ${it.usingDate}개월\n"
+            temp += " - 갯수 : ${it.count}\n\n"
+        }
+        temp = temp.removeRange(temp.length - 2, temp.length)
+        return temp
+    }
+
+    fun getCurrentKoreaTime(): String {
+        val koreaTimeZone = "Asia/Seoul"
+        val koreaLocale = Locale("ko", "KR")
+        val sdf = SimpleDateFormat("yyyy년 MM월 dd일 a hh:mm", koreaLocale)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            sdf.timeZone = TimeZone.getTimeZone(koreaTimeZone)
+        }
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            sdf.format(Calendar.getInstance(TimeZone.getTimeZone(koreaTimeZone), koreaLocale).time)
+        } else {
+            TODO("VERSION.SDK_INT < N")
         }
     }
 

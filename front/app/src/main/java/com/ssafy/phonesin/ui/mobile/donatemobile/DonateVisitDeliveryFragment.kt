@@ -5,9 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentDonateVisitDeliveryBinding
+import dagger.hilt.android.AndroidEntryPoint
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -19,13 +21,14 @@ private const val ARG_PARAM2 = "param2"
  * Use the [DonateVisitDeliveryFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 class DonateVisitDeliveryFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
     private lateinit var binding: FragmentDonateVisitDeliveryBinding
-
+    val donateVisitDeliveryViewModel : DonateViewModel by activityViewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -50,6 +53,7 @@ class DonateVisitDeliveryFragment : Fragment() {
 
     private fun setDonateVisitDeliveryUi() = with(binding) {
         buttonPostDonateVisitDelivery.setOnClickListener {
+            donateVisitDeliveryViewModel.uploadDonation()
             findNavController().navigate(
                 R.id.action_donateVisitDeliveryFragment_to_doateFinishFragment,
             )

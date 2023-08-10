@@ -10,6 +10,7 @@ object AppPreferences {
     private const val LOGIN_SESSION = "login.session"
     private const val JWT_ACCESS_TOKEN = "jwt_access_token"
     private const val JWT_REFRESH_TOKEN = "jwt_refresh_token"
+    private const val SHOWED_ON_BOARDING = "showed_onboarding"
 
     private val gson = GsonBuilder().create()
 
@@ -32,4 +33,10 @@ object AppPreferences {
     fun removeJwtToken() {
         prefs.edit().remove(JWT_ACCESS_TOKEN).remove(JWT_REFRESH_TOKEN).apply()
     }
+
+    fun checkOnBoardingShowed() {
+        prefs.edit().putBoolean(SHOWED_ON_BOARDING, true).apply()
+    }
+
+    fun isOnBoardingShowed() = prefs.getBoolean(SHOWED_ON_BOARDING, false)
 }

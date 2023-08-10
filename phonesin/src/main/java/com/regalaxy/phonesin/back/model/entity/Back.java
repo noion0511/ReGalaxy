@@ -3,6 +3,7 @@ package com.regalaxy.phonesin.back.model.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.regalaxy.phonesin.back.model.BackDto;
+import com.regalaxy.phonesin.back.model.BackUserDto;
 import com.regalaxy.phonesin.global.BaseTimeEntity;
 import com.regalaxy.phonesin.phone.model.entity.Phone;
 import com.regalaxy.phonesin.rental.model.entity.Rental;
@@ -27,8 +28,8 @@ public class Back extends BaseTimeEntity {
     private Long phoneId;
 
     @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "rental_id")
+    @OneToOne
+    @JoinColumn(name = "rental_id", unique = true)
     private Rental rental;
 
     @Column(nullable = false)
@@ -47,17 +48,25 @@ public class Back extends BaseTimeEntity {
         this.backDeliveryLocationType = backDeliveryLocationType;
         this.backDeliveryLocation = backDeliveryLocation;
         this.review = review;
-        this.phoneId = phoneId;
         this.rental = rental;
         this.phoneStatus = phoneStatus;
     }
 
-    public void update(BackDto backDto) {
+    public void updateByAdmin(BackDto backDto) {
         this.backStatus = backDto.getBackStatus();
         this.backDeliveryDate = backDto.getBackDeliveryDate();
         this.backDeliveryLocationType = backDto.getBackDeliveryLocationType();
         this.backDeliveryLocation = backDto.getBackDeliveryLocation();
         this.review = backDto.getReview();
         this.phoneStatus = backDto.getPhoneStatus();
+        this.phoneId = backDto.getPhoneId();
+    }
+
+    public void updateByUser(BackUserDto backUserDto) {
+        this.backDeliveryDate = backUserDto.getBackDeliveryDate();
+        this.backDeliveryLocationType = backUserDto.getBackDeliveryLocationType();
+        this.backDeliveryLocation = backUserDto.getBackDeliveryLocation();
+        this.review = backUserDto.getReview();
+        this.phoneId = backUserDto.getPhoneId();
     }
 }

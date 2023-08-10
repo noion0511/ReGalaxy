@@ -84,6 +84,9 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
                             bindingNonNull.textViewEmailExplain.text = getString(R.string.signup_email_not_verified)
 
                         }
+                        MemberValidation.NO_NAME -> {
+                            bindingNonNull.textViewSignUpNameExplain.text = "이름을 입력해 주세요."
+                        }
                     }
                 }
             }
@@ -102,6 +105,14 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
                 if(it == true) {
                     bindingNonNull.textViewEmailExplain.text = getString(R.string.signup_email_confirm_ok)
                     bindingNonNull.editTextSignUpEmail.setText(emailAddress.value.toString())
+                }
+            }
+
+            signupResponse.observe(viewLifecycleOwner) { event ->
+                event.getContentIfNotHandled()?.let {
+                    if(it.status.toInt() == 200) {
+                        findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
+                    }
                 }
             }
         }

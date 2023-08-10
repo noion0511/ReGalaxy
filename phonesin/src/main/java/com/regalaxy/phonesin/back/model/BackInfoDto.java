@@ -29,10 +29,10 @@ public class BackInfoDto {
     private String backDeliveryLocation; // 1 배달의 경우 배달지 주소, 서비스센터 제출의 경우 서비스센터 주소
     private Boolean phoneStatus;
 
-    public BackInfoDto(Back back, Phone phone) {
+    public BackInfoDto(Back back) {
         this.backId = back.getBackId();
-        this.phoneId = phone.getPhoneId();
-        this.modelName = phone.getModel().getModelName();
+        this.phoneId = back.getRental().getPhone().getPhoneId();
+        this.modelName = back.getRental().getPhone().getModel().getModelName();
         this.backStatus = back.getBackStatus();
         this.backDeliveryDate =back.getBackDeliveryDate();
         this.createdAt = back.getCreatedAt();

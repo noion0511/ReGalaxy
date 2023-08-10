@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/frameLayoutHome"
     tools:context=".ui.home.HomeFragment">
 
     <ScrollView
@@ -127,7 +128,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:text="총 130대 기증     ."
+                            android:text="총 300,000대 기증"
                             android:fontFamily="@font/pretendard_semibold"
                             android:textSize="12sp"/>
                     </LinearLayout>

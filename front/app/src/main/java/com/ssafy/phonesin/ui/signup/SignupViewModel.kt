@@ -5,6 +5,7 @@ import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.ssafy.phonesin.model.BaseResponse
 import com.ssafy.phonesin.model.Event
 import com.ssafy.phonesin.model.MemberDto
 import com.ssafy.phonesin.model.MemberValidation
@@ -27,6 +28,9 @@ class SignupViewModel @Inject constructor(
 
     private val _msg = MutableLiveData<Event<String>>()
     val errorMsg: LiveData<Event<String>> = _msg
+
+    private val _signupResponse = MutableLiveData<Event<BaseResponse>>()
+    val signupResponse: LiveData<Event<BaseResponse>> = _signupResponse
 
     private val _emailCheck = MutableLiveData<Event<String>>()
     val emailCheck: LiveData<Event<String>> = _emailCheck
@@ -53,7 +57,7 @@ class SignupViewModel @Inject constructor(
             val type = "signup"
             when (response) {
                 is NetworkResponse.Success -> {
-                    _msg.postValue(Event(response.body.message))
+                    _signupResponse.postValue(Event(response.body))
                 }
 
                 is NetworkResponse.ApiError -> {
@@ -141,6 +145,10 @@ class SignupViewModel @Inject constructor(
 
         if (signUp.email.isEmpty()) {
             validationErrors.add(MemberValidation.EMPTY_EMAIL)
+        }
+
+        if (signUp.memberName.isEmpty()) {
+            validationErrors.add(MemberValidation.NO_NAME)
         }
 
         return validationErrors

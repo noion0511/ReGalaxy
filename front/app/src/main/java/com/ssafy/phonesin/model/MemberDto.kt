@@ -23,5 +23,6 @@ enum class MemberValidation {
     PASSWORD_MISMATCH,
     SHORT_PASSWORD,
     EMPTY_EMAIL,
-    EMAIL_NOT_VERIFIED
+    EMAIL_NOT_VERIFIED,
+    NO_NAME
 }
