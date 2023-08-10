@@ -17,8 +17,9 @@ public class RoomService {
         this.rooms = rooms;
     }
 
-    public void createRoom(String roomId) {
+    public void createRoom(String roomId, String session) {
         Set<String> set = new ConcurrentSkipListSet<>();
+        set.add(session);
         rooms.put(roomId, set);
     }
 
@@ -29,17 +30,17 @@ public class RoomService {
         }
     }
 
-    public void leaveRoom(String roomId, String subscriber) {
+    public void leaveRoom(String roomId, String member) {
         Set<String> set = rooms.get(roomId);
         if (set != null) {
-            set.remove(subscriber);
+            set.remove(member);
             if (set.isEmpty()) {
                 rooms.remove(roomId);
             }
         }
     }
 
-    public Set<String> getRoom(String roomId) {
+    public Set<String> getRoomMember(String roomId) {
         return rooms.get(roomId);
     }
 }
