@@ -37,22 +37,27 @@
 	<!-- Three -->
 	<section id="three" class="wrapper align-center">
 		<div class="inner">
-			<div class="search flex flex-4">
-				<p id="isRental" th:if="${title=='휴대폰'}">대여중</p>
-				<p id="isY2K" th:if="${title=='휴대폰'}">Y2K</p>
-				<p id="isClimateHumidity" th:if="${title=='휴대폰'}">습온도계</p>
-				<p id="isHomecam" th:if="${title=='휴대폰'}">홈캠</p>
-				<p id="isAccept" th:if="${title=='기증'}" onclick="donationAccept()">수락</p>
-				<p id="isReceive" th:if="${title=='기증'}" onclick="donationReceive()">수령</p>
-				<p id="ready" th:if="${title=='대여'}" onclick="ready()">대기중</p>
-				<p id="success" th:if="${title=='반납'}" onclick="success()">완료</p>
-				<p id="isBlack" th:if="${title=='회원'}" onclick="isBlack()" style="width: 6em;">블랙리스트</p>
-				<p id="isCha" th:if="${title=='회원'}" onclick="isCha()" style="width: 6em;">차상위계층</p>
-				<p id="isBanner" th:if="${title=='공지'}" onclick="notiType(1)" style="width: 6em;">배너용</p>
-				<p id="isBottom" th:if="${title=='공지'}" onclick="notiType(2)" style="width: 6em;">바텀용</p>
-				<p id="isReserve" th:if="${title=='공지'}" onclick="notistatus(1)" style="width: 6em;">예약됨</p>
-				<p id="isProcess" th:if="${title=='공지'}" onclick="notistatus(2)" style="width: 6em;">진행중</p>
-				<p id="isEnd" th:if="${title=='공지'}" onclick="notistatus(3)" style="width: 6em;">종료됨</p>
+			<div class="search flex flex-4" style="justify-content: space-between;">
+				<div>
+					<p id="isRental" th:if="${title=='휴대폰'}">대여중</p>
+					<p id="isY2K" th:if="${title=='휴대폰'}">Y2K</p>
+					<p id="isClimateHumidity" th:if="${title=='휴대폰'}">습온도계</p>
+					<p id="isHomecam" th:if="${title=='휴대폰'}">홈캠</p>
+					<p id="isAccept" th:if="${title=='기증'}" onclick="donationAccept()">수락</p>
+					<p id="isReceive" th:if="${title=='기증'}" onclick="donationReceive()">수령</p>
+					<p id="ready" th:if="${title=='대여'}" onclick="ready()">대기중</p>
+					<p id="success" th:if="${title=='반납'}" onclick="success()">완료</p>
+					<p id="isBlack" th:if="${title=='회원'}" onclick="isBlack()" style="width: 6em;">블랙리스트</p>
+					<p id="isCha" th:if="${title=='회원'}" onclick="isCha()" style="width: 6em;">차상위계층</p>
+					<p id="isBanner" th:if="${title=='공지'}" onclick="notiType(1)" style="width: 6em;">배너용</p>
+					<p id="isBottom" th:if="${title=='공지'}" onclick="notiType(2)" style="width: 6em;">바텀용</p>
+					<p id="isReserve" th:if="${title=='공지'}" onclick="notistatus(1)" style="width: 6em;">예약됨</p>
+					<p id="isProcess" th:if="${title=='공지'}" onclick="notistatus(2)" style="width: 6em;">진행중</p>
+					<p id="isEnd" th:if="${title=='공지'}" onclick="notistatus(3)" style="width: 6em;">종료됨</p>
+				</div>
+				<div>
+					<p th:if="${title=='공지'}" th:onclick="notiApplyModal()">공지 생성</p>
+				</div>
 			</div>
 			<div id="result">
 				<div th:block class="flex flex-4" th:if="${title=='휴대폰'}">
@@ -139,12 +144,12 @@
 					</article>
 				</div>
 				<div class="flex flex-4" th:if="${title=='공지'}">
+					
 					<article class="card" th:each="list : ${list}" th:id="${'cardnoti' + list.noticeId}">
 						<header>
-							<h3 th:text="${list.noticeId}">대여아이디</h3>
+							<h3 th:text="${list.title}">공지 제목</h3>
 						</header>
-						<img th:if="${list.noticeType == 1}" th:src="${'/notice/image/' + list.posterUrl}" style="width: 50px">
-						<img th:if="${list.noticeType == 2}" th:src="${'/notice/image/' + list.posterUrl}" style="width: 50px">
+						<img th:src="${'/notice/image/' + list.posterUrl}" style="width: 100px">
 						<div class="module flex flex-3">
 							<p th:if="${list.noticeType == 1}">배너용</p>
 							<p th:if="${list.noticeType == 2}">바텀용</p>
@@ -577,6 +582,64 @@
 							</div>`;
 					modal.innerHTML += html;
 				});
+		}
+		
+		function notiApplyModal(){
+			var modal = document.getElementById('modal');
+			modal.style.display='block';
+			modal.innerHTML = ``;
+			var html = `
+					<div id='content'>
+						<form action="/admin/notice/apply" method="post" enctype="multipart/form-data">
+							<div class="modalBtndiv">
+								<Button class="modalBtn" onclick="closeModal()">X</Button>
+							</div>
+							<label>notice title</label>
+							<input type="text" id='title' name="title" value=''/><br/>
+							<label>poster image</label>
+							<input type="file" id="poster" name="file" accept="image/png, image/jpeg" />
+							<div class="flex">
+								<input type="radio" id="Banner" name="noticeType" value="1" />
+								<label for="Banner">Banner</label>
+							</div>
+							<div class="flex">
+								<input type="radio" id="Bottom" name="noticeType" value="2" />
+								<label for="Bottom">Bottom</label>
+							</div>
+							<Button class="blackBtn" style="margin-top:1em; padding:0em 0.5em 0em 0.5em;" onclick="applyNotice()>생성</Button>
+						</form>
+					</div>`;
+			modal.innerHTML += html;
+		}
+
+		function applyNotice(){
+			const 
+			fetch(`/admin/notice/apply`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					phoneId : document.getElementById("modalPhoneId").innerHTML,
+					donationId : 0,
+					serialNumber : document.getElementById("modalSerialNumber").value,
+					modelId : document.getElementById("modalModelId").value,
+					y2K : document.getElementById("isY2KCheckBox").checked,
+					homecam : document.getElementById("isHomecamCheckBox").checked,
+					climateHumidity : document.getElementById("isClimateHumidityCheckBox").checked,
+					searchRental : document.getElementById("isRental").className == 'activeBtn',
+					searchY2K : document.getElementById("isY2K").className=='activeBtn',
+					searchClimateHumidity : document.getElementById("isClimateHumidity").className=='activeBtn',
+					searchHomecam: document.getElementById("isHomecam").className=='activeBtn',
+				}),
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					setPhoneHtml(data);
+				});
+			var modal = document.getElementById('modal');
+			modal.style.display='none';
+			modal.innerHTML = ``;
+			//fetch로 데이터 넘기기
 		}
 
 		function closeModal(){
