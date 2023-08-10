@@ -37,17 +37,27 @@
 	<!-- Three -->
 	<section id="three" class="wrapper align-center">
 		<div class="inner">
-			<div class="search flex flex-4">
-				<p id="isRental" th:if="${title=='휴대폰'}">대여중</p>
-				<p id="isY2K" th:if="${title=='휴대폰'}">Y2K</p>
-				<p id="isClimateHumidity" th:if="${title=='휴대폰'}">습온도계</p>
-				<p id="isHomecam" th:if="${title=='휴대폰'}">홈캠</p>
-				<p id="isAccept" th:if="${title=='기증'}" onclick="donationAccept()">수락</p>
-				<p id="isReceive" th:if="${title=='기증'}" onclick="donationReceive()">수령</p>
-				<p id="ready" th:if="${title=='대여'}" onclick="ready()">대기중</p>
-				<p id="success" th:if="${title=='반납'}" onclick="success()">완료</p>
-				<p id="isBlack" th:if="${title=='회원'}" onclick="isBlack()" style="width: 6em;">블랙리스트</p>
-				<p id="isCha" th:if="${title=='회원'}" onclick="isCha()" style="width: 6em;">차상위계층</p>
+			<div class="search flex flex-4" style="justify-content: space-between;">
+				<div>
+					<p id="isRental" th:if="${title=='휴대폰'}">대여중</p>
+					<p id="isY2K" th:if="${title=='휴대폰'}">Y2K</p>
+					<p id="isClimateHumidity" th:if="${title=='휴대폰'}">습온도계</p>
+					<p id="isHomecam" th:if="${title=='휴대폰'}">홈캠</p>
+					<p id="isAccept" th:if="${title=='기증'}" onclick="donationAccept()">수락</p>
+					<p id="isReceive" th:if="${title=='기증'}" onclick="donationReceive()">수령</p>
+					<p id="ready" th:if="${title=='대여'}" onclick="ready()">대기중</p>
+					<p id="success" th:if="${title=='반납'}" onclick="success()">완료</p>
+					<p id="isBlack" th:if="${title=='회원'}" onclick="isBlack()" style="width: 6em;">블랙리스트</p>
+					<p id="isCha" th:if="${title=='회원'}" onclick="isCha()" style="width: 6em;">차상위계층</p>
+					<p id="isBanner" th:if="${title=='공지'}" onclick="notiType(1)" style="width: 6em;">배너용</p>
+					<p id="isBottom" th:if="${title=='공지'}" onclick="notiType(2)" style="width: 6em;">바텀용</p>
+					<p id="isReserve" th:if="${title=='공지'}" onclick="notistatus(1)" style="width: 6em;">예약됨</p>
+					<p id="isProcess" th:if="${title=='공지'}" onclick="notistatus(2)" style="width: 6em;">진행중</p>
+					<p id="isEnd" th:if="${title=='공지'}" onclick="notistatus(3)" style="width: 6em;">종료됨</p>
+				</div>
+				<div>
+					<p th:if="${title=='공지'}" th:onclick="notiApplyModal()">공지 생성</p>
+				</div>
 			</div>
 			<div id="result">
 				<div th:block class="flex flex-4" th:if="${title=='휴대폰'}">
@@ -133,6 +143,25 @@
 						<button th:if="${!list.isBlackList}" class="blackBtn" th:onclick="setBlack([[${list.email}]])">블랙리스트 추가</button>
 					</article>
 				</div>
+				<div class="flex flex-4" th:if="${title=='공지'}">
+					<article class="card" th:each="list : ${list}" th:id="${'cardnoti' + list.noticeId}">
+						<header>
+							<h3 th:text="${list.title}">공지 제목</h3>
+						</header>
+						<img th:src="${'/notice/image/' + list.posterUrl}" style="width: 100px">
+						<div class="module flex flex-3">
+							<p th:if="${list.noticeType == 1}">배너용</p>
+							<p th:if="${list.noticeType == 2}">바텀용</p>
+							<p th:id="${'notist' + list.noticeId}" th:if="${list.status == 1}">예약됨</p>
+							<p th:id="${'notist' + list.noticeId}" th:if="${list.status == 2}">진행중</p>
+							<p th:id="${'notist' + list.noticeId}" th:if="${list.status == 3}">종료됨</p>
+						</div>
+						<div class="flex flex-3" style="justify-content: center;">
+							<button th:id="${'notibtn' + list.noticeId}" th:if="${list.status == 1}" class="blackBtn" th:onclick="noticeProcessing([[${list.noticeId}]])">진행시켜</button>
+							<button th:id="${'notibtn' + list.noticeId}" th:if="${list.status == 2}" class="blackBtn" th:onclick="noticeProcessing([[${list.noticeId}]])">종료시켜</button>
+						</div>
+					</article>
+				</div>
 			</div>
 		</div>
 	</section>
@@ -147,7 +176,7 @@
 	<script th:src="@{/assets/js/main.js}"></script>
 	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
-	<script>
+	<script th:inline="javascript">
         document.getElementById("isRental").onclick = function(){
             var container = document.getElementById("isRental");
 			phoneActive(container);
@@ -328,7 +357,125 @@
 				});
         };
 
-		function phoneHtml(){
+		/*<![CDATA[*/
+		function noticeProcessing(noticeId) {
+			let list = /*[[${list}]]*/;
+			const id = noticeId;
+			for (let i = 0; i < list.length; i++) {
+				if (list[i].noticeId == noticeId) {
+					if (list[i].status == 1) {
+						document.getElementById('notist' + noticeId).innerText = '진행중'
+						document.getElementById('notibtn' + noticeId).innerText = '종료시켜'
+						document.getElementById('notibtn' + noticeId).onclick = function noticeEnding() {
+							let list = /*[[${list}]]*/;
+							for (let i = 0; i < list.length; i++) {
+								if (list[i].noticeId == id) {
+									document.getElementById('notist' + noticeId).innerText = '종료됨'
+									document.getElementById('notibtn' + noticeId).style.display = 'none'
+									fetch(`/admin/notice/toend/${noticeId}`, {
+										method: 'PUT'
+									})
+									list[i].status = 3
+								}
+							}
+						}
+						fetch(`/admin/notice/toprocess/${noticeId}`, {
+							method: 'PUT'
+						})
+						list[i].status = 2
+					}
+					else if (list[i].status == 2) {
+						document.getElementById('notist' + noticeId).innerText = '종료됨'
+						document.getElementById('notibtn' + noticeId).style.display = 'none'
+						fetch(`/admin/notice/toend/${noticeId}`, {
+							method: 'PUT'
+						})
+						list[i].status = 3
+					}
+				}
+			}
+		};
+		/*]]>*/
+		
+
+		function notiType(type) {
+			const banner = document.getElementById('isBanner');
+			const bottom = document.getElementById('isBottom');
+			if ((type == 1 && banner.classList.contains('activeBtn')) || (type == 2 && bottom.classList.contains('activeBtn'))) {
+				banner.classList.remove('activeBtn');
+				bottom.classList.remove('activeBtn');
+				localStorage.setItem('type', null);
+			}
+			else if (type == 1) { // banner
+				banner.classList.add('activeBtn');
+				bottom.classList.remove('activeBtn');
+				localStorage.setItem('type', type);
+			} else if (type == 2) { // bottom
+				bottom.classList.add('activeBtn');
+				banner.classList.remove('activeBtn');
+				localStorage.setItem('type', type);
+			}
+			showListUpdate();
+		};
+
+		function notistatus(status) {
+			const reserve = document.getElementById('isReserve');
+			const process = document.getElementById('isProcess');
+			const end = document.getElementById('isEnd');
+
+			if ((status == 1 && reserve.classList.contains('activeBtn')) || (status == 2 && process.classList.contains('activeBtn')) || (status == 3 && end.classList.contains('activeBtn'))) {
+				reserve.classList.remove('activeBtn');
+				process.classList.remove('activeBtn');
+				end.classList.remove('activeBtn');
+				localStorage.setItem('status', null)
+			}
+			else if (status == 1) { // 예정
+				reserve.classList.add('activeBtn');
+				process.classList.remove('activeBtn');
+				end.classList.remove('activeBtn');
+				localStorage.setItem('status', status)
+			} else if (status == 2) { // 진행
+				reserve.classList.remove('activeBtn');
+				process.classList.add('activeBtn');
+				end.classList.remove('activeBtn');
+				localStorage.setItem('status', status)
+			} else if (status == 3) { // 종료
+				reserve.classList.remove('activeBtn');
+				process.classList.remove('activeBtn');
+				end.classList.add('activeBtn');
+				localStorage.setItem('status', status)
+			}
+			showListUpdate();
+		};
+
+
+
+		/*<![CDATA[*/
+		function showListUpdate() {
+			const globalstatus = localStorage.getItem('status');
+			const globaltype = localStorage.getItem('type');
+			const list = /*[[${list}]]*/;
+			list.forEach((noti) => {
+				if (globalstatus == 'null' && globaltype == 'null') {
+					document.getElementById('cardnoti' + noti.noticeId).style.display = '';
+				} else if (globalstatus == 'null') {
+					if (noti.noticeType == globaltype) document.getElementById('cardnoti' + noti.noticeId).style.display = '';
+					else document.getElementById('cardnoti' + noti.noticeId).style.display = 'none';
+				} else if (globaltype == 'null') {
+					if (noti.status == globalstatus) document.getElementById('cardnoti' + noti.noticeId).style.display = '';
+					else document.getElementById('cardnoti' + noti.noticeId).style.display = 'none';
+				} else {
+					if (noti.status == globalstatus && noti.noticeType == globaltype) document.getElementById('cardnoti' + noti.noticeId).style.display = '';
+					else document.getElementById('cardnoti' + noti.noticeId).style.display = 'none';
+				}
+			})
+		};
+		/*]]>*/
+
+
+		
+
+		function phoneHtml() {
 			fetch(`list`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
@@ -434,6 +581,61 @@
 							</div>`;
 					modal.innerHTML += html;
 				});
+		}
+		
+		function notiApplyModal(){
+			var modal = document.getElementById('modal');
+			modal.style.display='block';
+			modal.innerHTML = ``;
+			var html = `
+					<div id='content'>
+						<form action="/admin/notice/apply" method="post" enctype="multipart/form-data">
+							<div class="modalBtndiv">
+								<Button class="modalBtn" onclick="closeModal()">X</Button>
+							</div>
+							<label>notice title</label>
+							<input type="text" id='noticeTitle' name="title" value=''/><br/>
+							<label>poster image</label>
+							<input type="file" id="noticePoster" name="file" accept="image/png, image/jpeg" />
+							<div class="flex">
+								<input type="radio" id="noticeBanner" name="noticeType" value="1" />
+								<label for="Banner">Banner</label>
+							</div>
+							<div class="flex">
+								<input type="radio" id="noticeBottom" name="noticeType" value="2" />
+								<label for="Bottom">Bottom</label>
+							</div>
+							<Button class="blackBtn" style="margin-top:1em; padding:0em 0.5em 0em 0.5em;" onclick="applyNotice()">생성</Button>
+						</form>
+					</div>`;
+			modal.innerHTML += html;
+		}
+
+		function applyNotice(){
+			const title = document.getElementById("noticeTitle").value
+			const radios = document.getElementsByName("noticeType");
+			const selected = Array.from(radios).find(radio => radio.checked);
+
+			const url = "/admin/notice/apply?title=" + title + "&noticeType=" + selected.value;
+			var myHeaders = new Headers();
+			myHeaders.append("Authorization", "Bearer " + sessionStorage.getItem("accessToken"));
+
+			var formdata = new FormData();
+			formdata.append("file", document.getElementById("noticePoster").files[0]);
+
+			var requestOptions = {
+				method: 'POST',
+				headers: myHeaders,
+				body: formdata,
+				redirect: 'follow'
+			};
+
+			fetch(url, requestOptions)
+					.then(response => response.json())
+					.then(result => setNoticeHtml())
+					.catch(error => console.log('error', error));
+
+			closeModal()
 		}
 
 		function closeModal(){
@@ -664,6 +866,7 @@
 			document.getElementById('result').innerHTML = ``;
 			var html = `
 					<div class="flex flex-4">`;
+
 			data.list.forEach(function(item) {
 						html += `
 								<article class="card">
@@ -691,6 +894,60 @@
 						</div>`;
 					document.getElementById('result').innerHTML += html;
 		}
+
+		//Notice
+		function setNoticeHtml(){
+			document.getElementById('result').innerHTML = ``;
+			fetch(`/notice/list`, {
+				method: 'GET',
+				headers: { 'Content-Type': 'application/json' }
+			})
+					.then(response => response.json())
+					.then(data => {
+						var html = `
+		<div class="flex flex-4">`;
+						data.notice.forEach((item) => {
+							html += `
+			<article class="card" id="cardnoti + ${item.noticeId}">
+				<header>
+					<h3>${item.title}</h3>
+				</header>
+				<img src="${'/notice/image/' + item.posterUrl}" style="width: 100px">
+				<div class="module flex flex-3">`;
+
+							if(item.noticeType == 1){
+								html += `<p>배너용</p>`;
+							} else if (item.noticeType == 2){
+								html += `<p>바텀용</p>`;
+							}
+
+							if(item.status == 1){
+								html += `<p id="${'notist' + item.noticeId}">예약됨</p></div>`;
+							} else if (item.status == 2){
+								html += `<p id="${'notist' + item.noticeId}">진행중</p></div>`;
+							} else if (item.status == 3){
+								html += `<p id="${'notist' + item.noticeId}">종료됨</p></div>`;
+							}
+
+							html += `<div class="flex flex-3" style="justify-content: center;">`;
+
+							if(item.status == 1){
+								html += `<button id="${'notibtn' + item.noticeId}" class="blackBtn"
+						onclick="noticeProcessing(${item.noticeId})">진행시켜
+						</button></div>`;
+							} else if (item.status == 2){
+								html += `<button id="${'notibtn' + item.noticeId}" class="blackBtn"
+						onclick="noticeProcessing(${item.noticeId})">종료시켜
+						</button></div>`;
+							}
+
+							html += `</article>`;
+						});
+						html += `</div>`;
+						document.getElementById('result').innerHTML += html;
+					})
+		}
+
 	</script>
 
 </body>
