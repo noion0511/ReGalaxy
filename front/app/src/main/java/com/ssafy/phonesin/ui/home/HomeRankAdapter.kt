@@ -1,22 +1,36 @@
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.ItemRankListBinding
+import com.ssafy.phonesin.model.Rank
 
-class HomeRankAdapter(private val rankList: List<Int>) :
+class HomeRankAdapter(private val rankList: MutableLiveData<List<Rank>>) :
     RecyclerView.Adapter<HomeRankAdapter.ViewHolder>() {
 
     class ViewHolder(private val binding: ItemRankListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(rank: Int) {
-            if (rank == 1) {
-                binding.imageViewRank.setImageResource(R.drawable.rank1)
-            } else if (rank == 2) {
-                binding.imageViewRank.setImageResource(R.drawable.rank2)
-            } else if (rank == 3) {
-                binding.imageViewRank.setImageResource(R.drawable.rank3)
+        fun bind(position: Int, rank: Rank) = with(binding) {
+            if (position == 0) {
+                imageViewRank.setImageResource(R.drawable.rank1)
+            } else if (position == 1) {
+                imageViewRank.setImageResource(R.drawable.rank2)
+            } else if (position == 2) {
+                imageViewRank.setImageResource(R.drawable.rank3)
             }
+
+            textViewName.setText(convertName(rank.memberName))
+            textViewPhoneCnt.setText(rank.donationCount.toString())
+        }
+
+        fun convertName(name: String) : String {
+            val stringBuilder = StringBuilder(name)
+            if (stringBuilder.length > 1) {
+                stringBuilder.setCharAt(1, '*')
+            }
+
+            return stringBuilder.toString()
         }
     }
 
@@ -27,9 +41,9 @@ class HomeRankAdapter(private val rankList: List<Int>) :
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.bind(rankList[position])
+        rankList.value?.let { viewHolder.bind(position, it.get(position)) }
     }
 
-    override fun getItemCount() = rankList.size
+    override fun getItemCount() = rankList.value?.size ?: 0
 
 }

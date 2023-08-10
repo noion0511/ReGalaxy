@@ -4,6 +4,7 @@ package com.ssafy.phonesin.network.service
 import com.google.android.gms.common.internal.safeparcel.SafeParcelable.Param
 import com.ssafy.phonesin.model.Address
 import com.ssafy.phonesin.model.Donation
+import com.ssafy.phonesin.model.DonationRank
 import com.ssafy.phonesin.model.ErrorResponse
 import com.ssafy.phonesin.model.PhotoResponse
 import com.ssafy.phonesin.model.RentalBody
@@ -59,4 +60,7 @@ interface ApiService {
 
     @DELETE("/address/delete/{addressId}")
     suspend fun removeAddress(@Path("addressId") addressId: Int): NetworkResponse<String, ErrorResponse>
+
+    @GET("/donation/king")
+    suspend fun getRank(): NetworkResponse<DonationRank, ErrorResponse>
 }

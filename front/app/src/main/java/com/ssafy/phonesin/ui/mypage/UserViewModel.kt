@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ssafy.phonesin.model.Address
+import com.ssafy.phonesin.model.Rank
 import com.ssafy.phonesin.model.User
 import com.ssafy.phonesin.model.UserDonation
 import com.ssafy.phonesin.model.UserModify
@@ -32,6 +33,7 @@ class UserViewModel @Inject constructor(
     private val _donation = MutableLiveData<List<UserDonation>>()
     val myDonationList: MutableLiveData<List<UserDonation>>
         get() = _donation
+
 
     fun postAddress(address: String) {
         viewModelScope.launch {
