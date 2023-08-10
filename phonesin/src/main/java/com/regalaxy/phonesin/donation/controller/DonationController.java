@@ -1,14 +1,12 @@
 package com.regalaxy.phonesin.donation.controller;
 
-import com.regalaxy.phonesin.donation.model.DonationRequestDto;
+import com.regalaxy.phonesin.donation.model.DonationApplyRequestDto;
+import com.regalaxy.phonesin.donation.model.DonationUpdateRequestDto;
 import com.regalaxy.phonesin.donation.model.service.DonationService;
-import com.regalaxy.phonesin.member.model.entity.Member;
 import com.regalaxy.phonesin.member.model.jwt.JwtTokenProvider;
-import io.swagger.annotations.Authorization;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import io.swagger.annotations.Api;
@@ -51,10 +49,10 @@ public class DonationController {
 
     @ApiOperation(value = "기기 기증 신청서 신청")
     @PostMapping("/apply")
-    public ResponseEntity<Map<String, Object>> donationApply(@RequestBody DonationRequestDto donationRequestDto, @ApiIgnore @RequestHeader String authorization) throws Exception {
+    public ResponseEntity<Map<String, Object>> donationApply(@RequestBody DonationApplyRequestDto donationApplyRequestDto, @ApiIgnore @RequestHeader String authorization) throws Exception {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         Long memberId = jwtTokenProvider.getMemberId(authorization.replace("Bearer ", ""));
-        donationService.donationApply(donationRequestDto, memberId);
+        donationService.donationApply(donationApplyRequestDto, memberId);
         resultMap.put("status", 201);
         resultMap.put("message", SUCCESS);
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.CREATED);
@@ -63,9 +61,9 @@ public class DonationController {
 
     @ApiOperation(value = "기기 기증 신청서 수정")
     @PutMapping("/update/{donationId}")
-    public ResponseEntity<Map<String, Object>> donationUpdate(@RequestBody DonationRequestDto donationRequestDto, @PathVariable Long donationId) throws Exception {
+    public ResponseEntity<Map<String, Object>> donationUpdate(@RequestBody DonationUpdateRequestDto donationUpdateRequestDto, @PathVariable Long donationId) throws Exception {
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        donationService.donationUpdate(donationRequestDto, donationId);
+        donationService.donationUpdate(donationUpdateRequestDto, donationId);
         resultMap.put("status", 200);
         resultMap.put("message", SUCCESS);
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);

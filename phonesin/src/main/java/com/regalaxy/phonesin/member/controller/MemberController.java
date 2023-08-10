@@ -95,14 +95,14 @@ public class MemberController {
             newAccessToken = jwtTokenProvider.refreshAccessToken(refreshToken);
         } catch (Exception e) {
             response.put("message", "리프레시 토큰이 올바르지 않습니다.");
-            response.put("status", 401);
+            response.put("status", HttpStatus.UNAUTHORIZED.value());
 
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
 
         response.put("accessToken", newAccessToken);
         response.put("message", "액세스 토큰을 성공적으로 발급하였습니다.");
-        response.put("status", 200);
+        response.put("status", HttpStatus.OK.value());
 
         return ResponseEntity.ok(response);
     }
