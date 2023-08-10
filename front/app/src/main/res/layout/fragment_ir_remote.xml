@@ -479,7 +479,8 @@
                             <ImageView
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
-                                android:padding="2dp"
+                                android:padding="10dp"
+                                app:tint="@color/white"
                                 android:src="@drawable/remote_volume_up" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
@@ -526,7 +527,8 @@
                             <ImageView
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
-                                android:padding="2dp"
+                                android:padding="10dp"
+                                app:tint="@color/white"
                                 android:src="@drawable/remote_volume_down" />
 
                             <Space

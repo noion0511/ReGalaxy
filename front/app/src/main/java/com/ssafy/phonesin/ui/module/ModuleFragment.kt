@@ -1,9 +1,13 @@
 package com.ssafy.phonesin.ui.module
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.activity.addCallback
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ssafy.phonesin.R
@@ -16,6 +20,14 @@ import dagger.hilt.android.AndroidEntryPoint
 class ModuleFragment : BaseFragment<FragmentModuleBinding>(
     R.layout.fragment_module
 ) {
+
+    private val PERMISSIONS_REQUEST_CODE = 100
+    private val REQUIRED_PERMISSIONS = arrayOf(
+        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.CAMERA,
+        Manifest.permission.READ_EXTERNAL_STORAGE
+    )
+
     override fun onCreateBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -26,6 +38,30 @@ class ModuleFragment : BaseFragment<FragmentModuleBinding>(
     }
 
     override fun init() {
+        val permissionCheck =
+            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    requireActivity(),
+                    REQUIRED_PERMISSIONS[0]
+                )
+            ) {
+                // 사용자가 임시로 권한을 거부한 경우
+                ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    REQUIRED_PERMISSIONS,
+                    PERMISSIONS_REQUEST_CODE
+                )
+            } else {
+                // 처음 권한을 요청하거나 사용자가 '다시 묻지 않음'을 선택한 경우
+                ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    REQUIRED_PERMISSIONS,
+                    PERMISSIONS_REQUEST_CODE
+                )
+            }
+        }
+
         val layoutManager = LinearLayoutManager(requireContext())
         bindingNonNull.recyclerViewModule.layoutManager = layoutManager
 
