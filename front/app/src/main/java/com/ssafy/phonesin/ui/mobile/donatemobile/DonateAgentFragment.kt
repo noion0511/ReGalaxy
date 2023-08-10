@@ -18,6 +18,7 @@ import com.ssafy.phonesin.ApplicationClass.Companion.PERMISSIONS_REQUEST_LOCATIO
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentDonateAgentBinding
 import com.ssafy.phonesin.ui.mobile.AgentAdapter
+import com.ssafy.phonesin.ui.mobile.MobileViewModel
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -40,7 +41,7 @@ class DonateAgentFragment :
     private var param2: String? = null
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    val donateAgentViewModel: DonateAgentViewModel by viewModels()
+    val donateAgentViewModel: MobileViewModel by viewModels()
     lateinit var current: Location
 
     override fun onCreateBinding(
@@ -124,6 +125,10 @@ class DonateAgentFragment :
     }
 
     private fun setDonateAgentUi() = with(bindingNonNull) {
+
+        searchViewDonateAgent.setOnClickListener {
+            searchViewDonateAgent
+        }
 
         searchViewDonateAgent.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {

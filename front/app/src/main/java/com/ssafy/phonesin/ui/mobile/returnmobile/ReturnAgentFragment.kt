@@ -18,6 +18,7 @@ import com.ssafy.phonesin.ApplicationClass
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentReturnAgentBinding
 import com.ssafy.phonesin.ui.mobile.AgentAdapter
+import com.ssafy.phonesin.ui.mobile.MobileViewModel
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -40,7 +41,7 @@ class ReturnAgentFragment :
     //TODO DonateAgentFragment와 함께 코드정리 필요
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    val returnAgentViewModel: ReturnAgentViewModel by viewModels()
+    val returnAgentViewModel: MobileViewModel by viewModels()
     lateinit var current: Location
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,6 +72,8 @@ class ReturnAgentFragment :
                     // 위치 정보를 가져왔을 때 처리하는 로직
                     if (location != null) {
                         current = location
+                        returnAgentViewModel.getAgentAddress(current.latitude, current.longitude)
+
                         // TODO: 위도(latitude)와 경도(longitude)를 이용해 원하는 작업 수행
                         // 예를 들어, 지도에 현재 위치 표시 등
                     }
@@ -128,10 +131,6 @@ class ReturnAgentFragment :
             override fun onQueryTextSubmit(query: String): Boolean {
                 // 검색 버튼을 눌렀을 때 호출되는 콜백
                 // 여기서 검색어(query)를 이용하여 검색 작업을 수행하면 됩니다.
-                if (query == "") {
-                    returnAgentViewModel.getCurrentAgentAddress(query)
-                }
-                returnAgentViewModel.getAgentAddress(query)
                 return true
             }
 
@@ -139,9 +138,13 @@ class ReturnAgentFragment :
                 // 검색어가 변경될 때마다 호출되는 콜백
                 // 여기서 변경된 검색어(newText)를 이용하여 실시간 검색 기능을 구현할 수 있습니다.
                 if (newText == "") {
-                    returnAgentViewModel.getCurrentAgentAddress(newText)
+                    returnAgentViewModel.getAgentAddress(current.latitude, current.longitude)
                 }
-                returnAgentViewModel.getAgentAddress(newText)
+                returnAgentViewModel.getSearchAgentAddress(
+                    current.latitude,
+                    current.longitude,
+                    newText
+                )
                 return true
             }
         })
