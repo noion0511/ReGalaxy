@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ssafy.phonesin.model.Address
 import com.ssafy.phonesin.model.User
+import com.ssafy.phonesin.model.UserModify
 import com.ssafy.phonesin.network.NetworkResponse
 import com.ssafy.phonesin.repository.address.AddressRepository
 import com.ssafy.phonesin.repository.user.UserRepository
@@ -64,6 +65,13 @@ class UserViewModel @Inject constructor(
             if (response.status == 200) {
                 _user.value = response.member
             }
+        }
+    }
+
+    fun updateUserInfo(newInfo: UserModify) {
+        viewModelScope.launch {
+            val response = userRepository.updateUserInfo(newInfo)
+            getUserInfo()
         }
     }
 }

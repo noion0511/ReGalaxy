@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentMyPageModifyInfoBinding
 import com.ssafy.phonesin.model.Address
+import com.ssafy.phonesin.model.UserModify
 import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.mypage.UserViewModel
 
@@ -48,13 +49,23 @@ class ModifyInfoFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             findNavController().navigate(R.id.my_page)
         }
+        setInfo()
         setOnClick()
         setRegistedAddress()
+    }
+
+    private fun setInfo() = with(binding) {
+        editTextName.setText(userViewModel.user.value?.memberName ?: "")
+        editTextPhoneNumber.setText(userViewModel.user.value?.phoneNumber ?: "")
     }
 
     private fun setOnClick() = with(binding) {
 
         buttonSaveInfo.setOnClickListener {
+            val newInfo = UserModify(userViewModel.user.value?.isCha ?: false, editTextName.text.toString(), editTextPhoneNumber.text.toString())
+            userViewModel.updateUserInfo(newInfo)
+            Log.d("modifyInfo", "setOnClick: ${newInfo}")
+            Toast.makeText(requireContext(), "사용자 정보가 수정되었습니다.", Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.my_page)
         }
 

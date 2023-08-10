@@ -5,6 +5,8 @@ import com.ssafy.phonesin.model.ErrorResponse
 import com.ssafy.phonesin.model.dto.EmailCheckRequestDto
 import com.ssafy.phonesin.model.dto.EmailRequestDto
 import com.ssafy.phonesin.model.MemberDto
+import com.ssafy.phonesin.model.MessageResponse
+import com.ssafy.phonesin.model.UserModify
 import com.ssafy.phonesin.model.UserResponse
 import com.ssafy.phonesin.network.NetworkResponse
 import retrofit2.http.Body
@@ -27,4 +29,7 @@ interface UserApiService {
 
     @GET("/member/info")
     suspend fun getUserInfo(): UserResponse
+
+    @PUT("/member/update")
+    suspend fun updateUserInfo(@Body newInfo: UserModify): NetworkResponse<MessageResponse, ErrorResponse>
 }

@@ -6,3 +6,8 @@ data class ErrorResponse(
     val error: String,
     val path: String
 )
+
+data class MessageResponse(
+    val message: String,
+    val status: Int
+)
