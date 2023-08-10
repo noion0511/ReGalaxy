@@ -9,13 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.DateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,9 +21,11 @@ public class DonationService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public void donationApply(DonationRequestDto donationRequestDto, Long memberId) throws Exception {
+    public void donationApply(DonationApplyRequestDto donationApplyRequestDto, Long memberId) throws Exception {
         Member member = memberRepository.findById(memberId).get();
-        donationRepository.save(donationRequestDto.toEntity(member));
+        Donation donation = donationApplyRequestDto.toEntity(member);
+        donation.setDonationStatus(1);
+        donationRepository.save(donation);
     }
 
     public List<DonationResponseDto> donationList() throws Exception {
@@ -75,11 +72,12 @@ public class DonationService {
     }
 
     @Transactional
-    public void donationUpdate(DonationRequestDto donationRequestDto, Long donationId) throws Exception {
+    public void donationUpdate(DonationUpdateRequestDto donationUpdateRequestDto, Long donationId) throws Exception {
         Donation donation = donationRepository.findById(donationId).get();
-        if (donationRequestDto.getDonationDeliveryLocation() != null) donation.setDonationDeliveryLocation(donationRequestDto.getDonationDeliveryLocation());
-        if (donationRequestDto.getDonationDeliveryLocationType() != null) donation.setDonationDeliveryLocationType(donationRequestDto.getDonationDeliveryLocationType());
-        if (donationRequestDto.getDonationDeliveryDate() != null) donation.setDonationDeliveryDate(donationRequestDto.getDonationDeliveryDate());
+        if (donationUpdateRequestDto.getDonationDeliveryLocation() != null) donation.setDonationDeliveryLocation(donationUpdateRequestDto.getDonationDeliveryLocation());
+        if (donationUpdateRequestDto.getDonationDeliveryLocationType() != null) donation.setDonationDeliveryLocationType(donationUpdateRequestDto.getDonationDeliveryLocationType());
+        if (donationUpdateRequestDto.getDonationDeliveryDate() != null) donation.setDonationDeliveryDate(donationUpdateRequestDto.getDonationDeliveryDate());
+        if (donationUpdateRequestDto.getDonationStatus() != null) donation.setDonationStatus(donationUpdateRequestDto.getDonationStatus());
     }
 
     @Transactional
