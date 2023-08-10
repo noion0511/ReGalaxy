@@ -27,9 +27,6 @@ class OnBoardingDonateFragment : BaseFragment<FragmentOnboardingDonateBinding>(
     }
 
     override fun init() {
-        mainActivity = activity as MainActivity
-        mainActivity.setFrameLayoutPaddingVertical(bindingNonNull.frameLayoutOnboardingDonate)
-
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {}
         setOnClick()
     }

@@ -2,14 +2,12 @@ package com.ssafy.phonesin.ui.util.base
 
 import android.os.Bundle
 import android.os.IBinder
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.LayoutRes
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 

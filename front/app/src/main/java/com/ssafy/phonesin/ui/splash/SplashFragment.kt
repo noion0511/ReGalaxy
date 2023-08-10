@@ -2,7 +2,6 @@ package com.ssafy.phonesin.ui.splash
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.activity.addCallback
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentSplashBinding
 import com.ssafy.phonesin.ui.util.base.BaseFragment
@@ -22,6 +21,5 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(
     }
 
     override fun init() {
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {}
     }
 }

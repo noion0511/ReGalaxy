@@ -2,15 +2,11 @@ package com.ssafy.phonesin.ui
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
-import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.WindowCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
@@ -38,10 +34,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setSplash()
-
-        if (Build.VERSION.SDK_INT >= 30) {
-            WindowCompat.setDecorFitsSystemWindows(window, false)
-        }
 
         val permissionCheck =
             ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -122,29 +114,5 @@ class MainActivity : AppCompatActivity() {
                 navController?.navigate(R.id.module)
             }
         }, SPLASH_DELAY)
-    }
-
-    fun setCameraFrameLayoutPaddingVertical(layout: ConstraintLayout) {
-        binding.containerMain.setPadding(0, 0, 0, 0)
-        binding.mainActivityLayout.setPadding(0, 0, 0, 0)
-        layout.setPadding(0, 0, 0, navigationHeight())
-    }
-
-    fun setFrameLayoutPaddingVertical(layout: FrameLayout) {
-        layout.setPadding(0, statusBarHeight(), 0, navigationHeight())
-    }
-
-    private fun statusBarHeight(): Int {
-        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
-
-        return if (resourceId > 0) resources.getDimensionPixelSize(resourceId)
-        else 0
-    }
-
-    private fun navigationHeight(): Int {
-        val resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
-
-        return if (resourceId > 0) resources.getDimensionPixelSize(resourceId)
-        else 0
     }
 }

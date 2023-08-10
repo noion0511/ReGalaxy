@@ -25,9 +25,6 @@ class OnBoardingModuleFragment : BaseFragment<FragmentOnboardingModuleBinding>(
     }
 
     override fun init() {
-        mainActivity = activity as MainActivity
-        mainActivity.setFrameLayoutPaddingVertical(bindingNonNull.frameLayoutOnboardingModule)
-
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {}
         setOnClick()
     }

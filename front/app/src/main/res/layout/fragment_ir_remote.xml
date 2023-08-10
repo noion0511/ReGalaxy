@@ -9,16 +9,17 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:paddingTop="30dp"
+        android:background="@color/remoteBackgorund">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/remote_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/remoteBackgorund"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="25dp">
+            android:padding="20dp"
+            android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout"
@@ -56,12 +57,14 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <LinearLayout
+                        android:id="@+id/powerOff"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/selector_remote_button"
                         android:clickable="true"
                         android:gravity="center"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:focusable="true">
 
                         <TextView
                             style="@style/textview_remote_white_small"
@@ -96,12 +99,14 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <LinearLayout
+                        android:id="@+id/number1"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/selector_remote_button"
                         android:clickable="true"
                         android:gravity="center"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:focusable="true">
 
                         <TextView
                             style="@style/textview_remote_white_big"
@@ -127,12 +132,14 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <LinearLayout
+                        android:id="@+id/number2"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/selector_remote_button"
                         android:clickable="true"
                         android:gravity="center"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:focusable="true">
 
                         <TextView
                             style="@style/textview_remote_white_big"
@@ -157,12 +164,14 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <LinearLayout
+                        android:id="@+id/number3"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/selector_remote_button"
                         android:clickable="true"
                         android:gravity="center"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:focusable="true">
 
                         <TextView
                             style="@style/textview_remote_white_big"
@@ -199,6 +208,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <LinearLayout
+                        android:id="@+id/number4"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/selector_remote_button"
@@ -230,6 +240,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <LinearLayout
+                        android:id="@+id/number5"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/selector_remote_button"
@@ -260,12 +271,14 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <LinearLayout
+                        android:id="@+id/number6"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/selector_remote_button"
                         android:clickable="true"
                         android:gravity="center"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:focusable="true">
 
                         <TextView
                             style="@style/textview_remote_white_big"
@@ -300,6 +313,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <LinearLayout
+                        android:id="@+id/number7"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/selector_remote_button"
@@ -331,12 +345,14 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <LinearLayout
+                        android:id="@+id/number8"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/selector_remote_button"
                         android:clickable="true"
                         android:gravity="center"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:focusable="true">
 
                         <TextView
                             style="@style/textview_remote_white_big"
@@ -361,6 +377,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <LinearLayout
+                        android:id="@+id/number9"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/selector_remote_button"
@@ -402,6 +419,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <LinearLayout
+                        android:id="@+id/number0"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/selector_remote_button"
@@ -446,6 +464,7 @@
                         app:cardBackgroundColor="@color/remoteButtonBackgorund">
 
                         <LinearLayout
+                            android:id="@+id/volumeUp"
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:background="@drawable/selector_remote_button_big"
@@ -496,6 +515,7 @@
                         app:cardBackgroundColor="@color/remoteButtonBackgorund">
 
                         <LinearLayout
+                            android:id="@+id/volumeDown"
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:background="@drawable/selector_remote_button_big"
@@ -533,12 +553,14 @@
                         app:cardCornerRadius="10dp">
 
                         <LinearLayout
+                            android:id="@+id/mute"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
                             android:background="@drawable/selector_remote_button"
                             android:clickable="true"
                             android:gravity="center"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:focusable="true">
 
                             <TextView
                                 style="@style/textview_remote_white_small"
@@ -573,6 +595,7 @@
                         app:cardBackgroundColor="@color/remoteButtonBackgorund">
 
                         <LinearLayout
+                            android:id="@+id/channelUp"
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:background="@drawable/selector_remote_button_big"
@@ -622,6 +645,7 @@
                         app:cardBackgroundColor="@color/remoteButtonBackgorund">
 
                         <LinearLayout
+                            android:id="@+id/channelDown"
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:background="@drawable/selector_remote_button_big"
@@ -653,13 +677,13 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/choiceTvButton"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:layout_weight="1"
                     android:backgroundTint="@color/remoteButtonBackgorund"
                     app:cardBackgroundColor="@color/remoteButtonBackgorund"
                     app:cardCornerRadius="10dp"
-                    app:cardElevation="5dp"
-                    android:layout_marginEnd="15dp">
+                    app:cardElevation="5dp">
 
                     <LinearLayout
                         android:id="@+id/layoutChoiceTv"
@@ -682,13 +706,13 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/choiceAirConditionerButton"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_weight="1"
                     android:backgroundTint="@color/remoteButtonBackgorund"
                     app:cardBackgroundColor="@color/remoteButtonBackgorund"
                     app:cardCornerRadius="10dp"
-                    app:cardElevation="10dp"
-                    android:layout_marginStart="15dp">
+                    app:cardElevation="10dp">
 
                     <LinearLayout
                         android:id="@+id/layoutChoiceAirConditioner"
@@ -714,8 +738,8 @@
                 style="@style/textview_remote_white_big"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SAMSUNG"
                 android:layout_marginTop="20dp"
+                android:text="SAMSUNG"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

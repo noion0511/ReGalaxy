@@ -167,8 +167,12 @@
     <style name="textview_card_button_white">
         <item name="android:textSize">16sp</item>
         <item name="fontFamily">@font/pretendard_semibold</item>
->>>>>>> origin/develop
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="MyTransparentStatusBarTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
 </resources>

@@ -3,6 +3,7 @@ package com.ssafy.phonesin.ui.module
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ssafy.phonesin.R
@@ -71,5 +72,9 @@ class ModuleFragment : BaseFragment<FragmentModuleBinding>(
         })
 
         bindingNonNull.recyclerViewModule.adapter = adapter
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            activity?.finish()
+        }
     }
 }

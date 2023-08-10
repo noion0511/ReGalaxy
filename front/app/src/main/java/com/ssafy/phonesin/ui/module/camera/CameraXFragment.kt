@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.addCallback
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -20,7 +19,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentCameraXBinding
-import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -56,9 +54,6 @@ class CameraXFragment : BaseFragment<FragmentCameraXBinding>(R.layout.fragment_c
     }
 
     override fun init() {
-        val mainActivity = activity as MainActivity
-        mainActivity.setCameraFrameLayoutPaddingVertical(bindingNonNull.constraint)
-
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
         cameraProviderFuture.addListener(Runnable {
             cameraProvider = cameraProviderFuture.get()
@@ -93,10 +88,6 @@ class CameraXFragment : BaseFragment<FragmentCameraXBinding>(R.layout.fragment_c
         }
 
         initObserver()
-
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-
-        }
     }
 
     private fun startCountdownAndTakePicture() {
