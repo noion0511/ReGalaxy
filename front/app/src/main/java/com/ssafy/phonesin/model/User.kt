@@ -29,3 +29,23 @@ data class UserModify(
         ""
     )
 }
+
+data class UserDonation(
+    val donationId: Int,
+    val memberId: Int,
+    val donationStatus: Int,
+    val donationCreatedAt: String,
+    val donationDeliveryDate: String,
+    val donationDeliveryLocationType: String,
+    val donationDeliveryLocation: String,
+    var toggle: Boolean
+)
+
+//data class UserDonationToggle(
+//    val userDonation : UserDonation,
+//    val toggle: Boolean
+//)
+
+data class UserDonationResponse(
+    val donation : List<UserDonation>
+)

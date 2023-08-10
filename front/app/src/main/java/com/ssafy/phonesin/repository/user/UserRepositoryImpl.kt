@@ -2,12 +2,13 @@ package com.ssafy.phonesin.repository.user
 
 import com.ssafy.phonesin.model.BaseResponse
 import com.ssafy.phonesin.model.ErrorResponse
-import com.ssafy.phonesin.model.dto.EmailCheckRequestDto
-import com.ssafy.phonesin.model.dto.EmailRequestDto
 import com.ssafy.phonesin.model.MemberDto
 import com.ssafy.phonesin.model.MessageResponse
+import com.ssafy.phonesin.model.UserDonationResponse
 import com.ssafy.phonesin.model.UserModify
 import com.ssafy.phonesin.model.UserResponse
+import com.ssafy.phonesin.model.dto.EmailCheckRequestDto
+import com.ssafy.phonesin.model.dto.EmailRequestDto
 import com.ssafy.phonesin.network.NetworkResponse
 import com.ssafy.phonesin.network.service.UserApiService
 import javax.inject.Inject
@@ -36,6 +37,14 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateUserInfo(newInfo: UserModify): NetworkResponse<MessageResponse, ErrorResponse> {
-        return  apiService.updateUserInfo(newInfo)
+        return apiService.updateUserInfo(newInfo)
+    }
+
+    override suspend fun getUserDonationList(): NetworkResponse<UserDonationResponse, ErrorResponse> {
+        return apiService.getUserDonationList()
+    }
+
+    override suspend fun cancelUserDonation(donationId: Int): NetworkResponse<MessageResponse, ErrorResponse> {
+        return apiService.cancelUserDonation(donationId)
     }
 }

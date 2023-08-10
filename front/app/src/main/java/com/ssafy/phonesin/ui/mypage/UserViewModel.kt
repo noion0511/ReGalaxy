@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ssafy.phonesin.model.Address
 import com.ssafy.phonesin.model.User
+import com.ssafy.phonesin.model.UserDonation
 import com.ssafy.phonesin.model.UserModify
 import com.ssafy.phonesin.network.NetworkResponse
 import com.ssafy.phonesin.repository.address.AddressRepository
@@ -27,6 +28,10 @@ class UserViewModel @Inject constructor(
     private val _user = MutableLiveData<User>()
     val user: MutableLiveData<User>
         get() = _user
+
+    private val _donation = MutableLiveData<List<UserDonation>>()
+    val myDonationList: MutableLiveData<List<UserDonation>>
+        get() = _donation
 
     fun postAddress(address: String) {
         viewModelScope.launch {
@@ -72,6 +77,26 @@ class UserViewModel @Inject constructor(
         viewModelScope.launch {
             val response = userRepository.updateUserInfo(newInfo)
             getUserInfo()
+        }
+    }
+
+    fun getUserDonationList() {
+        viewModelScope.launch {
+            val response = userRepository.getUserDonationList()
+            when(response) {
+                is NetworkResponse.Success -> {
+                    _donation.value = response.body.donation
+                    Log.d("getUserDonationList", "getUserDonationList: ${_donation.value}")
+                }
+                else -> {}
+            }
+        }
+    }
+
+    fun cancelUserDonation(donationId: Int) {
+        viewModelScope.launch {
+            userRepository.cancelUserDonation(donationId)
+            getUserDonationList()
         }
     }
 }

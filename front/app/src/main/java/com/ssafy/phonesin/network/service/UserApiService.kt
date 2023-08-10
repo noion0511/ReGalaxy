@@ -2,17 +2,20 @@ package com.ssafy.phonesin.network.service
 
 import com.ssafy.phonesin.model.BaseResponse
 import com.ssafy.phonesin.model.ErrorResponse
-import com.ssafy.phonesin.model.dto.EmailCheckRequestDto
-import com.ssafy.phonesin.model.dto.EmailRequestDto
 import com.ssafy.phonesin.model.MemberDto
 import com.ssafy.phonesin.model.MessageResponse
+import com.ssafy.phonesin.model.UserDonationResponse
 import com.ssafy.phonesin.model.UserModify
 import com.ssafy.phonesin.model.UserResponse
+import com.ssafy.phonesin.model.dto.EmailCheckRequestDto
+import com.ssafy.phonesin.model.dto.EmailRequestDto
 import com.ssafy.phonesin.network.NetworkResponse
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Path
 
 interface UserApiService {
     @POST("/member/signup")
@@ -32,4 +35,10 @@ interface UserApiService {
 
     @PUT("/member/update")
     suspend fun updateUserInfo(@Body newInfo: UserModify): NetworkResponse<MessageResponse, ErrorResponse>
+
+    @GET("/donation/list")
+    suspend fun getUserDonationList(): NetworkResponse<UserDonationResponse, ErrorResponse>
+
+    @DELETE("/donation/delete/{donationId}")
+    suspend fun cancelUserDonation(@Path("donationId") donationId: Int): NetworkResponse<MessageResponse, ErrorResponse>
 }
