@@ -10,4 +10,5 @@ public interface NoticeRepository extends JpaRepository<Notice, Long> {
     List<Notice> findByStatusEqualsAndNoticeTypeEquals(Integer status, Integer noticeType);
     List<Notice> findByStatusIsNotNullAndNoticeTypeEquals(Integer noticeType);
     List<Notice> findByStatusEqualsAndNoticeTypeIsNotNull(Integer status);
+    Notice findByPosterUrl(String posterUrl);
 }
