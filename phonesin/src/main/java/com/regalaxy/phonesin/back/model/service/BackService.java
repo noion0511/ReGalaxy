@@ -1,11 +1,9 @@
 package com.regalaxy.phonesin.back.model.service;
 
-import com.regalaxy.phonesin.back.model.BackAdminDto;
-import com.regalaxy.phonesin.back.model.BackDto;
-import com.regalaxy.phonesin.back.model.BackInfoDto;
+import com.regalaxy.phonesin.back.model.*;
 import com.regalaxy.phonesin.back.model.entity.Back;
 import com.regalaxy.phonesin.back.model.repository.BackRepository;
-import com.regalaxy.phonesin.phone.model.entity.Phone;
+import com.regalaxy.phonesin.member.model.jwt.JwtTokenProvider;
 import com.regalaxy.phonesin.phone.model.repository.PhoneRepository;
 import com.regalaxy.phonesin.rental.model.entity.Rental;
 import com.regalaxy.phonesin.rental.model.repository.RentalRepository;
@@ -26,7 +24,7 @@ public class BackService {
 
     private final BackRepository backRepository;
     private final RentalRepository rentalRepository;
-    private final PhoneRepository phoneRepository;
+    private final JwtTokenProvider jwtTokenProvider;
 
     // 반납 신청서 저장하기
     @Transactional
@@ -37,10 +35,12 @@ public class BackService {
 
     // backId인 반납 신청서 read
     @Transactional
-    public BackInfoDto backInfo(Long backId) {
-        Back back = backRepository.findById(backId).get();
-        Phone phone = phoneRepository.findById(back.getPhoneId()).get();
-        return new BackInfoDto(back, phone);
+    public BackInfoDto backInfo(BackDto backDto, String token) {
+        Back back = backRepository.findById(backDto.getBackId()).get();
+        if (backDto.getMemberId(back) != jwtTokenProvider.getMemberId(token)) {
+            throw new IllegalArgumentException("해당 유저가 아닙니다.");
+        };
+        return new BackInfoDto(back);
     }
 
     // 전체 반납 신청서 조회/검색/페이징
@@ -78,19 +78,34 @@ public class BackService {
 
     // 반납 신청서 수정 메서드
     @Transactional
-    public BackDto updateBack(BackDto backDto) {
+    public BackDto updateBackByAdmin(BackDto backDto) {
         // DB에 없는 ID를 검색하려고 하면 IllegalArgumentException
         Back back = backRepository.findById(backDto.getBackId())
                 .orElseThrow(() -> new IllegalArgumentException(backDto.getBackId() + "인 ID는 존재하지 않습니다."));
-        back.update(backDto);
+        back.updateByAdmin(backDto);
         backRepository.save(back);
         return BackDto.fromEntity(back);
     }
 
-    public List<BackAdminDto> list(){
+    @Transactional
+    public BackDto updateBackByUser(BackUserDto backUserDto, String authorization) {
+        // DB에 없는 ID를 검색하려고 하면 IllegalArgumentException
+        Long memberId = jwtTokenProvider.getMemberId(authorization.replace("Bearer ", ""));
+        Back back = backRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException(memberId + "인 ID는 존재하지 않습니다."));
+        if (backUserDto.getMemberId(back) != memberId) {
+            throw new IllegalArgumentException("현재 계정의 멤버 아이디가" + backUserDto.getMemberId(back) + "이 아닙니다.");
+        };
+        back.updateByUser(backUserDto);
+        backRepository.save(back);
+        return BackDto.fromEntity(back);
+    }
+
+    public List<BackAdminDto> list(BackAdminSearschDto backAdminSearschDto ){
         List<Back> list = backRepository.findAll();
         List<BackAdminDto> backAdminDtos = new ArrayList<>();
         for(Back back : list){
+            if(backAdminSearschDto.isSuccess() && back.getBackStatus()==1) continue;
             BackAdminDto backAdminDto = new BackAdminDto();
             backAdminDto.setBackStatus(back.getBackStatus());
             backAdminDto.setReview(back.getReview());

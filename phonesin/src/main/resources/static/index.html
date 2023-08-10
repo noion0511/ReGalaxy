@@ -20,7 +20,8 @@
 					<a href="index.html" class="logo"><img style="object-fit: cover; width:2em" src="images/logo.PNG" /></a>
 					<div id="dropdown" style="display: inline-block;" class="c dropdown">
 						<ul>
-							<li class="dropdownBtn"><button onclick ="location.href='login.html'" class="blackBtn">login</button></li>
+							<li class="dropdownBtn" id="login"><button onClick="location.href='admin/member/login'" class="blackBtn">login</button></li>
+							<li class="dropdownBtn" id="logout" style="display: none"><button onClick=logout() class="blackBtn">logout</button></li>
 							<li class="dropdownBtn" id="clickArea">
 								<button class="blackBtn" onclick ="clickshow(this,'list')">admin</button>
 								<ul id="list">
@@ -28,6 +29,7 @@
 									<li><a href="admin/donation/list">donation</a></li>
 									<li><a href="admin/rental/list">rental</a></li>
 									<li><a href="admin/back/list">return</a></li>
+									<li><a href="admin/member/list">member</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -65,7 +67,7 @@
 					</div>
 
 					<footer>
-						<a href="#" class="button">DOWNLOAD</a>
+						<a href="/download/phonegojisin" class="button">DOWNLOAD</a>
 					</footer>
 				</div>
 			</section>
@@ -119,6 +121,29 @@
 				 var menu = document.getElementById(ID);
 					menu.style.display = "block";
 			}
+
+			function logout() {
+				alert("로그아웃 되었습니다.")
+				sessionStorage.clear()
+				reload()
+			}
+
+			function reload()
+			{
+				if(sessionStorage.getItem('accessToken') != null) {
+					document.getElementById('login').style.display = "none";
+					document.getElementById('logout').style.display = "";
+					document.getElementById('clickArea').style.display = "";
+				}
+				else{
+					document.getElementById('login').style.display = "";
+					document.getElementById('logout').style.display = "none";
+					document.getElementById('clickArea').style.display = "none";
+				}
+			}
+
+			window.addEventListener('DOMContentLoaded', reload);
+
 			document.addEventListener('mousemove', function(e){
 				var dropdown = document.getElementById("clickArea");
 				if(!dropdown.contains(e.target)){
@@ -137,6 +162,7 @@
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
+						'Authorization': 'Bearer ' + sessionStorage.getItem('accessToken')
 					},
 					body: JSON.stringify(obj)
 				};

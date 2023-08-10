@@ -6,12 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
-import androidx.viewpager.widget.ViewPager
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentHomeBannerBinding
-import com.ssafy.phonesin.databinding.FragmentHomeBinding
 
-class HomeBannerFragment(val index : Int) : Fragment() {
+class HomeBannerFragment() : Fragment() {
     private lateinit var binding: FragmentHomeBannerBinding
     private lateinit var layout: LinearLayout
 
@@ -27,6 +25,8 @@ class HomeBannerFragment(val index : Int) : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         layout = binding.layoutBanner
 
+        val index = arguments?.getInt(ARG_INDEX) ?: 0
+
         if(index == 0) {
             layout.setBackgroundResource(R.drawable.banner1)
         } else if (index == 1) {
@@ -34,15 +34,16 @@ class HomeBannerFragment(val index : Int) : Fragment() {
         } else {
             layout.setBackgroundResource(R.drawable.banner3)
         }
-
     }
 
     companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
+        private const val ARG_INDEX = "index"
 
+        @JvmStatic
+        fun newInstance(index: Int) =
+            HomeBannerFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(ARG_INDEX, index)
                 }
             }
     }

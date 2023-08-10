@@ -33,7 +33,7 @@ class LoginViewModel @Inject constructor(
             val response =  repository.login(loginRequestDto)
             Log.d(TAG, "login: $response")
 
-            val type = "jwt token"
+            val type = "로그인에"
             when (response) {
                 is NetworkResponse.Success -> {
                     _token.postValue(Event(response.body))
@@ -56,24 +56,20 @@ class LoginViewModel @Inject constructor(
 
     fun checkValidation(email: String, password: String): Boolean {
         if (email.isEmpty()) {
-            _msg.postValue(Event("Email is empty"))
+            _msg.postValue(Event("이메일을 입력해 주세요."))
             return false
         }
 
         if(password.isEmpty()) {
-            _msg.postValue(Event("Password is empty"))
+            _msg.postValue(Event("비밀번호를 입력해 주세요."))
             return false
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _msg.postValue(Event("Invalid email format"))
+            _msg.postValue(Event("잘못된 이메일 형식입니다."))
             return false
         }
 
-//        if (password.length < 8) {
-//            _msg.postValue(Event("Password must be at least 8 characters long"))
-//            return false
-//        }
         return true
     }
 }

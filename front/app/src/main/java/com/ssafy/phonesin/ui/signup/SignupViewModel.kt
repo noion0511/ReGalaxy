@@ -5,6 +5,7 @@ import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.ssafy.phonesin.model.BaseResponse
 import com.ssafy.phonesin.model.Event
 import com.ssafy.phonesin.model.MemberDto
 import com.ssafy.phonesin.model.MemberValidation
@@ -28,14 +29,24 @@ class SignupViewModel @Inject constructor(
     private val _msg = MutableLiveData<Event<String>>()
     val errorMsg: LiveData<Event<String>> = _msg
 
+    private val _signupResponse = MutableLiveData<Event<BaseResponse>>()
+    val signupResponse: LiveData<Event<BaseResponse>> = _signupResponse
+
     private val _emailCheck = MutableLiveData<Event<String>>()
     val emailCheck: LiveData<Event<String>> = _emailCheck
 
     private val _emailAddress = MutableLiveData<String>()
     val emailAddress: LiveData<String> = _emailAddress
 
+    private val _emailConfirmStatus = MutableLiveData(false)
+    val emailConfirmStatus: LiveData<Boolean> = _emailConfirmStatus
+
     fun setUserInputEmail(email: String) {
         _emailAddress.value = email
+    }
+
+    fun setEmailConfirmStatus(status: Boolean) {
+        _emailConfirmStatus.value = status
     }
 
     fun signup(memberDto: MemberDto) {
@@ -46,7 +57,7 @@ class SignupViewModel @Inject constructor(
             val type = "signup"
             when (response) {
                 is NetworkResponse.Success -> {
-                    _msg.postValue(Event(response.body))
+                    _signupResponse.postValue(Event(response.body))
                 }
 
                 is NetworkResponse.ApiError -> {
@@ -73,7 +84,7 @@ class SignupViewModel @Inject constructor(
             val type = "이메일 인증"
             when (response) {
                 is NetworkResponse.Success -> {
-                    _msg.postValue(Event(response.body))
+                    _msg.postValue(Event(response.body.message))
                 }
 
                 is NetworkResponse.ApiError -> {
@@ -99,7 +110,7 @@ class SignupViewModel @Inject constructor(
             val type = "이메일 인증 확인"
             when (response) {
                 is NetworkResponse.Success -> {
-                    _emailCheck.postValue(Event(response.body))
+                    _emailCheck.postValue(Event(response.body.message))
                 }
 
                 is NetworkResponse.ApiError -> {
@@ -128,16 +139,16 @@ class SignupViewModel @Inject constructor(
             validationErrors.add(MemberValidation.SHORT_PASSWORD)
         }
 
-        if (signUp.password == signUp.passwordCheck) {
+        if (signUp.password != signUp.passwordCheck) {
             validationErrors.add(MemberValidation.PASSWORD_MISMATCH)
-        }
-
-        if (!signUp.emailCheck) {
-            validationErrors.add(MemberValidation.EMAIL_NOT_VERIFIED)
         }
 
         if (signUp.email.isEmpty()) {
             validationErrors.add(MemberValidation.EMPTY_EMAIL)
+        }
+
+        if (signUp.memberName.isEmpty()) {
+            validationErrors.add(MemberValidation.NO_NAME)
         }
 
         return validationErrors

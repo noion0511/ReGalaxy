@@ -1,6 +1,5 @@
 package com.ssafy.phonesin.di
 
-
 import com.ssafy.phonesin.repository.address.AddressRepository
 import com.ssafy.phonesin.repository.address.AddressRepositoryImpl
 import com.ssafy.phonesin.repository.donation.DonationRepository
@@ -30,6 +29,7 @@ abstract class RepositoryModule {
 
     @Binds
 
+
     abstract fun bindsReturnRepository(
         repositoryImpl: ReturnRepositoryImpl
     ): ReturnRepository
@@ -49,6 +49,7 @@ abstract class RepositoryModule {
     abstract fun bindsAddressRepository(
         repositoryImpl: AddressRepositoryImpl
     ): AddressRepository
+
 
     @Binds
     abstract fun bindsLoginRepository(

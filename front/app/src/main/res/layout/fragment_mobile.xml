@@ -148,5 +148,5 @@
             app:layout_constraintTop_toBottomOf="@id/donateTitle" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-    
+
 </ScrollView>

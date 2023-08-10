@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RentalApplyDto {
-    private Long memberId;
     private boolean isY2K;//rental
     private boolean isClimateHumidity;//rental
     private boolean isHomecam;//rental

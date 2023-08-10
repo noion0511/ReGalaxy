@@ -6,10 +6,12 @@ import android.hardware.Camera
 import android.os.CountDownTimer
 import android.os.Environment
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.SurfaceHolder
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -38,6 +40,9 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(
     private var photoCount = 0
     private val maxPhotos = 4
     private var photoPaths = ArrayList<String>()
+    private var cameraState = 0
+
+    private var countDownTimer: CountDownTimer? = null
 
     private var cameraId = Camera.CameraInfo.CAMERA_FACING_BACK
     private val pictureCallback = Camera.PictureCallback { data, _ ->
@@ -45,6 +50,8 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(
         photoPaths.add(photoPath)
         if (photoCount < maxPhotos) {
             restartPreview()
+            photoCount+=1
+            bindingNonNull.textViewCountPicture.text = "$photoCount / $maxPhotos"
         } else {
             photoCount = 0
             bindingNonNull.buttonTakePicture.isEnabled = true
@@ -65,6 +72,7 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(
     override fun init() {
         val mainActivity = activity as MainActivity
         mainActivity.hideBottomNavi(true)
+        mainActivity.setCameraFrameLayoutPaddingVerticle(bindingNonNull.cameraFragmentContainer)
 
         if (checkCameraHardware(requireContext())) {
             initCamera()
@@ -86,6 +94,10 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(
         }
 
         initObserver()
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+
+        }
     }
 
     private fun initCamera() {
@@ -96,6 +108,8 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(
     }
 
     private fun startCountdownAndTakePicture() {
+        bindingNonNull.textViewCountPicture.text = "$photoCount / $maxPhotos"
+        cameraState = 2
         bindingNonNull.buttonTakePicture.visibility = View.INVISIBLE
         var allCountDown = 24
 
@@ -130,11 +144,10 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(
     }
 
     private val shutterCallback = Camera.ShutterCallback {}
-    private fun takePicture() {
+    fun takePicture() {
         if (isSafeToTakePicture) {
             camera.takePicture(shutterCallback, null, pictureCallback)
             isSafeToTakePicture = false
-            photoCount++
         }
     }
 
@@ -169,6 +182,56 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(
     override fun onPause() {
         super.onPause()
         releaseCamera()
+    }
+
+
+    private fun remoteTakePicture() {
+        bindingNonNull.textViewCountPicture.text = "$photoCount / $maxPhotos"
+        bindingNonNull.buttonTakePicture.visibility = View.INVISIBLE
+        var allCountDown = 24
+
+        countDownTimer = object : CountDownTimer(
+            26000,
+            1000
+        ) {
+            override fun onTick(millisUntilFinished: Long) {
+                if (allCountDown < 0) return
+
+                bindingNonNull.textViewCountTime.text = allCountDown.toString()
+                bindingNonNull.progressBar.progress += 1
+
+                if (allCountDown == 12 && photoCount == 0) {
+                    bindingNonNull.textViewCountTime.visibility = View.VISIBLE
+                    takePicture()
+                } else if (allCountDown == 9 && photoCount == 1) {
+                    bindingNonNull.textViewCountTime.visibility = View.VISIBLE
+                    takePicture()
+                } else if (allCountDown == 6 && photoCount == 2) {
+                    bindingNonNull.textViewCountTime.visibility = View.VISIBLE
+                    takePicture()
+                } else if (allCountDown == 3 && photoCount == 3) {
+                    bindingNonNull.textViewCountTime.visibility = View.VISIBLE
+                    takePicture()
+                }
+
+                allCountDown--
+            }
+
+            override fun onFinish() {
+                viewModel.updatePhotoPaths(photoPaths)
+                bindingNonNull.buttonTakePicture.visibility = View.VISIBLE
+                photoPaths = ArrayList<String>()
+            }
+        }.start()
+    }
+
+    fun clickedTakePictureButton() {
+        if (cameraState == 0) {
+            remoteTakePicture()
+            cameraState = 1
+        } else if(cameraState == 1){
+            takePicture()
+        }
     }
 
     private fun restartPreview() {

@@ -1,6 +1,7 @@
 package com.regalaxy.phonesin.donation.model.repository;
 
 import com.regalaxy.phonesin.donation.model.DonationKingDto;
+import com.regalaxy.phonesin.donation.model.DonationResponseDto;
 import com.regalaxy.phonesin.donation.model.entity.Donation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -31,4 +32,7 @@ public interface DonationRepository extends JpaRepository<Donation, Long> {
     //            + "from rental r join phone p on r.rentalId = p.rentalId "
 
     List<Donation> findAllByMember_MemberId(Long memberId);
+
+    List<Donation> findByDonationStatusEqualsAndDonationStatusEquals(int status, int status2);
+    List<Donation> findByDonationStatusEquals(int donationStatus);
 }

@@ -21,7 +21,7 @@
             tools:context=".ui.login.LoginFragment">
 
             <TextView
-                android:id="@+id/TextViewSignUpTitle"
+                android:id="@+id/TextViewEmailCheckTitle"
                 style="@style/textview_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -30,35 +30,35 @@
                 android:text="@string/sign_up" />
 
             <TextView
-                android:id="@+id/TextViewSignUpExplain"
+                android:id="@+id/TextViewEmailCheckExplain"
                 style="@style/textview_content_gray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/signup_explain" />
+                android:gravity="center_horizontal"
+                android:text="@string/signup_email_verify_explain" />
 
             <TextView
-                android:id="@+id/textViewSignUpEmail"
+                android:id="@+id/textViewEmailCheckEmail"
                 style="@style/textview_content_gray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:text="@string/signup_email" />
+                android:layout_marginTop="30dp"
+                android:text="@string/signup_email_verify_number" />
 
             <EditText
-                android:id="@+id/editTextSignUpEmail"
+                android:id="@+id/editTextEmailCheck"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/border_log_in"
-                android:hint="@string/signup_email_hint"
                 android:inputType="textEmailAddress"
                 android:padding="20dp"
                 android:textColorHint="@color/gray"
                 android:textSize="14sp" />
 
-
             <TextView
+                android:id="@+id/textViewPostNumber"
                 style="@style/textview_button_white_small"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -67,7 +67,19 @@
                 android:background="@drawable/button_black_corner_40"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="20dp"
-                android:text="@string/log_in" />
+                android:text="@string/signup_email_verify_post" />
+
+            <TextView
+                android:id="@+id/textViewEmailConfirm"
+                style="@style/textview_button_white_small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:background="@drawable/button_black_corner_40"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="20dp"
+                android:text="@string/signup_email_verify_confirm" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

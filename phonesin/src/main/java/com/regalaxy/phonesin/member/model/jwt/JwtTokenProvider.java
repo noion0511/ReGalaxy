@@ -32,7 +32,7 @@ public class JwtTokenProvider {
         // email과 권한 정보 claims에 담기
         Claims claims = Jwts.claims().setSubject(email);
         claims.put("memberId", memberId);
-        claims.put("authorities", authority);
+        claims.put("authority", authority);
 
         // 만료 시간 계산
         Date now = new Date();
@@ -63,6 +63,16 @@ public class JwtTokenProvider {
         return Long.valueOf(Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("memberId").toString());
     }
 
+    public Boolean getIsManager(String token) {
+        Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+        String string = claims.get("authorities").toString();
+        if (string.equals("ROLE_ADMIN")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public boolean validateToken(String token) {
         try {
             // parseClaimsJws : 파싱된 서명이 유효한지, 만료되진 않았는지
@@ -79,7 +89,7 @@ public class JwtTokenProvider {
     public String resolveToken(HttpServletRequest req) {
         String bearerToken = req.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7, bearerToken.length());
+            return bearerToken.replace("Bearer ", "");
         }
         return null;
     }

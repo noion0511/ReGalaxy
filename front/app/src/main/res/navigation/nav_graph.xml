@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/splashFragment">
 
     <fragment
         android:id="@+id/home"
@@ -29,7 +29,26 @@
         android:id="@+id/my_page"
         android:name="com.ssafy.phonesin.ui.mypage.MyPageFragment"
         android:label="fragment_my_page"
-        tools:layout="@layout/fragment_my_page" />
+        tools:layout="@layout/fragment_my_page" >
+        <action
+            android:id="@+id/action_my_page_to_notificationFragment"
+            app:destination="@id/notificationFragment" />
+        <action
+            android:id="@+id/action_my_page_to_registChaFragment"
+            app:destination="@id/registChaFragment" />
+        <action
+            android:id="@+id/action_my_page_to_modifyInfoFragment"
+            app:destination="@id/modifyInfoFragment" />
+        <action
+            android:id="@+id/action_my_page_to_rentalListFragment"
+            app:destination="@id/rentalListFragment" />
+        <action
+            android:id="@+id/action_my_page_to_returnListFragment"
+            app:destination="@id/returnListFragment" />
+        <action
+            android:id="@+id/action_my_page_to_donateListFragment"
+            app:destination="@id/donateListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/module"
         android:name="com.ssafy.phonesin.ui.module.ModuleFragment"
@@ -233,6 +252,49 @@
             app:destination="@id/cameraViewerFragment"/>
     </fragment>
     <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.ssafy.phonesin.ui.mypage.notification.NotificationFragment"
+        android:label="NotificationFragment" >
+        <action
+            android:id="@+id/action_notificationFragment_to_my_page"
+            app:destination="@id/my_page" />
+    </fragment>
+    <fragment
+        android:id="@+id/registChaFragment"
+        android:name="com.ssafy.phonesin.ui.mypage.modifyinfo.RegistChaFragment"
+        android:label="RegistChaFragment" >
+        <action
+            android:id="@+id/action_registChaFragment_to_my_page"
+            app:destination="@id/my_page" />
+    </fragment>
+    <fragment
+        android:id="@+id/modifyInfoFragment"
+        android:name="com.ssafy.phonesin.ui.mypage.modifyinfo.ModifyInfoFragment"
+        android:label="ModifyInfoFragment" >
+        <action
+            android:id="@+id/action_modifyInfoFragment_to_my_page"
+            app:destination="@id/my_page" />
+        <action
+            android:id="@+id/action_modifyInfoFragment_to_addAddressFragment"
+            app:destination="@id/addAddressFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addAddressFragment"
+        android:name="com.ssafy.phonesin.ui.mypage.modifyinfo.AddAddressFragment"
+        android:label="AddAddressFragment" />
+    <fragment
+        android:id="@+id/rentalListFragment"
+        android:name="com.ssafy.phonesin.ui.mypage.mobilelist.RentalListFragment"
+        android:label="RentalListFragment" />
+    <fragment
+        android:id="@+id/returnListFragment"
+        android:name="com.ssafy.phonesin.ui.mypage.mobilelist.ReturnListFragment"
+        android:label="ReturnListFragment" />
+    <fragment
+        android:id="@+id/donateListFragment"
+        android:name="com.ssafy.phonesin.ui.mypage.mobilelist.DonateListFragment"
+        android:label="DonateListFragment" />
+    <fragment
         android:id="@+id/cameraViewerFragment"
         android:name="com.ssafy.phonesin.ui.module.camera.CameraViewerFragment"
         android:label="CameraViewerFragment"
@@ -303,5 +365,70 @@
         <action
             android:id="@+id/action_signupFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_signupFragment_to_emailCheckFragment"
+            app:destination="@id/emailCheckFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/emailCheckFragment"
+        android:name="com.ssafy.phonesin.ui.signup.EmailCheckFragment"
+        android:label="EmailCheckFragment" >
+        <action
+            android:id="@+id/action_emailCheckFragment_to_signupFragment"
+            app:destination="@id/signupFragment"
+            app:popUpTo="@id/signupFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.ssafy.phonesin.ui.splash.SplashFragment"
+        android:label="SplashFragment" >
+        <action
+            android:id="@+id/action_splashFragment_to_onboardingDonateFragment"
+            app:destination="@id/onboardingDonateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardingDonateFragment"
+        android:name="com.ssafy.phonesin.ui.onboarding.OnboardingDonateFragment"
+        android:label="OnboardingDonateFragment" >
+        <action
+            android:id="@+id/action_onboardingDonateFragment_to_onboardingRentalFragment"
+            app:destination="@id/onboardingRentalFragment" />
+        <action
+            android:id="@+id/action_onboardingDonateFragment_to_home"
+            app:destination="@id/home" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardingRentalFragment"
+        android:name="com.ssafy.phonesin.ui.onboarding.OnboardingRentalFragment"
+        android:label="fragment_onboarding_rental"
+        tools:layout="@layout/fragment_onboarding_rental" >
+        <action
+            android:id="@+id/action_onboardingRentalFragment_to_onboardingModuleFragment"
+            app:destination="@id/onboardingModuleFragment" />
+        <action
+            android:id="@+id/action_onboardingRentalFragment_to_home"
+            app:destination="@id/home" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardingModuleFragment"
+        android:name="com.ssafy.phonesin.ui.onboarding.OnboardingModuleFragment"
+        android:label="fragment_onboarding_module"
+        tools:layout="@layout/fragment_onboarding_module" >
+        <action
+            android:id="@+id/action_onboardingModuleFragment_to_onboardingPlanFragment"
+            app:destination="@id/onboardingPlanFragment" />
+        <action
+            android:id="@+id/action_onboardingModuleFragment_to_home"
+            app:destination="@id/home" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardingPlanFragment"
+        android:name="com.ssafy.phonesin.ui.onboarding.OnboardingPlanFragment"
+        android:label="fragment_onboarding_plan"
+        tools:layout="@layout/fragment_onboarding_plan" >
+        <action
+            android:id="@+id/action_onboardingPlanFragment_to_home"
+            app:destination="@id/home" />
     </fragment>
 </navigation>
