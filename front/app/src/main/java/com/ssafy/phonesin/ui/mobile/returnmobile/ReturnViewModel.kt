@@ -19,7 +19,6 @@ class ReturnViewModel @Inject constructor(
 
     fun uploadReturn() {
         viewModelScope.launch {
-            Log.e("싸피", _returnList.toString())
             repository.postReturnList(_returnList)
         }
     }

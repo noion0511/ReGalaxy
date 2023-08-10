@@ -92,6 +92,7 @@ class ReturnFinishFragment : Fragment() {
             )
         }
     }
+
     override fun onStop() {
         super.onStop()
         binding.root.removeView(binding.mapViewReturnFinish)
