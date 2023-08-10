@@ -49,6 +49,9 @@ dependencies {
 
 	// Jasypt
 	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.3'
+
+	//webSocket
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 }
 
 tasks.named('test') {
