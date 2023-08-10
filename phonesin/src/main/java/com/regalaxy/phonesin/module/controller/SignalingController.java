@@ -7,6 +7,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Set;
 
@@ -25,13 +26,13 @@ public class SignalingController {
     }
 
     @MessageMapping("/signal")
-    public void handleSignal(SignalDto signalMessage) {
-        String roomId = signalMessage.getRoomId();
+    public void handleSignal(@RequestBody SignalDto signalDto) {
+        String roomId = signalDto.getRoomId();
         Set<String> members = roomService.getRoom(roomId);
 
         if (members != null) {
             for (String member : members) {
-                messagingTemplate.convertAndSendToUser(member, "/queue/signal", signalMessage);
+                messagingTemplate.convertAndSendToUser(member, "/queue/signal", signalDto.getContent());
             }
         }
     }
