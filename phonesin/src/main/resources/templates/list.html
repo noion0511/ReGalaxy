@@ -144,7 +144,6 @@
 					</article>
 				</div>
 				<div class="flex flex-4" th:if="${title=='공지'}">
-					
 					<article class="card" th:each="list : ${list}" th:id="${'cardnoti' + list.noticeId}">
 						<header>
 							<h3 th:text="${list.title}">공지 제목</h3>
@@ -595,51 +594,50 @@
 								<Button class="modalBtn" onclick="closeModal()">X</Button>
 							</div>
 							<label>notice title</label>
-							<input type="text" id='title' name="title" value=''/><br/>
+							<input type="text" id='noticeTitle' name="title" value=''/><br/>
 							<label>poster image</label>
-							<input type="file" id="poster" name="file" accept="image/png, image/jpeg" />
+							<input type="file" id="noticePoster" name="file" accept="image/png, image/jpeg" />
 							<div class="flex">
-								<input type="radio" id="Banner" name="noticeType" value="1" />
+								<input type="radio" id="noticeBanner" name="noticeType" value="1" />
 								<label for="Banner">Banner</label>
 							</div>
 							<div class="flex">
-								<input type="radio" id="Bottom" name="noticeType" value="2" />
+								<input type="radio" id="noticeBottom" name="noticeType" value="2" />
 								<label for="Bottom">Bottom</label>
 							</div>
-							<Button class="blackBtn" style="margin-top:1em; padding:0em 0.5em 0em 0.5em;" onclick="applyNotice()>생성</Button>
+							<Button class="blackBtn" style="margin-top:1em; padding:0em 0.5em 0em 0.5em;" onclick="applyNotice()">생성</Button>
 						</form>
 					</div>`;
 			modal.innerHTML += html;
 		}
 
 		function applyNotice(){
-			const 
-			fetch(`/admin/notice/apply`, {
+			const title = document.getElementById("noticeTitle").value
+			const radios = document.getElementsByName("noticeType");
+			const selected = Array.from(radios).find(radio => radio.checked);
+
+			const url = "/admin/notice/apply?title=" + title + "&noticeType=" + selected.value;
+			var myHeaders = new Headers();
+			myHeaders.append("Authorization", "Bearer " + sessionStorage.getItem("accessToken"));
+
+			var formdata = new FormData();
+			formdata.append("file", document.getElementById("noticePoster").files[0]);
+
+			var requestOptions = {
 				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
-					phoneId : document.getElementById("modalPhoneId").innerHTML,
-					donationId : 0,
-					serialNumber : document.getElementById("modalSerialNumber").value,
-					modelId : document.getElementById("modalModelId").value,
-					y2K : document.getElementById("isY2KCheckBox").checked,
-					homecam : document.getElementById("isHomecamCheckBox").checked,
-					climateHumidity : document.getElementById("isClimateHumidityCheckBox").checked,
-					searchRental : document.getElementById("isRental").className == 'activeBtn',
-					searchY2K : document.getElementById("isY2K").className=='activeBtn',
-					searchClimateHumidity : document.getElementById("isClimateHumidity").className=='activeBtn',
-					searchHomecam: document.getElementById("isHomecam").className=='activeBtn',
-				}),
-			})
-				.then(response => response.json())
-				.then(data => {
-					console.log(data);
-					setPhoneHtml(data);
-				});
+				headers: myHeaders,
+				body: formdata,
+				redirect: 'follow'
+			};
+
+			fetch(url, requestOptions)
+					.then(response => response.json())
+					.then(result => console.log(result))
+					.catch(error => console.log('error', error));
+
 			var modal = document.getElementById('modal');
 			modal.style.display='none';
 			modal.innerHTML = ``;
-			//fetch로 데이터 넘기기
 		}
 
 		function closeModal(){
