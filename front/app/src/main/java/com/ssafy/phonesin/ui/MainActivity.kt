@@ -15,6 +15,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
+import androidx.databinding.adapters.ViewBindingAdapter.setPadding
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -45,8 +46,7 @@ class MainActivity : AppCompatActivity() {
 
         setStatusBarTransparent()
 //        setNav()
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            Log.d("version", "onCreate: 젤리빈")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             setNav()
         } else {
             setSplash()
@@ -109,8 +109,8 @@ class MainActivity : AppCompatActivity() {
         navController?.navigate(R.id.splashFragment)
 
         window.decorView.postDelayed({
-            if (!AppPreferences.isOnBoardingShowed()) {
-//                AppPreferences.checkOnBoardingShowed()
+            if (!AppPreferences.isOnBoardingShowed() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                AppPreferences.checkOnBoardingShowed()
                 navController?.navigate(R.id.onboardingDonateFragment)
             } else {
                 setNav()
