@@ -31,8 +31,8 @@ public class BackInfoDto {
 
     public BackInfoDto(Back back) {
         this.backId = back.getBackId();
-//        this.phoneId = phone.getPhoneId();
-//        this.modelName = phone.getModel().getModelName();
+        this.phoneId = back.getRental().getPhone().getPhoneId();
+        this.modelName = back.getRental().getPhone().getModel().getModelName();
         this.backStatus = back.getBackStatus();
         this.backDeliveryDate =back.getBackDeliveryDate();
         this.createdAt = back.getCreatedAt();

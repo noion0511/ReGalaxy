@@ -30,6 +30,7 @@
 									<li><a href="admin/rental/list">rental</a></li>
 									<li><a href="admin/back/list">return</a></li>
 									<li><a href="admin/member/list">member</a></li>
+									<li><a href="admin/notice/list">notice</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -67,7 +68,7 @@
 					</div>
 
 					<footer>
-						<a href="#" class="button">DOWNLOAD</a>
+						<a href="/download/phonegojisin" class="button">DOWNLOAD</a>
 					</footer>
 				</div>
 			</section>
@@ -133,10 +134,12 @@
 				if(sessionStorage.getItem('accessToken') != null) {
 					document.getElementById('login').style.display = "none";
 					document.getElementById('logout').style.display = "";
+					document.getElementById('clickArea').style.display = "";
 				}
 				else{
 					document.getElementById('login').style.display = "";
 					document.getElementById('logout').style.display = "none";
+					document.getElementById('clickArea').style.display = "none";
 				}
 			}
 
@@ -160,6 +163,7 @@
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
+						'Authorization': 'Bearer ' + sessionStorage.getItem('accessToken')
 					},
 					body: JSON.stringify(obj)
 				};

@@ -46,6 +46,12 @@ dependencies {
 
 	// email-sender
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+	// Jasypt
+	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.3'
+
+	// JSONObject
+	implementation 'org.json:json:20210307'
 }
 
 tasks.named('test') {
