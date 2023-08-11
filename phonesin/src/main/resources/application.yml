@@ -33,7 +33,7 @@ server:
   port: 8080
 
 thymeleaf:
-  prefix=classpath: templates/
+  prefix=classpath: /templates/
   suffix: .html
   check-template-location: true
   cache: false
