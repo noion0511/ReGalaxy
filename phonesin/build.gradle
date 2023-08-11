@@ -53,6 +53,7 @@ dependencies {
 	//webSocket
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	implementation group: 'io.openvidu', name: 'openvidu-java-client', version: '2.28.0'
 
 	// JSONObject
 	implementation 'org.json:json:20210307'
