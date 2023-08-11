@@ -128,11 +128,11 @@ public class BackService {
     }
 
     @Transactional
-    public List<BackUserDto> backListByUser(Long memberId) {
+    public List<BackInfoDto> backListByUser(Long memberId) {
         List<Back> backs = backRepository.findByRental_Member_MemberId(memberId);
-        List<BackUserDto> list = new ArrayList<>();
+        List<BackInfoDto> list = new ArrayList<>();
         for (Back back : backs) {
-            list.add(BackUserDto.fromEntity(back));
+            list.add(BackInfoDto.fromEntity(back));
         }
         return list;
     }

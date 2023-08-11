@@ -39,4 +39,16 @@ public class BackInfoDto {
         this.backDeliveryLocation = back.getBackDeliveryLocation();
         this.phoneStatus = back.getPhoneStatus();
     }
+
+    public static BackInfoDto fromEntity(Back back) {
+        BackInfoDto backInfoDto = new BackInfoDto();
+        backInfoDto.setBackId(back.getBackId());
+        backInfoDto.setBackDeliveryDate(back.getBackDeliveryDate());
+        backInfoDto.setBackDeliveryLocation(back.getBackDeliveryLocation());
+        backInfoDto.setCreatedAt(back.getCreatedAt());
+        backInfoDto.setModelName(back.getRental().getPhone().getModel().getModelName());
+        backInfoDto.setPhoneStatus(back.getPhoneStatus());
+        backInfoDto.setPhoneId(back.getRental().getPhone().getPhoneId());
+        return backInfoDto;
+    }
 }
