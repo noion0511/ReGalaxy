@@ -66,7 +66,7 @@
                 })
             } else if (content.event == "answer") {
                 console.log("앤서가 왔어요");
-                answer = content.data;
+                var answer = content.data;
                 myPeerConnection.setRemoteDescription(answer);
             } else if (content.event == "candidate") {
                 console.log("캔디데이트가 왔어요");
