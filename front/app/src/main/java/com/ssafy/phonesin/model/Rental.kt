@@ -1,21 +1,23 @@
 package com.ssafy.phonesin.model
 
 data class Rental(
-    val applyDate: String,
-    val climateHumidity: Boolean,
-    val fund: Int,
-    val homecam: Boolean,
-    val modelName: String,
-    val phoneId: Int,
-    val rentalDeliveryLocation: String,
-    val rentalEnd: String,
+    var toggle: Boolean,
     val rentalId: Int,
+    val applyDate: String,
     val rentalStart: String,
+    val rentalEnd: String,
     val rentalStatus: Int,
+    val rentalDeliveryLocation: String,
+    val fund: Int,
+    val phoneId: Int,
+    val modelName: String,
     val waybillNumber: String,
+    val climateHumidity: Boolean,
+    val homecam: Boolean,
     val y2K: Boolean
 ) {
     constructor() : this(
+        false,
         applyDate = "",
         climateHumidity = true,
         fund = 0,

@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ssafy.phonesin.model.Address
+import com.ssafy.phonesin.model.Rental
 import com.ssafy.phonesin.model.User
 import com.ssafy.phonesin.model.UserDonation
 import com.ssafy.phonesin.model.UserModify
@@ -32,6 +33,13 @@ class UserViewModel @Inject constructor(
     private val _donation = MutableLiveData<List<UserDonation>>()
     val myDonationList: MutableLiveData<List<UserDonation>>
         get() = _donation
+
+    private val _rental = MutableLiveData<List<Rental>>()
+    val myRentalList: MutableLiveData<List<Rental>>
+        get() = _rental
+
+
+
 
     fun postAddress(address: String) {
         viewModelScope.launch {
@@ -86,7 +94,6 @@ class UserViewModel @Inject constructor(
             when(response) {
                 is NetworkResponse.Success -> {
                     _donation.value = response.body.donation
-                    Log.d("getUserDonationList", "getUserDonationList: ${_donation.value}")
                 }
                 else -> {}
             }
@@ -97,6 +104,25 @@ class UserViewModel @Inject constructor(
         viewModelScope.launch {
             userRepository.cancelUserDonation(donationId)
             getUserDonationList()
+        }
+    }
+
+    fun getUserRental() {
+        viewModelScope.launch {
+            val response = userRepository.getUserRentalList()
+            when(response) {
+                is NetworkResponse.Success -> {
+                    _rental.value = response.body.rentalList
+                }
+                else -> {}
+            }
+        }
+    }
+
+    fun cancelUserRental(rentalId: Int) {
+        viewModelScope.launch {
+            userRepository.cancelUserRental(rentalId)
+            getUserRental()
         }
     }
 }

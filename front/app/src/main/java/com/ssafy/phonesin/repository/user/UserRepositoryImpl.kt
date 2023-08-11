@@ -4,6 +4,7 @@ import com.ssafy.phonesin.model.BaseResponse
 import com.ssafy.phonesin.model.ErrorResponse
 import com.ssafy.phonesin.model.MemberDto
 import com.ssafy.phonesin.model.MessageResponse
+import com.ssafy.phonesin.model.RentalResponse
 import com.ssafy.phonesin.model.UserDonationResponse
 import com.ssafy.phonesin.model.UserModify
 import com.ssafy.phonesin.model.UserResponse
@@ -46,5 +47,13 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun cancelUserDonation(donationId: Int): NetworkResponse<MessageResponse, ErrorResponse> {
         return apiService.cancelUserDonation(donationId)
+    }
+
+    override suspend fun getUserRentalList(): NetworkResponse<RentalResponse, ErrorResponse> {
+        return apiService.getUserRentalList()
+    }
+
+    override suspend fun cancelUserRental(rentalId: Int): NetworkResponse<MessageResponse, ErrorResponse> {
+        return apiService.cancelUserRental(rentalId)
     }
 }

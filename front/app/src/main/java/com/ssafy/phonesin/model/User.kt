@@ -41,11 +41,6 @@ data class UserDonation(
     var toggle: Boolean
 )
 
-//data class UserDonationToggle(
-//    val userDonation : UserDonation,
-//    val toggle: Boolean
-//)
-
 data class UserDonationResponse(
     val donation : List<UserDonation>
 )

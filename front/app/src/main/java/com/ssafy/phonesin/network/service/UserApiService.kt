@@ -4,6 +4,7 @@ import com.ssafy.phonesin.model.BaseResponse
 import com.ssafy.phonesin.model.ErrorResponse
 import com.ssafy.phonesin.model.MemberDto
 import com.ssafy.phonesin.model.MessageResponse
+import com.ssafy.phonesin.model.RentalResponse
 import com.ssafy.phonesin.model.UserDonationResponse
 import com.ssafy.phonesin.model.UserModify
 import com.ssafy.phonesin.model.UserResponse
@@ -41,4 +42,12 @@ interface UserApiService {
 
     @DELETE("/donation/delete/{donationId}")
     suspend fun cancelUserDonation(@Path("donationId") donationId: Int): NetworkResponse<MessageResponse, ErrorResponse>
+
+    @GET("/rental/apply/list")
+    suspend fun getUserRentalList(): NetworkResponse<RentalResponse,ErrorResponse>
+
+    @DELETE("/rental/apply/delete/{rental_id}")
+    suspend fun cancelUserRental(@Path("rental_id") rentalId: Int): NetworkResponse<MessageResponse, ErrorResponse>
+
+
 }

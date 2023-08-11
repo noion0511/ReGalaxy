@@ -4,6 +4,7 @@ import com.ssafy.phonesin.model.BaseResponse
 import com.ssafy.phonesin.model.ErrorResponse
 import com.ssafy.phonesin.model.MemberDto
 import com.ssafy.phonesin.model.MessageResponse
+import com.ssafy.phonesin.model.RentalResponse
 import com.ssafy.phonesin.model.UserDonationResponse
 import com.ssafy.phonesin.model.UserModify
 import com.ssafy.phonesin.model.UserResponse
@@ -22,4 +23,6 @@ interface UserRepository {
     suspend fun updateUserInfo(@Body newInfo: UserModify): NetworkResponse<MessageResponse, ErrorResponse>
     suspend fun getUserDonationList(): NetworkResponse<UserDonationResponse, ErrorResponse>
     suspend fun cancelUserDonation(@Body donationId: Int): NetworkResponse<MessageResponse, ErrorResponse>
+    suspend fun getUserRentalList(): NetworkResponse<RentalResponse,ErrorResponse>
+    suspend fun cancelUserRental(@Body rentalId: Int): NetworkResponse<MessageResponse, ErrorResponse>
 }
