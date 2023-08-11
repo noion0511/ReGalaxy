@@ -139,4 +139,9 @@ public class BackService {
         }
         return list;
     }
+
+    @Transactional
+    public void infoDelete(Long backId){
+        backRepository.deleteById(backId);
+    }
 }

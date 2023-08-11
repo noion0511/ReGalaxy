@@ -31,7 +31,7 @@ public class Back extends BaseTimeEntity {
     private Long backId;
 
     @JsonIgnore
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rental_id", unique = true)
     private Rental rental;
 
