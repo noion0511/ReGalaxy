@@ -70,9 +70,9 @@ public class PhoneController {
 
         PhoneSearchDto phoneSearchDto = new PhoneSearchDto();
         phoneSearchDto.setRental(phoneUpdateDto.isSearschRental());
-        phoneSearchDto.setY2K(phoneUpdateDto.isY2K());
-        phoneSearchDto.setHomecam(phoneUpdateDto.isHomecam());
-        phoneSearchDto.setClimateHumidity(phoneUpdateDto.isClimateHumidity());
+        phoneSearchDto.setY2K(phoneUpdateDto.isSearschY2K());
+        phoneSearchDto.setHomecam(phoneUpdateDto.isSearschHomecam());
+        phoneSearchDto.setClimateHumidity(phoneUpdateDto.isSearschClimateHumidity());
         List<PhoneDto> list = phoneService.list(phoneSearchDto);
 
         Map<String, Object> map = new HashMap<>();
