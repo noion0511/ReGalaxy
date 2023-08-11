@@ -14,7 +14,7 @@
 <video id="peerFace" playsinline autoplay width="300" height="300"></video>
 <script>
         // 일단 소켓 연결을 해봐요
-        var conn = new WebSocket('wss://i9d102.p.ssafy.io:80/socket');
+        var conn = new WebSocket('wss://localhost:8080/socket');
         // 먼저 RTC객체를 만들어요 구글 stun 서버로 부터 나의 정보를 가져올게요
         var configuration = {
             "iceServers" : [{

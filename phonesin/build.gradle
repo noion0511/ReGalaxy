@@ -52,6 +52,7 @@ dependencies {
 
 	//webSocket
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 	// JSONObject
 	implementation 'org.json:json:20210307'
