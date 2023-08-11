@@ -30,7 +30,7 @@ spring:
             enable: true
 
 server:
-  port: 8080
+  port: 80
 
 OPENVIDU_URL: http://localhost:8080/
 OPENVIDU_SECRET: s1s2a3f4y@
