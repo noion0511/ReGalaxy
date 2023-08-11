@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/onboardingBackgroundOrange"
-        android:id="@+id/frameLayoutOnboardingPlan">
+        android:id="@+id/frameLayoutOnboardingPlan"
+        android:paddingTop="20dp">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
