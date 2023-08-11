@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 
         setStatusBarTransparent()
 //        setNav()
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
             Log.d("version", "onCreate: 젤리빈")
             setNav()
         } else {
@@ -172,7 +172,7 @@ class MainActivity : AppCompatActivity() {
     private fun navigationHeight(): Int {
         val resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
 
-        return if (resourceId > 0) resources.getDimensionPixelSize(resourceId)
-        else 0
+        return if (resourceId <= 0 || Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) 0
+        else resources.getDimensionPixelSize(resourceId)
     }
 }

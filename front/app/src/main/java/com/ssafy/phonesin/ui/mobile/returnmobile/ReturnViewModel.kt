@@ -26,7 +26,7 @@ class ReturnViewModel @Inject constructor(
     fun setReturnList(phoneId: List<Int>, rentalId: List<Int>) {
         _returnList.clear()
         for (i in phoneId.indices) {
-            _returnList.add(Return("", "", "", -1, -1, "", phoneId[i], true, rentalId[i], ""))
+            _returnList.add(Return("", "", "", true, rentalId[i], ""))
         }
 
     }

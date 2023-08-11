@@ -12,7 +12,7 @@ import javax.inject.Inject
 class DonateViewModel @Inject constructor(
     private val repository: DonationRepository
 ) : BaseViewModel() {
-    private val _donation = Donation("2023-08-03", "string", "string", 0)
+    private val _donation = Donation("2023-08-03", "string", "string")
     val donation: Donation
         get() = _donation
 
