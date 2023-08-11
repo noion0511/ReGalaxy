@@ -1,7 +1,9 @@
 package com.ssafy.phonesin.ui
 
+import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -48,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         navController?.navigate(R.id.splashFragment)
 
         window.decorView.postDelayed({
-            if (!AppPreferences.isOnBoardingShowed()) {
+            if (!AppPreferences.isOnBoardingShowed() && Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
                 AppPreferences.checkOnBoardingShowed()
                 navController?.navigate(R.id.onboardingDonateFragment)
             } else {
