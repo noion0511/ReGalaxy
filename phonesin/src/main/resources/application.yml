@@ -30,7 +30,7 @@ spring:
             enable: true
 
 server:
-  port: 80
+  port: 8080
 
 OPENVIDU_URL: http://i9d102.p.ssafy.io:80/
 OPENVIDU_SECRET: s1s2a3f4y@
