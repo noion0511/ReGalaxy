@@ -36,7 +36,7 @@ public class ClimateHumidityController {
     private final LocationService locationService;
 
     @ApiOperation(value = "온습도 확인")
-    @PostMapping("/climatehumidity")
+    @PostMapping("/check")
     public ResponseEntity<Map<String, Object>> ClimateHumidity(@RequestBody ClimateHumidityDto climateHumidityDto) {
         Map<String, Object> resultMap = new HashMap<>();
         StringBuffer response = new StringBuffer();
