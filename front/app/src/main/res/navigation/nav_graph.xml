@@ -46,6 +46,11 @@
             app:destination="@id/cameraXFragment"
             app:launchSingleTop="true"
             app:popUpTo="@id/cameraXFragment" />
+        <action
+            android:id="@+id/action_QRCodeFragment_to_module"
+            app:destination="@id/module"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/module"/>
 
     </fragment>
     <fragment

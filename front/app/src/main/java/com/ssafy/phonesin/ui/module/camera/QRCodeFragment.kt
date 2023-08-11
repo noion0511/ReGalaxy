@@ -54,7 +54,7 @@ class QRCodeFragment : BaseFragment<FragmentQRCodeBinding>(
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                findNavController().navigate(R.id.action_QRCodeFragment_to_cameraXFragment)
+                findNavController().navigate(R.id.action_QRCodeFragment_to_module)
             }
         }
     }
