@@ -24,6 +24,8 @@ public class BackUserDto {
     // 혹시 builder 사용할 수 있으면 바꿔보기!!
     public static BackUserDto fromEntity(Back back) {
         BackUserDto backUserDto = new BackUserDto();
+        backUserDto.setBackId(back.getBackId());
+        backUserDto.setRentalId(back.getRental().getRentalId());
         backUserDto.setBackDeliveryDate(back.getBackDeliveryDate());
         backUserDto.setBackDeliveryLocationType(back.getBackDeliveryLocationType());
         backUserDto.setBackDeliveryLocation(back.getBackDeliveryLocation());

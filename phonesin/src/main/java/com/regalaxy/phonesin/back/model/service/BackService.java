@@ -126,4 +126,14 @@ public class BackService {
         }
         return backAdminDtos;
     }
+
+    @Transactional
+    public List<BackUserDto> backListByUser(Long memberId) {
+        List<Back> backs = backRepository.findByRental_Member_MemberId(memberId);
+        List<BackUserDto> list = new ArrayList<>();
+        for (Back back : backs) {
+            list.add(BackUserDto.fromEntity(back));
+        }
+        return list;
+    }
 }
