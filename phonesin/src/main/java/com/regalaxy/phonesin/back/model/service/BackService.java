@@ -30,6 +30,9 @@ public class BackService {
     @Transactional
     public void apply(BackDto backdto) {
         Rental rental = rentalRepository.findById(backdto.getRentalId()).get();
+        if (rental.getRentalStatus() != 4) {
+            throw new IllegalArgumentException("대여중인 기기가 아닙니다.");
+        }
         backRepository.save(backdto.toEntity(rental));
     }
 
@@ -78,11 +81,11 @@ public class BackService {
 
     // 관리자가 반납 신청서 수정
     @Transactional
-    public BackDto updateBackByAdmin(BackDto backDto) {
+    public BackDto updateBackByAdmin(BackAdminUpdateDto backAdminUpdateDto) {
         // DB에 없는 ID를 검색하려고 하면 IllegalArgumentException
-        Back back = backRepository.findById(backDto.getBackId())
-                .orElseThrow(() -> new IllegalArgumentException(backDto.getBackId() + "인 ID는 존재하지 않습니다."));
-        back.updateByAdmin(backDto);
+        Back back = backRepository.findById(backAdminUpdateDto.getBackId())
+                .orElseThrow(() -> new IllegalArgumentException(backAdminUpdateDto.getBackId() + "인 ID는 존재하지 않습니다."));
+        back.updateByAdmin(backAdminUpdateDto);
         backRepository.save(back);
         return BackDto.fromEntity(back);
     }
@@ -135,5 +138,10 @@ public class BackService {
             list.add(BackInfoDto.fromEntity(back));
         }
         return list;
+    }
+
+    @Transactional
+    public void infoDelete(Long backId){
+        backRepository.deleteById(backId);
     }
 }
