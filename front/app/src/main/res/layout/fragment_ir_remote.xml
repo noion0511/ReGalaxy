@@ -8,18 +8,18 @@
     </data>
 
     <androidx.core.widget.NestedScrollView
-        android:background="@color/remoteBackgorund"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/remoteBackgorund"
+        android:gravity="center"
+        android:paddingTop="30dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/remote_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/remoteBackgorund"
-            android:gravity="center"
             android:orientation="vertical"
-            android:padding="25dp">
+            android:padding="20dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout"
@@ -39,40 +39,24 @@
                     android:background="@drawable/selector_remote_on"
                     android:padding="15dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/remote_power"
+                    android:src="@drawable/baseline_power_settings_new_24"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.cardview.widget.CardView
+                <Button
                     android:id="@+id/powerOffButton"
-                    android:layout_width="wrap_content"
+                    style="@style/textview_remote_white_small"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/remoteButtonBackgorund"
-                    app:cardBackgroundColor="@color/remoteButtonBackgorund"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="5dp"
+                    android:background="@drawable/selector_remote_button"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:text="POWER\nOFF"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <LinearLayout
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/selector_remote_button"
-                        android:clickable="true"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            style="@style/textview_remote_white_small"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="10dp"
-                            android:text="POWER\nOFF"
-                            android:textAlignment="center" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -84,96 +68,42 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
-                <androidx.cardview.widget.CardView
+                <Button
                     android:id="@+id/button1"
-                    android:layout_width="wrap_content"
+                    style="@style/textview_remote_white_big"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/remoteButtonBackgorund"
-                    app:cardBackgroundColor="@color/remoteButtonBackgorund"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="5dp"
+                    android:background="@drawable/selector_remote_button"
+                    android:gravity="center"
+                    android:text="1"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <LinearLayout
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/selector_remote_button"
-                        android:clickable="true"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            style="@style/textview_remote_white_big"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingVertical="10dp"
-                            android:text="1"
-                            android:textAlignment="center" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
+                <Button
                     android:id="@+id/button2"
-                    android:layout_width="wrap_content"
+                    style="@style/textview_remote_white_big"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/remoteButtonBackgorund"
-                    app:cardBackgroundColor="@color/remoteButtonBackgorund"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="5dp"
+                    android:background="@drawable/selector_remote_button"
+                    android:gravity="center"
+                    android:text="2"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/button3"
                     app:layout_constraintStart_toEndOf="@+id/button1"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <LinearLayout
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/selector_remote_button"
-                        android:clickable="true"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            style="@style/textview_remote_white_big"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingVertical="10dp"
-                            android:text="2"
-                            android:textAlignment="center" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
+                <Button
                     android:id="@+id/button3"
-                    android:layout_width="wrap_content"
+                    style="@style/textview_remote_white_big"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/remoteButtonBackgorund"
-                    app:cardBackgroundColor="@color/remoteButtonBackgorund"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="5dp"
+                    android:background="@drawable/selector_remote_button"
+                    android:gravity="center"
+                    android:text="3"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <LinearLayout
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/selector_remote_button"
-                        android:clickable="true"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            style="@style/textview_remote_white_big"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingVertical="10dp"
-                            android:text="3"
-                            android:textAlignment="center" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -187,96 +117,42 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
-                <androidx.cardview.widget.CardView
+                <Button
                     android:id="@+id/button4"
-                    android:layout_width="wrap_content"
+                    style="@style/textview_remote_white_big"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/remoteButtonBackgorund"
-                    app:cardBackgroundColor="@color/remoteButtonBackgorund"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="5dp"
+                    android:background="@drawable/selector_remote_button"
+                    android:gravity="center"
+                    android:text="4"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <LinearLayout
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/selector_remote_button"
-                        android:clickable="true"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            style="@style/textview_remote_white_big"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingVertical="10dp"
-                            android:text="4"
-                            android:textAlignment="center" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
+                <Button
                     android:id="@+id/button5"
-                    android:layout_width="wrap_content"
+                    style="@style/textview_remote_white_big"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/remoteButtonBackgorund"
-                    app:cardBackgroundColor="@color/remoteButtonBackgorund"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="5dp"
+                    android:background="@drawable/selector_remote_button"
+                    android:gravity="center"
+                    android:text="5"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/button6"
                     app:layout_constraintStart_toEndOf="@+id/button4"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <LinearLayout
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/selector_remote_button"
-                        android:clickable="true"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            style="@style/textview_remote_white_big"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingVertical="10dp"
-                            android:text="5"
-                            android:textAlignment="center" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
+                <Button
                     android:id="@+id/button6"
-                    android:layout_width="wrap_content"
+                    style="@style/textview_remote_white_big"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/remoteButtonBackgorund"
-                    app:cardBackgroundColor="@color/remoteButtonBackgorund"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="5dp"
+                    android:background="@drawable/selector_remote_button"
+                    android:gravity="center"
+                    android:text="6"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <LinearLayout
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/selector_remote_button"
-                        android:clickable="true"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            style="@style/textview_remote_white_big"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingVertical="10dp"
-                            android:text="6"
-                            android:textAlignment="center" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -288,97 +164,42 @@
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
                 tools:layout_editor_absoluteX="20dp">
 
-                <androidx.cardview.widget.CardView
+                <Button
                     android:id="@+id/button7"
-                    android:layout_width="wrap_content"
+                    style="@style/textview_remote_white_big"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/remoteButtonBackgorund"
-                    app:cardBackgroundColor="@color/remoteButtonBackgorund"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="5dp"
+                    android:background="@drawable/selector_remote_button"
+                    android:gravity="center"
+                    android:text="7"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <LinearLayout
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/selector_remote_button"
-                        android:clickable="true"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            style="@style/textview_remote_white_big"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingVertical="10dp"
-                            android:text="7"
-                            android:textAlignment="center" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
+                <Button
                     android:id="@+id/button8"
-                    android:layout_width="wrap_content"
+                    style="@style/textview_remote_white_big"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/remoteButtonBackgorund"
-                    app:cardBackgroundColor="@color/remoteButtonBackgorund"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="5dp"
+                    android:background="@drawable/selector_remote_button"
+                    android:gravity="center"
+                    android:text="8"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/button9"
                     app:layout_constraintStart_toEndOf="@+id/button7"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <LinearLayout
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/selector_remote_button"
-                        android:clickable="true"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            style="@style/textview_remote_white_big"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingVertical="10dp"
-                            android:text="8"
-                            android:textAlignment="center" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
+                <Button
                     android:id="@+id/button9"
-                    android:layout_width="wrap_content"
+                    style="@style/textview_remote_white_big"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/remoteButtonBackgorund"
-                    app:cardBackgroundColor="@color/remoteButtonBackgorund"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="5dp"
+                    android:background="@drawable/selector_remote_button"
+                    android:gravity="center"
+                    android:text="9"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <LinearLayout
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/selector_remote_button"
-                        android:clickable="true"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            style="@style/textview_remote_white_big"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingVertical="10dp"
-                            android:text="9"
-                            android:textAlignment="center" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -389,36 +210,18 @@
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"
                 tools:layout_editor_absoluteX="20dp">
 
-                <androidx.cardview.widget.CardView
+                <Button
                     android:id="@+id/button0"
-                    android:layout_width="wrap_content"
+                    style="@style/textview_remote_white_big"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/remoteButtonBackgorund"
-                    app:cardBackgroundColor="@color/remoteButtonBackgorund"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="5dp"
+                    android:background="@drawable/selector_remote_button"
+                    android:gravity="center"
+                    android:text="0"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <LinearLayout
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/selector_remote_button"
-                        android:clickable="true"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            style="@style/textview_remote_white_big"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingVertical="10dp"
-                            android:text="0"
-                            android:textAlignment="center" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -434,212 +237,153 @@
                     android:id="@+id/linearLayout3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@color/remoteButtonBackgorund"
                     android:orientation="vertical"
+                    app:cardBackgroundColor="@color/remoteButtonBackgorund"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <androidx.cardview.widget.CardView
+                    <LinearLayout
                         android:id="@+id/volumeUpButton"
-                        android:layout_width="wrap_content"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@color/remoteButtonBackgorund"
-                        app:cardBackgroundColor="@color/remoteButtonBackgorund">
+                        android:background="@drawable/selector_remote_button_big"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:orientation="vertical">
 
-                        <LinearLayout
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/selector_remote_button_big"
-                            android:clickable="true"
-                            android:gravity="center"
-                            android:orientation="vertical">
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="20dp" />
 
-                            <Space
-                                android:layout_width="wrap_content"
-                                android:layout_height="20dp" />
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:padding="2dp"
+                            android:src="@drawable/baseline_add_24" />
+                    </LinearLayout>
 
-                            <ImageView
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:padding="2dp"
-                                android:src="@drawable/remote_volume_up" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="wrap_content"
+                    <TextView
+                        style="@style/textview_remote_white_big"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@color/remoteButtonBackgorund"
-                        app:cardBackgroundColor="@color/remoteButtonBackgorund"
-                        app:cardCornerRadius="0dp">
+                        android:background="@color/remoteButtonBackgorund"
+                        android:padding="5dp"
+                        android:text="VOL"
+                        android:textAlignment="center" />
 
-                        <LinearLayout
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                style="@style/textview_remote_white_big"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:padding="5dp"
-                                android:text="VOL"
-                                android:textAlignment="center" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
+                    <LinearLayout
                         android:id="@+id/volumeDownButton"
-                        android:layout_width="wrap_content"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@color/remoteButtonBackgorund"
-                        app:cardBackgroundColor="@color/remoteButtonBackgorund">
+                        android:background="@drawable/selector_remote_button_big"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:orientation="vertical">
 
-                        <LinearLayout
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/selector_remote_button_big"
-                            android:clickable="true"
-                            android:gravity="center"
-                            android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:padding="3dp"
+                            android:src="@drawable/baseline_horizontal_rule_24"
+                            app:tint="@color/white" />
 
-                            <ImageView
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:padding="2dp"
-                                android:src="@drawable/remote_volume_down" />
-
-                            <Space
-                                android:layout_width="wrap_content"
-                                android:layout_height="20dp" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="20dp" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/muteButton"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@drawable/selector_remote_button"
+                    android:clickable="true"
+                    android:gravity="center"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toStartOf="@+id/linearLayout4"
                     app:layout_constraintStart_toEndOf="@+id/linearLayout3"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/muteButton"
+                    <TextView
+                        style="@style/textview_remote_white_small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@color/remoteButtonBackgorund"
-                        app:cardBackgroundColor="@color/remoteButtonBackgorund"
-                        app:cardCornerRadius="10dp">
+                        android:padding="5dp"
+                        android:text="MUTE"
+                        android:textAlignment="center" />
 
-                        <LinearLayout
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:background="@drawable/selector_remote_button"
-                            android:clickable="true"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                style="@style/textview_remote_white_small"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:padding="5dp"
-                                android:text="MUTE"
-                                android:textAlignment="center" />
-
-                            <ImageView
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
-                                android:src="@drawable/remote_mute" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:padding="2dp"
+                        android:src="@drawable/remote_mute"
+                        app:tint="@color/white" />
                 </LinearLayout>
+
 
                 <LinearLayout
                     android:id="@+id/linearLayout4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <androidx.cardview.widget.CardView
+                    <LinearLayout
                         android:id="@+id/channelUpButton"
-                        android:layout_width="wrap_content"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@color/remoteButtonBackgorund"
-                        app:cardBackgroundColor="@color/remoteButtonBackgorund">
+                        android:background="@drawable/selector_remote_button_big"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                        <LinearLayout
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/selector_remote_button_big"
-                            android:clickable="true"
-                            android:gravity="center"
-                            android:orientation="vertical">
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="20dp" />
 
-                            <Space
-                                android:layout_width="wrap_content"
-                                android:layout_height="20dp" />
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:src="@drawable/baseline_keyboard_arrow_up_24"
+                            app:tint="@color/white" />
 
-                            <ImageView
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:src="@drawable/remote_ch_up" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
+                    </LinearLayout>
 
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="wrap_content"
+                    <TextView
+                        style="@style/textview_remote_white_big"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@color/remoteButtonBackgorund"
-                        app:cardBackgroundColor="@color/remoteButtonBackgorund"
-                        app:cardCornerRadius="0dp">
+                        android:padding="5dp"
+                        android:text="CH"
+                        android:background="@color/remoteButtonBackgorund"
+                        android:textAlignment="center" />
 
-                        <LinearLayout
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                style="@style/textview_remote_white_big"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:padding="5dp"
-                                android:text="CH"
-                                android:textAlignment="center" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
+                    <LinearLayout
                         android:id="@+id/channelDownButton"
-                        android:layout_width="wrap_content"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@color/remoteButtonBackgorund"
-                        app:cardBackgroundColor="@color/remoteButtonBackgorund">
+                        android:background="@drawable/selector_remote_button_big"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:orientation="vertical">
 
-                        <LinearLayout
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/selector_remote_button_big"
-                            android:clickable="true"
-                            android:gravity="center"
-                            android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:src="@drawable/baseline_keyboard_arrow_down_24"
+                            app:tint="@color/white" />
 
-                            <ImageView
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:src="@drawable/remote_ch_down" />
-
-                            <Space
-                                android:layout_width="wrap_content"
-                                android:layout_height="20dp" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
+                        <Space
+                            android:layout_width="wrap_content"
+                            android:layout_height="20dp" />
+                    </LinearLayout>
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -651,72 +395,52 @@
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout7"
                 tools:layout_editor_absoluteX="25dp">
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/choiceTvButton"
+                <LinearLayout
+                    android:id="@+id/layoutChoiceTv"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/remoteButtonBackgorund"
-                    app:cardBackgroundColor="@color/remoteButtonBackgorund"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="5dp"
-                    android:layout_marginEnd="15dp">
+                    android:layout_marginEnd="15dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_pressed_big"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:id="@+id/layoutChoiceTv"
-                        android:layout_width="match_parent"
+                    <TextView
+                        style="@style/textview_remote_white_big"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/button_pressed_big"
-                        android:gravity="center"
-                        android:orientation="horizontal">
+                        android:paddingVertical="10dp"
+                        android:text="TV"
+                        android:textAlignment="center" />
+                </LinearLayout>
 
-                        <TextView
-                            style="@style/textview_remote_white_big"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingVertical="10dp"
-                            android:text="TV"
-                            android:textAlignment="center" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/choiceAirConditionerButton"
+                <LinearLayout
+                    android:id="@+id/layoutChoiceAirConditioner"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/remoteButtonBackgorund"
-                    app:cardBackgroundColor="@color/remoteButtonBackgorund"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="10dp"
-                    android:layout_marginStart="15dp">
+                    android:layout_marginStart="15dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_normal_big"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:id="@+id/layoutChoiceAirConditioner"
-                        android:layout_width="match_parent"
+                    <TextView
+                        style="@style/textview_remote_white_big"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/button_normal_big"
-                        android:clickable="true"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            style="@style/textview_remote_white_big"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingVertical="10dp"
-                            android:text="AIRCON"
-                            android:textAlignment="center" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                        android:paddingVertical="10dp"
+                        android:text="AIRCON"
+                        android:textAlignment="center" />
+                </LinearLayout>
             </LinearLayout>
 
             <TextView
                 style="@style/textview_remote_white_big"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SAMSUNG"
                 android:layout_marginTop="20dp"
+                android:text="SAMSUNG"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

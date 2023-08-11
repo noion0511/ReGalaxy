@@ -2,17 +2,16 @@ package com.ssafy.phonesin.ui.module.remote
 
 import android.content.Context
 import android.hardware.ConsumerIrManager
-import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentIrRemoteBinding
 import com.ssafy.phonesin.model.DeviceType
-import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class IrRemoteFragment : BaseFragment<FragmentIrRemoteBinding>(R.layout.fragment_ir_remote) {
 
     private lateinit var irManager: ConsumerIrManager
@@ -22,18 +21,13 @@ class IrRemoteFragment : BaseFragment<FragmentIrRemoteBinding>(R.layout.fragment
         inflater: LayoutInflater,
         container: ViewGroup?
     ): FragmentIrRemoteBinding {
-        return FragmentIrRemoteBinding.inflate(inflater, container, false)
+        return FragmentIrRemoteBinding.inflate(inflater, container, false).apply{
+            lifecycleOwner=viewLifecycleOwner
+        }
     }
 
     override fun init() {
-        val mainActivity = activity as MainActivity
-        mainActivity.hideBottomNavi(true)
-        mainActivity.setRemotePadding(bindingNonNull.remoteLayout)
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-            showToast("Your device does not support IR transmission.")
-            return
-        }
+        initSelectDeviceType()
 
         irManager =
             requireContext().getSystemService(Context.CONSUMER_IR_SERVICE) as ConsumerIrManager
@@ -48,20 +42,19 @@ class IrRemoteFragment : BaseFragment<FragmentIrRemoteBinding>(R.layout.fragment
         initVolumeButton()
         initChannelButton()
         initNumberButton()
-
     }
 
     private fun getPowerOnCode(deviceType: DeviceType): IntArray {
         return when (deviceType) {
-            DeviceType.TV -> createIrPattern(0xE0E09966)
-            DeviceType.AIR_CONDITIONER -> createIrPattern(0xAABBCCDD)
+            DeviceType.TV-> createIrPattern(0xE0E09966)
+            DeviceType.AIR_CONDITIONER-> createIrPattern(0xAABBCCDD)
         }
     }
 
     private fun getPowerOffCode(deviceType: DeviceType): IntArray {
         return when (deviceType) {
-            DeviceType.TV -> createIrPattern(0xE0E040BF)
-            DeviceType.AIR_CONDITIONER -> createIrPattern(0xAABB8877)
+            DeviceType.TV-> createIrPattern(0xE0E040BF)
+            DeviceType.AIR_CONDITIONER-> createIrPattern(0xAABB8877)
         }
     }
 
@@ -72,13 +65,7 @@ class IrRemoteFragment : BaseFragment<FragmentIrRemoteBinding>(R.layout.fragment
 
     // 숫자 패턴 생성 메서드
     private fun getSamsungTvNumberCode(number: Int): IntArray {
-        val hexCodes = arrayOf(
-            0xE0E020DF, 0xE0E030CF, 0xE0E010EF,
-            0xE0E0906F, 0xE0E050AF, 0xE0E0609F,
-            0xE0E0708F, 0xE0E040BF, 0xE0E0807F,
-            0xE0E000FF // 0-9까지의 HEX 코드
-        )
-        return createIrPattern(hexCodes[number])
+        return createIrPattern(NUMBER_CODES[number])
     }
 
     // 음소거 패턴 생성 메서드
@@ -86,7 +73,7 @@ class IrRemoteFragment : BaseFragment<FragmentIrRemoteBinding>(R.layout.fragment
 
 
     private fun createIrPattern(hexCode: Long): IntArray {
-        val pattern = mutableListOf<Int>()
+        val pattern =mutableListOf<Int>()
 
         // Header
         pattern.add(SAMSUNG_HDR_MARK)
@@ -106,92 +93,94 @@ class IrRemoteFragment : BaseFragment<FragmentIrRemoteBinding>(R.layout.fragment
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
-    private fun initPowerButton() {
-        bindingNonNull.powerOnButton.setOnClickListener {
-            irManager.transmit(38000, getPowerOnCode(selectedDevice))
-            Log.d("TAG", "initPowerButton: ")
+    private fun initSelectDeviceType() {
+        bindingNonNull.layoutChoiceTv.setOnClickListener{
+            selectedDevice = DeviceType.TV
+            bindingNonNull.layoutChoiceAirConditioner.background= ContextCompat.getDrawable(requireContext(), R.drawable.button_normal_big)
+            bindingNonNull.layoutChoiceTv.background= ContextCompat.getDrawable(requireContext(), R.drawable.button_pressed_big)
         }
 
-        bindingNonNull.powerOffButton.setOnClickListener {
+        bindingNonNull.layoutChoiceAirConditioner.setOnClickListener{
+            selectedDevice = DeviceType.AIR_CONDITIONER
+            bindingNonNull.layoutChoiceTv.background= ContextCompat.getDrawable(requireContext(), R.drawable.button_normal_big)
+            bindingNonNull.layoutChoiceAirConditioner.background= ContextCompat.getDrawable(requireContext(), R.drawable.button_pressed_big)
+        }
+    }
+
+    private fun initPowerButton() {
+        bindingNonNull.powerOnButton.setOnClickListener{
+            irManager.transmit(38000, getPowerOnCode(selectedDevice))
+        }
+
+        bindingNonNull.powerOffButton.setOnClickListener{
             irManager.transmit(38000, getPowerOffCode(selectedDevice))
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
     private fun initVolumeButton() {
-        bindingNonNull.volumeUpButton.setOnClickListener {
+        bindingNonNull.volumeUpButton.setOnClickListener{
             irManager.transmit(38000, getSamsungTvVolumeUpCode())
         }
 
-        bindingNonNull.volumeDownButton.setOnClickListener {
+        bindingNonNull.volumeDownButton.setOnClickListener{
             irManager.transmit(38000, getSamsungTvVolumeDownCode())
         }
 
-        bindingNonNull.muteButton.setOnClickListener {
+        bindingNonNull.muteButton.setOnClickListener{
             irManager.transmit(38000, getSamsungTvMuteCode())
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
     private fun initChannelButton() {
-        bindingNonNull.channelUpButton.setOnClickListener {
+        bindingNonNull.channelUpButton.setOnClickListener{
             irManager.transmit(38000, getSamsungTvChannelUpCode())
         }
 
-        bindingNonNull.channelDownButton.setOnClickListener {
+        bindingNonNull.channelDownButton.setOnClickListener{
             irManager.transmit(38000, getSamsungTvChannelDownCode())
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
     private fun initNumberButton() {
-        bindingNonNull.button0.setOnClickListener {
+        bindingNonNull.button0.setOnClickListener{
             irManager.transmit(38000, getSamsungTvNumberCode(0))
         }
 
-        bindingNonNull.button1.setOnClickListener {
+        bindingNonNull.button1.setOnClickListener{
             irManager.transmit(38000, getSamsungTvNumberCode(1))
         }
 
-        bindingNonNull.button2.setOnClickListener {
+        bindingNonNull.button2.setOnClickListener{
             irManager.transmit(38000, getSamsungTvNumberCode(2))
         }
 
-        bindingNonNull.button3.setOnClickListener {
+        bindingNonNull.button3.setOnClickListener{
             irManager.transmit(38000, getSamsungTvNumberCode(3))
         }
 
-        bindingNonNull.button4.setOnClickListener {
+        bindingNonNull.button4.setOnClickListener{
             irManager.transmit(38000, getSamsungTvNumberCode(4))
         }
 
-        bindingNonNull.button5.setOnClickListener {
+        bindingNonNull.button5.setOnClickListener{
             irManager.transmit(38000, getSamsungTvNumberCode(5))
         }
 
-        bindingNonNull.button6.setOnClickListener {
+        bindingNonNull.button6.setOnClickListener{
             irManager.transmit(38000, getSamsungTvNumberCode(6))
         }
 
-        bindingNonNull.button7.setOnClickListener {
+        bindingNonNull.button7.setOnClickListener{
             irManager.transmit(38000, getSamsungTvNumberCode(7))
         }
 
-        bindingNonNull.button8.setOnClickListener {
+        bindingNonNull.button8.setOnClickListener{
             irManager.transmit(38000, getSamsungTvNumberCode(8))
         }
 
-        bindingNonNull.button9.setOnClickListener {
+        bindingNonNull.button9.setOnClickListener{
             irManager.transmit(38000, getSamsungTvNumberCode(9))
         }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        val mainActivity = activity as MainActivity
-        mainActivity.hideBottomNavi(false)
-        mainActivity.setPadding()
     }
 
     companion object {
@@ -202,5 +191,12 @@ class IrRemoteFragment : BaseFragment<FragmentIrRemoteBinding>(R.layout.fragment
         private const val SAMSUNG_ONE_SPACE = SAMSUNG_TICK * 3
         private const val SAMSUNG_ZERO_SPACE = SAMSUNG_TICK
         private const val SAMSUNG_MIN_GAP = SAMSUNG_TICK * 100
+
+        private val NUMBER_CODES =arrayOf(
+            0xE0E020DF, 0xE0E030CF, 0xE0E010EF,
+            0xE0E0906F, 0xE0E050AF, 0xE0E0609F,
+            0xE0E0708F, 0xE0E040BF, 0xE0E0807F,
+            0xE0E000FF
+        )
     }
 }
