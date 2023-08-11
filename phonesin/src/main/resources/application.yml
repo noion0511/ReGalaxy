@@ -31,12 +31,6 @@ spring:
 
 server:
   port: 8080
-  ssl:
-    enabled: true
-    key-store: classpath:keystore.p12
-    key-store-password: s1s2a3f4y@
-    keyStoreType: PKCS12
-    keyAlias: linemac-ssl
 
 OPENVIDU_URL: http://localhost:8080/
 OPENVIDU_SECRET: s1s2a3f4y@
