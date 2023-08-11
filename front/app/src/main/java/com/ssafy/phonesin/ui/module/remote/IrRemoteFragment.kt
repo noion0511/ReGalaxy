@@ -2,15 +2,19 @@ package com.ssafy.phonesin.ui.module.remote
 
 import android.content.Context
 import android.hardware.ConsumerIrManager
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentIrRemoteBinding
 import com.ssafy.phonesin.model.DeviceType
+import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
+@RequiresApi(Build.VERSION_CODES.KITKAT)
 @AndroidEntryPoint
 class IrRemoteFragment : BaseFragment<FragmentIrRemoteBinding>(R.layout.fragment_ir_remote) {
 
@@ -28,6 +32,10 @@ class IrRemoteFragment : BaseFragment<FragmentIrRemoteBinding>(R.layout.fragment
 
     override fun init() {
         initSelectDeviceType()
+
+        val mainActivity = activity as MainActivity
+        mainActivity.hideBottomNavi(true)
+        mainActivity.setRemotePadding(bindingNonNull.remoteLayout)
 
         irManager =
             requireContext().getSystemService(Context.CONSUMER_IR_SERVICE) as ConsumerIrManager
@@ -181,6 +189,13 @@ class IrRemoteFragment : BaseFragment<FragmentIrRemoteBinding>(R.layout.fragment
         bindingNonNull.button9.setOnClickListener{
             irManager.transmit(38000, getSamsungTvNumberCode(9))
         }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        val mainActivity = activity as MainActivity
+        mainActivity.hideBottomNavi(false)
+        mainActivity.setPadding()
     }
 
     companion object {
