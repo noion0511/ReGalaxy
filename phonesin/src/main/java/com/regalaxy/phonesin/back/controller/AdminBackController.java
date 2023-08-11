@@ -35,7 +35,7 @@ public class AdminBackController {
         ModelAndView mav = new ModelAndView();
         mav.addObject("list", list);
         mav.addObject("title", "반납");
-        mav.setViewName("/list");
+        mav.setViewName("list");
         return mav;
     }
 

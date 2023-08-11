@@ -30,7 +30,7 @@ public class PhoneController {
         ModelAndView mav = new ModelAndView();
         mav.addObject("list", list);
         mav.addObject("title", "휴대폰");
-        mav.setViewName("/list");
+        mav.setViewName("list");
         return mav;
     }
 
