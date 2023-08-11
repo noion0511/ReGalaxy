@@ -4,21 +4,15 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.regalaxy.phonesin.back.model.BackAdminUpdateDto;
 import com.regalaxy.phonesin.back.model.BackDeliveryLocationType;
-import com.regalaxy.phonesin.back.model.BackDto;
 import com.regalaxy.phonesin.back.model.BackUserDto;
 import com.regalaxy.phonesin.global.BaseTimeEntity;
-import com.regalaxy.phonesin.phone.model.entity.Phone;
 import com.regalaxy.phonesin.rental.model.entity.Rental;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-import static javax.persistence.FetchType.LAZY;
 
 @Entity(name = "back")
 @Getter @Setter
