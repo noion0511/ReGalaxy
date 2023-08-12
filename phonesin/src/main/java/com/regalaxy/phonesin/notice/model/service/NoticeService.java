@@ -127,7 +127,7 @@ public class NoticeService {
         else if (notice.getNoticeType() == 2) type = "bottom/";
         else throw new Exception("공지 타입이 지원하지 않는 타입입니다.");
 
-        String absolutePath = new File("").getAbsolutePath() + "/images/" + type + SaveFileName;
+        String absolutePath = new File("").getAbsolutePath() + "images/" + type + SaveFileName;
 
         Resource resource = new UrlResource("file:" + absolutePath);
 
