@@ -70,4 +70,15 @@ public class YtwokController {
         }
     }
 
+    @ApiOperation(value = "y2k이미지 삭제")
+    @DeleteMapping(value = "images/{fileName}")
+    public ResponseEntity<Map<String, Object>> deleteY2k(@PathVariable("fileName") String fileName) {
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+
+
+
+        resultMap.put("message", SUCCESS);
+        resultMap.put("status", 200);
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+    }
 }

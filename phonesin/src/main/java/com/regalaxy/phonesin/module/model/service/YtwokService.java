@@ -113,5 +113,7 @@ public class YtwokService {
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(resource);
     }
+    public void deleteImage(String fileName){
 
+    }
 }
