@@ -4,6 +4,7 @@ import android.content.Context
 import android.hardware.ConsumerIrManager
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentIrRemoteBinding
@@ -33,7 +34,7 @@ class IrRemoteFragment : BaseFragment<FragmentIrRemoteBinding>(R.layout.fragment
             requireContext().getSystemService(Context.CONSUMER_IR_SERVICE) as ConsumerIrManager
 
         if (!irManager.hasIrEmitter()) {
-            showToast("No IR emitter found on this device.")
+            showNoIREmitterDialog()
             return
         }
 
@@ -42,6 +43,19 @@ class IrRemoteFragment : BaseFragment<FragmentIrRemoteBinding>(R.layout.fragment
         initVolumeButton()
         initChannelButton()
         initNumberButton()
+    }
+
+    private fun showNoIREmitterDialog() {
+        val alertDialogBuilder = AlertDialog.Builder(requireContext())
+        alertDialogBuilder.setTitle("IR Emitter Not Found")
+        alertDialogBuilder.setMessage("해당 기기에는 적외선 발신기가 없어 리모컨 기능을 사용할 수 없습니다.")
+        alertDialogBuilder.setPositiveButton("OK") { dialog, _ ->
+            dialog.dismiss()
+            requireActivity().onBackPressed()
+        }
+
+        val alertDialog = alertDialogBuilder.create()
+        alertDialog.show()
     }
 
     private fun getPowerOnCode(deviceType: DeviceType): IntArray {

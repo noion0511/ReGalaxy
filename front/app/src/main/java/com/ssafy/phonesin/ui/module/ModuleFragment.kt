@@ -2,7 +2,6 @@ package com.ssafy.phonesin.ui.module
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.activity.addCallback
@@ -96,9 +95,7 @@ class ModuleFragment : BaseFragment<FragmentModuleBinding>(
             override fun onItemClick(item: ModuleType) {
                 when (item.title) {
                     getString(R.string.module_type_camera_title) -> {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            findNavController().navigate(R.id.action_module_to_cameraXFragment)
-                        }
+                        findNavController().navigate(R.id.action_module_to_cameraXFragment)
                     }
                     getString(R.string.module_type_cctv_title) -> showToast("준비중입니다.")
                     getString(R.string.module_type_temperature_title) -> showToast("준비중입니다.")
