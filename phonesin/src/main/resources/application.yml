@@ -36,7 +36,7 @@ OPENVIDU_URL: http://i9d102.p.ssafy.io:80/
 OPENVIDU_SECRET: s1s2a3f4y@
 
 thymeleaf:
-  prefix=classpath: templates/
+  prefix=classpath: /templates/
   suffix: .html
   check-template-location: true
   cache: false

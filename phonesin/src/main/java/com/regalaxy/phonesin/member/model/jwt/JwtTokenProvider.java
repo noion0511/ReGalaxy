@@ -95,7 +95,7 @@ public class JwtTokenProvider {
     }
 
     public String createRefreshToken(String email) {
-        // 리프레스 토큰의 claims에는 권한 정보를 담지 않는다.
+        // 리프레시 토큰의 claims에는 권한 정보를 담지 않는다.
         // 이유는 유효기간이 길어서, 탈취당할 경우 관리자 권한이 악용될 가능성이 높기 때문
         Claims claims = Jwts.claims().setSubject(email);
         Date now = new Date();
