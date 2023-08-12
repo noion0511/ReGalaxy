@@ -1,4 +1,4 @@
-package com.regalaxy.phonesin.module.controller;
+package io.openvidu.basic.java;
 
 import java.util.Map;
 
