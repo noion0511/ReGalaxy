@@ -104,8 +104,9 @@ public class YtwokService {
         String contentDisposition = "attachment; filename=\"" + encodedUploadFileName + "\"";
 
         String absolutePath = new File("").getAbsolutePath() + "/images/y2k/" + SaveFileName;
-
+        System.out.println("filePath : " + absolutePath);
         Resource resource = new UrlResource("file:" + absolutePath);
+        System.out.println("file Lodding Complite");
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
