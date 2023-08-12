@@ -1,123 +1,304 @@
-<!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="UTF-8">
+    <title>openvidu-js</title>
 
-    <title>웹알티시해봐요</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="utf-8">
+    <link rel="shortcut icon" href="resources/images/favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap -->
+
+    <link rel="stylesheet" href="style.css" type="text/css" media="screen">
+    <script src="openvidu-browser-2.28.0.js"></script>
 </head>
+
 <body>
-<button onclick="createOffer();">오퍼를 생성해요</button><br>
-<div>내 영상이에요</div>
-<video id="myFace" playsinline autoplay width="300" height="300"></video>
-<br>
-<div>피어의 영상이에요</div>
-<video id="peerFace" playsinline autoplay width="300" height="300"></video>
+
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/"><img class="demo-logo" src="resources/images/openvidu_vert_white_bg_trans_cropped.png"/> JS</a>
+            <a class="navbar-brand nav-icon" href="https://github.com/OpenVidu/openvidu-tutorials/tree/master/openvidu-js" title="GitHub Repository" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+            <a class="navbar-brand nav-icon" href="http://www.docs.openvidu.io/en/stable/tutorials/openvidu-js/" title="Documentation" target="_blank"><i class="fa fa-book" aria-hidden="true"></i></a>
+        </div>
+    </div>
+</nav>
+
+<div id="main-container" class="container">
+    <div id="join">
+        <div id="img-div"><img src="resources/images/openvidu_grey_bg_transp_cropped.png" /></div>
+        <div id="join-dialog" class="jumbotron vertical-center">
+            <h1>Join a video session</h1>
+            <form class="form-group" onsubmit="joinSession(); return false">
+                <p>
+                    <label>Participant</label>
+                    <input class="form-control" type="text" id="userName" required>
+                </p>
+                <p>
+                    <label>Session</label>
+                    <input class="form-control" type="text" id="sessionId" required>
+                </p>
+                <p class="text-center">
+                    <input class="btn btn-lg btn-success" type="submit" name="commit" value="Join!">
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <div id="session" style="display: none;">
+        <div id="session-header">
+            <h1 id="session-title"></h1>
+            <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" onmouseup="leaveSession()" value="Leave session">
+        </div>
+        <div id="main-video" class="col-md-6"><p></p><video autoplay playsinline="true"></video></div>
+        <div id="video-container" class="col-md-6"></div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <div class="text-muted">OpenVidu © 2022</div>
+        <a href="http://www.openvidu.io/" target="_blank"><img class="openvidu-logo" src="resources/images/openvidu_globe_bg_transp_cropped.png"/></a>
+    </div>
+</footer>
 <script>
-        // 일단 소켓 연결을 해봐요
-        var conn = new WebSocket('wss://localhost:8080/socket');
-        // 먼저 RTC객체를 만들어요 구글 stun 서버로 부터 나의 정보를 가져올게요
-        var configuration = {
-            "iceServers" : [{
-                "url" : "stun:stun.l.google.com:19302"
-            }]
-        }
-        var myPeerConnection = new RTCPeerConnection(configuration);
+    var OV;
+var session;
 
-        // 내가 나의 캔디데이트(너가 나를 연결하는 방법들의 후보)를 등록하면(즉 로컬디스크립션을 설정하면)
-        // 트리거 되는 메서드에요
-        myPeerConnection.onicecandidate = function(event) {
-            console.log("나의 캔디데이트를 보낼게요");
-            send({
-                event: "candidate",
-                data: event.candidate
-            })
-        }
-        // 연결이 되서 피어의 스트림이 내 RTC객체에 등록되면 시작되는 메서드에요
-        myPeerConnection.addEventListener("addstream", handleAddStream);
-        function handleAddStream(data) {
-            console.log("스트리밍 데이터를 받아왔어요");
-            var peerFace = document.getElementById("peerFace");
-            peerFace.srcObject = data.stream;
-        }
 
-        // 소켓이 연결되었을 때 실행할 콜백함수에요
-        conn.onopen = function() {
-            console.log("웹소켓이 연결되었어요");
-        };
+/* OPENVIDU METHODS */
 
-        // 소켓에서 메세지를 받아왔을 때 실행할 콜백함수에요
-        conn.onmessage = async function(msg) {
-            var content = JSON.parse(msg.data);
-            if (content.event == "offer") {
-                console.log("오퍼가 왔어요");
-                // 오퍼가 오면 가장먼저 그 오퍼를 리모트 디스크립션으로 등록해줘요
-                var offer = content.data;
-                myPeerConnection.setRemoteDescription(offer);
-                // 받는 쪽에서도 자신의 미디어를 켜줘요
-                await getMedia();
-                myStream.getTracks().forEach((track) => myPeerConnection.addTrack(track, myStream));
-                // 이제 앤서를 보내요
-                var answer = await myPeerConnection.createAnswer();
-                myPeerConnection.setLocalDescription(answer);
-                console.log("앤서를 보낼게요");
-                send({
-                    event: "answer",
-                    data: answer
-                })
-            } else if (content.event == "answer") {
-                console.log("앤서가 왔어요");
-                var answer = content.data;
-                myPeerConnection.setRemoteDescription(answer);
-            } else if (content.event == "candidate") {
-                console.log("캔디데이트가 왔어요");
-                // 이 메서드를 통해 리모트 디스크립션에 설정되어있는 피어와의 연결방식을 결정해요
-                myPeerConnection.addIceCandidate(content.data);
-            }
-        }
+function joinSession() {
 
-        // 앞으로 소켓으로 메세지를 보낼 땐 이 함수를 쓸 생각이에요
-        function send(message) {
-            conn.send(JSON.stringify(message));
-        }
+	var mySessionId = document.getElementById("sessionId").value;
+	var myUserName = document.getElementById("userName").value;
 
-        // 미디어와 관련된 변수를 선언해요 myFace는 element를 받고 myStream엔 영상 내용을 담을거에요
-        var myFace = document.getElementById("myFace");
-        var myStream;
+	// --- 1) Get an OpenVidu object ---
 
-        //미디어 내용을 받기 시작하는 함수에요
-        async function getMedia() {
-            try {
-                myStream = await navigator.mediaDevices.getUserMedia({
-                    audio: true,
-                    video: true
-                });
-                myFace.srcObject = myStream;
-            } catch (e) {
-                console.log("미디어를 가져오는 중 에러가 발생했어요");
-            }
-        }
+	OV = new OpenVidu();
 
-        // '오퍼를 생성해요'라는 버튼을 눌렀을 때 이 메서드가 실행되요
-        async function createOffer() {
-            console.log("오퍼를 보내볼게요");
+	// --- 2) Init a session ---
 
-            //일단 카메라를 킬게요 키면서 myStream에도 미디어 정보를 담아와요
-            await getMedia();
+	session = OV.initSession();
 
-            // getMedia에서 가져온 audio, video 트랙을 myPeerConnection에 등록해요
-            myStream.getTracks().forEach((track) => myPeerConnection.addTrack(track, myStream));
+	// --- 3) Specify the actions when events take place in the session ---
 
-            // RTC객체도 만들었고 나의 미디어도 RTC객체에 담았으니 오퍼를 생성해볼게요
-            var offer = await myPeerConnection.createOffer();
-            console.log("오퍼를 전송시작해요!")
-            // 이제 send함수를 통해 소켓으로 나의 offer를 전송해 볼게요
-            await send({
-                event: "offer",
-                data: offer
-            })
-            console.log("오퍼 전송을 완료했어요")
-            myPeerConnection.setLocalDescription(offer);
-        }
-    </script>
+	// On every new Stream received...
+	session.on('streamCreated', event => {
+
+		// Subscribe to the Stream to receive it. HTML video will be appended to element with 'video-container' id
+		var subscriber = session.subscribe(event.stream, 'video-container');
+
+		// When the HTML video has been appended to DOM...
+		subscriber.on('videoElementCreated', event => {
+
+			// Add a new <p> element for the user's nickname just below its video
+			appendUserData(event.element, subscriber.stream.connection);
+		});
+	});
+
+	// On every Stream destroyed...
+	session.on('streamDestroyed', event => {
+
+		// Delete the HTML element with the user's nickname. HTML videos are automatically removed from DOM
+		removeUserData(event.stream.connection);
+	});
+
+	// On every asynchronous exception...
+	session.on('exception', (exception) => {
+		console.warn(exception);
+	});
+
+
+	// --- 4) Connect to the session with a valid user token ---
+
+	// Get a token from the OpenVidu deployment
+	getToken(mySessionId).then(token => {
+
+		// First param is the token got from the OpenVidu deployment. Second param can be retrieved by every user on event
+		// 'streamCreated' (property Stream.connection.data), and will be appended to DOM as the user's nickname
+		session.connect(token, { clientData: myUserName })
+			.then(() => {
+
+				// --- 5) Set page layout for active call ---
+
+				document.getElementById('session-title').innerText = mySessionId;
+				document.getElementById('join').style.display = 'none';
+				document.getElementById('session').style.display = 'block';
+
+				// --- 6) Get your own camera stream with the desired properties ---
+
+				var publisher = OV.initPublisher('video-container', {
+					audioSource: undefined, // The source of audio. If undefined default microphone
+					videoSource: undefined, // The source of video. If undefined default webcam
+					publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
+					publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
+					resolution: '640x480',  // The resolution of your video
+					frameRate: 30,			// The frame rate of your video
+					insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
+					mirror: false       	// Whether to mirror your local video or not
+				});
+
+				// --- 7) Specify the actions when events take place in our publisher ---
+
+				// When our HTML video has been added to DOM...
+				publisher.on('videoElementCreated', function (event) {
+					initMainVideo(event.element, myUserName);
+					appendUserData(event.element, myUserName);
+					event.element['muted'] = true;
+				});
+
+				// --- 8) Publish your stream ---
+
+				session.publish(publisher);
+
+			})
+			.catch(error => {
+				console.log('There was an error connecting to the session:', error.code, error.message);
+			});
+	});
+}
+
+function leaveSession() {
+
+	// --- 9) Leave the session by calling 'disconnect' method over the Session object ---
+
+	session.disconnect();
+
+	// Removing all HTML elements with user's nicknames.
+	// HTML videos are automatically removed when leaving a Session
+	removeAllUserData();
+
+	// Back to 'Join session' page
+	document.getElementById('join').style.display = 'block';
+	document.getElementById('session').style.display = 'none';
+}
+
+window.onbeforeunload = function () {
+	if (session) session.disconnect();
+};
+
+
+/* APPLICATION SPECIFIC METHODS */
+
+window.addEventListener('load', function () {
+	generateParticipantInfo();
+});
+
+function generateParticipantInfo() {
+	document.getElementById("sessionId").value = "SessionA";
+	document.getElementById("userName").value = "Participant" + Math.floor(Math.random() * 100);
+}
+
+function appendUserData(videoElement, connection) {
+	var userData;
+	var nodeId;
+	if (typeof connection === "string") {
+		userData = connection;
+		nodeId = connection;
+	} else {
+		userData = JSON.parse(connection.data).clientData;
+		nodeId = connection.connectionId;
+	}
+	var dataNode = document.createElement('div');
+	dataNode.className = "data-node";
+	dataNode.id = "data-" + nodeId;
+	dataNode.innerHTML = "<p>" + userData + "</p>";
+	videoElement.parentNode.insertBefore(dataNode, videoElement.nextSibling);
+	addClickListener(videoElement, userData);
+}
+
+function removeUserData(connection) {
+	var dataNode = document.getElementById("data-" + connection.connectionId);
+	dataNode.parentNode.removeChild(dataNode);
+}
+
+function removeAllUserData() {
+	var nicknameElements = document.getElementsByClassName('data-node');
+	while (nicknameElements[0]) {
+		nicknameElements[0].parentNode.removeChild(nicknameElements[0]);
+	}
+}
+
+function addClickListener(videoElement, userData) {
+	videoElement.addEventListener('click', function () {
+		var mainVideo = $('#main-video video').get(0);
+		if (mainVideo.srcObject !== videoElement.srcObject) {
+			$('#main-video').fadeOut("fast", () => {
+				$('#main-video p').html(userData);
+				mainVideo.srcObject = videoElement.srcObject;
+				$('#main-video').fadeIn("fast");
+			});
+		}
+	});
+}
+
+function initMainVideo(videoElement, userData) {
+	document.querySelector('#main-video video').srcObject = videoElement.srcObject;
+	document.querySelector('#main-video p').innerHTML = userData;
+	document.querySelector('#main-video video')['muted'] = true;
+}
+
+
+/**
+ * --------------------------------------------
+ * GETTING A TOKEN FROM YOUR APPLICATION SERVER
+ * --------------------------------------------
+ * The methods below request the creation of a Session and a Token to
+ * your application server. This keeps your OpenVidu deployment secure.
+ *
+ * In this sample code, there is no user control at all. Anybody could
+ * access your application server endpoints! In a real production
+ * environment, your application server must identify the user to allow
+ * access to the endpoints.
+ *
+ * Visit https://docs.openvidu.io/en/stable/application-server to learn
+ * more about the integration of OpenVidu in your application server.
+ */
+
+var APPLICATION_SERVER_URL = "http://localhost:8080/";
+
+function getToken(mySessionId) {
+	return createSession(mySessionId).then(sessionId => createToken(sessionId));
+}
+
+function createSession(sessionId) {
+	return new Promise((resolve, reject) => {
+		$.ajax({
+			type: "POST",
+			url: APPLICATION_SERVER_URL + "api/sessions",
+			data: JSON.stringify({ customSessionId: sessionId }),
+			headers: { "Content-Type": "application/json" },
+			success: response => resolve(response), // The sessionId
+			error: (error) => reject(error)
+		});
+	});
+}
+
+function createToken(sessionId) {
+	return new Promise((resolve, reject) => {
+		$.ajax({
+			type: 'POST',
+			url: APPLICATION_SERVER_URL + 'api/sessions/' + sessionId + '/connections',
+			data: JSON.stringify({}),
+			headers: { "Content-Type": "application/json" },
+			success: (response) => resolve(response), // The token
+			error: (error) => reject(error)
+		});
+	});
+}
+
+
+
+
+
+</script>
+
 </body>
+
 </html>
