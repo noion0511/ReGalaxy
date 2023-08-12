@@ -118,19 +118,21 @@ public class BackController {
 
     @ApiOperation(value = "기기 반납 신청서 삭제")
     @DeleteMapping("/apply/delete/{backId}")//신청삭제
-    public ResponseEntity<?> infoDelete(@PathVariable("backId") Long backId){
+    public ResponseEntity<?> infoDelete(@PathVariable("backId") Long backId, @ApiIgnore @RequestHeader String authorization){
         Map<String, Object> resultMap = new HashMap<String, Object>();
+        String token = authorization.replace("Bearer ", "");
+        Long memberId = jwtTokenProvider.getMemberId(token);
 
         try {
-            backService.infoDelete(backId);
+            backService.infoDelete(backId, memberId);
             resultMap.put("message", "성공적으로 삭제되었습니다.");
-            resultMap.put("status", HttpStatus.OK.value());
-            return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+            resultMap.put("status", HttpStatus.NO_CONTENT.value());
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
         } catch (Exception e) {
-            resultMap.put("message", "해당하는 backId가 없습니다.");
+            resultMap.put("message", e.getMessage());
             resultMap.put("status", HttpStatus.NOT_FOUND.value());
 
-            return new ResponseEntity<>(resultMap, HttpStatus.OK);
+            return new ResponseEntity<>(resultMap, HttpStatus.NOT_FOUND);
         }
     }
 }

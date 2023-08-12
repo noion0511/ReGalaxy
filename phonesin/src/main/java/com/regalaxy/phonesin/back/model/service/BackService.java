@@ -141,7 +141,18 @@ public class BackService {
     }
 
     @Transactional
-    public void infoDelete(Long backId){
-        backRepository.deleteById(backId);
+    public void infoDelete(Long backId, Long memberId){
+        Back back = backRepository.findById(backId)
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 backID가 없습니다."));
+
+        if (back.getRental().getMember().getMemberId() != memberId) {
+            throw new IllegalArgumentException("memberID가 다릅니다.");
+        }
+
+        try {
+            backRepository.deleteById(backId);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("해당하는 BackID로 삭제를 시도하였으나 오류가 발생하였습니다.");
+        }
     }
 }
