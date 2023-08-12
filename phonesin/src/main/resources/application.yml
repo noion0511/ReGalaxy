@@ -31,6 +31,19 @@ spring:
 
 server:
   port: 8080
+#  allowedOrigins: https://localhost:8080
+#  ssl:
+#    key-store: classpath:keystore.p12
+#    key-store-password: s1s2a3f4y@
+#    keyStoreType: PKCS12
+#    keyAlias: mykey
+
+OPENVIDU_URL: http://i9d102.p.ssafy.io:8080/
+OPENVIDU_SECRET: s1s2a3f4y@
+
+#openvidu:
+#  server:
+#    allowedOrigins: https://localhost:8080
 
 thymeleaf:
   prefix=classpath: /templates/
