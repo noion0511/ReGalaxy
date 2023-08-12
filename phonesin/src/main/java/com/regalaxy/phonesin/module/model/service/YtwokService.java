@@ -114,4 +114,9 @@ public class YtwokService {
                 .body(resource);
     }
 
+
+    public void testJobMethod() {
+        System.out.println("test job....");
+    }
+
 }

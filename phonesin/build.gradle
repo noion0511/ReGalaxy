@@ -52,6 +52,9 @@ dependencies {
 
 	// JSONObject
 	implementation 'org.json:json:20210307'
+
+	// Quartz (scheduling)
+	implementation 'org.springframework.boot:spring-boot-starter-quartz:2.7.5'
 }
 
 tasks.named('test') {
