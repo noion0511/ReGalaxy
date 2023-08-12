@@ -22,7 +22,7 @@ class IrRemoteFragment : BaseFragment<FragmentIrRemoteBinding>(R.layout.fragment
         inflater: LayoutInflater,
         container: ViewGroup?
     ): FragmentIrRemoteBinding {
-        return FragmentIrRemoteBinding.inflate(inflater, container, false).apply{
+        return FragmentIrRemoteBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
         }
     }
@@ -38,14 +38,13 @@ class IrRemoteFragment : BaseFragment<FragmentIrRemoteBinding>(R.layout.fragment
             return
         }
 
-        // 여기에 버튼 이벤트 리스너 설정
         initPowerButton()
         initVolumeButton()
         initChannelButton()
         initNumberButton()
     }
 
-    private fun showNoIREmitterDialog() {
+    internal fun showNoIREmitterDialog() {
         val alertDialogBuilder = AlertDialog.Builder(requireContext())
         alertDialogBuilder.setTitle("IR Emitter Not Found")
         alertDialogBuilder.setMessage("해당 기기에는 적외선 발신기가 없어 리모컨 기능을 사용할 수 없습니다.")
@@ -86,7 +85,7 @@ class IrRemoteFragment : BaseFragment<FragmentIrRemoteBinding>(R.layout.fragment
     private fun getSamsungTvMuteCode() = createIrPattern(0xE0E0F00F)
 
 
-    private fun createIrPattern(hexCode: Long): IntArray {
+    internal fun createIrPattern(hexCode: Long): IntArray {
         val pattern = mutableListOf<Int>()
 
         // Header
@@ -110,14 +109,18 @@ class IrRemoteFragment : BaseFragment<FragmentIrRemoteBinding>(R.layout.fragment
     private fun initSelectDeviceType() {
         bindingNonNull.layoutChoiceTv.setOnClickListener {
             selectedDevice = DeviceType.TV
-            bindingNonNull.layoutChoiceAirConditioner.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_normal_big)
-            bindingNonNull.layoutChoiceTv.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_pressed_big)
+            bindingNonNull.layoutChoiceAirConditioner.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.button_normal_big)
+            bindingNonNull.layoutChoiceTv.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.button_pressed_big)
         }
 
         bindingNonNull.layoutChoiceAirConditioner.setOnClickListener {
             selectedDevice = DeviceType.AIR_CONDITIONER
-            bindingNonNull.layoutChoiceTv.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_normal_big)
-            bindingNonNull.layoutChoiceAirConditioner.background = ContextCompat.getDrawable(requireContext(), R.drawable.button_pressed_big)
+            bindingNonNull.layoutChoiceTv.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.button_normal_big)
+            bindingNonNull.layoutChoiceAirConditioner.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.button_pressed_big)
         }
     }
 
@@ -199,12 +202,12 @@ class IrRemoteFragment : BaseFragment<FragmentIrRemoteBinding>(R.layout.fragment
 
     companion object {
         private const val SAMSUNG_TICK = 560
-        private const val SAMSUNG_HDR_MARK = SAMSUNG_TICK * 8
-        private const val SAMSUNG_HDR_SPACE = SAMSUNG_TICK * 8
-        private const val SAMSUNG_BIT_MARK = SAMSUNG_TICK
-        private const val SAMSUNG_ONE_SPACE = SAMSUNG_TICK * 3
-        private const val SAMSUNG_ZERO_SPACE = SAMSUNG_TICK
-        private const val SAMSUNG_MIN_GAP = SAMSUNG_TICK * 100
+        internal const val SAMSUNG_HDR_MARK = SAMSUNG_TICK * 8
+        internal const val SAMSUNG_HDR_SPACE = SAMSUNG_TICK * 8
+        internal const val SAMSUNG_BIT_MARK = SAMSUNG_TICK
+        internal const val SAMSUNG_ONE_SPACE = SAMSUNG_TICK * 3
+        internal const val SAMSUNG_ZERO_SPACE = SAMSUNG_TICK
+        internal const val SAMSUNG_MIN_GAP = SAMSUNG_TICK * 100
 
         private val NUMBER_CODES = arrayOf(
             0xE0E020DF, 0xE0E030CF, 0xE0E010EF,
