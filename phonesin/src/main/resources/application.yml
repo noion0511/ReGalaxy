@@ -33,7 +33,7 @@ server:
   port: 8080
 
 OPENVIDU_URL: http://i9d102.p.ssafy.io/
-OPENVIDU_SECRET: s1s2a3f4y@
+OPENVIDU_SECRET: MY_SECRET
 
 thymeleaf:
   prefix=classpath: /templates/
