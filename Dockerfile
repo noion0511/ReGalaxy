@@ -1,7 +1,5 @@
 FROM openjdk:8-jdk
 
-WORKDIR /usr/src/app
-
 ARG JAR_FILE=phonesin/build/libs/*.jar
 
 COPY ${JAR_FILE} app.jar
