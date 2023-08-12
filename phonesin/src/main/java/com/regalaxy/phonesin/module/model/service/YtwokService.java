@@ -103,10 +103,8 @@ public class YtwokService {
         String encodedUploadFileName = UriUtils.encode(uploadFileName, StandardCharsets.UTF_8);
         String contentDisposition = "attachment; filename=\"" + encodedUploadFileName + "\"";
 
-        String absolutePath = new File("").getAbsolutePath() + "/images/y2k/" + SaveFileName;
-        System.out.println("filePath : " + absolutePath);
+        String absolutePath = new File("").getAbsolutePath() + "images/y2k/" + SaveFileName;
         Resource resource = new UrlResource("file:" + absolutePath);
-        System.out.println("file Lodding Complite");
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
@@ -114,6 +112,7 @@ public class YtwokService {
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(resource);
     }
+
     public void deleteImage(String fileName){
 
     }

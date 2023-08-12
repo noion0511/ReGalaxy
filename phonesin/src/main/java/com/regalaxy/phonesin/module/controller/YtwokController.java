@@ -45,13 +45,8 @@ public class YtwokController {
 
     @ApiOperation(value = "이미지다운로드")
     @GetMapping(value = "images/{fileName}")
-    public ResponseEntity<Resource> getImage(@PathVariable("fileName") String fileName) {
-        try {
-            ResponseEntity<Resource> result = ytwokService.loadImage(fileName);
-            return result;
-        } catch (Exception e) {
-            return null;
-        }
+    public ResponseEntity<Resource> getImage(@PathVariable("fileName") String fileName) throws Exception {
+        return ytwokService.loadImage(fileName);
     }
 
     @ApiOperation(value = "QR 이미지 링크")
