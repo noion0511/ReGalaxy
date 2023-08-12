@@ -1,6 +1,6 @@
 FROM openjdk:8-jdk
 
-WORKDIR /home/docker
+WORKDIR /usr/src/app
 
 ARG JAR_FILE=phonesin/build/libs/*.jar
 
