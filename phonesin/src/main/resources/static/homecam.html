@@ -274,8 +274,7 @@ function createSession(sessionId) {
 			url: APPLICATION_SERVER_URL + "api/sessions",
 			data: JSON.stringify({ customSessionId: sessionId }),
 			headers: { "Content-Type": "application/json" },
-<!--			success: response => resolve(response), // The sessionId-->
-			success: response => console.log(response), // The sessionId
+			success: response => resolve(response), // The sessionId
 			error: (error) => reject(error)
 		});
 	});
