@@ -25,7 +25,7 @@ public class ApkService {
         String encodedUploadFileName = UriUtils.encode(uploadFileName, StandardCharsets.UTF_8);
         String contentDisposition = "attachment; filename=\"" + encodedUploadFileName + "\"";
 
-        String absolutePath = new File("").getAbsolutePath() + "\\" + "src/main/resources/" + SaveFileName;
+        String absolutePath = new File("").getAbsolutePath() + "resources/" + SaveFileName;
 
         Resource resource = new UrlResource("file:" + absolutePath);
 

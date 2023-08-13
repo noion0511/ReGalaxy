@@ -68,7 +68,7 @@ public class NoticeService {
         else {throw new Exception("noticeType가 없습니다..");}
 
         // 파일 경로 지정
-        String uploadPath = new File("").getAbsolutePath() + "\\" + "src/main/resources/static/images/" + noticeTypeName;
+        String uploadPath = new File("").getAbsolutePath() + "resources/images/" + noticeTypeName;
 
         String saveFolder = uploadPath + File.separator;
 
@@ -127,7 +127,7 @@ public class NoticeService {
         else if (notice.getNoticeType() == 2) type = "bottom/";
         else throw new Exception("공지 타입이 지원하지 않는 타입입니다.");
 
-        String absolutePath = new File("").getAbsolutePath() + "\\" + "src/main/resources/static/images/" + type + SaveFileName;
+        String absolutePath = new File("").getAbsolutePath() + "resources/images/" + type + SaveFileName;
 
         Resource resource = new UrlResource("file:" + absolutePath);
 
