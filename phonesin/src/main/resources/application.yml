@@ -31,6 +31,8 @@ spring:
 
 server:
   port: 8080
+  ssl:
+    enabled: false
 
 OPENVIDU_URL: https://i9d102.p.ssafy.io/
 OPENVIDU_SECRET: MY_SECRET
