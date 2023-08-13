@@ -17,6 +17,7 @@ import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentReturnMobileBinding
 import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.Util.convertCalendarToDate
+import com.ssafy.phonesin.ui.util.Util.convertToDate
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,6 +42,7 @@ class ReturnMobileFragment : BaseFragment<FragmentReturnMobileBinding>(
     val returnMobileViewModel: ReturnMobileViewModel by viewModels()
     val returnViewModel: ReturnViewModel by activityViewModels()
     val rentalCheckList = mutableListOf<CheckBox>()
+    var date = ""
 
 
     override fun onCreateBinding(
@@ -69,7 +71,7 @@ class ReturnMobileFragment : BaseFragment<FragmentReturnMobileBinding>(
 
 
     private fun setReturnMobile() = with(bindingNonNull) {
-
+        date = convertCalendarToDate(calendarReturn.date)
         returnMobileViewModel.rentalResponseList.observe(viewLifecycleOwner) {
             layoutReturnCheckBox.removeAllViews()
             it.forEach { rental ->
@@ -94,7 +96,9 @@ class ReturnMobileFragment : BaseFragment<FragmentReturnMobileBinding>(
 //            radioButton.id = i // 라디오 버튼마다 고유한 ID를 부여 (무조건 필요한 것은 아님)
 //            radioGroupReturnAdd.addView(radioButton)
 //        }
-
+        calendarReturn.setOnDateChangeListener { _, year, month, dayOfMonth ->
+            date = convertToDate(year, month, dayOfMonth)
+        }
         buttonReturnNext.setOnClickListener {
             if (!isCheckBox()) {//하나라도 체크 안돼있음
                 showToast("한개 이상을 체크해주세요")
@@ -102,9 +106,8 @@ class ReturnMobileFragment : BaseFragment<FragmentReturnMobileBinding>(
                 showToast("후기를 적어주세요")
             } else {
                 returnViewModel.setReturnList(getPhoneIdCheckBox(), getRentalIdCheckBox())
-                returnViewModel.setReturnListDate(convertCalendarToDate(calendarReturn.date))
                 returnViewModel.setReturnListContent(editTextReturnContent.text.toString())
-
+                returnViewModel.setReturnListDate(date)
                 if (radioButtonAgent.isChecked) {
                     returnViewModel.setReturnListType(radioButtonAgent.text.toString())
                     findNavController().navigate(

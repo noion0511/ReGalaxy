@@ -49,7 +49,7 @@ object Util {
     }
     fun convertToDate(year: Int, month: Int, day: Int): String {
         //val dateFormat = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
-        return "$year.$month.$day"
+        return "$year/${month+1}/$day"
     }
 
     fun getImage(context: Context, view: ImageView, url: String) {
