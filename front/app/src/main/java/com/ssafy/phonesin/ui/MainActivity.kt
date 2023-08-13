@@ -8,8 +8,10 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet.Layout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
@@ -165,6 +167,12 @@ class MainActivity : AppCompatActivity() {
         binding.containerMain.setPadding(0, 0, 0, 0)
         binding.mainActivityLayout.setPadding(0, 0, 0, 0)
         layout.setPadding(50, statusBarHeight() + 25, 50, navigationHeight())
+    }
+
+    fun setHygrometerPadding(layout: LinearLayout) {
+        binding.containerMain.setPadding(0, 0, 0, 0)
+        binding.mainActivityLayout.setPadding(0, 0, 0, 0)
+        layout.setPadding(0, 0, 0, navigationHeight())
     }
 
     fun setFrameLayoutPaddingVerticle(layout: FrameLayout) {
