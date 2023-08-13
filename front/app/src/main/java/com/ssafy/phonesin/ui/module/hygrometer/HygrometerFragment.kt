@@ -1,15 +1,26 @@
 package com.ssafy.phonesin.ui.module.hygrometer
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.ssafy.phonesin.ApplicationClass
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentHygrometerBinding
+import com.ssafy.phonesin.model.Location
 import com.ssafy.phonesin.ui.util.base.BaseFragment
+import java.text.SimpleDateFormat
+import java.util.SimpleTimeZone
 
 class HygrometerFragment : BaseFragment<FragmentHygrometerBinding>(R.layout.fragment_hygrometer),
     SensorEventListener {
@@ -17,6 +28,10 @@ class HygrometerFragment : BaseFragment<FragmentHygrometerBinding>(R.layout.frag
     private lateinit var sensorManager: SensorManager
     private var humiditySensor: Sensor? = null
     private var temperatureSensor: Sensor? = null
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    lateinit var current: android.location.Location
+
+    val hygrometerViewModel : HygrometerViewModel by activityViewModels()
 
     override fun onCreateBinding(
         inflater: LayoutInflater,
@@ -28,17 +43,27 @@ class HygrometerFragment : BaseFragment<FragmentHygrometerBinding>(R.layout.frag
     }
 
     override fun init() {
+        getWeatherInfo()
+
         sensorManager = requireContext().getSystemService(Context.SENSOR_SERVICE) as SensorManager
         humiditySensor = sensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY)
         temperatureSensor = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE)
 
         if (humiditySensor == null) {
-            showToast("Humidity sensor not available!")
+            showToast("습도 센서가 내장되어 있지 않아 관련 서비스가 제공되지 않습니다.")
         }
 
         if (temperatureSensor == null) {
-            showToast("Temperature sensor not available!")
+            showToast("온도 센서가 내장되어 있지 않아 관련 서비스가 제공되지 않습니다.")
         }
+
+
+        hygrometerViewModel.nowClimate.observe(viewLifecycleOwner, Observer {
+            bindingNonNull.textViewTemperate.text = hygrometerViewModel.nowClimate.value?.climate!!.toInt().toString() ?: "알수없음"
+            bindingNonNull.textViewLocation.text = hygrometerViewModel.nowClimate.value?.address ?: "알수없음"
+        })
+
+
     }
 
     override fun onResume() {
@@ -73,5 +98,36 @@ class HygrometerFragment : BaseFragment<FragmentHygrometerBinding>(R.layout.frag
                 }
             }
         }
+    }
+
+    private fun getWeatherInfo() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                ApplicationClass.PERMISSIONS_REQUEST_LOCATION
+            )
+        } else {
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { location ->
+                    if (location != null) {
+                        current = location
+                        hygrometerViewModel.getClimate(Location(current.latitude,current.longitude))
+                        val nowTime = SimpleDateFormat("yyyy-MM-dd").format(System.currentTimeMillis())
+                        bindingNonNull.textViewDate.text = nowTime
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    showToast("위치정보를 받아오지 못하였습니다.")
+                }
+        }
+
+
     }
 }

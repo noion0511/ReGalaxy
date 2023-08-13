@@ -53,7 +53,7 @@
                         style="@style/textview_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/moduleTodayHygrometer"
+                        android:text="현재 위치"
                         android:textColor="@color/white"
                         app:layout_constraintBottom_toTopOf="@+id/moduleImage"
                         app:layout_constraintEnd_toStartOf="@+id/linearLayout"
@@ -172,7 +172,7 @@
                             style="@style/textview_title_secondary"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/moduleDate" />
+                            android:text="@string/not_found" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -198,7 +198,7 @@
                             style="@style/textview_title_secondary"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/moduleDate" />
+                            android:text="@string/not_found" />
                     </LinearLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>

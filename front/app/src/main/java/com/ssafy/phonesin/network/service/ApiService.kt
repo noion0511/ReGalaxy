@@ -3,8 +3,10 @@ package com.ssafy.phonesin.network.service
 
 import com.ssafy.phonesin.model.Address
 import com.ssafy.phonesin.model.AgentAddress
+import com.ssafy.phonesin.model.Climate
 import com.ssafy.phonesin.model.Donation
 import com.ssafy.phonesin.model.ErrorResponse
+import com.ssafy.phonesin.model.Location
 import com.ssafy.phonesin.model.PhotoResponse
 import com.ssafy.phonesin.model.RentalBody
 import com.ssafy.phonesin.model.RentalCountResponse
@@ -66,10 +68,12 @@ interface ApiService {
     @GET("donation/king")
     suspend fun getKing(): NetworkResponse<PhotoResponse, ErrorResponse>
 
-
     @POST("/address/create/{address}")
     suspend fun postAddress(@Path("address") address: String): NetworkResponse<String, ErrorResponse>
 
     @DELETE("/address/delete/{addressId}")
     suspend fun removeAddress(@Path("addressId") addressId: Int): NetworkResponse<String, ErrorResponse>
+
+    @POST("/check")
+    suspend fun getClimate(@Body location: Location) : NetworkResponse<Climate, ErrorResponse>
 }
