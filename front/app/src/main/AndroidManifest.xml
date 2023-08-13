@@ -33,21 +33,6 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ui.mobile.returnmobile.ReturnFinishActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.mobile.returnmobile.ReturnAgentDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.mobile.returnmobile.ReturnAgentActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.mobile.returnmobile.ReturnVisitDeliveryActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.mobile.returnmobile.ReturnMobileActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.MainActivity"
             android:windowSoftInputMode="adjustResize"
             android:exported="true">

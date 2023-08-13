@@ -3,12 +3,9 @@ package com.ssafy.phonesin.ui.mobile.rentalmobile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.ssafy.phonesin.ApplicationClass.Companion.MEMBER_ID
-import com.ssafy.phonesin.model.Address
 import com.ssafy.phonesin.model.Event
-import com.ssafy.phonesin.model.Rental
+import com.ssafy.phonesin.model.RentalBody
 import com.ssafy.phonesin.network.NetworkResponse
-import com.ssafy.phonesin.repository.address.AddressRepository
 import com.ssafy.phonesin.repository.rental.RentalRepository
 import com.ssafy.phonesin.ui.util.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,16 +14,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RentalViewModel @Inject constructor(
-    private val addressRepository: AddressRepository,
     private val rentalRepository: RentalRepository
 ) : BaseViewModel() {
-    private val _rentalList = MutableLiveData<MutableList<Rental>>()
-    val rentalList: LiveData<MutableList<Rental>>
+    private val _rentalList = MutableLiveData<MutableList<RentalBody>>()
+    val rentalList: LiveData<MutableList<RentalBody>>
         get() = _rentalList
-
-    private var _addressList = mutableListOf<Address>()
-    val addressList: MutableList<Address>
-        get() = _addressList
 
     private val _possibleRentalCount = MutableLiveData<Int>()
     val possibleRentalCount: LiveData<Int>
@@ -49,9 +41,9 @@ class RentalViewModel @Inject constructor(
 
     fun getPossibleRentalCount() {
         viewModelScope.launch {
-            when (val rentalCountResponse = rentalRepository.getPossibleRentalCount(MEMBER_ID)) {
+            when (val rentalCountResponse = rentalRepository.getPossibleRentalCount()) {
                 is NetworkResponse.Success -> {
-                    _possibleRentalCount.value = 10 - rentalCountResponse.body
+                    _possibleRentalCount.value = 10 - rentalCountResponse.body.rentalCount
                 }
 
                 is NetworkResponse.ApiError -> {
@@ -73,29 +65,8 @@ class RentalViewModel @Inject constructor(
         _rentalList.value = mutableListOf()
     }
 
-    fun getAddressList() {
-        viewModelScope.launch {
-            when (val addressResponse = addressRepository.getAddress(MEMBER_ID)) {
-                is NetworkResponse.Success -> {
-                    _addressList = addressResponse.body.toMutableList()
-                }
 
-                is NetworkResponse.ApiError -> {
-                    _msg.postValue(postValueEvent(0, "addressList"))
-                }
-
-                is NetworkResponse.NetworkError -> {
-                    _msg.postValue(postValueEvent(1, "addressList"))
-                }
-
-                is NetworkResponse.UnknownError -> {
-                    _msg.postValue(postValueEvent(2, "addressList"))
-                }
-            }
-        }
-    }
-
-    fun addRental(rental: Rental) {
+    fun addRental(rental: RentalBody) {
         _rentalList.value?.add(rental)
     }
 
