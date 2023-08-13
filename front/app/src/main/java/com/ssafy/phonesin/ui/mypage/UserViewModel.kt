@@ -1,10 +1,10 @@
 package com.ssafy.phonesin.ui.mypage
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ssafy.phonesin.model.Address
-import com.ssafy.phonesin.model.Rental
+import com.ssafy.phonesin.model.UserRental
+import com.ssafy.phonesin.model.UserReturn
 import com.ssafy.phonesin.model.User
 import com.ssafy.phonesin.model.UserDonation
 import com.ssafy.phonesin.model.UserModify
@@ -34,9 +34,13 @@ class UserViewModel @Inject constructor(
     val myDonationList: MutableLiveData<List<UserDonation>>
         get() = _donation
 
-    private val _rental = MutableLiveData<List<Rental>>()
-    val myRentalList: MutableLiveData<List<Rental>>
+    private val _rental = MutableLiveData<List<UserRental>>()
+    val myRentalList: MutableLiveData<List<UserRental>>
         get() = _rental
+
+    private val _return = MutableLiveData<List<UserReturn>>()
+    val myReturnList: MutableLiveData<List<UserReturn>>
+        get() = _return
 
 
 
@@ -123,6 +127,25 @@ class UserViewModel @Inject constructor(
         viewModelScope.launch {
             userRepository.cancelUserRental(rentalId)
             getUserRental()
+        }
+    }
+
+    fun getUserReturn() {
+        viewModelScope.launch {
+            val response = userRepository.getUserReturnList()
+            when(response) {
+                is NetworkResponse.Success -> {
+                    _return.value = response.body.returnList
+                }
+                else -> {}
+            }
+        }
+    }
+
+    fun cancelUserReturn(returnId: Int) {
+        viewModelScope.launch {
+            userRepository.cancelUserReturn(returnId)
+            getUserReturn()
         }
     }
 }

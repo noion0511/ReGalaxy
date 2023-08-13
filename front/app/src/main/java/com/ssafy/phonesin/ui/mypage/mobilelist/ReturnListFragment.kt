@@ -1,20 +1,24 @@
 package com.ssafy.phonesin.ui.mypage.mobilelist
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.phonesin.databinding.FragmentMyPageReturnListBinding
-import com.ssafy.phonesin.model.mypage.MyReturn
-import com.ssafy.phonesin.model.mypage.MyReturnToggle
 import com.ssafy.phonesin.ui.MainActivity
+import com.ssafy.phonesin.ui.mypage.UserViewModel
 
 class ReturnListFragment : Fragment() {
     private lateinit var binding: FragmentMyPageReturnListBinding
-    private lateinit var rentalRecyclerView: RecyclerView
+    private lateinit var returnRecyclerView: RecyclerView
+
+    val userViewModel: UserViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,26 +42,19 @@ class ReturnListFragment : Fragment() {
     }
 
     private fun setRentalList() {
-        rentalRecyclerView = binding.recyclerViewReturnList
+        returnRecyclerView = binding.recyclerViewReturnList
 
-        val returnList =
-            listOf<MyReturnToggle>(
-                MyReturnToggle(MyReturn(1, "Galaxy 1"), false),
-                MyReturnToggle(MyReturn(2, "Galaxy 2"), false),
-                MyReturnToggle(MyReturn(3, "Galaxy 3"), false),
-                MyReturnToggle(MyReturn(4, "Galaxy 4"), false)
-            )
-
-        rentalRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        rentalRecyclerView.adapter = MyReturnListAdapter(returnList)
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ReturnListFragment().apply {
-                arguments = Bundle().apply {
-                }
+        returnRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        returnRecyclerView.adapter = MyReturnListAdapter(userViewModel.myReturnList, object : MyReturnListAdapter.OnCancelClickListener {
+            override fun onCancelClick(returnId: Int) {
+                userViewModel.cancelUserReturn(returnId)
+                Toast.makeText(requireContext(), "신청이 취소되었습니다.", Toast.LENGTH_SHORT).show()
             }
+        })
+
+        userViewModel.myReturnList.observe(viewLifecycleOwner, Observer {myReturnList ->
+            returnRecyclerView.adapter?.notifyDataSetChanged()
+        })
+
     }
 }

@@ -1,7 +1,6 @@
 package com.ssafy.phonesin.model
 
 data class Rental(
-    var toggle: Boolean,
     val rentalId: Int,
     val applyDate: String,
     val rentalStart: String,
@@ -17,7 +16,6 @@ data class Rental(
     val y2K: Boolean
 ) {
     constructor() : this(
-        false,
         applyDate = "",
         climateHumidity = true,
         fund = 0,
@@ -33,3 +31,4 @@ data class Rental(
         y2K = true
     )
 }
+

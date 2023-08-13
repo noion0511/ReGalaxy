@@ -3,15 +3,12 @@ package com.ssafy.phonesin.ui.mypage.mobilelist
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.ItemMyDonateListBinding
-import com.ssafy.phonesin.model.Donation
 import com.ssafy.phonesin.model.UserDonation
-import com.ssafy.phonesin.model.mypage.MyDonateToggle
 
 class MyDonateListAdapter(
     private val donateList: MutableLiveData<List<UserDonation>>,

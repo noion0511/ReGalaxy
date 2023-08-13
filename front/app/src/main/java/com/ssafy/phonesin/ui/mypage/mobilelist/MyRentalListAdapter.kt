@@ -8,11 +8,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.ItemMyRentalListBinding
-import com.ssafy.phonesin.model.Rental
-import com.ssafy.phonesin.model.mypage.MyRentalToggle
+import com.ssafy.phonesin.model.UserRental
 
 class MyRentalListAdapter(
-    private val rentalList: MutableLiveData<List<Rental>>,
+    private val rentalList: MutableLiveData<List<UserRental>>,
     private val onCancelClickListener: OnCancelClickListener
 ) :
     RecyclerView.Adapter<MyRentalListAdapter.ViewHolder>() {
@@ -23,7 +22,7 @@ class MyRentalListAdapter(
 
     inner class ViewHolder(private val binding: ItemMyRentalListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(rental: Rental) = with(binding) {
+        fun bind(rental: UserRental) = with(binding) {
             textViewMobileName.text = rental.modelName
             textViewRentalDate.text = rental.applyDate.substring(0, 10)
             textViewRentalCost.text = rental.fund.toString()
@@ -78,7 +77,7 @@ class MyRentalListAdapter(
             }
         }
 
-        fun toggleState(rental: Rental) = with(binding) {
+        fun toggleState(rental: UserRental) = with(binding) {
             if (rental.toggle) {
                 imageViewToggle.setImageResource(R.drawable.baseline_keyboard_arrow_up_24)
                 dividerToggle.visibility = View.VISIBLE
@@ -116,7 +115,7 @@ class MyRentalListAdapter(
             }
         }
 
-        fun rentalFunction(rental: Rental) : String {
+        fun rentalFunction(rental: UserRental) : String {
             var function = ""
             if (rental.y2K) function += "사진"
             if (rental.homecam) function += "홈캠"
