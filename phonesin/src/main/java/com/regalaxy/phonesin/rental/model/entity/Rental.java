@@ -34,8 +34,8 @@ public class Rental extends BaseTimeEntity {
     @JoinColumn(name = "agency_id")
     private Agency agency;
 
-    @OneToMany(mappedBy = "rental", cascade = ALL, orphanRemoval = true)
-    private List<Back> backList = new ArrayList<Back>();
+    @OneToOne(mappedBy = "rental", cascade = ALL, orphanRemoval = true)
+    private Back back;
 
     private LocalDateTime applyDate;
 

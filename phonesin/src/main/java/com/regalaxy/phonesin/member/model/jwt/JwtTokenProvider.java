@@ -32,7 +32,7 @@ public class JwtTokenProvider {
         // email과 권한 정보 claims에 담기
         Claims claims = Jwts.claims().setSubject(email);
         claims.put("memberId", memberId);
-        claims.put("authorities", authority);
+        claims.put("authority", authority);
 
         // 만료 시간 계산
         Date now = new Date();
@@ -63,6 +63,16 @@ public class JwtTokenProvider {
         return Long.valueOf(Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("memberId").toString());
     }
 
+    public Boolean getIsManager(String token) {
+        Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+        String string = claims.get("authorities").toString();
+        if (string.equals("ROLE_ADMIN")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public boolean validateToken(String token) {
         try {
             // parseClaimsJws : 파싱된 서명이 유효한지, 만료되진 않았는지
@@ -85,7 +95,7 @@ public class JwtTokenProvider {
     }
 
     public String createRefreshToken(String email) {
-        // 리프레스 토큰의 claims에는 권한 정보를 담지 않는다.
+        // 리프레시 토큰의 claims에는 권한 정보를 담지 않는다.
         // 이유는 유효기간이 길어서, 탈취당할 경우 관리자 권한이 악용될 가능성이 높기 때문
         Claims claims = Jwts.claims().setSubject(email);
         Date now = new Date();

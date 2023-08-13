@@ -59,15 +59,15 @@ public class AddressController {
     }
 
     @ApiOperation(value = "주소 삭제")
-    @DeleteMapping("/delete")//삼성 대리점 목록//검색
-    public ResponseEntity<?> delete(Long address_id){
+    @DeleteMapping("/delete/{addressId}")//삼성 대리점 목록//검색
+    public ResponseEntity<?> delete(@PathVariable("addressId") Long address_id){
         addressService.delete(address_id);
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
 
     @ApiOperation(value = "주소 생성")
-    @PostMapping("/create")//삼성 대리점 목록//검색
-    public ResponseEntity<?> create(String address, @ApiIgnore @RequestHeader String authorization){
+    @PostMapping("/create/{address}")//삼성 대리점 목록//검색
+    public ResponseEntity<?> create(@PathVariable("address") String address, @ApiIgnore @RequestHeader String authorization){
         Long memberId = jwtTokenProvider.getMemberId(authorization.replace("Bearer ", ""));
         addressService.create(address, memberId);
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
