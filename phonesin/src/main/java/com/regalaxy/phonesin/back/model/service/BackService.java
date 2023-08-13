@@ -28,8 +28,11 @@ public class BackService {
 
     // 반납 신청서 저장하기
     @Transactional
-    public void apply(BackDto backdto) {
+    public void apply(BackDto backdto, String token) {
         Rental rental = rentalRepository.findById(backdto.getRentalId()).get();
+        if (rental.getMember().getMemberId() != jwtTokenProvider.getMemberId(token)) {
+            throw new IllegalArgumentException("memberID가 신청한 대여 신청서가 아닙니다.");
+        }
         if (rental.getRentalStatus() != 4) {
             throw new IllegalArgumentException("대여중인 기기가 아닙니다.");
         }
@@ -141,7 +144,18 @@ public class BackService {
     }
 
     @Transactional
-    public void infoDelete(Long backId){
-        backRepository.deleteById(backId);
+    public void infoDelete(Long backId, Long memberId){
+        Back back = backRepository.findById(backId)
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 backID가 없습니다."));
+
+        if (back.getRental().getMember().getMemberId() != memberId) {
+            throw new IllegalArgumentException("memberID가 다릅니다.");
+        }
+
+        try {
+            backRepository.deleteById(backId);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("해당하는 BackID로 삭제를 시도하였으나 오류가 발생하였습니다.");
+        }
     }
 }
