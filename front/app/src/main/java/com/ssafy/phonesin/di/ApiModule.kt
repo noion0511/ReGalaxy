@@ -40,7 +40,7 @@ object ApiModule {
                 it.proceed(it.request().newBuilder().apply {
                     addHeader(
                         "Authorization",
-                        getAccessToken()
+                        "Bearer " + getAccessToken()
                     )
                 }.build())
             }
