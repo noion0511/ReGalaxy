@@ -4,14 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.regalaxy.phonesin.member.model.*;
 import com.regalaxy.phonesin.member.model.jwt.JwtTokenProvider;
 import com.regalaxy.phonesin.member.model.service.MemberService;
-import com.sun.net.httpserver.Authenticator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
@@ -97,14 +95,14 @@ public class MemberController {
             newAccessToken = jwtTokenProvider.refreshAccessToken(refreshToken);
         } catch (Exception e) {
             response.put("message", "리프레시 토큰이 올바르지 않습니다.");
-            response.put("status", 401);
+            response.put("status", HttpStatus.UNAUTHORIZED.value());
 
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
 
         response.put("accessToken", newAccessToken);
         response.put("message", "액세스 토큰을 성공적으로 발급하였습니다.");
-        response.put("status", 200);
+        response.put("status", HttpStatus.OK.value());
 
         return ResponseEntity.ok(response);
     }

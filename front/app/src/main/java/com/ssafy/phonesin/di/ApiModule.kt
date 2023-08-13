@@ -23,11 +23,8 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object ApiModule {
 
-
     //private const val baseUrl = "http://3.36.49.178:8080"
-
     private const val baseUrl = "http://i9d102.p.ssafy.io:8080"
-
 
     private val gson: Gson = GsonBuilder()
         .setLenient()
@@ -43,7 +40,7 @@ object ApiModule {
                 it.proceed(it.request().newBuilder().apply {
                     addHeader(
                         "Authorization",
-                        getAccessToken()
+                        "Bearer " + getAccessToken()
                     )
                 }.build())
             }

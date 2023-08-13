@@ -1,5 +1,7 @@
 package com.regalaxy.phonesin.member.model.jwt;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.regalaxy.phonesin.member.model.exception.NotAdminException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,6 +14,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @AllArgsConstructor
 public class JwtAuthenticationFilter extends GenericFilterBean {
@@ -23,24 +27,38 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) req;
         String path = httpRequest.getRequestURI();
+        String token = jwtTokenProvider.resolveToken(httpRequest);
+
+//        if (path.startsWith("/admin") && !path.startsWith("/admin/member/login")){
+//            if (!jwtTokenProvider.getIsManager(token)) {
+//                throw new NotAdminException("관리자만 접근 가능합니다.");
+//            }
+//        }
 
         if (!path.startsWith("/member/login") &&
                 !path.startsWith("/member/signup") &&
                 !path.startsWith("/member/token/refresh") &&
+                !path.startsWith("/admin") &&
                 !path.startsWith("/v3/api-docs") &&
+                !path.startsWith("/v2/api-docs") &&
+                !path.startsWith("/csrf") &&
+                !path.startsWith("/ytwok") &&
+                !path.equals("/") &&
+                !path.startsWith("/webjars") &&
+                !path.startsWith("/assets") &&
+                !path.startsWith("/images") &&
+                !path.startsWith("/error") &&
                 !path.startsWith("/swagger-ui") &&
-                !path.startsWith("/swagger-resources")) {
+                !path.startsWith("/swagger-resources") &&
+                !path.startsWith("/download/phonegojisin")) {
 
-            String token = jwtTokenProvider.resolveToken(httpRequest);
+
             if (token != null) {
                 try {
                     jwtTokenProvider.validateToken(token);
                 } catch (Exception e) {
                     // 토큰이 유효하지 않을 때
-                    HttpServletResponse httpResponse = (HttpServletResponse) res;
-                    httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401 Unauthorized status
-                    httpResponse.setContentType("application/json; charset=utf8");
-                    httpResponse.getWriter().write("토큰이 만료되었거나 유효하지 않습니다.");
+                    sendErrorResponse((HttpServletResponse) res, "토큰이 만료되었거나 유효하지 않습니다.", HttpServletResponse.SC_UNAUTHORIZED);
                     return; // 추가 처리 중지
                 }
 
@@ -50,13 +68,24 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
                 }
             } else {
                 // 토큰이 유효하지 않을 때
-                HttpServletResponse httpResponse = (HttpServletResponse) res;
-                httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401 Unauthorized status
-                httpResponse.setContentType("application/json; charset=utf8");
-                httpResponse.getWriter().write("로그인이 필요한 서비스입니다.");
+                sendErrorResponse((HttpServletResponse) res, "로그인이 필요한 서비스입니다.", HttpServletResponse.SC_UNAUTHORIZED);
                 return; // 추가 처리 중지
             }
         }
         filterChain.doFilter(req, res);
+    }
+
+    private void sendErrorResponse(HttpServletResponse response, String message, int status) throws IOException {
+        Map<String, Object> errorResponse = new HashMap<>();
+        errorResponse.put("message", message);
+        errorResponse.put("status", status);
+
+        response.setStatus(status);
+        response.setContentType("application/json; charset=utf8");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String responseBody = objectMapper.writeValueAsString(errorResponse);
+
+        response.getWriter().write(responseBody);
     }
 }

@@ -9,10 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
-import com.ssafy.phonesin.databinding.FragmentDonateAgentDetailBinding
 import com.ssafy.phonesin.databinding.FragmentReturnAgentDetailBinding
-import com.ssafy.phonesin.ui.mobile.donatemobile.DonateViewModel
-import com.ssafy.phonesin.ui.mobile.rentalmobile.RentalViewModel
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 
@@ -59,7 +56,7 @@ class ReturnAgentDetailFragment : Fragment() {
         setReturnAgentDetailUi()
     }
 
-    private fun setReturnAgentDetailUi() = with(binding){
+    private fun setReturnAgentDetailUi() = with(binding) {
         //TODO 코드정리 필요...
         val data = arguments
         if (data != null) {
@@ -91,7 +88,7 @@ class ReturnAgentDetailFragment : Fragment() {
 
         buttonPostReturnAgent.setOnClickListener {
             findNavController().navigate(
-                R.id.action_returnAgentDetailFragment_to_returnFinishFragment,
+                R.id.action_returnAgentDetailFragment_to_returnFinishFragment, bundle
             )
             returnViewModel.uploadReturn()
             binding.root.removeView(binding.mapViewReturnAgentDetail)

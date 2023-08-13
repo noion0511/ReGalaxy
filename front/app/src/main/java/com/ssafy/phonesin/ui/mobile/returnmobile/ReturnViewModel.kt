@@ -1,6 +1,5 @@
 package com.ssafy.phonesin.ui.mobile.returnmobile
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.ssafy.phonesin.model.Return
 import com.ssafy.phonesin.repository.returnmobile.ReturnRepository
@@ -19,7 +18,6 @@ class ReturnViewModel @Inject constructor(
 
     fun uploadReturn() {
         viewModelScope.launch {
-            Log.e("싸피", _returnList.toString())
             repository.postReturnList(_returnList)
         }
     }
@@ -27,7 +25,7 @@ class ReturnViewModel @Inject constructor(
     fun setReturnList(phoneId: List<Int>, rentalId: List<Int>) {
         _returnList.clear()
         for (i in phoneId.indices) {
-            _returnList.add(Return("", "", "", -1, -1, "", phoneId[i], true, rentalId[i], ""))
+            _returnList.add(Return("", "", "", true, rentalId[i], ""))
         }
 
     }
@@ -40,7 +38,10 @@ class ReturnViewModel @Inject constructor(
 
     fun setReturnListType(type: String) {
         _returnList.forEach {
-            it.backDeliveryLocationType = type
+            if (type.contains("방문"))
+                it.backDeliveryLocationType = "배달"
+            else
+                it.backDeliveryLocationType = "대리점"
         }
     }
 

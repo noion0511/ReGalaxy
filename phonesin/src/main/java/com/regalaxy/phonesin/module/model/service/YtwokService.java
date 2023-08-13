@@ -28,23 +28,23 @@ public class YtwokService {
 
     public YtwokDto saveImage(MultipartFile file) throws Exception {
         String contentType = file.getContentType();
-        String extension;
+        String fileType;
         //파일의 Content Type 이 있을 경우 Content Type 기준으로 확장자 확인
         if (StringUtils.hasText(contentType)) {
             if (contentType.equals("image/jpg")) {
-                extension = "image/jpg";
+                fileType = "jpg";
             } else if (contentType.equals("image/png")) {
-                extension = "image/png";
+                fileType = "png";
             } else if (contentType.equals("image/jpeg")) {
-                extension = "image/jpeg";
+                fileType = "jpeg";
             }else if (contentType.equals("image/*")) {
-                extension = "image/*";
+                fileType = "*";
             }
             else{
                 // contentType 존재하지 않는 경우 처리
                 throw new Exception("사진 파일이 아닙니다.");
             }
-            String uploadPath = new File("").getAbsolutePath() + "\\" + "images/y2k";
+            String uploadPath = new File("").getAbsolutePath() + "resources/images/y2k";
             Ytwok resultEntity = null;
             // 파일이 비었는지 검증
             if (!file.isEmpty()) {
@@ -71,6 +71,7 @@ public class YtwokService {
                 Ytwok ytwok = Ytwok.builder()
                         .originalFile(originalFileName)
                         .saveFile(saveFileName)
+                        .contentType(fileType)
                         .build();
 
                 resultEntity = ytwokRepository.saveAndFlush(ytwok);
@@ -80,7 +81,7 @@ public class YtwokService {
                     .ytwokId(resultEntity.getYtwokId())
                     .saveFile(resultEntity.getSaveFile())
                     .originalFile(resultEntity.getOriginalFile())
-                    .contentType(extension)
+                    .contentType("image/" + resultEntity.getContentType())
                     .build();
         }
         else{
@@ -90,7 +91,6 @@ public class YtwokService {
     }
 
     public ResponseEntity<Resource> loadImage(String fileName) throws Exception {
-//        Ytwok file = ytwokRepository.findById(fileId).orElse(null);
         Ytwok file = ytwokRepository.findBySaveFile(fileName);
 
         // file not found
@@ -103,19 +103,9 @@ public class YtwokService {
         String encodedUploadFileName = UriUtils.encode(uploadFileName, StandardCharsets.UTF_8);
         String contentDisposition = "attachment; filename=\"" + encodedUploadFileName + "\"";
 
-        String absolutePath = new File("").getAbsolutePath() + "\\" + "images/y2k/" + SaveFileName;
-
+        String absolutePath = new File("").getAbsolutePath() + "resources/images/y2k/" + SaveFileName;
         Resource resource = new UrlResource("file:" + absolutePath);
 
-//        Path path = Paths.get(absolutePath);
-//        Resource resource2 = new InputStreamResource(Files.newInputStream(path)); // 파일 resource 얻기
-//
-//        File file2 = new File(absolutePath);
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentDisposition(ContentDisposition.builder("attachment").filename(file2.getName()).build());  // 다운로드 되거나 로컬에 저장되는 용도로 쓰이는지를 알려주는 헤더
-//
-//        return new ResponseEntity<Object>(resource2, headers, HttpStatus.OK);
-//        File file = new File(path);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
                 .header(HttpHeaders.CONTENT_TYPE, file.getContentType())
@@ -123,4 +113,7 @@ public class YtwokService {
                 .body(resource);
     }
 
+    public void deleteImage(String fileName){
+
+    }
 }

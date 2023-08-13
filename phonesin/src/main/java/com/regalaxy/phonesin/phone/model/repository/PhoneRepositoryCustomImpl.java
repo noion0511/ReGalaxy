@@ -20,13 +20,13 @@ public class PhoneRepositoryCustomImpl implements PhoneRepositoryCustom{
     @Override
     public List<PhoneDto> search(PhoneSearchDto phoneSearchDto) {
         String s = "select new com.regalaxy.phonesin.phone.model.PhoneDto(p.phoneId, p.serialNumber, m.modelName, m.nickname, p.isRental, p.isY2K, p.isClimateHumidity, p.isHomecam) "
-                + "from phone p join model m on p.model.modelId = m.modelId ";
+                + "from phone p left join model m on p.model.modelId = m.modelId ";
         int n = 0;
         if(phoneSearchDto.isRental()){//빌려진 폰
             if(n==0){
                 s+="where ";
             }
-            s += "p.isRental=false";//서브쿼리로 member_id 찾기
+            s += "p.isRental=true";//서브쿼리로 member_id 찾기
             n++;
         }
         if(phoneSearchDto.isY2K()){//가능

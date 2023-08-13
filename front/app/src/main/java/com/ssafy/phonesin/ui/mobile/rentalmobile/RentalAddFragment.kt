@@ -59,6 +59,8 @@ class RentalAddFragment :
 
     private fun setRentalAddUi() = with(bindingNonNull) {
         radioButtonRentalAddOneMonth.isChecked = true
+        editTextRentalAddAddress.isEnabled = false
+        editTextRentalAddAddress.isFocusableInTouchMode = false
 
 
         radioGroupRentalAdd.setOnCheckedChangeListener { _, checkedId ->
@@ -67,11 +69,13 @@ class RentalAddFragment :
                 R.id.radioButtonExistAddress -> {
                     spinnerRentalAddAddress.isEnabled = true
                     editTextRentalAddAddress.isEnabled = false
+                    editTextRentalAddAddress.isFocusableInTouchMode = false
                 }
 
                 R.id.radioButtonNewAddress -> {
                     spinnerRentalAddAddress.isEnabled = false
                     editTextRentalAddAddress.isEnabled = true
+                    editTextRentalAddAddress.isFocusableInTouchMode = true
                 }
             }
         }
