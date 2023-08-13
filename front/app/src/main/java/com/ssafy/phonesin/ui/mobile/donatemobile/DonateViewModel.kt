@@ -17,8 +17,15 @@ class DonateViewModel @Inject constructor(
         get() = _donation
 
     fun uploadDonation() {
+//        val temp = _donation
+//        if(_donation.donationDeliveryLocationType.contains("방문"))
+//            temp.donationDeliveryLocationType = "배달"
+//        else
+//            temp.donationDeliveryLocationType = "대리점"
+//        Log.e("asdf",_donation.donationDeliveryLocationType.toString())
+//        Log.e("asdf",temp.donationDeliveryLocationType.toString())
         viewModelScope.launch {
-              repository.uploadDonation(_donation)
+            repository.uploadDonation(_donation)
         }
     }
 
