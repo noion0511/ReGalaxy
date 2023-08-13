@@ -30,6 +30,7 @@ class RentalMobileFragment :
     private var param1: String? = null
     private var param2: String? = null
     val rentalMobileViewModel: RentalViewModel by activityViewModels()
+
     var rentalCount = 0
 
     override fun onCreateBinding(
@@ -104,12 +105,11 @@ class RentalMobileFragment :
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-        rentalMobileViewModel.getAddressList()
+
         rentalMobileViewModel.getPossibleRentalCount()
         val mainActivity = activity as MainActivity
         mainActivity.hideBottomNavi(true)
     }
-
 
 
     private fun rentalMobileUi() = with(bindingNonNull) {

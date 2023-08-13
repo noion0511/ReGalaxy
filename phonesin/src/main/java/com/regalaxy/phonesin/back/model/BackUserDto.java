@@ -16,7 +16,7 @@ public class BackUserDto {
     private Long rentalId;
     @JsonFormat(pattern = "yyyy/MM/dd")
     private LocalDate backDeliveryDate;
-    private String backDeliveryLocationType;
+    private BackDeliveryLocationType backDeliveryLocationType;
     private String backDeliveryLocation;
     private String review;
 

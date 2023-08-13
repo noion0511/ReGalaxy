@@ -27,24 +27,33 @@ public class BackController {
     // RequestBody로 JSON 데이터로 받기
     @ApiOperation(value = "기기 반납 신청서 작성")
     @PostMapping("/apply")
-    public ResponseEntity<Map<String, Object>> apply(@RequestBody List<BackDto> backDtos) {
+    public ResponseEntity<Map<String, Object>> apply(@RequestBody List<BackDto> backDtos, @ApiIgnore @RequestHeader String authorization) {
+        String token = authorization.replace("Bearer ", "");
+
         Set<Long> rentalIds = new HashSet<>();
         Map<String, Object> resultMap = new HashMap<>();
 
-        for (BackDto backDto : backDtos) {
-            if (rentalIds.contains(backDto.getRentalId())) {
-                resultMap.put("message", "rentalId가 중복되었습니다.");
-                resultMap.put("status", HttpStatus.BAD_REQUEST.value());
+        try {
+            for (BackDto backDto : backDtos) {
+                if (rentalIds.contains(backDto.getRentalId())) {
+                    resultMap.put("message", "rentalId가 중복되었습니다.");
+                    resultMap.put("status", HttpStatus.BAD_REQUEST.value());
 
-                return new ResponseEntity<>(resultMap, HttpStatus.BAD_REQUEST);
+                    return new ResponseEntity<>(resultMap, HttpStatus.BAD_REQUEST);
+                }
+                rentalIds.add(backDto.getRentalId());
+
+                backService.apply(backDto, token);
             }
-            rentalIds.add(backDto.getRentalId());
+            resultMap.put("message", "성공적으로 작성되었습니다.");
+            resultMap.put("status", HttpStatus.OK.value());
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        } catch (Exception e) {
+            resultMap.put("message", e.getMessage());
+            resultMap.put("status", HttpStatus.FORBIDDEN.value());
 
-            backService.apply(backDto);
+            return new ResponseEntity<>(resultMap, HttpStatus.FORBIDDEN);
         }
-        resultMap.put("message", "성공적으로 작성되었습니다.");
-        resultMap.put("status", HttpStatus.OK.value());
-        return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
 
     // 반납 신청서 상세 정보보기
@@ -106,6 +115,26 @@ public class BackController {
             resultMap.put("status", HttpStatus.BAD_REQUEST.value());
 
             return new ResponseEntity<>(resultMap, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @ApiOperation(value = "기기 반납 신청서 삭제")
+    @DeleteMapping("/apply/delete/{backId}")//신청삭제
+    public ResponseEntity<?> infoDelete(@PathVariable("backId") Long backId, @ApiIgnore @RequestHeader String authorization){
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        String token = authorization.replace("Bearer ", "");
+        Long memberId = jwtTokenProvider.getMemberId(token);
+
+        try {
+            backService.infoDelete(backId, memberId);
+            resultMap.put("message", "성공적으로 삭제되었습니다.");
+            resultMap.put("status", HttpStatus.NO_CONTENT.value());
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        } catch (Exception e) {
+            resultMap.put("message", e.getMessage());
+            resultMap.put("status", HttpStatus.NOT_FOUND.value());
+
+            return new ResponseEntity<>(resultMap, HttpStatus.NOT_FOUND);
         }
     }
 }

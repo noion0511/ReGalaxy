@@ -28,8 +28,14 @@ public class BackService {
 
     // 반납 신청서 저장하기
     @Transactional
-    public void apply(BackDto backdto) {
+    public void apply(BackDto backdto, String token) {
         Rental rental = rentalRepository.findById(backdto.getRentalId()).get();
+        if (rental.getMember().getMemberId() != jwtTokenProvider.getMemberId(token)) {
+            throw new IllegalArgumentException("memberID가 신청한 대여 신청서가 아닙니다.");
+        }
+        if (rental.getRentalStatus() != 4) {
+            throw new IllegalArgumentException("대여중인 기기가 아닙니다.");
+        }
         backRepository.save(backdto.toEntity(rental));
     }
 
@@ -78,11 +84,11 @@ public class BackService {
 
     // 관리자가 반납 신청서 수정
     @Transactional
-    public BackDto updateBackByAdmin(BackDto backDto) {
+    public BackDto updateBackByAdmin(BackAdminUpdateDto backAdminUpdateDto) {
         // DB에 없는 ID를 검색하려고 하면 IllegalArgumentException
-        Back back = backRepository.findById(backDto.getBackId())
-                .orElseThrow(() -> new IllegalArgumentException(backDto.getBackId() + "인 ID는 존재하지 않습니다."));
-        back.updateByAdmin(backDto);
+        Back back = backRepository.findById(backAdminUpdateDto.getBackId())
+                .orElseThrow(() -> new IllegalArgumentException(backAdminUpdateDto.getBackId() + "인 ID는 존재하지 않습니다."));
+        back.updateByAdmin(backAdminUpdateDto);
         backRepository.save(back);
         return BackDto.fromEntity(back);
     }
@@ -135,5 +141,21 @@ public class BackService {
             list.add(BackInfoDto.fromEntity(back));
         }
         return list;
+    }
+
+    @Transactional
+    public void infoDelete(Long backId, Long memberId){
+        Back back = backRepository.findById(backId)
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 backID가 없습니다."));
+
+        if (back.getRental().getMember().getMemberId() != memberId) {
+            throw new IllegalArgumentException("memberID가 다릅니다.");
+        }
+
+        try {
+            backRepository.deleteById(backId);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("해당하는 BackID로 삭제를 시도하였으나 오류가 발생하였습니다.");
+        }
     }
 }
