@@ -28,8 +28,11 @@ public class BackService {
 
     // 반납 신청서 저장하기
     @Transactional
-    public void apply(BackDto backdto) {
+    public void apply(BackDto backdto, String token) {
         Rental rental = rentalRepository.findById(backdto.getRentalId()).get();
+        if (rental.getMember().getMemberId() != jwtTokenProvider.getMemberId(token)) {
+            throw new IllegalArgumentException("memberID가 신청한 대여 신청서가 아닙니다.");
+        }
         if (rental.getRentalStatus() != 4) {
             throw new IllegalArgumentException("대여중인 기기가 아닙니다.");
         }

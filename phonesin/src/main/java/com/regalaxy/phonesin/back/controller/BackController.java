@@ -27,7 +27,9 @@ public class BackController {
     // RequestBody로 JSON 데이터로 받기
     @ApiOperation(value = "기기 반납 신청서 작성")
     @PostMapping("/apply")
-    public ResponseEntity<Map<String, Object>> apply(@RequestBody List<BackDto> backDtos) {
+    public ResponseEntity<Map<String, Object>> apply(@RequestBody List<BackDto> backDtos, @ApiIgnore @RequestHeader String authorization) {
+        String token = authorization.replace("Bearer ", "");
+
         Set<Long> rentalIds = new HashSet<>();
         Map<String, Object> resultMap = new HashMap<>();
 
@@ -41,7 +43,7 @@ public class BackController {
                 }
                 rentalIds.add(backDto.getRentalId());
 
-                backService.apply(backDto);
+                backService.apply(backDto, token);
             }
             resultMap.put("message", "성공적으로 작성되었습니다.");
             resultMap.put("status", HttpStatus.OK.value());
