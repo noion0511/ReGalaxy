@@ -68,7 +68,7 @@
             app:destination="@id/cameraXFragment" />
         <action
             android:id="@+id/action_module_to_homeCamFragment"
-            app:destination="@id/homeCamFragment" />
+            app:destination="@id/camListFragment" />
     </fragment>
     <fragment
         android:id="@+id/doateFinishFragment"
