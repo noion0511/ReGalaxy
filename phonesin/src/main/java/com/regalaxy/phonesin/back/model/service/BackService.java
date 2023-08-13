@@ -30,14 +30,17 @@ public class BackService {
     @Transactional
     public void apply(BackDto backdto) {
         Rental rental = rentalRepository.findById(backdto.getRentalId()).get();
+        if (rental.getRentalStatus() != 4) {
+            throw new IllegalArgumentException("대여중인 기기가 아닙니다.");
+        }
         backRepository.save(backdto.toEntity(rental));
     }
 
     // backId인 반납 신청서 read
     @Transactional
-    public BackInfoDto backInfo(BackDto backDto, String token) {
-        Back back = backRepository.findById(backDto.getBackId()).get();
-        if (backDto.getMemberId(back) != jwtTokenProvider.getMemberId(token)) {
+    public BackInfoDto backInfo(Long backId, String token) {
+        Back back = backRepository.findById(backId).get();
+        if (back.getRental().getMember().getMemberId() != jwtTokenProvider.getMemberId(token)) {
             throw new IllegalArgumentException("해당 유저가 아닙니다.");
         };
         return new BackInfoDto(back);
@@ -76,31 +79,42 @@ public class BackService {
         return findall;
     }
 
-    // 반납 신청서 수정 메서드
+    // 관리자가 반납 신청서 수정
     @Transactional
-    public BackDto updateBackByAdmin(BackDto backDto) {
+    public BackDto updateBackByAdmin(BackAdminUpdateDto backAdminUpdateDto) {
         // DB에 없는 ID를 검색하려고 하면 IllegalArgumentException
-        Back back = backRepository.findById(backDto.getBackId())
-                .orElseThrow(() -> new IllegalArgumentException(backDto.getBackId() + "인 ID는 존재하지 않습니다."));
-        back.updateByAdmin(backDto);
+        Back back = backRepository.findById(backAdminUpdateDto.getBackId())
+                .orElseThrow(() -> new IllegalArgumentException(backAdminUpdateDto.getBackId() + "인 ID는 존재하지 않습니다."));
+        back.updateByAdmin(backAdminUpdateDto);
         backRepository.save(back);
         return BackDto.fromEntity(back);
     }
 
+    // 사용자가 자신의 반납 신청서 수정
     @Transactional
     public BackDto updateBackByUser(BackUserDto backUserDto, String authorization) {
         // DB에 없는 ID를 검색하려고 하면 IllegalArgumentException
         Long memberId = jwtTokenProvider.getMemberId(authorization.replace("Bearer ", ""));
-        Back back = backRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException(memberId + "인 ID는 존재하지 않습니다."));
+        Back back = backRepository.findById(backUserDto.getBackId())
+                .orElseThrow(() -> new IllegalArgumentException(backUserDto.getBackId() + "인 backID는 존재하지 않습니다."));
+
+        Rental rental = rentalRepository.findById(backUserDto.getRentalId())
+                .orElseThrow(() -> new IllegalArgumentException(backUserDto.getRentalId() + "인 rentalID는 존재하지 않습니다."));
+
         if (backUserDto.getMemberId(back) != memberId) {
-            throw new IllegalArgumentException("현재 계정의 멤버 아이디가" + backUserDto.getMemberId(back) + "이 아닙니다.");
+            throw new IllegalArgumentException("수정하고자 하는 반납 신청서의 계정과 현재 계정이 일치하지 않습니다.");
         };
-        back.updateByUser(backUserDto);
+
+        if (rental.getMember().getMemberId() != memberId) {
+            throw new IllegalArgumentException("수정하고자 하는 대여 신청서의 계정과 현재 계정이 일치하지 않습니다.");
+        };
+
+        back.updateByUser(backUserDto, rental);
         backRepository.save(back);
         return BackDto.fromEntity(back);
     }
 
+    // 반납 리스트 조회
     public List<BackAdminDto> list(BackAdminSearschDto backAdminSearschDto ){
         List<Back> list = backRepository.findAll();
         List<BackAdminDto> backAdminDtos = new ArrayList<>();
@@ -114,5 +128,20 @@ public class BackService {
             backAdminDtos.add(backAdminDto);
         }
         return backAdminDtos;
+    }
+
+    @Transactional
+    public List<BackInfoDto> backListByUser(Long memberId) {
+        List<Back> backs = backRepository.findByRental_Member_MemberId(memberId);
+        List<BackInfoDto> list = new ArrayList<>();
+        for (Back back : backs) {
+            list.add(BackInfoDto.fromEntity(back));
+        }
+        return list;
+    }
+
+    @Transactional
+    public void infoDelete(Long backId){
+        backRepository.deleteById(backId);
     }
 }

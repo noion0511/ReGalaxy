@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface BackRepository extends JpaRepository<Back, Long> {
 
     @Query("select b from back b join b.rental r join r.member m where m.email = :email")
@@ -20,4 +22,6 @@ public interface BackRepository extends JpaRepository<Back, Long> {
 
     @Query("select b from back b join b.rental r join r.member m where m.isCha = :isCha")
     Page<Back> findAllByIsCha(@Param("isCha") boolean isCha, Pageable pageable);
+
+    List<Back> findByRental_Member_MemberId(Long memberId);
 }

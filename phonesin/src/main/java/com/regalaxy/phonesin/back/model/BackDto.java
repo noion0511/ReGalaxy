@@ -12,13 +12,10 @@ import java.time.LocalDateTime;
 @Getter @Setter
 @RequiredArgsConstructor
 public class BackDto {
-    private Long backId;
     private Long rentalId;
-    private Long phoneId;
-    private int backStatus;
     @JsonFormat(pattern = "yyyy/MM/dd")
     private LocalDate backDeliveryDate;
-    private String backDeliveryLocationType;
+    private BackDeliveryLocationType backDeliveryLocationType;
     private String backDeliveryLocation;
     private String review;
     private Boolean phoneStatus;
@@ -27,7 +24,6 @@ public class BackDto {
     // 혹시 builder 사용할 수 있으면 바꿔보기!!
     public static BackDto fromEntity(Back back) {
         BackDto backDto = new BackDto();
-        backDto.setBackStatus(back.getBackStatus());
         backDto.setBackDeliveryDate(back.getBackDeliveryDate());
         backDto.setBackDeliveryLocationType(back.getBackDeliveryLocationType());
         backDto.setBackDeliveryLocation(back.getBackDeliveryLocation());
@@ -40,8 +36,7 @@ public class BackDto {
     public Back toEntity(Rental rental){
         return Back.builder()
                 .rental(rental)
-                .phoneId(this.phoneId)
-                .backStatus(this.backStatus)
+                .backStatus(1)
                 .backDeliveryDate(this.backDeliveryDate)
                 .backDeliveryLocationType(this.backDeliveryLocationType)
                 .backDeliveryLocation(this.backDeliveryLocation)

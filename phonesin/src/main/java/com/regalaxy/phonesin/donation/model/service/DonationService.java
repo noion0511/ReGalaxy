@@ -5,6 +5,8 @@ import com.regalaxy.phonesin.donation.model.entity.Donation;
 import com.regalaxy.phonesin.donation.model.repository.DonationRepository;
 import com.regalaxy.phonesin.member.model.entity.Member;
 import com.regalaxy.phonesin.member.model.repository.MemberRepository;
+import com.regalaxy.phonesin.phone.model.entity.Phone;
+import com.regalaxy.phonesin.phone.model.repository.PhoneRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 public class DonationService {
     private final DonationRepository donationRepository;
     private final MemberRepository memberRepository;
+    private final PhoneRepository phoneRepository;
 
     @Transactional
     public void donationApply(DonationApplyRequestDto donationApplyRequestDto, Long memberId) throws Exception {
@@ -105,6 +108,9 @@ public class DonationService {
     public void adminDonationApply(Long donationId, int status){
         Donation donation = donationRepository.findById(donationId).get();
         donation.setDonationStatus(status);
+        Phone phone = new Phone();
+        phone.setDonation(donation);
+        phoneRepository.save(phone);
         System.out.println(donation.getDonationStatus());
         donationRepository.save(donation);
     }

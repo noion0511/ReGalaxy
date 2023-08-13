@@ -2,6 +2,7 @@ package com.regalaxy.phonesin.back.controller;
 
 import com.regalaxy.phonesin.back.model.BackAdminDto;
 import com.regalaxy.phonesin.back.model.BackAdminSearschDto;
+import com.regalaxy.phonesin.back.model.BackAdminUpdateDto;
 import com.regalaxy.phonesin.back.model.BackDto;
 import com.regalaxy.phonesin.back.model.service.BackService;
 import io.swagger.annotations.Api;
@@ -35,7 +36,7 @@ public class AdminBackController {
         ModelAndView mav = new ModelAndView();
         mav.addObject("list", list);
         mav.addObject("title", "반납");
-        mav.setViewName("/list");
+        mav.setViewName("list");
         return mav;
     }
 
@@ -53,10 +54,10 @@ public class AdminBackController {
 
     @ApiOperation(value = "기기 반납 신청서 수정(관리자)")
     @PutMapping("/update")
-    public ResponseEntity<Map<String, Object>> update(@RequestBody BackDto backDto) {
+    public ResponseEntity<Map<String, Object>> update(@RequestBody BackAdminUpdateDto backAdminUpdateDto) {
         Map<String, Object> resultMap = new HashMap<>();
         try{
-            backService.updateBackByAdmin(backDto);
+            backService.updateBackByAdmin(backAdminUpdateDto);
             resultMap.put("message", "성공적으로 수정되었습니다.");
             resultMap.put("status", HttpStatus.OK.value());
 
