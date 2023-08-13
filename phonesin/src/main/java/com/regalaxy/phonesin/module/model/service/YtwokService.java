@@ -44,7 +44,7 @@ public class YtwokService {
                 // contentType 존재하지 않는 경우 처리
                 throw new Exception("사진 파일이 아닙니다.");
             }
-            String uploadPath = new File("").getAbsolutePath() + "\\" + "images/y2k";
+            String uploadPath = new File("").getAbsolutePath() + "resources/images/y2k";
             Ytwok resultEntity = null;
             // 파일이 비었는지 검증
             if (!file.isEmpty()) {
@@ -103,8 +103,7 @@ public class YtwokService {
         String encodedUploadFileName = UriUtils.encode(uploadFileName, StandardCharsets.UTF_8);
         String contentDisposition = "attachment; filename=\"" + encodedUploadFileName + "\"";
 
-        String absolutePath = new File("").getAbsolutePath() + "\\" + "images/y2k/" + SaveFileName;
-
+        String absolutePath = new File("").getAbsolutePath() + "resources/images/y2k/" + SaveFileName;
         Resource resource = new UrlResource("file:" + absolutePath);
 
         return ResponseEntity.ok()
@@ -114,6 +113,9 @@ public class YtwokService {
                 .body(resource);
     }
 
+    public void deleteImage(String fileName){
+
+    }
 
     public void testJobMethod() {
         System.out.println("test job....");

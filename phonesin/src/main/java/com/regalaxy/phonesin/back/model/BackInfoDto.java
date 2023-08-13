@@ -45,6 +45,7 @@ public class BackInfoDto {
         backInfoDto.setBackId(back.getBackId());
         backInfoDto.setBackDeliveryDate(back.getBackDeliveryDate());
         backInfoDto.setBackDeliveryLocation(back.getBackDeliveryLocation());
+        backInfoDto.setBackStatus(back.getBackStatus());
         backInfoDto.setCreatedAt(back.getCreatedAt());
         backInfoDto.setModelName(back.getRental().getPhone().getModel().getModelName());
         backInfoDto.setPhoneStatus(back.getPhoneStatus());
