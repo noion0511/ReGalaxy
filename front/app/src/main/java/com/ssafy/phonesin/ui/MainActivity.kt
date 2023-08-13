@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
@@ -49,8 +48,7 @@ class MainActivity : AppCompatActivity() {
 
         setStatusBarTransparent()
 //        setNav()
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
-            Log.d("version", "onCreate: 젤리빈")
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             setNav()
         } else {
             setSplash()
@@ -131,8 +129,8 @@ class MainActivity : AppCompatActivity() {
         navController?.navigate(R.id.splashFragment)
 
         window.decorView.postDelayed({
-            if (!AppPreferences.isOnBoardingShowed()) {
-//                AppPreferences.checkOnBoardingShowed()
+            if (!AppPreferences.isOnBoardingShowed() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                AppPreferences.checkOnBoardingShowed()
                 navController?.navigate(R.id.onboardingDonateFragment)
             } else {
                 setNav()
@@ -162,6 +160,12 @@ class MainActivity : AppCompatActivity() {
         binding.containerMain.setPadding(0, 0, 0, 0)
         binding.mainActivityLayout.setPadding(0, 0, 0, 0)
         layout.setPadding(0, 0, 0, navigationHeight())
+    }
+
+    fun setRemotePadding(layout: ConstraintLayout) {
+        binding.containerMain.setPadding(0, 0, 0, 0)
+        binding.mainActivityLayout.setPadding(0, 0, 0, 0)
+        layout.setPadding(50, statusBarHeight() + 25, 50, navigationHeight())
     }
 
     fun setFrameLayoutPaddingVerticle(layout: FrameLayout) {
@@ -195,7 +199,7 @@ class MainActivity : AppCompatActivity() {
     private fun navigationHeight(): Int {
         val resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
 
-        return if (resourceId <= 0 || Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) 0
+        return if (resourceId <= 0 || Build.VERSION.SDK_INT < Build.VERSION_CODES.O) 0
         else resources.getDimensionPixelSize(resourceId)
     }
 }
