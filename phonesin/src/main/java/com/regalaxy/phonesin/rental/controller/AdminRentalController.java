@@ -55,7 +55,7 @@ public class AdminRentalController {
         return ResponseEntity.ok(map);
     }
 
-    @ApiOperation(value = "관리자 기기 대여 신청서 신청")
+    @ApiOperation(value = "관리자 기기 대여 신청서 수락")
     @PostMapping("/apply")
     public ResponseEntity<?> apply(@RequestBody AdminRentalApplyDto adminRentalApplyDto, Model model) {
         List<RentalDto> list = rentalService.apply(adminRentalApplyDto);
