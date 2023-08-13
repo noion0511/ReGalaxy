@@ -3,8 +3,8 @@ package com.ssafy.phonesin.ui.mobile.returnmobile
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.CheckBox
@@ -73,11 +73,12 @@ class ReturnMobileFragment : BaseFragment<FragmentReturnMobileBinding>(
         returnMobileViewModel.rentalResponseList.observe(viewLifecycleOwner) {
             layoutReturnCheckBox.removeAllViews()
             it.forEach { rental ->
-                val checkBox = CheckBox(context)
+                val checkBox = CheckBox(ContextThemeWrapper(context, R.style.MyCheckBox))
                 checkBox.text = "${rental.modelName} No.${rental.phoneId}"
 //                radioButton.id = it.indexOf(rental)
                 checkBox.id = rental.phoneId.toString().toInt()
                 checkBox.tag = rental.rentalId
+
                 if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
                     checkBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
                     checkBox.setTextColor(Color.BLACK)
@@ -100,7 +101,7 @@ class ReturnMobileFragment : BaseFragment<FragmentReturnMobileBinding>(
             } else if (editTextReturnContent.text.toString() == "") {
                 showToast("후기를 적어주세요")
             } else {
-                returnViewModel.setReturnList(getPhoneIdCheckBox(),getRentalIdCheckBox())
+                returnViewModel.setReturnList(getPhoneIdCheckBox(), getRentalIdCheckBox())
                 returnViewModel.setReturnListDate(convertCalendarToDate(calendarReturn.date))
                 returnViewModel.setReturnListContent(editTextReturnContent.text.toString())
 
