@@ -24,6 +24,7 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.ssafy.phonesin.ApplicationClass
@@ -48,6 +49,7 @@ class HygrometerFragment : BaseFragment<FragmentHygrometerBinding>(R.layout.frag
 
     private lateinit var hygrometerList: MutableList<Hygrometer>
     private lateinit var lineChart: LineChart
+    private var xVals = mutableListOf<String>()
 
     val hygrometerViewModel: HygrometerViewModel by activityViewModels()
 
@@ -199,18 +201,26 @@ class HygrometerFragment : BaseFragment<FragmentHygrometerBinding>(R.layout.frag
 
     private fun setLastHygrometer() {
         val today = SimpleDateFormat("MM-dd").format(System.currentTimeMillis())
-        hygrometerList = if (AppPreferences.getHygrometerList() is MutableList<Hygrometer>) AppPreferences.getHygrometerList() as MutableList<Hygrometer> else mutableListOf()
-//        if (!AppPreferences.checkLastHygrometerDate(today)) {
-//            hygrometerList.add(Hygrometer(today, bindingNonNull.textViewTemperature.text.toString().toInt(), bindingNonNull.textViewHumidity.text.toString().toInt()))
-        val temp = "08-14"
-        if (!AppPreferences.checkLastHygrometerDate(temp)) {
-            hygrometerList.add(Hygrometer(temp, 32, 82))
+//        val temp = "08-14"
+        hygrometerList =
+            if (AppPreferences.getHygrometerList() is MutableList<Hygrometer>) AppPreferences.getHygrometerList() as MutableList<Hygrometer> else mutableListOf()
+        if (!AppPreferences.checkLastHygrometerDate(today) && humiditySensor != null && temperatureSensor != null) {
+            hygrometerList.add(
+                Hygrometer(
+                    today,
+                    bindingNonNull.textViewTemperature.text.toString().toInt(),
+                    bindingNonNull.textViewHumidity.text.toString().toInt()
+                )
+            )
+//        if (!AppPreferences.checkLastHygrometerDate(temp)) {
+//            hygrometerList.add(Hygrometer(temp, 32, 82))
+            hygrometerList.add(Hygrometer(today, 32, 82))
             if (hygrometerList.size > 7) {
                 hygrometerList.removeAt(0)
             }
             AppPreferences.saveHygrometerList(hygrometerList)
-//            AppPreferences.setLastHygrometerDate(today)
-            AppPreferences.setLastHygrometerDate(temp)
+            AppPreferences.setLastHygrometerDate(today)
+//            AppPreferences.setLastHygrometerDate(temp)
         }
         Log.d("저장리스트", "setLastHygrometer: ${hygrometerList}")
     }
@@ -252,7 +262,7 @@ class HygrometerFragment : BaseFragment<FragmentHygrometerBinding>(R.layout.frag
 
     private fun configureChartAppearance() {
         lineChart.extraBottomOffset = 15f // 간격
-        lineChart.description.isEnabled = false // chart 밑에 description 표시 유무
+        lineChart.description.isEnabled = true // chart 밑에 description 표시 유무
 
         lineChart.apply {
             axisRight.isEnabled = false   //y축 사용여부
@@ -269,14 +279,15 @@ class HygrometerFragment : BaseFragment<FragmentHygrometerBinding>(R.layout.frag
             setDrawAxisLine(true)
             setDrawLabels(true)
             position = XAxis.XAxisPosition.BOTTOM
-            textSize = 15f
+            textSize = 12f
             labelRotationAngle = 0f
             setLabelCount(hygrometerList.size, true)
+            valueFormatter = XAxisCustomFormatter(xVals)
         }
 
         lineChart.axisLeft.apply {
             isEnabled = true
-            textSize = 15f
+            textSize = 12f
             setDrawAxisLine(false)
             axisLineWidth = 10f
             axisMinimum = 0f
@@ -284,14 +295,22 @@ class HygrometerFragment : BaseFragment<FragmentHygrometerBinding>(R.layout.frag
         }
     }
 
+    inner class XAxisCustomFormatter(val xAxisData: List<String>) : ValueFormatter() {
+        override fun getFormattedValue(value: Float): String {
+            return xAxisData[(value).toInt()]
+        }
+    }
+
     private fun createChartData(): LineData {
         val entry1 = ArrayList<Entry>() // 앱1
         val entry2 = ArrayList<Entry>() // 앱2
         val chartData = LineData()
+        xVals.clear()
 
         hygrometerList.forEachIndexed() { index, hygrometer ->
             entry1.add(Entry(index.toFloat(), hygrometer.temperate.toFloat()))
             entry2.add(Entry(index.toFloat(), hygrometer.humidity.toFloat()))
+            xVals.add(hygrometer.date)
         }
 
         // 앱1
