@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/frameLayoutMobile"
     tools:context=".MobileFragment">
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:paddingBottom="10dp"
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/mobileHomeMessage"
+            style="@style/textview_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
@@ -26,6 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:backgroundTint="#E8EBFE"
+            app:cardBackgroundColor="#E8EBFE"
             app:cardCornerRadius="10dp"
             app:layout_constraintEnd_toStartOf="@+id/returnCardView"
             app:layout_constraintHorizontal_bias="0.5"
@@ -42,6 +45,7 @@
 
         <TextView
             android:id="@+id/rentalTitle"
+            style="@style/textview_title_secondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -51,6 +55,7 @@
 
         <TextView
             android:id="@+id/rentalContent"
+            style="@style/textview_content_black"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -64,6 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="#DEECF9"
+            app:cardBackgroundColor="#DEECF9"
             app:cardCornerRadius="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -80,6 +86,7 @@
 
         <TextView
             android:id="@+id/returnTitle"
+            style="@style/textview_title_secondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -89,6 +96,7 @@
 
         <TextView
             android:id="@+id/returnContent"
+            style="@style/textview_content_black"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -103,6 +111,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:backgroundTint="#FCE9DB"
+            app:cardBackgroundColor="#FCE9DB"
             app:cardCornerRadius="10dp"
             app:layout_constraintEnd_toEndOf="@id/returnContent"
             app:layout_constraintStart_toStartOf="@id/rentalContent"
@@ -119,6 +128,7 @@
 
         <TextView
             android:id="@+id/donateTitle"
+            style="@style/textview_title_secondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -128,6 +138,7 @@
 
         <TextView
             android:id="@+id/donateContent"
+            style="@style/textview_content_black"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -135,6 +146,7 @@
             app:layout_constraintEnd_toEndOf="@id/donateCardView"
             app:layout_constraintStart_toStartOf="@id/donateCardView"
             app:layout_constraintTop_toBottomOf="@id/donateTitle" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</FrameLayout>
+</ScrollView>

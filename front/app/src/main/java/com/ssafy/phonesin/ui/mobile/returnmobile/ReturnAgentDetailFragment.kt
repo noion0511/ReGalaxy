@@ -4,10 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentReturnAgentDetailBinding
+import net.daum.mf.map.api.MapPOIItem
+import net.daum.mf.map.api.MapPoint
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,7 +27,10 @@ class ReturnAgentDetailFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
     lateinit var binding: FragmentReturnAgentDetailBinding
+    val returnViewModel: ReturnViewModel by activityViewModels()
+    val bundle = bundleOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,11 +56,41 @@ class ReturnAgentDetailFragment : Fragment() {
         setReturnAgentDetailUi()
     }
 
-    private fun setReturnAgentDetailUi() = with(binding){
+    private fun setReturnAgentDetailUi() = with(binding) {
+        //TODO 코드정리 필요...
+        val data = arguments
+        if (data != null) {
+            val address = data.getString("address")
+            val name = data.getString("name")
+            val longitude = data.getDouble("longitude")
+            val latitude = data.getDouble("latitude")
+
+            bundle.putDouble("longitude", longitude)
+            bundle.putDouble("latitude", latitude)
+            bundle.putString("name", name)
+
+
+            returnViewModel.setReturnListAddress(address.toString())//여기 있어도 되나?
+
+            textViewReturnAgentDetailTitle.text = name
+            textViewReturnAgentDetailAddress.text = address
+
+            val marker = MapPOIItem()
+            marker.itemName = name
+            marker.tag = 0
+            marker.mapPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude)
+            marker.markerType = MapPOIItem.MarkerType.BluePin
+            mapViewReturnAgentDetail.addPOIItem(marker)
+            val mapPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude)
+            val zoomLevel = 5
+            mapViewReturnAgentDetail.setMapCenterPointAndZoomLevel(mapPoint, zoomLevel, true)
+        }
+
         buttonPostReturnAgent.setOnClickListener {
             findNavController().navigate(
-                R.id.action_returnAgentDetailFragment_to_returnFinishFragment,
+                R.id.action_returnAgentDetailFragment_to_returnFinishFragment, bundle
             )
+            returnViewModel.uploadReturn()
             binding.root.removeView(binding.mapViewReturnAgentDetail)
 
         }
