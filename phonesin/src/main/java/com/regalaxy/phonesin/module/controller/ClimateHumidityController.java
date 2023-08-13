@@ -39,6 +39,21 @@ public class ClimateHumidityController {
     @PostMapping("/check")
     public ResponseEntity<Map<String, Object>> ClimateHumidity(@RequestBody ClimateHumidityDto climateHumidityDto) {
         Map<String, Object> resultMap = new HashMap<>();
+
+        if (climateHumidityDto.getLongitude() < -180 || climateHumidityDto.getLongitude() > 180) {
+            resultMap.put("message", "Longitude의 범위는 -180 ~ 180입니다.");
+            resultMap.put("status", HttpStatus.BAD_REQUEST.value());
+
+            return new ResponseEntity<>(resultMap, HttpStatus.BAD_REQUEST);
+        }
+
+        if (climateHumidityDto.getLatitude() < -90 || climateHumidityDto.getLatitude() > 90) {
+            resultMap.put("message", "Latitude의 범위는 -90 ~ 90입니다.");
+            resultMap.put("status", HttpStatus.BAD_REQUEST.value());
+
+            return new ResponseEntity<>(resultMap, HttpStatus.BAD_REQUEST);
+        }
+
         StringBuffer response = new StringBuffer();
         try {
             // URL 설정
