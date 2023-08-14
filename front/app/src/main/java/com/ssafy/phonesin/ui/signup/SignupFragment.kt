@@ -1,20 +1,14 @@
 package com.ssafy.phonesin.ui.signup
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentSignupBinding
-import com.ssafy.phonesin.model.ConfirmEmail
-import com.ssafy.phonesin.model.EmailValidation
-import com.ssafy.phonesin.model.MemberDto
-import com.ssafy.phonesin.model.MemberValidation
-import com.ssafy.phonesin.model.SignUpInformation
+import com.ssafy.phonesin.model.*
 import com.ssafy.phonesin.model.dto.EmailRequestDto
 import com.ssafy.phonesin.ui.MainActivity
-import com.ssafy.phonesin.ui.util.DebouncingClickListener
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,43 +36,40 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
 
         initObserver()
 
-        bindingNonNull.buttonVerifyEmail.setDebouncingClickListener(object :
-            DebouncingClickListener() {
-            override fun onDebouncedClick(v: View) {
-                val email = bindingNonNull.editTextSignUpEmail.text.toString()
-                val password = bindingNonNull.editTextSignUpPassword.text.toString()
-                val passwordCheck = bindingNonNull.editTextSignUpPasswordCheck.text.toString()
-                val phoneNumber = bindingNonNull.editTextSignUpPhoneNumber.text.toString()
-                val name = bindingNonNull.editTextSignUpName.text.toString()
+        bindingNonNull.buttonVerifyEmail.setDebouncingClickListener {
+            val email = bindingNonNull.editTextSignUpEmail.text.toString()
+            val password = bindingNonNull.editTextSignUpPassword.text.toString()
+            val passwordCheck = bindingNonNull.editTextSignUpPasswordCheck.text.toString()
+            val phoneNumber = bindingNonNull.editTextSignUpPhoneNumber.text.toString()
+            val name = bindingNonNull.editTextSignUpName.text.toString()
 
-                val signUpInfo = SignUpInformation(
-                    email = email,
-                    password = password,
-                    passwordCheck = passwordCheck,
-                    phoneNumber = phoneNumber,
-                    memberName = name,
-                    emailCheck = emailCheckStatue
-                )
+            val signUpInfo = SignUpInformation(
+                email = email,
+                password = password,
+                passwordCheck = passwordCheck,
+                phoneNumber = phoneNumber,
+                memberName = name,
+                emailCheck = emailCheckStatue
+            )
 
-                val validateEmailMessage = viewModel.validateEmail(email)
-                if (validateEmailMessage == EmailValidation.VALID_EMAIL_FORMAT) {
-                    viewModel.verifyEmail(EmailRequestDto(email))
-                    viewModel.setUserInputEmail(signUpInfo)
-                    findNavController().navigate(R.id.action_signupFragment_to_emailCheckFragment)
-                } else {
-                    when (validateEmailMessage) {
-                        EmailValidation.EMPTY_EMAIL -> bindingNonNull.textViewEmailExplain.text =
-                            getString(R.string.signup_email_empty)
+            val validateEmailMessage = viewModel.validateEmail(email)
+            if (validateEmailMessage == EmailValidation.VALID_EMAIL_FORMAT) {
+                viewModel.verifyEmail(EmailRequestDto(email))
+                viewModel.setUserInputEmail(signUpInfo)
+                findNavController().navigate(R.id.action_signupFragment_to_emailCheckFragment)
+            } else {
+                when (validateEmailMessage) {
+                    EmailValidation.EMPTY_EMAIL -> bindingNonNull.textViewEmailExplain.text =
+                        getString(R.string.signup_email_empty)
 
-                        EmailValidation.INVALID_EMAIL_FORMAT -> bindingNonNull.textViewEmailExplain.text =
-                            getString(R.string.signup_invalid_email_format)
+                    EmailValidation.INVALID_EMAIL_FORMAT -> bindingNonNull.textViewEmailExplain.text =
+                        getString(R.string.signup_invalid_email_format)
 
-                        else -> bindingNonNull.textViewEmailExplain.text =
-                            getString(R.string.signup_invalid_email_format)
-                    }
+                    else -> bindingNonNull.textViewEmailExplain.text =
+                        getString(R.string.signup_invalid_email_format)
                 }
             }
-        })
+        }
 
         bindingNonNull.buttonSigunUp.setDebouncingClickListener {
             val email = bindingNonNull.editTextSignUpEmail.text.toString()
