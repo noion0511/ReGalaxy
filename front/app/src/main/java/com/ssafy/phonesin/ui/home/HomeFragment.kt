@@ -47,6 +47,7 @@ class HomeFragment : Fragment() {
         }
         setBanner()
         setRank()
+        setDonationInfo()
     }
 
     private fun setBanner() {
@@ -73,6 +74,13 @@ class HomeFragment : Fragment() {
 
         homeViewModel.donationRank.observe(viewLifecycleOwner, Observer { donationRank ->
             rankRecyclerView.adapter?.notifyDataSetChanged()
+        })
+    }
+
+    private fun setDonationInfo() {
+        homeViewModel.getDonationCount()
+        homeViewModel.donationCnt.observe(viewLifecycleOwner, Observer { donationCnt ->
+            binding.textViewDonationCnt.text = "총 ${donationCnt}대 기증"
         })
     }
 }

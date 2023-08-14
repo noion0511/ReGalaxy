@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 
         setStatusBarTransparent()
 
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             setNav()
         } else {
             setSplash()

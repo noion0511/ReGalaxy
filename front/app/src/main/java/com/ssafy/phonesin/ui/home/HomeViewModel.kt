@@ -19,6 +19,10 @@ class HomeViewModel @Inject constructor(
     val donationRank: MutableLiveData<List<Rank>>
         get() = _ranking
 
+    private var _donationCnt = MutableLiveData<Int>()
+    val donationCnt: MutableLiveData<Int>
+        get() = _donationCnt
+
     fun getRank() {
         viewModelScope.launch {
             val response = donationRepository.getRank()
@@ -27,6 +31,18 @@ class HomeViewModel @Inject constructor(
                     _ranking.value = response.body.donation
                 }
 
+                else -> {}
+            }
+        }
+    }
+
+    fun getDonationCount() {
+        viewModelScope.launch {
+            val response = donationRepository.getTotalDonationCount()
+            when(response) {
+                is NetworkResponse.Success -> {
+                    _donationCnt.value = response.body.cnt
+                }
                 else -> {}
             }
         }
