@@ -40,4 +40,10 @@
     <color name="onboardingBackgroundGray">#EFEFEF</color>
     <color name="onboardingBackgroundPurple">#F2C3E7</color>
     <color name="onboardingBackgroundOrange">#FABF7B</color>
+
+    <color name="hygrometerBackgroundWhite">#4DFFFFFF</color>
+    <color name="hygrometerBackgroundDefault">#909090</color>
+    <color name="hygrometerBackgroundClear">#FFAB37</color>
+    <color name="hygrometerBackgroundRain">#635D7D</color>
+    <color name="hygrometerBackgroundClouds">#60A2C7</color>
 </resources>

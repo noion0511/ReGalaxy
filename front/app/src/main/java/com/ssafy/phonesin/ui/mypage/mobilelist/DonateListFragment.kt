@@ -11,9 +11,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.phonesin.databinding.FragmentMyPageDonateListBinding
-import com.ssafy.phonesin.model.UserDonation
-import com.ssafy.phonesin.model.mypage.MyDonate
-import com.ssafy.phonesin.model.mypage.MyDonateToggle
 import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.mypage.UserViewModel
 

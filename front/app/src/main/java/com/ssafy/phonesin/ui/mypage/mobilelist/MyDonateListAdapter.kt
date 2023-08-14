@@ -3,14 +3,12 @@ package com.ssafy.phonesin.ui.mypage.mobilelist
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.ItemMyDonateListBinding
 import com.ssafy.phonesin.model.UserDonation
-import com.ssafy.phonesin.model.mypage.MyDonateToggle
 
 class MyDonateListAdapter(
     private val donateList: MutableLiveData<List<UserDonation>>,
@@ -26,6 +24,8 @@ class MyDonateListAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(donate: UserDonation) = with(binding) {
             textViewDonateDate.setText(donate.donationCreatedAt.substring(2, donate.donationCreatedAt.lastIndex + 1))
+
+            toggleState(donate)
 
             if (donate.donationStatus == 1) {
                 // 상태 확인
@@ -65,38 +65,41 @@ class MyDonateListAdapter(
 
             layoutToggleUp.setOnClickListener {
                 donate.toggle = !donate.toggle
+                toggleState(donate)
+            }
+        }
 
-                if (donate.toggle) {
-                    imageViewToggle.setImageResource(R.drawable.baseline_keyboard_arrow_up_24)
-                    dividerToggle.visibility = View.VISIBLE
-                    layoutToggleDown.visibility = View.VISIBLE
+        fun toggleState(donate: UserDonation) = with(binding) {
+            if (donate.toggle) {
+                imageViewToggle.setImageResource(R.drawable.baseline_keyboard_arrow_up_24)
+                dividerToggle.visibility = View.VISIBLE
+                layoutToggleDown.visibility = View.VISIBLE
 
-                    if (donate.donationStatus == 1) {
-                        layoutRegist.visibility = View.VISIBLE
-                        layoutApprove.visibility = View.GONE
-                        layoutPickup.visibility = View.GONE
-                        layoutDone.visibility = View.GONE
-                    } else if (donate.donationStatus == 2) {
-                        layoutRegist.visibility = View.GONE
-                        layoutApprove.visibility = View.VISIBLE
-                        layoutPickup.visibility = View.GONE
-                        layoutDone.visibility = View.GONE
-                    } else if (donate.donationStatus == 3) {
-                        layoutRegist.visibility = View.GONE
-                        layoutApprove.visibility = View.GONE
-                        layoutPickup.visibility = View.VISIBLE
-                        layoutDone.visibility = View.GONE
-                    } else {
-                        layoutRegist.visibility = View.GONE
-                        layoutApprove.visibility = View.GONE
-                        layoutPickup.visibility = View.GONE
-                        layoutDone.visibility = View.VISIBLE
-                    }
+                if (donate.donationStatus == 1) {
+                    layoutRegist.visibility = View.VISIBLE
+                    layoutApprove.visibility = View.GONE
+                    layoutPickup.visibility = View.GONE
+                    layoutDone.visibility = View.GONE
+                } else if (donate.donationStatus == 2) {
+                    layoutRegist.visibility = View.GONE
+                    layoutApprove.visibility = View.VISIBLE
+                    layoutPickup.visibility = View.GONE
+                    layoutDone.visibility = View.GONE
+                } else if (donate.donationStatus == 3) {
+                    layoutRegist.visibility = View.GONE
+                    layoutApprove.visibility = View.GONE
+                    layoutPickup.visibility = View.VISIBLE
+                    layoutDone.visibility = View.GONE
                 } else {
-                    imageViewToggle.setImageResource(R.drawable.baseline_keyboard_arrow_down_24)
-                    dividerToggle.visibility = View.GONE
-                    layoutToggleDown.visibility = View.GONE
+                    layoutRegist.visibility = View.GONE
+                    layoutApprove.visibility = View.GONE
+                    layoutPickup.visibility = View.GONE
+                    layoutDone.visibility = View.VISIBLE
                 }
+            } else {
+                imageViewToggle.setImageResource(R.drawable.baseline_keyboard_arrow_down_24)
+                dividerToggle.visibility = View.GONE
+                layoutToggleDown.visibility = View.GONE
             }
         }
     }

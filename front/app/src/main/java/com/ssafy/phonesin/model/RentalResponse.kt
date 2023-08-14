@@ -8,3 +8,4 @@ data class RentalResponse(
     val rentalList: List<Rental>,
     val status: Int
 )
+

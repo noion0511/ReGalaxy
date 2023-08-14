@@ -8,6 +8,8 @@ import com.ssafy.phonesin.repository.address.AddressRepository
 import com.ssafy.phonesin.repository.address.AddressRepositoryImpl
 import com.ssafy.phonesin.repository.donation.DonationRepository
 import com.ssafy.phonesin.repository.donation.DonationRepositoryImpl
+import com.ssafy.phonesin.repository.hygrometer.HygrometerRepository
+import com.ssafy.phonesin.repository.hygrometer.HygrometerRepositoryImpl
 import com.ssafy.phonesin.repository.rental.RentalRepository
 import com.ssafy.phonesin.repository.rental.RentalRepositoryImpl
 import com.ssafy.phonesin.repository.returnmobile.ReturnRepository
@@ -37,7 +39,6 @@ abstract class RepositoryModule {
         repositoryImpl: DonationRepositoryImpl
     ): DonationRepository
 
-
     @Binds
     abstract fun bindsRentalRepository(
         repositoryImpl: RentalRepositoryImpl
@@ -58,4 +59,8 @@ abstract class RepositoryModule {
         repositoryImpl: UserRepositoryImpl
     ): UserRepository
 
+    @Binds
+    abstract fun bindsHygrometerRepository(
+        repositoryImpl: HygrometerRepositoryImpl
+    ) : HygrometerRepository
 }

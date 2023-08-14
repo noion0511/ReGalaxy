@@ -18,7 +18,7 @@ class AddressRepositoryImpl @Inject constructor(
         return apiService.postAddress(address)
     }
 
-    override suspend fun removeAddress(addressId:Int): NetworkResponse<String, ErrorResponse> {
+    override suspend fun removeAddress(addressId: Int): NetworkResponse<String, ErrorResponse> {
         return apiService.removeAddress(addressId)
     }
 

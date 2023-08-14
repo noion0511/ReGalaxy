@@ -1,10 +1,10 @@
 package com.ssafy.phonesin.ui.mypage
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ssafy.phonesin.model.Address
-import com.ssafy.phonesin.model.Rank
+import com.ssafy.phonesin.model.UserRental
+import com.ssafy.phonesin.model.UserReturn
 import com.ssafy.phonesin.model.User
 import com.ssafy.phonesin.model.UserDonation
 import com.ssafy.phonesin.model.UserModify
@@ -33,6 +33,14 @@ class UserViewModel @Inject constructor(
     private val _donation = MutableLiveData<List<UserDonation>>()
     val myDonationList: MutableLiveData<List<UserDonation>>
         get() = _donation
+
+    private val _rental = MutableLiveData<List<UserRental>>()
+    val myRentalList: MutableLiveData<List<UserRental>>
+        get() = _rental
+
+    private val _return = MutableLiveData<List<UserReturn>>()
+    val myReturnList: MutableLiveData<List<UserReturn>>
+        get() = _return
 
 
     fun postAddress(address: String) {
@@ -88,7 +96,6 @@ class UserViewModel @Inject constructor(
             when(response) {
                 is NetworkResponse.Success -> {
                     _donation.value = response.body.donation
-                    Log.d("getUserDonationList", "getUserDonationList: ${_donation.value}")
                 }
                 else -> {}
             }
@@ -99,6 +106,44 @@ class UserViewModel @Inject constructor(
         viewModelScope.launch {
             userRepository.cancelUserDonation(donationId)
             getUserDonationList()
+        }
+    }
+
+    fun getUserRental() {
+        viewModelScope.launch {
+            val response = userRepository.getUserRentalList()
+            when(response) {
+                is NetworkResponse.Success -> {
+                    _rental.value = response.body.rentalList
+                }
+                else -> {}
+            }
+        }
+    }
+
+    fun cancelUserRental(rentalId: Int) {
+        viewModelScope.launch {
+            userRepository.cancelUserRental(rentalId)
+            getUserRental()
+        }
+    }
+
+    fun getUserReturn() {
+        viewModelScope.launch {
+            val response = userRepository.getUserReturnList()
+            when(response) {
+                is NetworkResponse.Success -> {
+                    _return.value = response.body.returnList
+                }
+                else -> {}
+            }
+        }
+    }
+
+    fun cancelUserReturn(returnId: Int) {
+        viewModelScope.launch {
+            userRepository.cancelUserReturn(returnId)
+            getUserReturn()
         }
     }
 }
