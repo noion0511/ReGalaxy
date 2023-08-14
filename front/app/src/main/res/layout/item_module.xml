@@ -19,9 +19,11 @@
 
         <ImageView
             android:id="@+id/moduleImage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_marginTop="30dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
             android:layout_marginBottom="30dp"
             tools:src="@drawable/camera" />
     </androidx.cardview.widget.CardView>

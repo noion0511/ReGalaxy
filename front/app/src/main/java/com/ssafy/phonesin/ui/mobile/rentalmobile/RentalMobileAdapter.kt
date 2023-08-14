@@ -9,15 +9,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.ItemRentalListBinding
 import com.ssafy.phonesin.model.Rental
+import com.ssafy.phonesin.model.RentalBody
 import com.ssafy.phonesin.ui.util.Util.selectModule
 
 class RentalMobileAdapter :
-    ListAdapter<Rental, RentalMobileAdapter.RentalMobileViewHolder>(RentalMobileDiffCallback()) {
+    ListAdapter<RentalBody, RentalMobileAdapter.RentalMobileViewHolder>(RentalMobileDiffCallback()) {
     private lateinit var binding: ItemRentalListBinding
 
     inner class RentalMobileViewHolder(private val binding: ItemRentalListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(rental: Rental) {
+        fun bind(rental: RentalBody) {
             binding.apply {
                 textViewItemRentalDate.text = String.format(
                     root.context.resources.getString(R.string.date_list),
@@ -94,12 +95,12 @@ class RentalMobileAdapter :
 
 }
 
-class RentalMobileDiffCallback : DiffUtil.ItemCallback<Rental>() {
-    override fun areItemsTheSame(oldItem: Rental, newItem: Rental): Boolean {
+class RentalMobileDiffCallback : DiffUtil.ItemCallback<RentalBody>() {
+    override fun areItemsTheSame(oldItem: RentalBody, newItem: RentalBody): Boolean {
         return oldItem.hashCode() == newItem.hashCode()
     }
 
-    override fun areContentsTheSame(oldItem: Rental, newItem: Rental): Boolean {
+    override fun areContentsTheSame(oldItem: RentalBody, newItem: RentalBody): Boolean {
         return newItem.hashCode() == oldItem.hashCode()
     }
 }

@@ -1,14 +1,9 @@
 package com.ssafy.phonesin.model
 
 data class Donation(
-
-    val donationCreatedAt: String,
-    val donationDeliveryDate: String,
-    val donationDeliveryLocation: String,
-    val donationDeliveryLocationType: String,
-    val donationId: Int,
-    val donationStatus: Int,
-    val memberId: Int
+    var donationDeliveryDate: String,
+    var donationDeliveryLocation: String,
+    var donationDeliveryLocationType: String,
 ) {
-    constructor() : this("", "", "", "", 0, 0, 0)
+    constructor() : this( "", "", "")
 }
