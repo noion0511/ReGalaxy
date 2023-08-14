@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ssafy.phonesin.model.BaseResponse
+import com.ssafy.phonesin.model.ConfirmEmail
+import com.ssafy.phonesin.model.EmailValidation
 import com.ssafy.phonesin.model.Event
 import com.ssafy.phonesin.model.MemberDto
 import com.ssafy.phonesin.model.MemberValidation
@@ -38,14 +40,14 @@ class SignupViewModel @Inject constructor(
     private val _emailAddress = MutableLiveData<String>()
     val emailAddress: LiveData<String> = _emailAddress
 
-    private val _emailConfirmStatus = MutableLiveData(false)
-    val emailConfirmStatus: LiveData<Boolean> = _emailConfirmStatus
+    private val _emailConfirmStatus = MutableLiveData<ConfirmEmail>()
+    val emailConfirmStatus: LiveData<ConfirmEmail> = _emailConfirmStatus
 
     fun setUserInputEmail(email: String) {
         _emailAddress.value = email
     }
 
-    fun setEmailConfirmStatus(status: Boolean) {
+    fun setEmailConfirmStatus(status: ConfirmEmail) {
         _emailConfirmStatus.value = status
     }
 
@@ -88,7 +90,11 @@ class SignupViewModel @Inject constructor(
                 }
 
                 is NetworkResponse.ApiError -> {
-                    _msg.postValue(postValueEvent(0, type))
+                    if(response.body.status == "409") {
+                        _msg.postValue(Event(response.body.message))
+                    } else {
+                        _msg.postValue(postValueEvent(0, type))
+                    }
                 }
 
                 is NetworkResponse.NetworkError -> {
@@ -114,7 +120,7 @@ class SignupViewModel @Inject constructor(
                 }
 
                 is NetworkResponse.ApiError -> {
-                    _msg.postValue(postValueEvent(0, type))
+                    _msg.postValue(Event(response.body.message))
                 }
 
                 is NetworkResponse.NetworkError -> {
@@ -152,5 +158,17 @@ class SignupViewModel @Inject constructor(
         }
 
         return validationErrors
+    }
+
+    fun validateEmail(email: String): EmailValidation {
+        if (email.isEmpty()) {
+            return EmailValidation.EMPTY_EMAIL
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            return EmailValidation.INVALID_EMAIL_FORMAT
+        }
+
+        return EmailValidation.VALID_EMAIL_FORMAT
     }
 }

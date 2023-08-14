@@ -58,18 +58,6 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/textViewPostNumber"
-                style="@style/textview_button_white_small"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:background="@drawable/button_black_corner_40"
-                android:paddingHorizontal="20dp"
-                android:paddingVertical="20dp"
-                android:text="@string/signup_email_verify_post" />
-
-            <TextView
                 android:id="@+id/textViewEmailConfirm"
                 style="@style/textview_button_white_small"
                 android:layout_width="match_parent"
@@ -80,6 +68,18 @@
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="20dp"
                 android:text="@string/signup_email_verify_confirm" />
+
+            <TextView
+                android:id="@+id/textViewPostNumber"
+                style="@style/textview_button_white_small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:background="@drawable/button_black_corner_40"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="20dp"
+                android:text="@string/signup_email_verify_post" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>
