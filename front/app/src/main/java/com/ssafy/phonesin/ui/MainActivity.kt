@@ -8,8 +8,10 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet.Layout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
@@ -47,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         ssl.postHttps("https://map.kakao.com/", 1000, 1000)
 
         setStatusBarTransparent()
-//        setNav()
+
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             setNav()
         } else {
@@ -138,7 +140,6 @@ class MainActivity : AppCompatActivity() {
         }, SPLASH_DELAY)
     }
 
-
     fun setNav() {
         setPadding()
         val navController =
@@ -168,6 +169,12 @@ class MainActivity : AppCompatActivity() {
         layout.setPadding(50, statusBarHeight() + 25, 50, navigationHeight())
     }
 
+    fun setHygrometerPadding(layout: LinearLayout) {
+        binding.containerMain.setPadding(0, 0, 0, 0)
+        binding.mainActivityLayout.setPadding(0, 0, 0, 0)
+        layout.setPadding(0, 0, 0, navigationHeight())
+    }
+
     fun setFrameLayoutPaddingVerticle(layout: FrameLayout) {
         layout.setPadding(0, statusBarHeight(), 0, navigationHeight())
     }
@@ -176,6 +183,7 @@ class MainActivity : AppCompatActivity() {
         binding.containerMain.setPadding(0, statusBarHeight(), 0, 0)
         binding.mainActivityLayout.setPadding(0, 0, 0, navigationHeight())
     }
+
 
     private fun setStatusBarTransparent() {
         window.apply {
@@ -202,4 +210,5 @@ class MainActivity : AppCompatActivity() {
         return if (resourceId <= 0 || Build.VERSION.SDK_INT < Build.VERSION_CODES.O) 0
         else resources.getDimensionPixelSize(resourceId)
     }
+
 }

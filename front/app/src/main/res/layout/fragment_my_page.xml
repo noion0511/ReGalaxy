@@ -47,7 +47,7 @@
                         android:text="김싸피" />
 
                     <ImageView
-                        android:id="@+id/ImageViewIconCha"
+                        android:id="@+id/imageViewIconCha"
                         android:layout_width="20sp"
                         android:layout_height="20sp"
                         android:layout_marginStart="5dp"
@@ -55,7 +55,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/TextViewEmail"
+                    android:id="@+id/textViewEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"

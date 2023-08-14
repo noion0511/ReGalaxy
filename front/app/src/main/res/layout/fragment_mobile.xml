@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MobileFragment">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:paddingBottom="10dp"
@@ -146,7 +145,9 @@
             app:layout_constraintEnd_toEndOf="@id/donateCardView"
             app:layout_constraintStart_toStartOf="@id/donateCardView"
             app:layout_constraintTop_toBottomOf="@id/donateTitle" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
 
 </ScrollView>

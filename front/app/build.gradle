@@ -71,7 +71,7 @@ dependencies {
     // https://github.com/square/okhttp
     implementation("com.squareup.okhttp3:okhttp:$okhttp_version")
     implementation("com.squareup.okhttp3:logging-interceptor:$okhttp_version")
-    
+
     def camerax_version = "1.0.0"
     implementation "androidx.camera:camera-camera2:$camerax_version"
     implementation "androidx.camera:camera-lifecycle:$camerax_version"

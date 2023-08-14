@@ -1,17 +1,19 @@
 package com.ssafy.phonesin.di
 
+import com.ssafy.phonesin.repository.login.LoginRepository
+import com.ssafy.phonesin.repository.login.LoginRepositoryImpl
+import com.ssafy.phonesin.repository.user.UserRepository
+import com.ssafy.phonesin.repository.user.UserRepositoryImpl
 import com.ssafy.phonesin.repository.address.AddressRepository
 import com.ssafy.phonesin.repository.address.AddressRepositoryImpl
 import com.ssafy.phonesin.repository.donation.DonationRepository
 import com.ssafy.phonesin.repository.donation.DonationRepositoryImpl
-import com.ssafy.phonesin.repository.login.LoginRepository
-import com.ssafy.phonesin.repository.login.LoginRepositoryImpl
+import com.ssafy.phonesin.repository.hygrometer.HygrometerRepository
+import com.ssafy.phonesin.repository.hygrometer.HygrometerRepositoryImpl
 import com.ssafy.phonesin.repository.rental.RentalRepository
 import com.ssafy.phonesin.repository.rental.RentalRepositoryImpl
 import com.ssafy.phonesin.repository.returnmobile.ReturnRepository
 import com.ssafy.phonesin.repository.returnmobile.ReturnRepositoryImpl
-import com.ssafy.phonesin.repository.user.UserRepository
-import com.ssafy.phonesin.repository.user.UserRepositoryImpl
 import com.ssafy.phonesin.repository.ytwok.Y2KRepository
 import com.ssafy.phonesin.repository.ytwok.Y2KRepositoryImpl
 import dagger.Binds
@@ -28,8 +30,6 @@ abstract class RepositoryModule {
     ): Y2KRepository
 
     @Binds
-
-
     abstract fun bindsReturnRepository(
         repositoryImpl: ReturnRepositoryImpl
     ): ReturnRepository
@@ -38,7 +38,6 @@ abstract class RepositoryModule {
     abstract fun bindsDonationRepository(
         repositoryImpl: DonationRepositoryImpl
     ): DonationRepository
-
 
     @Binds
     abstract fun bindsRentalRepository(
@@ -50,7 +49,6 @@ abstract class RepositoryModule {
         repositoryImpl: AddressRepositoryImpl
     ): AddressRepository
 
-
     @Binds
     abstract fun bindsLoginRepository(
         repositoryImpl: LoginRepositoryImpl
@@ -61,4 +59,8 @@ abstract class RepositoryModule {
         repositoryImpl: UserRepositoryImpl
     ): UserRepository
 
+    @Binds
+    abstract fun bindsHygrometerRepository(
+        repositoryImpl: HygrometerRepositoryImpl
+    ) : HygrometerRepository
 }
