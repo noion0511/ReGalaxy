@@ -196,9 +196,11 @@ class HomeCamActivity : AppCompatActivity() {
 
     fun leaveSession() {
         if (session != null) {
+
             session!!.leaveSession()
         }
         if (httpClient != null) {
+
             httpClient!!.dispose()
         }
         binding.localGlSurfaceView.clearImage()
@@ -211,12 +213,12 @@ class HomeCamActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        leaveSession()
+       // leaveSession()
         super.onBackPressed()
     }
 
     override fun onStop() {
-        leaveSession()
+       // leaveSession()
         super.onStop()
     }
 

@@ -236,10 +236,10 @@ class Session(
     fun leaveSession() {
         AsyncTask.execute {
             websocket?.setWebsocketCancelled(true)
-            if (websocket != null) {
+
                 websocket!!.leaveRoom()
                 websocket!!.disconnect()
-            }
+
             localParticipant!!.dispose()
         }
         activity.runOnUiThread {
@@ -251,10 +251,8 @@ class Session(
             }
         }
         AsyncTask.execute {
-            if (peerConnectionFactory != null) {
                 peerConnectionFactory!!.dispose()
                 peerConnectionFactory = null
-            }
         }
     }
 
