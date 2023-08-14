@@ -133,4 +133,8 @@ public class RentalService {
     public int count(Long member_id){ // status 1, 2, 3
         return rentalRepository.countByMember_MemberIdAndRentalStatusLessThan(member_id, 4);
     }
+
+    public Double sumFund(){
+        return rentalRepository.sumOfFunds();
+    }
 }
