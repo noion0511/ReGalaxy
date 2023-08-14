@@ -18,7 +18,6 @@ import io.openvidu.java.client.Session;
 import io.openvidu.java.client.SessionProperties;
 
 @CrossOrigin(origins = "*")
-@RequestMapping("/homecam")
 @RestController
 public class HomecamController {
 
