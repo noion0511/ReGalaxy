@@ -45,6 +45,8 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
                 !path.startsWith("/ytwok") &&
                 !path.equals("/") &&
                 !path.startsWith("/webjars") &&
+                !path.startsWith("/homecam.html") &&
+                !path.startsWith("/notice") &&
                 !path.startsWith("/assets") &&
                 !path.startsWith("/images") &&
                 !path.startsWith("/error") &&
