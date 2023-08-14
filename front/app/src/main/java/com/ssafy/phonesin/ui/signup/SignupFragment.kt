@@ -44,10 +44,24 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
         bindingNonNull.buttonVerifyEmail.setOnClickListener(object : DebouncingClickListener() {
             override fun onDebouncedClick(v: View) {
                 val email = bindingNonNull.editTextSignUpEmail.text.toString()
+                val password = bindingNonNull.editTextSignUpPassword.text.toString()
+                val passwordCheck = bindingNonNull.editTextSignUpPasswordCheck.text.toString()
+                val phoneNumber = bindingNonNull.editTextSignUpPhoneNumber.text.toString()
+                val name = bindingNonNull.editTextSignUpName.text.toString()
+
+                val signUpInfo = SignUpInformation(
+                    email = email,
+                    password = password,
+                    passwordCheck = passwordCheck,
+                    phoneNumber = phoneNumber,
+                    memberName = name,
+                    emailCheck = emailCheckStatue
+                )
+
                 val validateEmailMessage = viewModel.validateEmail(email)
                 if (validateEmailMessage == EmailValidation.VALID_EMAIL_FORMAT) {
                     viewModel.verifyEmail(EmailRequestDto(email))
-                    viewModel.setUserInputEmail(email)
+                    viewModel.setUserInputEmail(signUpInfo)
                     findNavController().navigate(R.id.action_signupFragment_to_emailCheckFragment)
                 } else {
                     when (validateEmailMessage) {
@@ -139,7 +153,7 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
                 if (it == ConfirmEmail.OK) {
                     bindingNonNull.textViewEmailExplain.text =
                         getString(R.string.signup_email_confirm_ok)
-                    bindingNonNull.editTextSignUpEmail.setText(emailAddress.value.toString())
+                    bindingNonNull.editTextSignUpEmail.setText(memberDto.value?.email.toString())
                 } else if (it == ConfirmEmail.EMAIL_EXISTS) {
                     bindingNonNull.textViewEmailExplain.text =
                         getString(R.string.signup_exists_email)
@@ -151,6 +165,14 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
                     if (it.status.toInt() == 200) {
                         findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
                     }
+                }
+            }
+
+            memberDto.observe(viewLifecycleOwner) {
+                if (it.email.isNotBlank()) {
+                    bindingNonNull.editTextSignUpEmail.setText(it.email)
+                    bindingNonNull.editTextSignUpName.setText(it.memberName)
+                    bindingNonNull.editTextSignUpPhoneNumber.setText(it.phoneNumber)
                 }
             }
         }

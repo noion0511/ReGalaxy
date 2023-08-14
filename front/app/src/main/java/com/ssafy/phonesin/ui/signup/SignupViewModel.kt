@@ -37,14 +37,14 @@ class SignupViewModel @Inject constructor(
     private val _emailCheck = MutableLiveData<Event<String>>()
     val emailCheck: LiveData<Event<String>> = _emailCheck
 
-    private val _emailAddress = MutableLiveData<String>()
-    val emailAddress: LiveData<String> = _emailAddress
+    private val _memberDto = MutableLiveData<SignUpInformation>()
+    val memberDto: LiveData<SignUpInformation> = _memberDto
 
     private val _emailConfirmStatus = MutableLiveData<ConfirmEmail>()
     val emailConfirmStatus: LiveData<ConfirmEmail> = _emailConfirmStatus
 
-    fun setUserInputEmail(email: String) {
-        _emailAddress.value = email
+    fun setUserInputEmail(info: SignUpInformation) {
+        _memberDto.value = info
     }
 
     fun setEmailConfirmStatus(status: ConfirmEmail) {

@@ -87,10 +87,9 @@ class EmailCheckFragment : BaseFragment<FragmentEmailCheckBinding>(
                 }
             }
 
-            emailAddress.observe(viewLifecycleOwner) {
-                if(it.isNullOrBlank()) return@observe
-                memberEmail = it
-                bindingNonNull.TextViewEmailCheckExplain.text = getString(R.string.signup_email_verify_explain, it)
+            memberDto.observe(viewLifecycleOwner) {
+                memberEmail = it.email
+                bindingNonNull.TextViewEmailCheckExplain.text = getString(R.string.signup_email_verify_explain, memberEmail)
             }
         }
     }
