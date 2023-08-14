@@ -34,8 +34,8 @@ server:
   ssl:
     enabled: false
 
-OPENVIDU_URL: https://i9d102.p.ssafy.io/homecam
-OPENVIDU_SECRET: MY_SECRET
+OPENVIDU_URL: https://i9d102.p.ssafy.io/
+OPENVIDU_SECRET: s1s2a3f4y@
 
 thymeleaf:
   prefix=classpath: /templates/
