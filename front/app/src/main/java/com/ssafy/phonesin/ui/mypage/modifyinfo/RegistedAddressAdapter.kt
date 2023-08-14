@@ -2,26 +2,28 @@ package com.ssafy.phonesin.ui.mypage.modifyinfo
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.phonesin.databinding.ItemAddressListBinding
+import com.ssafy.phonesin.model.Address
 
 class RegistedAddressAdapter(
-    private val addressList: List<String>,
+    private val addressList: MutableLiveData<List<Address>>,
     private val onRemoveClickListener: OnRemoveClickListener
 ) :
     RecyclerView.Adapter<RegistedAddressAdapter.ViewHolder>() {
 
     interface OnRemoveClickListener {
-        fun onRemoveClick(address: String)
+        fun onRemoveClick(addressId: Int)
     }
 
     inner class ViewHolder(private val binding: ItemAddressListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(address: String) {
-            binding.textViewRegistedAddress.setText(address)
+        fun bind(address: Address) {
+            binding.textViewRegistedAddress.setText(address.address)
 
             binding.imageViewRemoveAddress.setOnClickListener {
-                onRemoveClickListener.onRemoveClick(address)
+                onRemoveClickListener.onRemoveClick(address.addressId)
             }
         }
     }
@@ -34,9 +36,9 @@ class RegistedAddressAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.bind(addressList[position])
+        addressList.value?.let { viewHolder.bind(it.get(position)) }
     }
 
-    override fun getItemCount() = addressList.size
-
+    override fun getItemCount() = addressList.value?.size ?: 0
 }
+

@@ -59,11 +59,8 @@ public class LocationService {
             String address= c.getString("address_name");
 
             return address;
-        }catch (Exception e) {
-            System.out.println("지도보이기" + e.getMessage());
-            e.printStackTrace();
+        } catch (Exception e) {
+            return "해당 위치는 맵 API의 범위에서 벗어납니다.";
         }
-
-        return null;
     }
 }

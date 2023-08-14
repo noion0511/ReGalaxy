@@ -51,7 +51,7 @@ public class AdminDonationController {
         mav.addObject("list", DonationService.donationList());
         System.out.println(DonationService.donationList().toString());
         mav.addObject("title", "기증");
-        mav.setViewName("/list");//어디로 이동할지 ex) rental/list
+        mav.setViewName("list");//어디로 이동할지 ex) rental/list
         return mav;
     }
 

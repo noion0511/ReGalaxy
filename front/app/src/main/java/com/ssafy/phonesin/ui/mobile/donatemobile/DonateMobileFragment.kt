@@ -1,6 +1,8 @@
 package com.ssafy.phonesin.ui.mobile.donatemobile
 
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -9,6 +11,9 @@ import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentDonateMobileBinding
 import com.ssafy.phonesin.ui.MainActivity
+import com.ssafy.phonesin.ui.util.Util.convertCalendarToDate
+import com.ssafy.phonesin.ui.util.Util.convertCalendarToDateHyphen
+import com.ssafy.phonesin.ui.util.Util.convertToDate
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 
 // TODO: Rename parameter arguments, choose names that match
@@ -27,7 +32,7 @@ class DonateMobileFragment :
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    val donateMobileViewModel : DonateViewModel by activityViewModels()
+    val donateMobileViewModel: DonateViewModel by activityViewModels()
 
     override fun onCreateBinding(
         inflater: LayoutInflater,
@@ -54,15 +59,28 @@ class DonateMobileFragment :
 
 
     private fun setDonateMobileUi() = with(bindingNonNull) {
+        val apiVersion = Build.VERSION.SDK_INT
+        donateMobileViewModel.setDateDonate(convertCalendarToDate(calendarDonate.date))
+        if (apiVersion <= 18) {
+            val temp = calendarDonate.layoutParams
+            temp.height = 500
+            calendarDonate.layoutParams = temp
 
-
+        }
+        calendarDonate.setOnDateChangeListener { _, year, month, dayOfMonth ->
+            donateMobileViewModel.setDateDonate( convertToDate(year, month, dayOfMonth))
+        }
 
         buttonDonateNext.setOnClickListener {
+//            donateMobileViewModel.setDateDonate(convertCalendarToDate(calendarDonate.date))
             if (radioButtonDonateVisitDelivery.isChecked) {
+                donateMobileViewModel.setTypeDonate(radioButtonDonateVisitDelivery.text.toString())
+
                 findNavController().navigate(
                     R.id.action_donateMobileFragment_to_donateVisitDeliveryFragment,
                 )
             } else {
+                donateMobileViewModel.setTypeDonate(radioButtonDonateAgent.text.toString())
                 findNavController().navigate(
                     R.id.action_donateMobileFragment_to_donateAgentFragment,
                 )
