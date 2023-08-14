@@ -59,8 +59,10 @@ class ReturnFinishFragment : Fragment() {
         textViewReturnFinishDate.text = Util.getCurrentKoreaTime()
         textViewReturnFinishMobiles.text = "총 ${returnViewModel.returnList.size}개"
 
-        if (returnViewModel.returnList[0].backDeliveryLocationType == "방문 택배 선택") {
+        if (returnViewModel.returnList[0].backDeliveryLocationType == "배달") {
             mapViewReturnFinish.isVisible = false
+            textViewReturnFinishDetailSolve.text =
+                " - 수거방법 : 방문 택배 선택"
         } else {
             val data = arguments
             if (data != null) {
@@ -76,13 +78,15 @@ class ReturnFinishFragment : Fragment() {
                 val mapPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude)
                 val zoomLevel = 5
                 mapViewReturnFinish.setMapCenterPointAndZoomLevel(mapPoint, zoomLevel, true)
+                textViewReturnFinishDetailSolve.text =
+                    " - 수거방법 : 삼성 대리점 선택"
             }
         }
 
         textViewReturnFinishDetailDate.text =
             " - 반납날짜 : ${returnViewModel.returnList[0].backDeliveryDate.toString()}"
-        textViewReturnFinishDetailSolve.text =
-            " - 수거방법 : ${returnViewModel.returnList[0].backDeliveryLocationType}"
+//        textViewReturnFinishDetailSolve.text =
+//            " - 수거방법 : ${returnViewModel.returnList[0].backDeliveryLocationType}"
         textViewReturnFinishDetailAddress.text =
             " - 주소 : ${returnViewModel.returnList[0].backDeliveryLocation}"
 
@@ -92,6 +96,7 @@ class ReturnFinishFragment : Fragment() {
             )
         }
     }
+
     override fun onStop() {
         super.onStop()
         binding.root.removeView(binding.mapViewReturnFinish)

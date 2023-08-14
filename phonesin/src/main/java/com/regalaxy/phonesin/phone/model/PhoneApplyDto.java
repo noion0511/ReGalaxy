@@ -10,8 +10,8 @@ import lombok.*;
 public class PhoneApplyDto {
     private Long phoneId;
     private Long donationId;
-    private Long modelId;
     private String serialNumber;
+    private Long modelId;
     private boolean isY2K;
     private boolean isClimateHumidity;
     private boolean isHomecam;

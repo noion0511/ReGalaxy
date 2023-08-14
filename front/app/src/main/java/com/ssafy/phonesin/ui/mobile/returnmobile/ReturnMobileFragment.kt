@@ -3,8 +3,8 @@ package com.ssafy.phonesin.ui.mobile.returnmobile
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.CheckBox
@@ -17,6 +17,7 @@ import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentReturnMobileBinding
 import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.Util.convertCalendarToDate
+import com.ssafy.phonesin.ui.util.Util.convertToDate
 import com.ssafy.phonesin.ui.util.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,6 +42,7 @@ class ReturnMobileFragment : BaseFragment<FragmentReturnMobileBinding>(
     val returnMobileViewModel: ReturnMobileViewModel by viewModels()
     val returnViewModel: ReturnViewModel by activityViewModels()
     val rentalCheckList = mutableListOf<CheckBox>()
+    var date = ""
 
 
     override fun onCreateBinding(
@@ -69,15 +71,16 @@ class ReturnMobileFragment : BaseFragment<FragmentReturnMobileBinding>(
 
 
     private fun setReturnMobile() = with(bindingNonNull) {
-
+        date = convertCalendarToDate(calendarReturn.date)
         returnMobileViewModel.rentalResponseList.observe(viewLifecycleOwner) {
             layoutReturnCheckBox.removeAllViews()
             it.forEach { rental ->
-                val checkBox = CheckBox(context)
+                val checkBox = CheckBox(ContextThemeWrapper(context, R.style.MyCheckBox))
                 checkBox.text = "${rental.modelName} No.${rental.phoneId}"
 //                radioButton.id = it.indexOf(rental)
                 checkBox.id = rental.phoneId.toString().toInt()
                 checkBox.tag = rental.rentalId
+
                 if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
                     checkBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
                     checkBox.setTextColor(Color.BLACK)
@@ -93,17 +96,18 @@ class ReturnMobileFragment : BaseFragment<FragmentReturnMobileBinding>(
 //            radioButton.id = i // 라디오 버튼마다 고유한 ID를 부여 (무조건 필요한 것은 아님)
 //            radioGroupReturnAdd.addView(radioButton)
 //        }
-
+        calendarReturn.setOnDateChangeListener { _, year, month, dayOfMonth ->
+            date = convertToDate(year, month, dayOfMonth)
+        }
         buttonReturnNext.setOnClickListener {
             if (!isCheckBox()) {//하나라도 체크 안돼있음
                 showToast("한개 이상을 체크해주세요")
             } else if (editTextReturnContent.text.toString() == "") {
                 showToast("후기를 적어주세요")
             } else {
-                returnViewModel.setReturnList(getPhoneIdCheckBox(),getRentalIdCheckBox())
-                returnViewModel.setReturnListDate(convertCalendarToDate(calendarReturn.date))
+                returnViewModel.setReturnList(getPhoneIdCheckBox(), getRentalIdCheckBox())
                 returnViewModel.setReturnListContent(editTextReturnContent.text.toString())
-
+                returnViewModel.setReturnListDate(date)
                 if (radioButtonAgent.isChecked) {
                     returnViewModel.setReturnListType(radioButtonAgent.text.toString())
                     findNavController().navigate(

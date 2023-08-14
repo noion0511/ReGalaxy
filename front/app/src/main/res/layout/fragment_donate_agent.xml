@@ -39,9 +39,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:background="@drawable/border_spinner_layout"
+            android:background="@drawable/stroke_rectangle_key_color"
             app:defaultQueryHint="구미"
-            app:layout_constraintTop_toBottomOf="@id/textViewDonateAgentSearchMessage" />
+            app:layout_constraintTop_toBottomOf="@id/textViewDonateAgentSearchMessage"
+            app:searchIcon="@drawable/baseline_search_24" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewDonateAgentAddress"

@@ -31,6 +31,15 @@
         <item name="android:fontFamily">@font/pretendard_medium</item>
     </style>
 
+    <style name="MyCheckBox" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/keyColor1</item>
+        <item name="colorAccent">@color/keyColor1</item>
+    </style>
+
+    <style name="CalendarViewTheme" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/keyColor1</item>
+    </style>
+
 
     <!--  제목 및 컨텐츠 font 지정  -->
     <style name="textview_content_black">
@@ -91,6 +100,18 @@
     <style name="textview_button_white_big">
         <item name="android:textSize">20sp</item>
         <item name="android:fontFamily">@font/pretendard_bold</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="textview_remote_white_big">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="textview_remote_white_small">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/pretendard_semibold</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
@@ -155,6 +176,7 @@
     <style name="textview_card_button_white">
         <item name="android:textSize">16sp</item>
         <item name="fontFamily">@font/pretendard_semibold</item>
+>>>>>>> origin/develop
         <item name="android:textColor">@color/white</item>
     </style>
 

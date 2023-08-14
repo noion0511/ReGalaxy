@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.phonesin.databinding.ItemAgentBinding
 import com.ssafy.phonesin.model.AgentAddress
+import com.ssafy.phonesin.ui.util.Util.convertKm
+import com.ssafy.phonesin.ui.util.Util.getImage
 
 class AgentAdapter :
     ListAdapter<AgentAddress, AgentAdapter.AgentViewHolder>(AgentDiffCallback()) {
@@ -16,9 +18,11 @@ class AgentAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(agentAddress: AgentAddress) {
             binding.apply {
-                textViewItemAgentTitle.text = agentAddress.name
-                textViewItemAgentAddress.text = agentAddress.address
-                textViewItemAgentDistance.text = agentAddress.distance.toString() + "m"
+                textViewItemAgentTitle.text = agentAddress.agencyName
+                textViewItemAgentAddress.text = agentAddress.agencyLocation
+                textViewItemAgentDistance.text = convertKm(agentAddress.distance).toString() + "km"
+
+                getImage(root.context, imageViewItemAgent, agentAddress.agencyPhotoUrl)
 
                 root.setOnClickListener {
                     detailAgentListener.onClick(layoutPosition)

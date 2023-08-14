@@ -1,11 +1,9 @@
 package com.ssafy.phonesin.ui.mobile.returnmobile
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ssafy.phonesin.model.Rental
-import com.ssafy.phonesin.model.RentalResponse
 import com.ssafy.phonesin.repository.returnmobile.ReturnRepository
 import com.ssafy.phonesin.ui.util.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,12 +24,12 @@ class ReturnMobileViewModel @Inject constructor(
 
     fun getRentalList() {
         viewModelScope.launch {
-            //returnRepository.getRentalList().rentalList
+            returnRepository.getRentalList().rentalList
             val response = returnRepository.getRentalList().rentalList
             if (response.isEmpty()) {
                 _rentalResponseList.value = mutableListOf()
             } else {
-                _rentalResponseList.value = response
+                _rentalResponseList.value = response.filter { it.rentalStatus >= 4 }
             }
         }
     }

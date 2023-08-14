@@ -1,9 +1,10 @@
 package com.ssafy.phonesin.repository.address
 
 import com.ssafy.phonesin.model.Address
+import com.ssafy.phonesin.model.AgentAddress
 import com.ssafy.phonesin.model.ErrorResponse
-import com.ssafy.phonesin.network.service.ApiService
 import com.ssafy.phonesin.network.NetworkResponse
+import com.ssafy.phonesin.network.service.ApiService
 import javax.inject.Inject
 
 class AddressRepositoryImpl @Inject constructor(
@@ -19,6 +20,21 @@ class AddressRepositoryImpl @Inject constructor(
 
     override suspend fun removeAddress(addressId:Int): NetworkResponse<String, ErrorResponse> {
         return apiService.removeAddress(addressId)
+    }
+
+    override suspend fun getAgentAddressList(
+        latitude: Double,
+        longitude: Double,
+    ): NetworkResponse<List<AgentAddress>, ErrorResponse> {
+        return apiService.getAgentAddressList(latitude, longitude)
+    }
+
+    override suspend fun getSearchAgentAddressList(
+        latitude: Double,
+        longitude: Double,
+        search: String
+    ): NetworkResponse<List<AgentAddress>, ErrorResponse> {
+        return apiService.getSearchAgentAddressList(latitude, longitude, search)
     }
 
 }
