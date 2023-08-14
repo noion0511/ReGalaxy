@@ -34,7 +34,7 @@ server:
   ssl:
     enabled: false
 
-OPENVIDU_URL: https://i9d102.p.ssafy.io:4443/
+OPENVIDU_URL: http://i9d102.p.ssafy.io:4443/
 OPENVIDU_SECRET: s1s2a3f4y
 
 thymeleaf:
