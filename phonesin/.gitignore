@@ -36,5 +36,7 @@ out/
 ### VS Code ###
 .vscode/
 
-### y2k images ###
+### images ###
 y2k
+banner
+bottom

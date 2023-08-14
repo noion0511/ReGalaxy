@@ -3,6 +3,7 @@ package com.ssafy.phonesin.network.service
 
 import com.google.android.gms.common.internal.safeparcel.SafeParcelable.Param
 import com.ssafy.phonesin.model.Address
+import com.ssafy.phonesin.model.AgentAddress
 import com.ssafy.phonesin.model.Donation
 import com.ssafy.phonesin.model.ErrorResponse
 import com.ssafy.phonesin.model.PhotoResponse
@@ -35,6 +36,19 @@ interface ApiService {
 
     @GET("/address/list")
     suspend fun getAddressList(): NetworkResponse<List<Address>, ErrorResponse>
+
+    @GET("/address/list/samsung")
+    suspend fun getAgentAddressList(
+        @Query("latitude") latitude: Double,
+        @Query("longitude") longitude: Double
+    ): NetworkResponse<List<AgentAddress>, ErrorResponse>
+
+    @GET("/address/list/samsung/search")
+    suspend fun getSearchAgentAddressList(
+        @Query("latitude") latitude: Double,
+        @Query("longitude") longitude: Double,
+        @Query("search") search: String
+    ): NetworkResponse<List<AgentAddress>, ErrorResponse>
 
     @GET("/rental/apply/count")
     suspend fun getPossibleRentalCount(): NetworkResponse<RentalCountResponse, ErrorResponse>

@@ -17,12 +17,23 @@ spring:
       max-request-size: 10MB
   jwt:
     secret: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHa
+  mail:
+    host: ENC(kkMfWJ9U7hqVgAioVQzDgO6DgWCU9bL8)
+    port: 587
+    username: ENC(jD9gTPObek1HMylzFo6gd0K82MG/VGi9DyGUnHeyf8I=)
+    password: ENC(LS+2RH/15dhzu0lF/dLGeqH5E5o2b5ky/uFSGPayvdE=)
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 server:
   port: 8080
 
 thymeleaf:
-  prefix=classpath: templates/
+  prefix=classpath: /templates/
   suffix: .html
   check-template-location: true
   cache: false

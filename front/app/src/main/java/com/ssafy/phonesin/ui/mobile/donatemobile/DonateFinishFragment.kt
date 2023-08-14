@@ -1,6 +1,7 @@
 package com.ssafy.phonesin.ui.mobile.donatemobile
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,8 +59,8 @@ class DonateFinishFragment : Fragment() {
     private fun setDonateFinishUi() = with(binding) {
 
         textViewDonateFinishDate.text = getCurrentKoreaTime()
-
-        if (donateViewModel.donation.donationDeliveryLocationType == "방문 택배 선택") {
+        Log.e("asdf", donateViewModel.donation.donationDeliveryLocationType.toString())
+        if (donateViewModel.donation.donationDeliveryLocationType.contains("방문")) {
             mapViewDonateFinish.isVisible = false
         } else {
             val data = arguments
