@@ -77,7 +77,7 @@
                 android:textColor="@color/cameraFrame1"
                 app:layout_constraintStart_toStartOf="@id/textViewLogInPassword"
                 app:layout_constraintTop_toBottomOf="@id/textViewLogInPassword" />
-            
+
             <TextView
                 android:id="@+id/textViewNoIdMessage"
                 style="@style/textview_content_gray"
