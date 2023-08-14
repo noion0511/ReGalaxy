@@ -200,27 +200,36 @@ class HygrometerFragment : BaseFragment<FragmentHygrometerBinding>(R.layout.frag
     }
 
     private fun setLastHygrometer() {
-        val today = SimpleDateFormat("MM-dd").format(System.currentTimeMillis())
-//        val temp = "08-14"
         hygrometerList =
             if (AppPreferences.getHygrometerList() is MutableList<Hygrometer>) AppPreferences.getHygrometerList() as MutableList<Hygrometer> else mutableListOf()
-        if (!AppPreferences.checkLastHygrometerDate(today) && humiditySensor != null && temperatureSensor != null) {
-            hygrometerList.add(
-                Hygrometer(
-                    today,
-                    bindingNonNull.textViewTemperature.text.toString().toInt(),
-                    bindingNonNull.textViewHumidity.text.toString().toInt()
+        val today = SimpleDateFormat("MM-dd").format(System.currentTimeMillis())
+
+        if (humiditySensor != null && temperatureSensor != null) {
+            if (!AppPreferences.checkLastHygrometerDate(today)) {
+                hygrometerList.add(
+                    Hygrometer(
+                        today,
+                        bindingNonNull.textViewTemperature.text.toString().toInt(),
+                        bindingNonNull.textViewHumidity.text.toString().toInt()
+                    )
                 )
-            )
-//        if (!AppPreferences.checkLastHygrometerDate(temp)) {
-//            hygrometerList.add(Hygrometer(temp, 32, 82))
-            hygrometerList.add(Hygrometer(today, 32, 82))
-            if (hygrometerList.size > 7) {
-                hygrometerList.removeAt(0)
+                if (hygrometerList.size > 7) {
+                    hygrometerList.removeAt(0)
+                }
+                AppPreferences.saveHygrometerList(hygrometerList)
+                AppPreferences.setLastHygrometerDate(today)
             }
+        } else {
+            hygrometerList.clear()
+            hygrometerList.add(Hygrometer("08-12", 25, 70))
+            hygrometerList.add(Hygrometer("08-13", 27, 72))
+            hygrometerList.add(Hygrometer("08-14", 29, 62))
+            hygrometerList.add(Hygrometer("08-15", 32, 82))
+            hygrometerList.add(Hygrometer("08-16", 26, 90))
+            hygrometerList.add(Hygrometer("08-17", 35, 75))
+            hygrometerList.add(Hygrometer("08-18", 32, 82))
             AppPreferences.saveHygrometerList(hygrometerList)
             AppPreferences.setLastHygrometerDate(today)
-//            AppPreferences.setLastHygrometerDate(temp)
         }
         Log.d("저장리스트", "setLastHygrometer: ${hygrometerList}")
     }

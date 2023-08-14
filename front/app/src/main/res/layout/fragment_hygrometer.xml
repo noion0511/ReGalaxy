@@ -290,6 +290,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
+                    android:layout_marginBottom="30dp"
                     android:background="@drawable/button_black_corner_40"
                     android:text="한눈에 보기" />
 
