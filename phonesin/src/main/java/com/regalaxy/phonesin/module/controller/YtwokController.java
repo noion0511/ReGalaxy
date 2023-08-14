@@ -1,9 +1,11 @@
 package com.regalaxy.phonesin.module.controller;
 
+import com.regalaxy.phonesin.module.model.service.QuartzService;
 import com.regalaxy.phonesin.module.model.service.YtwokService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.quartz.SchedulerException;
 import org.springframework.core.io.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,7 @@ public class YtwokController {
     private static final String FAIL = "fail";
 
     private final YtwokService ytwokService;
+    private final QuartzService quartzService;
 
     @ApiOperation(value = "이미지업로드")
     @PostMapping("/apply")
@@ -67,10 +70,10 @@ public class YtwokController {
 
     @ApiOperation(value = "y2k이미지 삭제")
     @DeleteMapping(value = "images/{fileName}")
-    public ResponseEntity<Map<String, Object>> deleteY2k(@PathVariable("fileName") String fileName) {
+    public ResponseEntity<Map<String, Object>> deleteY2k(@PathVariable("fileName") String fileName) throws SchedulerException, InterruptedException {
         Map<String, Object> resultMap = new HashMap<String, Object>();
 
-
+        quartzService.start(fileName);
 
         resultMap.put("message", SUCCESS);
         resultMap.put("status", 200);

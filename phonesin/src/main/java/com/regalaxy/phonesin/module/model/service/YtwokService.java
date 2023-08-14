@@ -114,11 +114,22 @@ public class YtwokService {
     }
 
     public void deleteImage(String fileName){
+        Ytwok ytwok = ytwokRepository.findBySaveFile(fileName);
 
-    }
+        // ytwok not found
+        if (ytwok == null) return;
 
-    public void testJobMethod() {
-        System.out.println("test job....");
+        String SaveFileName = ytwok.getSaveFile();
+        String uploadFileName = ytwok.getOriginalFile();
+
+        // 한글 인코딩
+        String encodedUploadFileName = UriUtils.encode(uploadFileName, StandardCharsets.UTF_8);
+        String contentDisposition = "attachment; filename=\"" + encodedUploadFileName + "\"";
+
+        String absolutePath = new File("").getAbsolutePath() + "resources/images/y2k/" + SaveFileName;
+        File file = new File(absolutePath);
+        file.delete();
+
     }
 
 }
