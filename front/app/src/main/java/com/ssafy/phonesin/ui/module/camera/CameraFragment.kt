@@ -6,7 +6,6 @@ import android.hardware.Camera
 import android.os.CountDownTimer
 import android.os.Environment
 import android.util.Log
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.SurfaceHolder
 import android.view.View
@@ -19,6 +18,7 @@ import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentCameraBinding
 import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.base.BaseFragment
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.io.FileOutputStream
@@ -86,7 +86,7 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(
 
         bindingNonNull.progressBar.progress = 0
 
-        bindingNonNull.buttonTakePicture.setOnClickListener {
+        bindingNonNull.buttonTakePicture.setDebouncingClickListener {
             if (isSafeToTakePicture) {
                 bindingNonNull.progressBar.progress = 0
                 startCountdownAndTakePicture()

@@ -16,6 +16,7 @@ import com.ssafy.phonesin.model.dto.EmailRequestDto
 import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.DebouncingClickListener
 import com.ssafy.phonesin.ui.util.base.BaseFragment
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -41,7 +42,8 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
 
         initObserver()
 
-        bindingNonNull.buttonVerifyEmail.setOnClickListener(object : DebouncingClickListener() {
+        bindingNonNull.buttonVerifyEmail.setDebouncingClickListener(object :
+            DebouncingClickListener() {
             override fun onDebouncedClick(v: View) {
                 val email = bindingNonNull.editTextSignUpEmail.text.toString()
                 val password = bindingNonNull.editTextSignUpPassword.text.toString()
@@ -78,67 +80,65 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
             }
         })
 
-        bindingNonNull.buttonSigunUp.setOnClickListener(object : DebouncingClickListener() {
-            override fun onDebouncedClick(v: View) {
-                val email = bindingNonNull.editTextSignUpEmail.text.toString()
-                val password = bindingNonNull.editTextSignUpPassword.text.toString()
-                val passwordCheck = bindingNonNull.editTextSignUpPasswordCheck.text.toString()
-                val phoneNumber = bindingNonNull.editTextSignUpPhoneNumber.text.toString()
-                val name = bindingNonNull.editTextSignUpName.text.toString()
+        bindingNonNull.buttonSigunUp.setDebouncingClickListener {
+            val email = bindingNonNull.editTextSignUpEmail.text.toString()
+            val password = bindingNonNull.editTextSignUpPassword.text.toString()
+            val passwordCheck = bindingNonNull.editTextSignUpPasswordCheck.text.toString()
+            val phoneNumber = bindingNonNull.editTextSignUpPhoneNumber.text.toString()
+            val name = bindingNonNull.editTextSignUpName.text.toString()
 
-                val signUpInfo = SignUpInformation(
-                    email = email,
-                    password = password,
-                    passwordCheck = passwordCheck,
-                    phoneNumber = phoneNumber,
-                    memberName = name,
-                    emailCheck = emailCheckStatue
-                )
+            val signUpInfo = SignUpInformation(
+                email = email,
+                password = password,
+                passwordCheck = passwordCheck,
+                phoneNumber = phoneNumber,
+                memberName = name,
+                emailCheck = emailCheckStatue
+            )
 
-                val errors = viewModel.validateMember(signUpInfo)
+            val errors = viewModel.validateMember(signUpInfo)
 
-                if (errors.isEmpty()) {
-                    viewModel.signup(MemberDto(email, name, password, phoneNumber))
-                } else {
-                    for (error in errors) {
-                        when (error) {
-                            MemberValidation.EMPTY_EMAIL -> {
-                                bindingNonNull.textViewEmailExplain.text =
-                                    getString(R.string.signup_email_empty)
-                            }
+            if (errors.isEmpty()) {
+                viewModel.signup(MemberDto(email, name, password, phoneNumber))
+            } else {
+                for (error in errors) {
+                    when (error) {
+                        MemberValidation.EMPTY_EMAIL -> {
+                            bindingNonNull.textViewEmailExplain.text =
+                                getString(R.string.signup_email_empty)
+                        }
 
-                            MemberValidation.INVALID_EMAIL_FORMAT -> {
-                                bindingNonNull.textViewEmailExplain.text =
-                                    getString(R.string.signup_invalid_email_format)
+                        MemberValidation.INVALID_EMAIL_FORMAT -> {
+                            bindingNonNull.textViewEmailExplain.text =
+                                getString(R.string.signup_invalid_email_format)
 
-                            }
+                        }
 
-                            MemberValidation.SHORT_PASSWORD -> {
-                                bindingNonNull.textViewSignUpPasswordExplain.text =
-                                    getString(R.string.signup_short_password)
+                        MemberValidation.SHORT_PASSWORD -> {
+                            bindingNonNull.textViewSignUpPasswordExplain.text =
+                                getString(R.string.signup_short_password)
 
-                            }
+                        }
 
-                            MemberValidation.PASSWORD_MISMATCH -> {
-                                bindingNonNull.textViewSignUpPasswordExplain.text =
-                                    getString(R.string.signup_password_mismatch)
+                        MemberValidation.PASSWORD_MISMATCH -> {
+                            bindingNonNull.textViewSignUpPasswordExplain.text =
+                                getString(R.string.signup_password_mismatch)
 
-                            }
+                        }
 
-                            MemberValidation.EMAIL_NOT_VERIFIED -> {
-                                bindingNonNull.textViewEmailExplain.text =
-                                    getString(R.string.signup_email_not_verified)
+                        MemberValidation.EMAIL_NOT_VERIFIED -> {
+                            bindingNonNull.textViewEmailExplain.text =
+                                getString(R.string.signup_email_not_verified)
 
-                            }
+                        }
 
-                            MemberValidation.NO_NAME -> {
-                                bindingNonNull.textViewSignUpNameExplain.text = "이름을 입력해 주세요."
-                            }
+                        MemberValidation.NO_NAME -> {
+                            bindingNonNull.textViewSignUpNameExplain.text = "이름을 입력해 주세요."
                         }
                     }
                 }
             }
-        })
+        }
     }
 
     private fun initObserver() {

@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentDonateFinishBinding
 import com.ssafy.phonesin.ui.util.Util.getCurrentKoreaTime
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 
@@ -88,7 +89,7 @@ class DonateFinishFragment : Fragment() {
             " - 주소 : ${donateViewModel.donation.donationDeliveryLocation}"
 
 
-        buttonDonateHome.setOnClickListener {
+        buttonDonateHome.setDebouncingClickListener {
             findNavController().navigate(
                 R.id.action_doateFinishFragment_to_mobile,
             )

@@ -2,7 +2,6 @@ package com.ssafy.phonesin.ui.login
 
 import android.graphics.Paint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.fragment.app.activityViewModels
@@ -12,8 +11,8 @@ import com.ssafy.phonesin.common.AppPreferences.initJwtToken
 import com.ssafy.phonesin.databinding.FragmentLoginBinding
 import com.ssafy.phonesin.model.dto.LoginRequestDto
 import com.ssafy.phonesin.ui.MainActivity
-import com.ssafy.phonesin.ui.util.DebouncingClickListener
 import com.ssafy.phonesin.ui.util.base.BaseFragment
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -51,26 +50,22 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         initSignupButton()
     }
 
-    private fun initLoginButton(){
-        bindingNonNull.layoutLogIn.setOnClickListener(object : DebouncingClickListener() {
-            override fun onDebouncedClick(v: View) {
-                val email = bindingNonNull.editTextLogInEmail.text.toString()
-                val password = bindingNonNull.editTextLogInPassword.text.toString()
+    private fun initLoginButton() {
+        bindingNonNull.layoutLogIn.setDebouncingClickListener {
+            val email = bindingNonNull.editTextLogInEmail.text.toString()
+            val password = bindingNonNull.editTextLogInPassword.text.toString()
 
-                if(viewModel.checkValidation(email, password)) {
-                    viewModel.login(LoginRequestDto(email, password))
-                }
+            if (viewModel.checkValidation(email, password)) {
+                viewModel.login(LoginRequestDto(email, password))
             }
-        })
+        }
     }
 
 
-    private fun initSignupButton(){
-        bindingNonNull.textViewSignUp.setOnClickListener(object : DebouncingClickListener() {
-            override fun onDebouncedClick(v: View) {
-                findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
-            }
-        })
+    private fun initSignupButton() {
+        bindingNonNull.textViewSignUp.setDebouncingClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
+        }
     }
 
 
@@ -82,7 +77,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
                 }
             }
 
-            token.observe(viewLifecycleOwner) {event ->
+            token.observe(viewLifecycleOwner) { event ->
                 event.getContentIfNotHandled()?.let {
                     initJwtToken(it)
                     findNavController().navigate(R.id.action_loginFragment_to_home)

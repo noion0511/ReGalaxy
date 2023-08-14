@@ -14,6 +14,7 @@ import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentFrameViewerBinding
 import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.base.BaseFragment
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "FrameViewerFragment"
@@ -52,11 +53,11 @@ class FrameViewerFragment : BaseFragment<FragmentFrameViewerBinding>(
         val mainActivity = activity as MainActivity
         mainActivity.hideBottomNavi(true)
 
-        bindingNonNull.buttonChoicePicture.setOnClickListener {
+        bindingNonNull.buttonChoicePicture.setDebouncingClickListener {
             viewModel.setSelectedFrameColor(colors[colorIndex])
         }
 
-        bindingNonNull.buttonArrowLeft.setOnClickListener {
+        bindingNonNull.buttonArrowLeft.setDebouncingClickListener {
             colorIndex = (colorIndex + 1) % colors.size
             bindingNonNull.frameView.setBackgroundColor(
                 ContextCompat.getColor(
@@ -84,7 +85,7 @@ class FrameViewerFragment : BaseFragment<FragmentFrameViewerBinding>(
             }
         }
 
-        bindingNonNull.buttonArrowRight.setOnClickListener {
+        bindingNonNull.buttonArrowRight.setDebouncingClickListener {
             colorIndex = (colorIndex - 1 + colors.size) % colors.size
             bindingNonNull.frameView.setBackgroundColor(
                 ContextCompat.getColor(

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.ItemMyReturnListBinding
 import com.ssafy.phonesin.model.UserReturn
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 
 class MyReturnListAdapter(
     private val returnList: MutableLiveData<List<UserReturn>>,
@@ -34,7 +35,7 @@ class MyReturnListAdapter(
                 textViewStatePickup.setTextColor(ContextCompat.getColor(itemView.context, R.color.gray))
                 textViewStateConfirm.setTextColor(ContextCompat.getColor(itemView.context, R.color.gray))
 
-                buttonCancelRegist.setOnClickListener {
+                buttonCancelRegist.setDebouncingClickListener {
                     imageViewToggle.setImageResource(R.drawable.baseline_keyboard_arrow_down_24)
                     dividerToggle.visibility = View.GONE
                     layoutToggleDown.visibility =View.GONE
@@ -60,7 +61,7 @@ class MyReturnListAdapter(
                 textViewStateConfirm.setTextColor(ContextCompat.getColor(itemView.context, R.color.keyColor1))
             }
 
-            layoutToggleUp.setOnClickListener {
+            layoutToggleUp.setDebouncingClickListener {
                 returns.toggle = !returns.toggle
                 toggleState(returns)
             }

@@ -1,6 +1,5 @@
 package com.ssafy.phonesin.ui.mobile.rentalmobile
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -8,9 +7,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.ItemRentalListBinding
-import com.ssafy.phonesin.model.Rental
 import com.ssafy.phonesin.model.RentalBody
 import com.ssafy.phonesin.ui.util.Util.selectModule
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 
 class RentalMobileAdapter :
     ListAdapter<RentalBody, RentalMobileAdapter.RentalMobileViewHolder>(RentalMobileDiffCallback()) {
@@ -38,21 +37,21 @@ class RentalMobileAdapter :
                 )
                 textViewRentalCount.text = rental.count.toString()
 
-                imageViewItemRentalClose.setOnClickListener {
+                imageViewItemRentalClose.setDebouncingClickListener {
                     deleteRentalMobileListener.onClick(layoutPosition)
 
                 }
-                imageViewRentalPlus.setOnClickListener {
+                imageViewRentalPlus.setDebouncingClickListener {
                     plusRentalMobileListener.onClick(layoutPosition)
                     textViewRentalCount.text = rental.count.toString()
                 }
 
-                imageViewRentalMinus.setOnClickListener {
+                imageViewRentalMinus.setDebouncingClickListener {
                     minusRentalMobileListener.onClick(layoutPosition)
                     textViewRentalCount.text = rental.count.toString()
                 }
 
-                buttonChangeOption.setOnClickListener {
+                buttonChangeOption.setDebouncingClickListener {
                     updateRentalMobileListener.onClick(layoutPosition)
                 }
 

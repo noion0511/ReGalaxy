@@ -21,6 +21,7 @@ import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentMyPageAddAddressBinding
 import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.mypage.UserViewModel
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 
 
 class AddAddressFragment : Fragment() {
@@ -53,7 +54,7 @@ class AddAddressFragment : Fragment() {
     private fun setOnClick() = with(binding) {
         editTextRoadAddress.isFocusableInTouchMode = false
 
-        editTextRoadAddress.setOnClickListener {
+        editTextRoadAddress.setDebouncingClickListener {
             val status: Int = NetworkStatus.getConnectivityStatus(requireContext())
             if (status == NetworkStatus.TYPE_MOBILE || status == NetworkStatus.TYPE_WIFI) {
                 showRoadAddressDialog()
@@ -62,7 +63,7 @@ class AddAddressFragment : Fragment() {
             }
         }
 
-        buttonSaveNewAddress.setOnClickListener {
+        buttonSaveNewAddress.setDebouncingClickListener {
             val newAddress = "${editTextRoadAddress.text} ${editTextDetailAddress.text}"
             Log.d("buttonSaveNewAddress", "setOnClick: $newAddress")
             userViewModel.postAddress(newAddress)

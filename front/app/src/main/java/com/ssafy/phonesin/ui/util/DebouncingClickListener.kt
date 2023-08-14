@@ -18,3 +18,11 @@ abstract class DebouncingClickListener(private val delayMillis: Long = 1000L) : 
 
     abstract fun onDebouncedClick(v: View)
 }
+
+fun View.setDebouncingClickListener(delayMillis: Long = 1000L, onDebouncedClick: (View) -> Unit) {
+    this.setOnClickListener(object : DebouncingClickListener(delayMillis) {
+        override fun onDebouncedClick(v: View) {
+            onDebouncedClick(v)
+        }
+    })
+}

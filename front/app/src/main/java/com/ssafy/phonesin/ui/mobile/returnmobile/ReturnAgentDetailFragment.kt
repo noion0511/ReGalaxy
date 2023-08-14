@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentReturnAgentDetailBinding
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 
@@ -86,7 +87,7 @@ class ReturnAgentDetailFragment : Fragment() {
             mapViewReturnAgentDetail.setMapCenterPointAndZoomLevel(mapPoint, zoomLevel, true)
         }
 
-        buttonPostReturnAgent.setOnClickListener {
+        buttonPostReturnAgent.setDebouncingClickListener {
             findNavController().navigate(
                 R.id.action_returnAgentDetailFragment_to_returnFinishFragment, bundle
             )

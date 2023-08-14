@@ -1,7 +1,6 @@
 package com.ssafy.phonesin.ui.signup
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -11,8 +10,8 @@ import com.ssafy.phonesin.model.ConfirmEmail
 import com.ssafy.phonesin.model.dto.EmailCheckRequestDto
 import com.ssafy.phonesin.model.dto.EmailRequestDto
 import com.ssafy.phonesin.ui.MainActivity
-import com.ssafy.phonesin.ui.util.DebouncingClickListener
 import com.ssafy.phonesin.ui.util.base.BaseFragment
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,7 +19,7 @@ class EmailCheckFragment : BaseFragment<FragmentEmailCheckBinding>(
     R.layout.fragment_email_check
 ) {
     private val viewModel by activityViewModels<SignupViewModel>()
-    private lateinit var memberEmail : String
+    private lateinit var memberEmail: String
 
     override fun onCreateBinding(
         inflater: LayoutInflater,
@@ -41,25 +40,21 @@ class EmailCheckFragment : BaseFragment<FragmentEmailCheckBinding>(
         initConfirmButton()
     }
 
-    private fun initPostButton(){
-        bindingNonNull.textViewPostNumber.setOnClickListener(object : DebouncingClickListener() {
-            override fun onDebouncedClick(v: View) {
-                viewModel.verifyEmail(EmailRequestDto(memberEmail))
-            }
-        })
+    private fun initPostButton() {
+        bindingNonNull.textViewPostNumber.setDebouncingClickListener {
+            viewModel.verifyEmail(EmailRequestDto(memberEmail))
+        }
     }
 
-    private fun initConfirmButton(){
-        bindingNonNull.textViewEmailConfirm.setOnClickListener(object : DebouncingClickListener() {
-            override fun onDebouncedClick(v: View) {
-                val verifyNumber = bindingNonNull.editTextEmailCheck.text.toString()
-                if(verifyNumber.isBlank()) {
-                    showToast(getString(R.string.signup_email_confirm_number))
-                    return
-                }
-                viewModel.verifyEmailConfirm(EmailCheckRequestDto(memberEmail, verifyNumber))
+    private fun initConfirmButton() {
+        bindingNonNull.textViewEmailConfirm.setDebouncingClickListener {
+            val verifyNumber = bindingNonNull.editTextEmailCheck.text.toString()
+            if (verifyNumber.isBlank()) {
+                showToast(getString(R.string.signup_email_confirm_number))
+                return@setDebouncingClickListener
             }
-        })
+            viewModel.verifyEmailConfirm(EmailCheckRequestDto(memberEmail, verifyNumber))
+        }
     }
 
     private fun initObserver() {
@@ -89,7 +84,8 @@ class EmailCheckFragment : BaseFragment<FragmentEmailCheckBinding>(
 
             memberDto.observe(viewLifecycleOwner) {
                 memberEmail = it.email
-                bindingNonNull.TextViewEmailCheckExplain.text = getString(R.string.signup_email_verify_explain, memberEmail)
+                bindingNonNull.TextViewEmailCheckExplain.text =
+                    getString(R.string.signup_email_verify_explain, memberEmail)
             }
         }
     }
