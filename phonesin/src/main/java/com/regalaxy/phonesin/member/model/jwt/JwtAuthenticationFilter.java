@@ -46,6 +46,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
                 !path.equals("/") &&
                 !path.startsWith("/webjars") &&
                 !path.startsWith("/homecam.html") &&
+                !path.startsWith("/openvidu-browser-2.28.0.js") &&
                 !path.startsWith("/homecam") &&
                 !path.startsWith("/notice") &&
                 !path.startsWith("/assets") &&
