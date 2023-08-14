@@ -42,6 +42,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
                 !path.startsWith("/v3/api-docs") &&
                 !path.startsWith("/v2/api-docs") &&
                 !path.startsWith("/csrf") &&
+                !path.startsWith("/api/sessions") &&
                 !path.startsWith("/ytwok") &&
                 !path.equals("/") &&
                 !path.startsWith("/webjars") &&
