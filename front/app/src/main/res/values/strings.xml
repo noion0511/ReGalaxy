@@ -19,11 +19,12 @@
     <string name="moduleTodayHygrometer">현재 날씨</string>
     <string name="moduleTodayHygrometerExample">18º</string>
     <string name="moduleHygrometer">온습도계</string>
-    <string name="moduleLocation">구미시 진평동</string>
-    <string name="moduleDate">2023년 8월 8일</string>
+    <string name="moduleLocation">현재 위치를 불러오는 중입니다.</string>
+    <string name="moduleDate">현재 날짜를 불러오는 중입니다.</string>
     <string name="my_page">마이</string>
     <string name="add_rental_mobile">+물품추가</string>
     <string name="item_rental_change_option">옵션 변경</string>
+    <string name="not_found">알수없음</string>
 
     <string name="email">Email</string>
     <string name="edit_id">아이디를 입력하세요.</string>
