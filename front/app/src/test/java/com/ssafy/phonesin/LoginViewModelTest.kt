@@ -40,7 +40,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `API 에러 테스트`() = runBlocking {
+    fun `로그인 API 에러 테스트`() = runBlocking {
         val loginRequest = LoginRequestDto("username", "password")
         `when`(repository.login(loginRequest)).thenReturn(NetworkResponse.ApiError(ErrorResponse(status = "401", message = "이메일 또는 비밀번호가 일치하지 않습니다."), code = 401))
 
