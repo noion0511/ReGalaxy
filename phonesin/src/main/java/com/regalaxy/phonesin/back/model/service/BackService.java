@@ -146,7 +146,7 @@ public class BackService {
     @Transactional
     public void infoDelete(Long backId, Long memberId){
         Back back = backRepository.findById(backId)
-                .orElseThrow(() -> new IllegalArgumentException("해당하는 backID가 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 BackID가 없습니다."));
 
         if (back.getRental().getMember().getMemberId() != memberId) {
             throw new IllegalArgumentException("memberID가 다릅니다.");
