@@ -123,13 +123,16 @@ class MyRentalListAdapter(
             val stringBuilder = StringBuilder(function)
 
             if (stringBuilder.length == 4) {
-                stringBuilder.setCharAt(2, ' ')
-                stringBuilder.setCharAt(2, '/')
-                stringBuilder.setCharAt(2, ' ')
+                stringBuilder.insert(2, ' ')
+                stringBuilder.insert(2, '/')
+                stringBuilder.insert(2, ' ')
             } else if (stringBuilder.length == 7) {
-                stringBuilder.setCharAt(4, ' ')
-                stringBuilder.setCharAt(4, '/')
-                stringBuilder.setCharAt(4, ' ')
+                stringBuilder.insert(4, ' ')
+                stringBuilder.insert(4, '/')
+                stringBuilder.insert(4, ' ')
+                stringBuilder.insert(2, ' ')
+                stringBuilder.insert(2, '/')
+                stringBuilder.insert(2, ' ')
             }
             return stringBuilder.toString()
         }
