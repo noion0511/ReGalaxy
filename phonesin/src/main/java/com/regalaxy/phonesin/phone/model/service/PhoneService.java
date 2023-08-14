@@ -69,4 +69,8 @@ public class PhoneService {
         }
         return list;
     }
+
+    public int allDonationPhone(){
+        return donationRepository.countByDonationStatusEquals(3);
+    }
 }
