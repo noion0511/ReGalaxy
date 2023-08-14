@@ -38,7 +38,7 @@ public class MyQuartzJob implements Job {
 
         System.out.println(String.format("[%s][%s] %s %s %s", currentDate, triggerKey, jobSays, myFloatValue, fileName));
 
-        System.out.println("id : " + ytwokRepository.findBySaveFile(fileName).getYtwokId());
+//        System.out.println("id : " + ytwokRepository.findBySaveFile(fileName).getYtwokId());
 
     }
 }
