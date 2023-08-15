@@ -71,6 +71,6 @@ public class PhoneService {
     }
 
     public int allDonationPhone(){
-        return donationRepository.countByDonationStatusEquals(3);
+        return (int) donationRepository.count();
     }
 }
