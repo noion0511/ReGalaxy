@@ -13,4 +13,7 @@ public interface RentalRepository extends JpaRepository<Rental, Long>, RentalRep
     List<Rental> findAllByMember_MemberId(Long memberId);
 
     int countByMember_MemberIdAndRentalStatusLessThan(Long memberId, int rentalStatus);
+
+    @Query("SELECT SUM(r.fund) FROM rental r")
+    Double sumOfFunds();
 }
