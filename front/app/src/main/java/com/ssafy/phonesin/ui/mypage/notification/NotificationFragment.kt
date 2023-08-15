@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
+import com.ssafy.phonesin.common.AppPreferences
 import com.ssafy.phonesin.databinding.FragmentMyPageNotificationBinding
 import com.ssafy.phonesin.ui.MainActivity
 
@@ -32,7 +33,12 @@ class NotificationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setUI()
         setOnClick()
+    }
+
+    private fun setUI() = with(binding) {
+        switchNotification.isChecked = AppPreferences.getNotificationSetting()
     }
 
     private fun setOnClick() = with(binding) {
@@ -47,17 +53,9 @@ class NotificationFragment : Fragment() {
         }
 
         buttonSaveNotification.setOnClickListener {
+            AppPreferences.setNotificationSetting(switchNotification.isChecked)
             findNavController().navigate(R.id.my_page)
         }
 
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            NotificationFragment().apply {
-                arguments = Bundle().apply {
-                }
-            }
     }
 }
