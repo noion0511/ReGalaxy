@@ -176,14 +176,6 @@
                     android:text="사용자 정보 변경" />
 
                 <TextView
-                    android:id="@+id/textViewModifyPay"
-                    style="@style/textview_content_black"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:text="결제 정보 변경" />
-
-                <TextView
                     android:id="@+id/textViewNotificationSetting"
                     style="@style/textview_content_black"
                     android:layout_width="wrap_content"
@@ -209,46 +201,6 @@
 
             </LinearLayout>
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="10dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border_gray_corner_15"
-                android:gravity="start"
-                android:orientation="vertical"
-                android:padding="20dp">
-
-                <TextView
-                    style="@style/textview_title_secondary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="정보" />
-
-                <TextView
-                    style="@style/textview_content_black"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:text="서비스 이용약관" />
-
-                <TextView
-                    style="@style/textview_content_black"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:text="개인정보처리방침" />
-
-                <TextView
-                    style="@style/textview_content_black"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:text="사용 라이브러리" />
-
-            </LinearLayout>
 
         </LinearLayout>
 
