@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentCamListBinding
+import com.ssafy.phonesin.ui.MainActivity
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -27,7 +28,8 @@ class CamListFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-
+        val mainActivity = activity as MainActivity
+        mainActivity.hideBottomNavi(true)
     }
 
     override fun onCreateView(
