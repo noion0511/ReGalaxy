@@ -125,6 +125,7 @@
                             app:lottie_loop="true"/>
 
                         <TextView
+                            android:id="@+id/textViewDonationCnt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
@@ -164,10 +165,11 @@
                             app:lottie_loop="true"/>
 
                         <TextView
+                            android:id="@+id/textViewDonationMoney"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:text="총 300,000원 기부"
+                            android:text="총 20,000원 기부"
                             android:fontFamily="@font/pretendard_semibold"
                             android:textSize="12sp"/>
                     </LinearLayout>
