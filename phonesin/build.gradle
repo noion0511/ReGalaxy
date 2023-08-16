@@ -17,6 +17,7 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.jetbrains:annotations:24.0.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	// lombok
@@ -58,6 +59,9 @@ dependencies {
 	// JSONObject
 	implementation 'org.json:json:20210307'
 
+	// Quartz (scheduling)
+	implementation 'org.springframework.boot:spring-boot-starter-quartz:2.7.5'
+	
 	// Bean Validation API and Hibernate Validator
 	implementation 'javax.validation:validation-api:2.0.1.Final'
 	implementation 'org.hibernate.validator:hibernate-validator:6.1.5.Final'
