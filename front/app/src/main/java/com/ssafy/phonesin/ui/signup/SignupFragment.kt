@@ -21,6 +21,7 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
 ) {
     private val viewModel by activityViewModels<SignupViewModel>()
     private var emailCheckStatue = false
+    private var verifyEmail = ""
 
     override fun onCreateBinding(
         inflater: LayoutInflater,
@@ -38,21 +39,8 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
 
         initObserver()
 
-        bindingNonNull.editTextSignUpEmail.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                emailCheckStatue = false
-                bindingNonNull.textViewEmailExplain.text = ""
-            }
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // 텍스트가 변경되기 전에 호출됩니다. 여기에서는 특별한 작업을 하지 않아도 됩니다.
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // 텍스트가 변경되는 동안에 호출됩니다. 여기에서는 특별한 작업을 하지 않아도 됩니다.
-            }
-        })
-                bindingNonNull.buttonVerifyEmail.setDebouncingClickListener {
+        bindingNonNull.buttonVerifyEmail.setDebouncingClickListener {
             val email = bindingNonNull.editTextSignUpEmail.text.toString()
             val password = bindingNonNull.editTextSignUpPassword.text.toString()
             val passwordCheck = bindingNonNull.editTextSignUpPasswordCheck.text.toString()
@@ -88,16 +76,17 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
         }
 
         bindingNonNull.buttonSigunUp.setDebouncingClickListener {
-            if(!emailCheckStatue) {
-                showToast("이메일 인증을 완료해주세요.")
-                return@setDebouncingClickListener
-            }
-
             val email = bindingNonNull.editTextSignUpEmail.text.toString()
             val password = bindingNonNull.editTextSignUpPassword.text.toString()
             val passwordCheck = bindingNonNull.editTextSignUpPasswordCheck.text.toString()
             val phoneNumber = bindingNonNull.editTextSignUpPhoneNumber.text.toString()
             val name = bindingNonNull.editTextSignUpName.text.toString()
+
+            if (!emailCheckStatue || verifyEmail != email) {
+                showToast("이메일 인증을 완료해주세요.")
+                emailCheckStatue = false
+                return@setDebouncingClickListener
+            }
 
             val signUpInfo = SignUpInformation(
                 email = email,
@@ -112,6 +101,14 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
 
             if (errors.isEmpty()) {
                 viewModel.signup(MemberDto(email, name, password, phoneNumber))
+                viewModel.setUserInputEmail(SignUpInformation(
+                    email = "",
+                    password = "",
+                    passwordCheck = "",
+                    phoneNumber = "",
+                    memberName = "",
+                    emailCheck = false
+                ))
             } else {
                 for (error in errors) {
                     when (error) {
@@ -162,12 +159,12 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
             }
 
             emailConfirmStatus.observe(viewLifecycleOwner) {
-                if (it == ConfirmEmail.OK) {
+                if (it.first == ConfirmEmail.OK) {
                     emailCheckStatue = true
+                    verifyEmail = it.second
                     bindingNonNull.textViewEmailExplain.text =
                         getString(R.string.signup_email_confirm_ok)
-                    bindingNonNull.editTextSignUpEmail.setText(memberDto.value?.email.toString())
-                } else if (it == ConfirmEmail.EMAIL_EXISTS) {
+                } else if (it.first == ConfirmEmail.EMAIL_EXISTS) {
                     bindingNonNull.textViewEmailExplain.text =
                         getString(R.string.signup_exists_email)
                 }
@@ -176,7 +173,9 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
             signupResponse.observe(viewLifecycleOwner) { event ->
                 event.getContentIfNotHandled()?.let {
                     if (it.status.toInt() == 200) {
+                        showToast("회원가입에 성공했습니다.")
                         findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
+
                     }
                 }
             }

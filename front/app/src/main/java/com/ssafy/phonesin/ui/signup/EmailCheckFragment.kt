@@ -69,11 +69,11 @@ class EmailCheckFragment : BaseFragment<FragmentEmailCheckBinding>(
                 event.getContentIfNotHandled()?.let {
                     when (it) {
                         getString(R.string.signup_email_verify_success) -> {
-                            viewModel.setEmailConfirmStatus(ConfirmEmail.OK)
+                            viewModel.setEmailConfirmStatus(Pair(ConfirmEmail.OK, memberEmail))
                             findNavController().navigate(R.id.action_emailCheckFragment_to_signupFragment)
                         }
                         getString(R.string.signup_exists_email) -> {
-                            viewModel.setEmailConfirmStatus(ConfirmEmail.EMAIL_EXISTS)
+                            viewModel.setEmailConfirmStatus(Pair(ConfirmEmail.EMAIL_EXISTS, memberEmail))
                         }
                         else -> {
                             showToast(it)
