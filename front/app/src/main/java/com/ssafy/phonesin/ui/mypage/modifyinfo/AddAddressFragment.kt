@@ -15,14 +15,19 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentMyPageAddAddressBinding
 import com.ssafy.phonesin.ui.MainActivity
+import com.ssafy.phonesin.ui.mypage.UserViewModel
 
 
 class AddAddressFragment : Fragment() {
     private lateinit var binding: FragmentMyPageAddAddressBinding
     private lateinit var searchDialog: Dialog
+
+    val userViewModel: UserViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +52,7 @@ class AddAddressFragment : Fragment() {
 
     private fun setOnClick() = with(binding) {
         editTextRoadAddress.isFocusableInTouchMode = false
+
         editTextRoadAddress.setOnClickListener {
             val status: Int = NetworkStatus.getConnectivityStatus(requireContext())
             if (status == NetworkStatus.TYPE_MOBILE || status == NetworkStatus.TYPE_WIFI) {
@@ -54,6 +60,13 @@ class AddAddressFragment : Fragment() {
             } else {
                 Toast.makeText(requireContext(), "인터넷 연결을 확인해주세요.", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        buttonSaveNewAddress.setOnClickListener {
+            val newAddress = "${editTextRoadAddress.text} ${editTextDetailAddress.text}"
+            Log.d("buttonSaveNewAddress", "setOnClick: $newAddress")
+            userViewModel.postAddress(newAddress)
+            findNavController().navigate(R.id.modifyInfoFragment)
         }
     }
 
@@ -96,10 +109,8 @@ class AddAddressFragment : Fragment() {
     inner class MyJavaScriptInterface {
         @JavascriptInterface
         fun processDATA(data: String?) {
-            // 주소검색창에서 주소를 선택하면 그 결과값이 data 에 들어오기 떄문에 그것을 
-            // 받아서 내가 만드는 앱 페이지로 넘기면 끝.
             searchDialog.dismiss()
-            Log.d("data", "processDATA: $data")
+            binding.editTextRoadAddress.setText(data)
         }
     }
 }

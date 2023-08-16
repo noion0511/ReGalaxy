@@ -98,11 +98,17 @@ public class RentalService {
         if(adminRentalApplyDto.isApply()) {//허락
             List<Phone> list = phoneRepository.findAll();
             for(Phone phone : list){
-                if(!phone.isRental()) return null;
-                if(rental.isY2K() && !phone.isY2K()) return null;
-                if(rental.isHomecam() && !phone.isHomecam()) return null;
-                if(rental.isClimateHumidity() && !phone.isClimateHumidity()) return null;
+                if(phone.isRental()) continue;//빌린 상태의 휴대폰이면 넘어가기
+                if(rental.isY2K() && !phone.isY2K()) continue;//기능을 원할 때 해당 기능이 false면 패스
+                if(rental.isHomecam() && !phone.isHomecam()) continue;
+                if(rental.isClimateHumidity() && !phone.isClimateHumidity()) continue;
+                rental.setPhone(phone);
+                phone.setRental(true);
+                phoneRepository.save(phone);
                 break;
+            }
+            if(rental.getPhone()==null){
+                return null;
             }
             rental.setRentalStart(LocalDateTime.now());//대여 시작일
             int month = LocalDateTime.now().getMonthValue() + rental.getUsingDate();
@@ -126,5 +132,9 @@ public class RentalService {
 
     public int count(Long member_id){ // status 1, 2, 3
         return rentalRepository.countByMember_MemberIdAndRentalStatusLessThan(member_id, 4);
+    }
+
+    public Double sumFund(){
+        return rentalRepository.sumOfFunds();
     }
 }

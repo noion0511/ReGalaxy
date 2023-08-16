@@ -2,13 +2,15 @@ package com.ssafy.phonesin.ui.mobile.donatemobile
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentDonateVisitDeliveryBinding
+import com.ssafy.phonesin.ui.mobile.MobileViewModel
+import com.ssafy.phonesin.ui.util.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 // TODO: Rename parameter arguments, choose names that match
@@ -22,13 +24,30 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 @AndroidEntryPoint
-class DonateVisitDeliveryFragment : Fragment() {
+class DonateVisitDeliveryFragment :
+    BaseFragment<FragmentDonateVisitDeliveryBinding>(R.layout.fragment_donate_visit_delivery) {
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    val donateVisitDeliveryViewModel: DonateViewModel by activityViewModels()
+    val mobileViewModel: MobileViewModel by activityViewModels()
+    lateinit var spinnerAdapter: ArrayAdapter<String>
 
-    private lateinit var binding: FragmentDonateVisitDeliveryBinding
-    val donateVisitDeliveryViewModel : DonateViewModel by activityViewModels()
+    override fun onCreateBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentDonateVisitDeliveryBinding {
+        return FragmentDonateVisitDeliveryBinding.inflate(layoutInflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
+        }
+    }
+
+    override fun init() {
+        setDonateVisitDeliveryUi()
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -37,27 +56,90 @@ class DonateVisitDeliveryFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        binding = FragmentDonateVisitDeliveryBinding.inflate(layoutInflater, container, false)
-        return binding.root
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setDonateVisitDeliveryUi()
-    }
+    private fun setDonateVisitDeliveryUi() = with(bindingNonNull) {
 
-    private fun setDonateVisitDeliveryUi() = with(binding) {
-        buttonPostDonateVisitDelivery.setOnClickListener {
-            donateVisitDeliveryViewModel.uploadDonation()
-            findNavController().navigate(
-                R.id.action_donateVisitDeliveryFragment_to_doateFinishFragment,
-            )
+        radioGroupDonateDelivery.setOnCheckedChangeListener { _, checkedId ->
+            // 라디오 버튼 상태에 따라 EditText 클릭 가능 여부 설정
+            when (checkedId) {
+                R.id.radioButtonDonateVisitDeliveryExistAddress -> {
+                    spinnerDonateAddress.isEnabled = true
+                    editTextDonateAddress.isEnabled = false
+                }
+
+                R.id.radioButtonDonateVisitDeliveryNewAddress -> {
+                    spinnerDonateAddress.isEnabled = false
+                    editTextDonateAddress.isEnabled = true
+                }
+            }
         }
+
+
+
+        setAdapter(R.layout.custom_text_style_black)
+
+        if (mobileViewModel.addressList.size == 1 && mobileViewModel.addressList[0].addressId == -1) {
+            spinnerAdapter = setAdapter(R.layout.custom_text_style_gray)
+
+            radioButtonDonateVisitDeliveryNewAddress.isChecked = true
+            radioButtonDonateVisitDeliveryExistAddress.isChecked = false
+            radioButtonDonateVisitDeliveryExistAddress.isClickable = false
+            spinnerDonateAddress.isEnabled = false
+        } else {
+            spinnerAdapter = setAdapter(R.layout.custom_text_style_black)
+            spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+            radioButtonDonateVisitDeliveryNewAddress.isChecked = false
+            radioButtonDonateVisitDeliveryExistAddress.isChecked = true
+            spinnerDonateAddress.isEnabled = true
+            editTextDonateAddress.isEnabled = false
+
+
+//            spinnerDonateAddress.setOnItemClickListener(object : AdapterView.OnItemClickListener{
+//                override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+//
+//                }
+//
+//            })
+
+
+//            spinnerDonateAddress.set(mobileViewModel.addressList.map { it.address }
+//                .toList())
+//            spinnerDonateAddress.setIsFocusable(true)
+//            spinnerDonateAddress.selectItemByIndex(0)
+        }
+
+        spinnerDonateAddress.adapter = spinnerAdapter
+
+        buttonPostDonateVisitDelivery.setOnClickListener {
+
+            if (editTextDonateAddress.text.toString() == "" && radioButtonDonateVisitDeliveryNewAddress.isChecked) {
+                showToast("주소를 입력하세요!")
+            } else {
+                donateVisitDeliveryViewModel.setLocationDonate(
+                    if (radioButtonDonateVisitDeliveryExistAddress.isChecked) {
+                        spinnerDonateAddress.selectedItem.toString()
+                    } else {
+                        editTextDonateAddress.text.toString()
+                    }
+                )
+
+                donateVisitDeliveryViewModel.uploadDonation()
+                findNavController().navigate(
+                    R.id.action_donateVisitDeliveryFragment_to_doateFinishFragment,
+                )
+            }
+
+        }
+    }
+
+    private fun setAdapter(id: Int): ArrayAdapter<String> {
+        val spinnerAdapter = ArrayAdapter<String>(
+            requireContext(),
+            id,
+            mobileViewModel.addressList.map { it.address }
+                .toList())
+        return spinnerAdapter
     }
 
     companion object {

@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
@@ -119,10 +118,6 @@ public class AdminMemberController {
     @ApiOperation(value = "블랙리스트 설정")
     @PutMapping("/blacklist/{email}")
     public ResponseEntity<?> blacklist(@PathVariable("email") String email, @RequestBody MemberSearchDto memberSearchDto, Model model) {
-//        String token = authorization.split(" ")[1]; 좀있다가 설정하기
-//        if (jwtTokenProvider.getMemberId(token) != memberId) {
-//            throw new IllegalStateException("멤버 ID가 일치하지 않습니다.");
-//        }
         memberService.blackListMember(email);
         List<MemberDto> list = memberService.list(memberSearchDto);
         Map<String, Object> map = new HashMap<>();
