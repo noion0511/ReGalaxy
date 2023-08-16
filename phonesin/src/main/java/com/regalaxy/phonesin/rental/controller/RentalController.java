@@ -102,4 +102,15 @@ public class RentalController {
         resultMap.put("status", 200);
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
+
+    @ApiOperation(value = "총 기부액")
+    @GetMapping("/total/fund")
+    public ResponseEntity<?> totalFund(){
+        Double sumFund = rentalService.sumFund();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        resultMap.put("Total Fund", sumFund);
+        resultMap.put("message", "성공적으로 조회하였습니다.");
+        resultMap.put("status", 200);
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+    }
 }
