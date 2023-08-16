@@ -1,6 +1,5 @@
 package com.regalaxy.phonesin.module.model.service;
 
-import com.regalaxy.phonesin.module.model.entity.JobTest;
 import com.regalaxy.phonesin.module.model.entity.MyQuartzJob;
 import lombok.RequiredArgsConstructor;
 import org.quartz.*;
@@ -13,12 +12,14 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 
+import static org.quartz.JobBuilder.newJob;
+
 @RequiredArgsConstructor
 @Service
 public class QuartzService {
     private final Scheduler scheduler;
 
-    public void start(String fileName) throws SchedulerException, InterruptedException {
+    public void start(String saveFileName, String uploadFileName) throws SchedulerException, InterruptedException {
 
         // Scheduler 사용을 위한 인스턴스화
         SchedulerFactory schedulerFactory = new StdSchedulerFactory();
@@ -27,7 +28,8 @@ public class QuartzService {
         JobDataMap jobDataMap = new JobDataMap();
         jobDataMap.put("jobSays", "Say Hello World!");
         jobDataMap.put("myFloatValue", 3.1415f);
-        jobDataMap.put("fileName", fileName);
+        jobDataMap.put("saveFileName", saveFileName);
+        jobDataMap.put("uploadFileName", uploadFileName);
 
 //        JobDetail jobDetail = JobBuilder.newJob(JobTest.class)
 //                .withIdentity("myJob", "group1")
@@ -35,17 +37,19 @@ public class QuartzService {
 //                .build();
 
         JobDetail jobDetail = JobBuilder.newJob(MyQuartzJob.class)
-                .withIdentity("myJob", "group1")
+                .withIdentity(saveFileName, "group1")
                 .setJobData(jobDataMap)
                 .build();
 
-        Date now = new Date();
+        LocalDateTime later = LocalDateTime.now().plusDays(90);
+        Date date = java.sql.Timestamp.valueOf(later);
         // SimpleTrigger
         @SuppressWarnings("deprecation")
         SimpleTrigger simpleTrigger = TriggerBuilder.newTrigger()
-                .withIdentity("simple_trigger", "simple_trigger_group")
-                .startAt(new Date(now.getYear(), now.getMonth(), now.getDate()))
-                .withSchedule(SimpleScheduleBuilder.repeatSecondlyForTotalCount(5, 1))
+                .withIdentity(saveFileName, "simple_trigger_group")
+                .startAt(date)
+                .withSchedule(SimpleScheduleBuilder.simpleSchedule()
+                        .withRepeatCount(0))
                 .forJob(jobDetail)
                 .build();
 
@@ -84,8 +88,7 @@ public class QuartzService {
     private JobDetail buildJobDetail(Class job, String name, String desc, Map params) {
         JobDataMap jobDataMap = new JobDataMap();
         if(params != null) jobDataMap.putAll(params);
-        return JobBuilder
-                .newJob(job)
+        return newJob(job)
                 .withIdentity(name)
                 .withDescription(desc)
                 .usingJobData(jobDataMap)

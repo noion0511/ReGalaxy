@@ -129,7 +129,7 @@ public class YtwokService {
         String absolutePath = new File("").getAbsolutePath() + "resources/images/y2k/" + SaveFileName;
         File file = new File(absolutePath);
         file.delete();
-
+        ytwokRepository.delete(ytwok);
     }
 
 }
