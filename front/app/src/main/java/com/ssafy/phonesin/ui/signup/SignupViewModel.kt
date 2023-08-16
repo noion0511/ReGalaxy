@@ -40,6 +40,9 @@ class SignupViewModel @Inject constructor(
     private val _emailCheck = MutableLiveData<Event<String>>()
     val emailCheck: LiveData<Event<String>> = _emailCheck
 
+    private val _emailCheckReTry = MutableLiveData<Event<String>>()
+    val emailCheckReTry: LiveData<Event<String>> = _emailCheckReTry
+
     private val _memberDto = MutableLiveData<SignUpInformation>()
     val memberDto: LiveData<SignUpInformation> = _memberDto
 
@@ -98,6 +101,38 @@ class SignupViewModel @Inject constructor(
                 is NetworkResponse.ApiError -> {
                     if(response.body.status == "409") {
                         _emailCheck.postValue(Event(response.body.message))
+                    } else {
+                        _msg.postValue(postValueEvent(0, type))
+                    }
+                }
+
+                is NetworkResponse.NetworkError -> {
+                    _msg.postValue(postValueEvent(1, type))
+                }
+
+                is NetworkResponse.UnknownError -> {
+                    _msg.postValue(postValueEvent(2, type))
+                }
+            }
+            hideProgress()
+        }
+    }
+
+    fun verifyEmailCheck(emailRequestDto: EmailRequestDto) {
+        showProgress()
+        viewModelScope.launch {
+            val response = repository.verifyEmail(emailRequestDto)
+            Log.d(TAG, "verifyEmail: $response")
+
+            val type = "이메일 인증"
+            when (response) {
+                is NetworkResponse.Success -> {
+                    _emailCheckReTry.postValue(Event(response.body.message))
+                }
+
+                is NetworkResponse.ApiError -> {
+                    if(response.body.status == "409") {
+                        _emailCheckReTry.postValue(Event(response.body.message))
                     } else {
                         _msg.postValue(postValueEvent(0, type))
                     }

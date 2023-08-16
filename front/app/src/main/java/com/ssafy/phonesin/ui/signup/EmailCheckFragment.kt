@@ -42,7 +42,7 @@ class EmailCheckFragment : BaseFragment<FragmentEmailCheckBinding>(
 
     private fun initPostButton() {
         bindingNonNull.textViewPostNumber.setDebouncingClickListener {
-            viewModel.verifyEmail(EmailRequestDto(memberEmail))
+            viewModel.verifyEmailCheck(EmailRequestDto(memberEmail))
         }
     }
 
@@ -72,13 +72,26 @@ class EmailCheckFragment : BaseFragment<FragmentEmailCheckBinding>(
                             viewModel.setEmailConfirmStatus(Pair(ConfirmEmail.OK, memberEmail))
                             findNavController().navigate(R.id.action_emailCheckFragment_to_signupFragment)
                         }
+
                         getString(R.string.signup_exists_email) -> {
-                            viewModel.setEmailConfirmStatus(Pair(ConfirmEmail.EMAIL_EXISTS, memberEmail))
+                            viewModel.setEmailConfirmStatus(
+                                Pair(
+                                    ConfirmEmail.EMAIL_EXISTS,
+                                    memberEmail
+                                )
+                            )
                         }
+
                         else -> {
                             showToast(it)
                         }
                     }
+                }
+            }
+
+            emailCheckReTry.observe(viewLifecycleOwner) { event ->
+                event.getContentIfNotHandled()?.let {
+                    showToast(it)
                 }
             }
 

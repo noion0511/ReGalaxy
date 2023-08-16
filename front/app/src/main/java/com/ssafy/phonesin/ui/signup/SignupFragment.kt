@@ -190,6 +190,7 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
                             getString(R.string.signup_exists_email)
                         return@observe
                     }
+
                     findNavController().navigate(R.id.action_signupFragment_to_emailCheckFragment)
                 }
             }
