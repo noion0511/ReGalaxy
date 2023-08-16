@@ -15,6 +15,9 @@ import com.ssafy.phonesin.common.openvidu.Session
 import com.ssafy.phonesin.common.utils.CustomHttpClient
 import com.ssafy.phonesin.common.websocket.CustomWebSocket
 import com.ssafy.phonesin.databinding.ActivityHomeCamBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.MediaType
@@ -33,6 +36,7 @@ class HomeCamActivity : AppCompatActivity() {
     private var httpClient: CustomHttpClient? = null
 
     val APPLICATION_SERVER_URL = "https://demos.openvidu.io/"
+    var homeCamName = ""
 
     private var session: Session? = null
 
@@ -40,6 +44,10 @@ class HomeCamActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeCamBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        homeCamName = intent.getStringExtra("homeCamName").toString()
+        Log.e("싸피", homeCamName)
+
         this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
         this.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
         ButterKnife.bind(this)
@@ -94,9 +102,9 @@ class HomeCamActivity : AppCompatActivity() {
                                     } catch (e: IOException) {
                                         Log.e(TAG, "Error getting body", e)
                                     }
-                                    if (responseString != null) {
-                                        getTokenSuccess(responseString, sessionId)
-                                    }
+
+                                        getTokenSuccess(responseString.toString(), sessionId)
+
                                 }
 
                                 override fun onFailure(call: Call, e: IOException) {
@@ -124,6 +132,8 @@ class HomeCamActivity : AppCompatActivity() {
             toast.show()
             binding.localGlSurfaceView.clearImage()
             binding.localGlSurfaceView.release()
+            binding.mainParticipant.setText(null)
+            binding.mainParticipant.setPadding(0, 0, 0, 0)
         }
         Handler(this.getMainLooper()).post(myRunnable)
     }
@@ -135,10 +145,18 @@ class HomeCamActivity : AppCompatActivity() {
         // Initialize our local participant and start local camera
 
         val localParticipant =
-            LocalParticipant("", session!!, this, binding.localGlSurfaceView)
+            LocalParticipant(homeCamName, session!!, this, binding.localGlSurfaceView)
         localParticipant.startCamera()
-
-
+        CoroutineScope(Dispatchers.Main).launch {
+            binding.mainParticipant.text = homeCamName
+//            binding.mainParticipant.setPadding(20, 3, 20, 3)
+            Log.e("싸피",homeCamName.toString())
+        }
+        runOnUiThread {
+            binding.mainParticipant.setText(homeCamName)
+//            binding.mainParticipant.setPadding(20, 3, 20, 3)
+            Log.e("싸피"," 쓰")
+        }
         // Initialize and connect the websocket to OpenVidu Server
         startWebSocket()
     }
@@ -205,6 +223,8 @@ class HomeCamActivity : AppCompatActivity() {
         }
         binding.localGlSurfaceView.clearImage()
         binding.localGlSurfaceView.release()
+        binding.mainParticipant.setText(null)
+        binding.mainParticipant.setPadding(0, 0, 0, 0)
     }
 
     override fun onDestroy() {
@@ -213,12 +233,12 @@ class HomeCamActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-       // leaveSession()
+        // leaveSession()
         super.onBackPressed()
     }
 
     override fun onStop() {
-       // leaveSession()
+        // leaveSession()
         super.onStop()
     }
 

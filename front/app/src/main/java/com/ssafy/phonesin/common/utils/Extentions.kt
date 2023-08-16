@@ -79,6 +79,12 @@ fun AppCompatActivity.createRemoteParticipantVideo(
         videoView.init(rootEglBase.eglBaseContext, null)
         videoView.setZOrderMediaOverlay(true)
 
+        val textView = rowView.getChildAt(1)
+        remoteParticipant.participantNameText = (textView as TextView)
+        remoteParticipant.view = (rowView)
+
+        remoteParticipant.participantNameText!!.text = (remoteParticipant.participantName)
+        remoteParticipant.participantNameText!!.setPadding(20, 3, 20, 3)
 
     }
     mainHandler.post(myRunnable)
