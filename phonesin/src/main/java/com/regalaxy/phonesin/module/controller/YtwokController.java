@@ -1,9 +1,12 @@
 package com.regalaxy.phonesin.module.controller;
 
+import com.regalaxy.phonesin.module.model.YtwokDto;
+import com.regalaxy.phonesin.module.model.service.QuartzService;
 import com.regalaxy.phonesin.module.model.service.YtwokService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.quartz.SchedulerException;
 import org.springframework.core.io.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +27,7 @@ public class YtwokController {
     private static final String FAIL = "fail";
 
     private final YtwokService ytwokService;
+    private final QuartzService quartzService;
 
     @ApiOperation(value = "이미지업로드")
     @PostMapping("/apply")
@@ -32,9 +36,12 @@ public class YtwokController {
             ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         try {
-            resultMap.put("photos", ytwokService.saveImage(file));
+            YtwokDto ytwokDto = ytwokService.saveImage(file);
+            resultMap.put("photos", ytwokDto);
             resultMap.put("message", SUCCESS);
             resultMap.put("status", 201);
+
+            quartzService.start(ytwokDto.getSaveFile(), ytwokDto.getOriginalFile());
             return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
         } catch (Exception e) {
             resultMap.put("error", e.toString());
@@ -63,17 +70,5 @@ public class YtwokController {
             resultMap.put("message", FAIL);
             return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
         }
-    }
-
-    @ApiOperation(value = "y2k이미지 삭제")
-    @DeleteMapping(value = "images/{fileName}")
-    public ResponseEntity<Map<String, Object>> deleteY2k(@PathVariable("fileName") String fileName) {
-        Map<String, Object> resultMap = new HashMap<String, Object>();
-
-
-
-        resultMap.put("message", SUCCESS);
-        resultMap.put("status", 200);
-        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 }
