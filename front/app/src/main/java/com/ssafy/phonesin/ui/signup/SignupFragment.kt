@@ -60,7 +60,6 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
             if (validateEmailMessage == EmailValidation.VALID_EMAIL_FORMAT) {
                 viewModel.verifyEmail(EmailRequestDto(email))
                 viewModel.setUserInputEmail(signUpInfo)
-                findNavController().navigate(R.id.action_signupFragment_to_emailCheckFragment)
             } else {
                 when (validateEmailMessage) {
                     EmailValidation.EMPTY_EMAIL -> bindingNonNull.textViewEmailExplain.text =
@@ -101,14 +100,6 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
 
             if (errors.isEmpty()) {
                 viewModel.signup(MemberDto(email, name, password, phoneNumber))
-                viewModel.setUserInputEmail(SignUpInformation(
-                    email = "",
-                    password = "",
-                    passwordCheck = "",
-                    phoneNumber = "",
-                    memberName = "",
-                    emailCheck = false
-                ))
             } else {
                 for (error in errors) {
                     when (error) {
@@ -175,8 +166,31 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
                     if (it.status.toInt() == 200) {
                         showToast("회원가입에 성공했습니다.")
                         findNavController().navigate(R.id.action_signupFragment_to_loginFragment)
+                        viewModel.setUserInputEmail(SignUpInformation(
+                            email = "",
+                            password = "",
+                            passwordCheck = "",
+                            phoneNumber = "",
+                            memberName = "",
+                            emailCheck = false
+                        ))
 
+                        bindingNonNull.textViewEmailExplain.text = ""
+                        bindingNonNull.textViewSignUpPasswordExplain.text = ""
+                        bindingNonNull.textViewSignUpNameExplain.text = ""
+                        bindingNonNull.textViewSignUpPhoneNumberExplain.text = ""
                     }
+                }
+            }
+
+            emailCheck.observe(viewLifecycleOwner) { event ->
+                event.getContentIfNotHandled()?.let {
+                    if(it == getString(R.string.signup_exists_email)) {
+                        bindingNonNull.textViewEmailExplain.text =
+                            getString(R.string.signup_exists_email)
+                        return@observe
+                    }
+                    findNavController().navigate(R.id.action_signupFragment_to_emailCheckFragment)
                 }
             }
 
@@ -185,6 +199,15 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
                     bindingNonNull.editTextSignUpEmail.setText(it.email)
                     bindingNonNull.editTextSignUpName.setText(it.memberName)
                     bindingNonNull.editTextSignUpPhoneNumber.setText(it.phoneNumber)
+                }
+            }
+
+            val dialog = LoadingDialog(requireContext())
+            isLoading.observe(viewLifecycleOwner) {
+                if (isLoading.value!!) {
+                    dialog.show()
+                } else if (!isLoading.value!!) {
+                    dialog.dismiss()
                 }
             }
         }

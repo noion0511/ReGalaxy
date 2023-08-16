@@ -30,7 +30,8 @@ enum class MemberValidation {
 enum class EmailValidation {
     INVALID_EMAIL_FORMAT,
     EMPTY_EMAIL,
-    VALID_EMAIL_FORMAT
+    VALID_EMAIL_FORMAT,
+    EXIST_EMAIL
 }
 
 

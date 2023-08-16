@@ -59,7 +59,7 @@ class SignUpViewModelTest {
 
         viewModel.verifyEmailConfirm(emailCheck)
 
-        val actualResponse = viewModel.emailCheck.getOrAwaitValueTest()
+        val actualResponse = viewModel.emailConfirm.getOrAwaitValueTest()
         assertEquals(Event(expectedResponse.message), actualResponse)
     }
 
@@ -71,7 +71,7 @@ class SignUpViewModelTest {
 
         viewModel.verifyEmailConfirm(emailCheck)
 
-        val actualResponse = viewModel.emailCheck.getOrAwaitValueTest()
+        val actualResponse = viewModel.emailConfirm.getOrAwaitValueTest()
         assertEquals(Event(expectedResponse.message), actualResponse)
     }
 

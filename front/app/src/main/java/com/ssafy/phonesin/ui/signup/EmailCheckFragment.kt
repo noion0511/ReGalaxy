@@ -65,7 +65,7 @@ class EmailCheckFragment : BaseFragment<FragmentEmailCheckBinding>(
                 }
             }
 
-            emailCheck.observe(viewLifecycleOwner) { event ->
+            emailConfirm.observe(viewLifecycleOwner) { event ->
                 event.getContentIfNotHandled()?.let {
                     when (it) {
                         getString(R.string.signup_email_verify_success) -> {

@@ -34,6 +34,9 @@ class SignupViewModel @Inject constructor(
     private val _signupResponse = MutableLiveData<Event<BaseResponse>>()
     val signupResponse: LiveData<Event<BaseResponse>> = _signupResponse
 
+    private val _emailConfirm = MutableLiveData<Event<String>>()
+    val emailConfirm: LiveData<Event<String>> = _emailConfirm
+
     private val _emailCheck = MutableLiveData<Event<String>>()
     val emailCheck: LiveData<Event<String>> = _emailCheck
 
@@ -52,6 +55,7 @@ class SignupViewModel @Inject constructor(
     }
 
     fun signup(memberDto: MemberDto) {
+        showProgress()
         viewModelScope.launch {
             val response = repository.signup(memberDto)
             Log.d(TAG, "signup: $response")
@@ -74,11 +78,13 @@ class SignupViewModel @Inject constructor(
                     _msg.postValue(postValueEvent(2, type))
                 }
             }
+            hideProgress()
         }
     }
 
 
     fun verifyEmail(emailRequestDto: EmailRequestDto) {
+        showProgress()
         viewModelScope.launch {
             val response = repository.verifyEmail(emailRequestDto)
             Log.d(TAG, "verifyEmail: $response")
@@ -86,12 +92,12 @@ class SignupViewModel @Inject constructor(
             val type = "이메일 인증"
             when (response) {
                 is NetworkResponse.Success -> {
-                    _msg.postValue(Event(response.body.message))
+                    _emailCheck.postValue(Event(response.body.message))
                 }
 
                 is NetworkResponse.ApiError -> {
                     if(response.body.status == "409") {
-                        _msg.postValue(Event(response.body.message))
+                        _emailCheck.postValue(Event(response.body.message))
                     } else {
                         _msg.postValue(postValueEvent(0, type))
                     }
@@ -105,10 +111,12 @@ class SignupViewModel @Inject constructor(
                     _msg.postValue(postValueEvent(2, type))
                 }
             }
+            hideProgress()
         }
     }
 
     fun verifyEmailConfirm(emailCheckRequestDto: EmailCheckRequestDto) {
+        showProgress()
         viewModelScope.launch {
             val response = repository.verifyEmailConfirm(emailCheckRequestDto)
             Log.d(TAG, "verifyEmailConfirm: $response")
@@ -116,7 +124,7 @@ class SignupViewModel @Inject constructor(
             val type = "이메일 인증 확인"
             when (response) {
                 is NetworkResponse.Success -> {
-                    _emailCheck.postValue(Event(response.body.message))
+                    _emailConfirm.postValue(Event(response.body.message))
                 }
 
                 is NetworkResponse.ApiError -> {
@@ -131,6 +139,7 @@ class SignupViewModel @Inject constructor(
                     _msg.postValue(postValueEvent(2, type))
                 }
             }
+            hideProgress()
         }
     }
 
