@@ -1,5 +1,7 @@
 package com.ssafy.phonesin.ui.signup
 
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
@@ -36,7 +38,21 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
 
         initObserver()
 
-        bindingNonNull.buttonVerifyEmail.setDebouncingClickListener {
+        bindingNonNull.editTextSignUpEmail.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                emailCheckStatue = false
+                bindingNonNull.textViewEmailExplain.text = ""
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // 텍스트가 변경되기 전에 호출됩니다. 여기에서는 특별한 작업을 하지 않아도 됩니다.
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // 텍스트가 변경되는 동안에 호출됩니다. 여기에서는 특별한 작업을 하지 않아도 됩니다.
+            }
+        })
+                bindingNonNull.buttonVerifyEmail.setDebouncingClickListener {
             val email = bindingNonNull.editTextSignUpEmail.text.toString()
             val password = bindingNonNull.editTextSignUpPassword.text.toString()
             val passwordCheck = bindingNonNull.editTextSignUpPasswordCheck.text.toString()
@@ -72,6 +88,11 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
         }
 
         bindingNonNull.buttonSigunUp.setDebouncingClickListener {
+            if(!emailCheckStatue) {
+                showToast("이메일 인증을 완료해주세요.")
+                return@setDebouncingClickListener
+            }
+
             val email = bindingNonNull.editTextSignUpEmail.text.toString()
             val password = bindingNonNull.editTextSignUpPassword.text.toString()
             val passwordCheck = bindingNonNull.editTextSignUpPasswordCheck.text.toString()
@@ -142,6 +163,7 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>(
 
             emailConfirmStatus.observe(viewLifecycleOwner) {
                 if (it == ConfirmEmail.OK) {
+                    emailCheckStatue = true
                     bindingNonNull.textViewEmailExplain.text =
                         getString(R.string.signup_email_confirm_ok)
                     bindingNonNull.editTextSignUpEmail.setText(memberDto.value?.email.toString())
