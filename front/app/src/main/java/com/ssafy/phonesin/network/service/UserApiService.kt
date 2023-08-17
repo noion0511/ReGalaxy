@@ -38,7 +38,7 @@ interface UserApiService {
     @PUT("/member/update")
     suspend fun updateUserInfo(@Body newInfo: UserModify): NetworkResponse<MessageResponse, ErrorResponse>
 
-    @GET("/donation/list")
+    @GET("/donation/member")
     suspend fun getUserDonationList(): NetworkResponse<UserDonationResponse, ErrorResponse>
 
     @DELETE("/donation/delete/{donationId}")

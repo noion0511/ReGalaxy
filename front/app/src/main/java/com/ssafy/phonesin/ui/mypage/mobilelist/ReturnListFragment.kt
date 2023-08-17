@@ -1,6 +1,7 @@
 package com.ssafy.phonesin.ui.mypage.mobilelist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,6 +45,7 @@ class ReturnListFragment : Fragment() {
     private fun setRentalList() {
         returnRecyclerView = binding.recyclerViewReturnList
 
+        userViewModel.getUserReturn()
         returnRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         returnRecyclerView.adapter = MyReturnListAdapter(userViewModel.myReturnList, object : MyReturnListAdapter.OnCancelClickListener {
             override fun onCancelClick(returnId: Int) {

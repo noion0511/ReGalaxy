@@ -74,7 +74,7 @@
                     style="@style/textview_card_state_unselected"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="배송중" />
+                    android:text="배송" />
 
                 <TextView
                     style="@style/textview_card_state_unselected"
@@ -87,7 +87,7 @@
                     style="@style/textview_card_state_unselected"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="대여중" />
+                    android:text="대여" />
 
             </LinearLayout>
 
@@ -307,20 +307,6 @@
                 android:orientation="horizontal"
                 android:visibility="gone"
                 android:paddingVertical="15dp">
-
-                <Button
-                    android:id="@+id/buttonModifyRegist"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_blue_corner_12"
-                    android:text="수정"
-                    android:minHeight="0dp"
-                    style="@style/textview_card_button_white"/>
-
-                <Space
-                    android:layout_width="20dp"
-                    android:layout_height="wrap_content"/>
 
                 <Button
                     android:id="@+id/buttonCancelRegist"
