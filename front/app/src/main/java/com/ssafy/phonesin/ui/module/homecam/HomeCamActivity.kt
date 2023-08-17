@@ -6,15 +6,17 @@ import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import butterknife.ButterKnife
+import com.ssafy.phonesin.R
 import com.ssafy.phonesin.common.openvidu.LocalParticipant
 import com.ssafy.phonesin.common.openvidu.RemoteParticipant
 import com.ssafy.phonesin.common.openvidu.Session
 import com.ssafy.phonesin.common.utils.CustomHttpClient
 import com.ssafy.phonesin.common.websocket.CustomWebSocket
 import com.ssafy.phonesin.databinding.ActivityHomeCamBinding
+import com.ssafy.phonesin.ui.signup.LoadingDialog
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -64,12 +66,22 @@ class HomeCamActivity : AppCompatActivity() {
     }
 
     private fun setHomeCam() {
-
+        binding.textViewPlus.toolbarBackButtonTitle.text = getString(R.string.module_home_cam)
+        binding.textViewPlus.toolbarBackButton.setDebouncingClickListener {
+            finish()
+        }
     }
 
     private fun getToken(sessionId: String) {
+        val dialog = LoadingDialog(this)
+        dialog.show()
+        val handler = Handler()
+        handler.postDelayed({
+            dialog.dismiss()
+        }, 3500)
         try {
             // Session Request
+
             val sessionBody = RequestBody.create(
                 MediaType.parse("application/json; charset=utf-8"),
                 "{\"customSessionId\": \"$sessionId\"}"
@@ -88,6 +100,7 @@ class HomeCamActivity : AppCompatActivity() {
                         val tokenBody = RequestBody.create(
                             MediaType.parse("application/json; charset=utf-8"),
                             "{}"
+
                         )
                         httpClient!!.httpCall(
                             "/api/sessions/$sessionId/connections",
@@ -103,7 +116,7 @@ class HomeCamActivity : AppCompatActivity() {
                                         Log.e(TAG, "Error getting body", e)
                                     }
 
-                                        getTokenSuccess(responseString.toString(), sessionId)
+                                    getTokenSuccess(responseString.toString(), sessionId)
 
                                 }
 
@@ -119,6 +132,8 @@ class HomeCamActivity : AppCompatActivity() {
                         connectionError(APPLICATION_SERVER_URL)
                     }
                 })
+
+
         } catch (e: IOException) {
             Log.e(TAG, "Error getting token", e)
             e.printStackTrace()
@@ -128,8 +143,8 @@ class HomeCamActivity : AppCompatActivity() {
 
     private fun connectionError(url: String) {
         val myRunnable = Runnable {
-            val toast: Toast = Toast.makeText(this, "Error connecting to $url", Toast.LENGTH_LONG)
-            toast.show()
+//            val toast: Toast = Toast.makeText(this, "Error connecting to $url", Toast.LENGTH_LONG)
+//            toast.show()
             binding.localGlSurfaceView.clearImage()
             binding.localGlSurfaceView.release()
             binding.mainParticipant.setText(null)
@@ -150,12 +165,12 @@ class HomeCamActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.Main).launch {
             binding.mainParticipant.text = homeCamName
 //            binding.mainParticipant.setPadding(20, 3, 20, 3)
-            Log.e("싸피",homeCamName.toString())
+            Log.e("싸피", homeCamName.toString())
         }
         runOnUiThread {
             binding.mainParticipant.setText(homeCamName)
 //            binding.mainParticipant.setPadding(20, 3, 20, 3)
-            Log.e("싸피"," 쓰")
+            Log.e("싸피", " 쓰")
         }
         // Initialize and connect the websocket to OpenVidu Server
         startWebSocket()

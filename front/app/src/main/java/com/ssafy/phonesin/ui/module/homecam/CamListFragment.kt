@@ -45,7 +45,7 @@ class CamListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
-        binding.floatingActionButton.setOnClickListener {
+        binding.floatingActionButton.setDebouncingClickListener {
             if (binding.editTextHomeCamName.text.toString() != "") {
                 val intent = Intent(requireActivity(), HomeCamActivity::class.java)
                 intent.putExtra("homeCamName", binding.editTextHomeCamName.text.toString())
