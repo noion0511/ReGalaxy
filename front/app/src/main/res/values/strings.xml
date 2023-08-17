@@ -149,5 +149,6 @@
     <string name="success">success</string>
     <string name="make_qrcode">생성중</string>
     <string name="make_qrcode2">QR코드 생성</string>
+    <string name="home_cam_name_hint">홈캠 이름을 정해주세요</string>
 
 </resources>

@@ -1,15 +1,15 @@
 package com.ssafy.phonesin.ui.util.base
 
 import android.os.Bundle
+import android.os.Handler
 import android.os.IBinder
-import android.view.KeyEvent
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.LayoutRes
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 
@@ -46,7 +46,9 @@ abstract class BaseFragment<B : ViewDataBinding>(
     }
 
     protected fun showToast(msg: String) {
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+        Handler(Looper.getMainLooper()).post {
+            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+        }
     }
 
     protected fun hideKeyboard(windowToken: IBinder) {
