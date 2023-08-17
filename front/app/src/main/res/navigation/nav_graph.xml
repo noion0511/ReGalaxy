@@ -52,9 +52,9 @@
 
         <action
             android:id="@+id/action_my_page_to_loginFragment"
+            app:destination="@id/loginFragment"
             app:popUpTo="@id/loginFragment"
-            app:popUpToInclusive="true"
-            app:destination="@id/loginFragment" />
+            app:popUpToInclusive="true" />
 
     </fragment>
     <fragment
@@ -75,8 +75,12 @@
             android:id="@+id/action_module_to_cameraXFragment"
             app:destination="@id/cameraXFragment" />
         <action
+            android:id="@+id/action_module_to_homeCamFragment"
+            app:destination="@id/camListFragment" />
+        <action
             android:id="@+id/action_module_to_irRemoteFragment"
             app:destination="@id/irRemoteFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/doateFinishFragment"
