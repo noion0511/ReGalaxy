@@ -100,7 +100,7 @@ class AddAddressFragment : Fragment() {
             }
         }
 
-        webView.loadUrl("http://i9d102.p.ssafy.io/address.html")
+        webView.loadUrl("http://i9d102.p.ssafy.io:8080/address.html")
 
         searchDialog.show()
 
