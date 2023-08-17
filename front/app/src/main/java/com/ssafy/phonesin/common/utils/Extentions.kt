@@ -55,7 +55,7 @@ fun AppCompatActivity.createRemoteParticipantVideo(
 //        remoteParticipant.view = (containerView)
         val rowView: View = this.layoutInflater.inflate(R.layout.peer_video, null)
         val lp = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
         lp.setMargins(0, 0, 0, 20)
