@@ -18,6 +18,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
+import com.ssafy.phonesin.common.AppPreferences
 import com.ssafy.phonesin.databinding.FragmentMyPageBinding
 import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.setDebouncingClickListener
@@ -62,15 +63,15 @@ class MyPageFragment : Fragment() {
 
     private fun setOnClick() = with(binding) {
         layoutRental.setDebouncingClickListener {
-            findNavController().navigate(R.id.rentalListFragment)
+            findNavController().navigate(R.id.action_my_page_to_rentalListFragment)
         }
 
         layoutReturn.setDebouncingClickListener {
-            findNavController().navigate(R.id.returnListFragment)
+            findNavController().navigate(R.id.action_my_page_to_returnListFragment)
         }
 
         layoutDonate.setDebouncingClickListener {
-            findNavController().navigate(R.id.donateListFragment)
+            findNavController().navigate(R.id.action_my_page_to_donateListFragment)
         }
 
         textViewModifyInfo.setDebouncingClickListener {
@@ -86,7 +87,7 @@ class MyPageFragment : Fragment() {
         }
 
         textViewNotificationSetting.setDebouncingClickListener {
-            findNavController().navigate(R.id.notificationFragment)
+            findNavController().navigate(R.id.action_my_page_to_notificationFragment)
         }
     }
 
@@ -99,13 +100,12 @@ class MyPageFragment : Fragment() {
         }
 
         logoutDialog.findViewById<Button>(R.id.buttonLogout).setDebouncingClickListener {
-//            logoutDialog.dismiss()
-//            AppPreferences.removeJwtToken()
-//            Toast.makeText(requireContext(), "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
-////            val mainActivity = activity as MainActivity
-////            mainActivity.hideBottomNavi(false)
-////            mainActivity.setNav()
-//            findNavController().navigate(R.id.action_my_page_to_loginFragment)
+            logoutDialog.dismiss()
+            AppPreferences.removeJwtToken()
+            Toast.makeText(requireContext(), "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_my_page_to_loginFragment)
+            val mainActivity = activity as MainActivity
+            mainActivity.hideBottomNavi(false)
         }
 
         logoutDialog.show()
@@ -124,7 +124,7 @@ class MyPageFragment : Fragment() {
             userViewModel.withdrawal()
             withdrawalDialog.dismiss()
             Toast.makeText(requireContext(), "회원 탈퇴 되었습니다.", Toast.LENGTH_SHORT).show()
-            findNavController().navigate(R.id.loginFragment)
+            findNavController().navigate(R.id.action_my_page_to_loginFragment)
         }
 
         withdrawalDialog.show()
@@ -137,12 +137,12 @@ class MyPageFragment : Fragment() {
 
         modifyInfoDialog.findViewById<TextView>(R.id.textViewRegistCha).setDebouncingClickListener {
             modifyInfoDialog.dismiss()
-            findNavController().navigate(R.id.registChaFragment)
+            findNavController().navigate(R.id.action_my_page_to_registChaFragment)
         }
 
         modifyInfoDialog.findViewById<TextView>(R.id.textViewModifyInfo).setDebouncingClickListener {
             modifyInfoDialog.dismiss()
-            findNavController().navigate(R.id.modifyInfoFragment)
+            findNavController().navigate(R.id.action_my_page_to_modifyInfoFragment)
         }
 
         modifyInfoDialog.show()
