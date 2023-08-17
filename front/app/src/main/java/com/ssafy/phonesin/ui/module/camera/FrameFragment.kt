@@ -23,6 +23,7 @@ import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentFrameBinding
 import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.base.BaseFragment
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.io.FileOutputStream
@@ -64,7 +65,7 @@ class FrameFragment : BaseFragment<FragmentFrameBinding>(
         initObserver()
 
         // lottie 분기
-        bindingNonNull.buttonNextQR.setOnClickListener {
+        bindingNonNull.buttonNextQR.setDebouncingClickListener {
             findNavController().navigate(R.id.action_frameFragment_to_QRCodeFragment)
         }
 

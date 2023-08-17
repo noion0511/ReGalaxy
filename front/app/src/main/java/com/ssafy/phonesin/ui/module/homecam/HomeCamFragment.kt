@@ -1,14 +1,14 @@
 package com.ssafy.phonesin.ui.module.homecam
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentHomeCamBinding
-import com.ssafy.phonesin.databinding.FragmentModuleBinding
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -42,7 +42,7 @@ class HomeCamFragment : Fragment() {
 
     private fun initToolbar() {
         binding.textViewPlus.toolbarBackButtonTitle.text = getString(R.string.moduleHomeCamDetail)
-        binding.textViewPlus.toolbarBackButton.setOnClickListener {
+        binding.textViewPlus.toolbarBackButton.setDebouncingClickListener {
             findNavController().navigate(R.id.action_homeCamFragment_to_camListFragment)
         }
     }

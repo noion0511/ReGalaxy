@@ -12,6 +12,7 @@ import com.ssafy.phonesin.databinding.FragmentLoginBinding
 import com.ssafy.phonesin.model.dto.LoginRequestDto
 import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.base.BaseFragment
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,7 +22,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     private val viewModel by activityViewModels<LoginViewModel>()
 
     private fun setLogInUi() {
-        bindingNonNull.textViewFindPassword.paintFlags = Paint.UNDERLINE_TEXT_FLAG
         bindingNonNull.textViewSignUp.paintFlags = Paint.UNDERLINE_TEXT_FLAG
         bindingNonNull.textViewNoIdMessage.paintFlags = Paint.UNDERLINE_TEXT_FLAG
     }
@@ -50,20 +50,20 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         initSignupButton()
     }
 
-    private fun initLoginButton(){
-        bindingNonNull.layoutLogIn.setOnClickListener {
+    private fun initLoginButton() {
+        bindingNonNull.layoutLogIn.setDebouncingClickListener {
             val email = bindingNonNull.editTextLogInEmail.text.toString()
             val password = bindingNonNull.editTextLogInPassword.text.toString()
 
-            if(viewModel.checkValidation(email, password)) {
+            if (viewModel.checkValidation(email, password)) {
                 viewModel.login(LoginRequestDto(email, password))
             }
         }
     }
 
 
-    private fun initSignupButton(){
-        bindingNonNull.textViewSignUp.setOnClickListener {
+    private fun initSignupButton() {
+        bindingNonNull.textViewSignUp.setDebouncingClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
         }
     }
@@ -77,7 +77,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
                 }
             }
 
-            token.observe(viewLifecycleOwner) {event ->
+            token.observe(viewLifecycleOwner) { event ->
                 event.getContentIfNotHandled()?.let {
                     initJwtToken(it)
                     findNavController().navigate(R.id.action_loginFragment_to_home)

@@ -11,6 +11,7 @@ import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentDonateVisitDeliveryBinding
 import com.ssafy.phonesin.ui.mobile.MobileViewModel
 import com.ssafy.phonesin.ui.util.base.BaseFragment
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 // TODO: Rename parameter arguments, choose names that match
@@ -111,7 +112,7 @@ class DonateVisitDeliveryFragment :
 
         spinnerDonateAddress.adapter = spinnerAdapter
 
-        buttonPostDonateVisitDelivery.setOnClickListener {
+        buttonPostDonateVisitDelivery.setDebouncingClickListener {
 
             if (editTextDonateAddress.text.toString() == "" && radioButtonDonateVisitDeliveryNewAddress.isChecked) {
                 showToast("주소를 입력하세요!")

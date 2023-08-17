@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentOnboardingRentalBinding
 import com.ssafy.phonesin.ui.MainActivity
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 
 class OnboardingRentalFragment : Fragment() {
     private lateinit var binding: FragmentOnboardingRentalBinding
@@ -37,11 +38,11 @@ class OnboardingRentalFragment : Fragment() {
     }
 
     private fun setOnClick() = with(binding) {
-        textViewSkip.setOnClickListener {
+        textViewSkip.setDebouncingClickListener {
             mainActivity.setNav()
         }
 
-        buttonNext.setOnClickListener {
+        buttonNext.setDebouncingClickListener {
             findNavController().navigate(R.id.onboardingModuleFragment)
         }
     }

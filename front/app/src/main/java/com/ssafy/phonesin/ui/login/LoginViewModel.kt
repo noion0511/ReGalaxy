@@ -1,6 +1,5 @@
 package com.ssafy.phonesin.ui.login
 
-import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -31,7 +30,6 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
 
             val response =  repository.login(loginRequestDto)
-            Log.d(TAG, "login: $response")
 
             val type = "로그인에"
             when (response) {

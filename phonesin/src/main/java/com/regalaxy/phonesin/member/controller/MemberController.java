@@ -243,9 +243,9 @@ public class MemberController {
             resultMap.put("status", HttpStatus.OK.value());
             return new ResponseEntity<>(resultMap, HttpStatus.OK);
         } catch (Exception e) {
-            resultMap.put("message", e.getMessage());
-            resultMap.put("status", HttpStatus.CONFLICT.value());
-            return new ResponseEntity<>(resultMap, HttpStatus.CONFLICT);
+            resultMap.put("message", e.getMessage().split(": ")[1]);
+            resultMap.put("status", Integer.parseInt(e.getMessage().split(": ")[0]));
+            return new ResponseEntity<>(resultMap, HttpStatus.valueOf(Integer.parseInt(e.getMessage().split(": ")[0])));
         }
     }
 

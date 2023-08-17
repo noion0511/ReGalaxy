@@ -12,6 +12,7 @@ import com.ssafy.phonesin.databinding.FragmentRentalAddBinding
 import com.ssafy.phonesin.model.RentalBody
 import com.ssafy.phonesin.ui.mobile.MobileViewModel
 import com.ssafy.phonesin.ui.util.base.BaseFragment
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 // TODO: Rename parameter arguments, choose names that match
@@ -101,7 +102,7 @@ class RentalAddFragment :
         }
         spinnerRentalAddAddress.adapter = spinnerAdapter
 
-        buttonSelectMobile.setOnClickListener {
+        buttonSelectMobile.setDebouncingClickListener {
             if (!checkBoxHomeCam.isChecked && !checkBoxTemperature.isChecked && !checkBoxPicture.isChecked) {
                 showToast("기능을 선택하세요!")
             } else if (editTextRentalAddAddress.text.toString() == "" && radioButtonNewAddress.isChecked) {

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.ItemMyRentalListBinding
 import com.ssafy.phonesin.model.UserRental
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 
 class MyRentalListAdapter(
     private val rentalList: MutableLiveData<List<UserRental>>,
@@ -38,7 +39,7 @@ class MyRentalListAdapter(
                 textViewStateDelivery.setTextColor(ContextCompat.getColor(itemView.context, R.color.gray))
                 textViewStateRental.setTextColor(ContextCompat.getColor(itemView.context, R.color.gray))
 
-                buttonCancelRegist.setOnClickListener {
+                buttonCancelRegist.setDebouncingClickListener {
                     imageViewToggle.setImageResource(R.drawable.baseline_keyboard_arrow_down_24)
                     dividerToggle.visibility = View.GONE
                     layoutToggleDown.visibility =View.GONE
@@ -71,7 +72,7 @@ class MyRentalListAdapter(
                 textViewStateRental.setTextColor(ContextCompat.getColor(itemView.context, R.color.keyColor1))
             }
 
-            layoutToggleUp.setOnClickListener {
+            layoutToggleUp.setDebouncingClickListener {
                 rental.toggle = !rental.toggle
                 toggleState(rental)
             }

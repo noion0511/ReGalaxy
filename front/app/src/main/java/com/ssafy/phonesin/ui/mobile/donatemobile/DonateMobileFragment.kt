@@ -2,7 +2,6 @@ package com.ssafy.phonesin.ui.mobile.donatemobile
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -12,9 +11,9 @@ import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentDonateMobileBinding
 import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.Util.convertCalendarToDate
-import com.ssafy.phonesin.ui.util.Util.convertCalendarToDateHyphen
 import com.ssafy.phonesin.ui.util.Util.convertToDate
 import com.ssafy.phonesin.ui.util.base.BaseFragment
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -71,7 +70,7 @@ class DonateMobileFragment :
             donateMobileViewModel.setDateDonate( convertToDate(year, month, dayOfMonth))
         }
 
-        buttonDonateNext.setOnClickListener {
+        buttonDonateNext.setDebouncingClickListener {
 //            donateMobileViewModel.setDateDonate(convertCalendarToDate(calendarDonate.date))
             if (radioButtonDonateVisitDelivery.isChecked) {
                 donateMobileViewModel.setTypeDonate(radioButtonDonateVisitDelivery.text.toString())
