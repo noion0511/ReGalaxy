@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentReturnFinishBinding
 import com.ssafy.phonesin.ui.util.Util
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 
@@ -90,7 +91,7 @@ class ReturnFinishFragment : Fragment() {
         textViewReturnFinishDetailAddress.text =
             " - 주소 : ${returnViewModel.returnList[0].backDeliveryLocation}"
 
-        buttonReturnHome.setOnClickListener {
+        buttonReturnHome.setDebouncingClickListener {
             findNavController().navigate(
                 R.id.action_returnFinishFragment_to_mobile,
             )

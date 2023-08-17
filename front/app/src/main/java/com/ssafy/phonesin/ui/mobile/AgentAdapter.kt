@@ -9,6 +9,7 @@ import com.ssafy.phonesin.databinding.ItemAgentBinding
 import com.ssafy.phonesin.model.AgentAddress
 import com.ssafy.phonesin.ui.util.Util.convertKm
 import com.ssafy.phonesin.ui.util.Util.getImage
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 
 class AgentAdapter :
     ListAdapter<AgentAddress, AgentAdapter.AgentViewHolder>(AgentDiffCallback()) {
@@ -24,7 +25,7 @@ class AgentAdapter :
 
                 getImage(root.context, imageViewItemAgent, agentAddress.agencyPhotoUrl)
 
-                root.setOnClickListener {
+                root.setDebouncingClickListener {
                     detailAgentListener.onClick(layoutPosition)
                 }
             }

@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.phonesin.databinding.ItemModuleBinding
 import com.ssafy.phonesin.model.ModuleType
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 
 class ModuleAdapter(
     private val items: List<ModuleType>,
@@ -36,7 +37,7 @@ class ModuleAdapter(
                 textViewModuleTitle.text = item.title
                 textViewModuleContent.text = item.content
 
-                linearLayoutModule.setOnClickListener {
+                linearLayoutModule.setDebouncingClickListener {
                     onItemClickListener.onItemClick(item)
                 }
             }

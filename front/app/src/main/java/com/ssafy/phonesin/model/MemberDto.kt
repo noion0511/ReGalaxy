@@ -26,3 +26,16 @@ enum class MemberValidation {
     EMAIL_NOT_VERIFIED,
     NO_NAME
 }
+
+enum class EmailValidation {
+    INVALID_EMAIL_FORMAT,
+    EMPTY_EMAIL,
+    VALID_EMAIL_FORMAT,
+    EXIST_EMAIL
+}
+
+
+enum class ConfirmEmail {
+    EMAIL_EXISTS,
+    OK
+}

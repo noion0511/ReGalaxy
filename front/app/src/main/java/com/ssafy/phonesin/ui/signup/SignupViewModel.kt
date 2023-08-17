@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ssafy.phonesin.model.BaseResponse
+import com.ssafy.phonesin.model.ConfirmEmail
+import com.ssafy.phonesin.model.EmailValidation
 import com.ssafy.phonesin.model.Event
 import com.ssafy.phonesin.model.MemberDto
 import com.ssafy.phonesin.model.MemberValidation
@@ -32,24 +34,31 @@ class SignupViewModel @Inject constructor(
     private val _signupResponse = MutableLiveData<Event<BaseResponse>>()
     val signupResponse: LiveData<Event<BaseResponse>> = _signupResponse
 
+    private val _emailConfirm = MutableLiveData<Event<String>>()
+    val emailConfirm: LiveData<Event<String>> = _emailConfirm
+
     private val _emailCheck = MutableLiveData<Event<String>>()
     val emailCheck: LiveData<Event<String>> = _emailCheck
 
-    private val _emailAddress = MutableLiveData<String>()
-    val emailAddress: LiveData<String> = _emailAddress
+    private val _emailCheckReTry = MutableLiveData<Event<String>>()
+    val emailCheckReTry: LiveData<Event<String>> = _emailCheckReTry
 
-    private val _emailConfirmStatus = MutableLiveData(false)
-    val emailConfirmStatus: LiveData<Boolean> = _emailConfirmStatus
+    private val _memberDto = MutableLiveData<SignUpInformation>()
+    val memberDto: LiveData<SignUpInformation> = _memberDto
 
-    fun setUserInputEmail(email: String) {
-        _emailAddress.value = email
+    private val _emailConfirmStatus = MutableLiveData<Pair<ConfirmEmail, String>>()
+    val emailConfirmStatus: LiveData<Pair<ConfirmEmail, String>> = _emailConfirmStatus
+
+    fun setUserInputEmail(info: SignUpInformation) {
+        _memberDto.value = info
     }
 
-    fun setEmailConfirmStatus(status: Boolean) {
+    fun setEmailConfirmStatus(status: Pair<ConfirmEmail, String>) {
         _emailConfirmStatus.value = status
     }
 
     fun signup(memberDto: MemberDto) {
+        showProgress()
         viewModelScope.launch {
             val response = repository.signup(memberDto)
             Log.d(TAG, "signup: $response")
@@ -72,11 +81,13 @@ class SignupViewModel @Inject constructor(
                     _msg.postValue(postValueEvent(2, type))
                 }
             }
+            hideProgress()
         }
     }
 
 
     fun verifyEmail(emailRequestDto: EmailRequestDto) {
+        showProgress()
         viewModelScope.launch {
             val response = repository.verifyEmail(emailRequestDto)
             Log.d(TAG, "verifyEmail: $response")
@@ -84,11 +95,15 @@ class SignupViewModel @Inject constructor(
             val type = "이메일 인증"
             when (response) {
                 is NetworkResponse.Success -> {
-                    _msg.postValue(Event(response.body.message))
+                    _emailCheck.postValue(Event(response.body.message))
                 }
 
                 is NetworkResponse.ApiError -> {
-                    _msg.postValue(postValueEvent(0, type))
+                    if(response.body.status == "409") {
+                        _emailCheck.postValue(Event(response.body.message))
+                    } else {
+                        _msg.postValue(postValueEvent(0, type))
+                    }
                 }
 
                 is NetworkResponse.NetworkError -> {
@@ -99,10 +114,44 @@ class SignupViewModel @Inject constructor(
                     _msg.postValue(postValueEvent(2, type))
                 }
             }
+            hideProgress()
+        }
+    }
+
+    fun verifyEmailCheck(emailRequestDto: EmailRequestDto) {
+        showProgress()
+        viewModelScope.launch {
+            val response = repository.verifyEmail(emailRequestDto)
+            Log.d(TAG, "verifyEmail: $response")
+
+            val type = "이메일 인증"
+            when (response) {
+                is NetworkResponse.Success -> {
+                    _emailCheckReTry.postValue(Event(response.body.message))
+                }
+
+                is NetworkResponse.ApiError -> {
+                    if(response.body.status == "409") {
+                        _emailCheckReTry.postValue(Event(response.body.message))
+                    } else {
+                        _msg.postValue(postValueEvent(0, type))
+                    }
+                }
+
+                is NetworkResponse.NetworkError -> {
+                    _msg.postValue(postValueEvent(1, type))
+                }
+
+                is NetworkResponse.UnknownError -> {
+                    _msg.postValue(postValueEvent(2, type))
+                }
+            }
+            hideProgress()
         }
     }
 
     fun verifyEmailConfirm(emailCheckRequestDto: EmailCheckRequestDto) {
+        showProgress()
         viewModelScope.launch {
             val response = repository.verifyEmailConfirm(emailCheckRequestDto)
             Log.d(TAG, "verifyEmailConfirm: $response")
@@ -110,11 +159,11 @@ class SignupViewModel @Inject constructor(
             val type = "이메일 인증 확인"
             when (response) {
                 is NetworkResponse.Success -> {
-                    _emailCheck.postValue(Event(response.body.message))
+                    _emailConfirm.postValue(Event(response.body.message))
                 }
 
                 is NetworkResponse.ApiError -> {
-                    _msg.postValue(postValueEvent(0, type))
+                    _msg.postValue(Event(response.body.message))
                 }
 
                 is NetworkResponse.NetworkError -> {
@@ -125,6 +174,7 @@ class SignupViewModel @Inject constructor(
                     _msg.postValue(postValueEvent(2, type))
                 }
             }
+            hideProgress()
         }
     }
 
@@ -152,5 +202,17 @@ class SignupViewModel @Inject constructor(
         }
 
         return validationErrors
+    }
+
+    fun validateEmail(email: String): EmailValidation {
+        if (email.isEmpty()) {
+            return EmailValidation.EMPTY_EMAIL
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            return EmailValidation.INVALID_EMAIL_FORMAT
+        }
+
+        return EmailValidation.VALID_EMAIL_FORMAT
     }
 }

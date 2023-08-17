@@ -1,6 +1,5 @@
 package com.ssafy.phonesin.ui.mobile.rentalmobile
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,10 +11,7 @@ import com.ssafy.phonesin.databinding.FragmentRentalFinishBinding
 import com.ssafy.phonesin.ui.util.Util.getCurrentKoreaTime
 import com.ssafy.phonesin.ui.util.Util.selectModule
 import com.ssafy.phonesin.ui.util.base.BaseFragment
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
-import java.util.TimeZone
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -65,7 +61,7 @@ class RentalFinishFragment :
 
         textViewDetailModule.text = getText()
 
-        buttonMobileHome.setOnClickListener {
+        buttonMobileHome.setDebouncingClickListener {
             findNavController().navigate(
                 R.id.action_rentalFinishFragment_to_mobile,
             )

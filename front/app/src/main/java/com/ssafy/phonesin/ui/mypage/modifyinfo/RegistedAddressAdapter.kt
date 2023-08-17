@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.phonesin.databinding.ItemAddressListBinding
 import com.ssafy.phonesin.model.Address
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 
 class RegistedAddressAdapter(
     private val addressList: MutableLiveData<List<Address>>,
@@ -22,7 +23,7 @@ class RegistedAddressAdapter(
         fun bind(address: Address) {
             binding.textViewRegistedAddress.setText(address.address)
 
-            binding.imageViewRemoveAddress.setOnClickListener {
+            binding.imageViewRemoveAddress.setDebouncingClickListener {
                 onRemoveClickListener.onRemoveClick(address.addressId)
             }
         }
