@@ -1,6 +1,7 @@
 package com.ssafy.phonesin.ui.mobile.rentalmobile
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
@@ -83,7 +84,8 @@ class RentalAddFragment :
 
         setAdapter(R.layout.custom_text_style_black)
 
-        if (mobileViewModel.addressList.size == 1 && mobileViewModel.addressList[0].addressId == -1) {
+        if (mobileViewModel.addressList[0].addressId == -1) {
+            Log.e("싸피",mobileViewModel.addressList.toString())
             spinnerAdapter = setAdapter(R.layout.custom_text_style_gray)
 
             radioButtonNewAddress.isChecked = true
