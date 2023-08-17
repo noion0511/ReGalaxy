@@ -64,10 +64,14 @@ class AddAddressFragment : Fragment() {
         }
 
         buttonSaveNewAddress.setDebouncingClickListener {
-            val newAddress = "${editTextRoadAddress.text} ${editTextDetailAddress.text}"
-            Log.d("buttonSaveNewAddress", "setOnClick: $newAddress")
-            userViewModel.postAddress(newAddress)
-            findNavController().navigate(R.id.modifyInfoFragment)
+            if (editTextRoadAddress.text.toString().isEmpty()) {
+                Toast.makeText(requireContext(), "주소를 입력해주세요.", Toast.LENGTH_SHORT).show()
+            } else {
+                val newAddress = "${editTextRoadAddress.text} ${editTextDetailAddress.text}"
+                Log.d("주소", "setOnClick: $newAddress")
+                userViewModel.postAddress(newAddress)
+                findNavController().navigate(R.id.modifyInfoFragment)
+            }
         }
     }
 
@@ -112,6 +116,7 @@ class AddAddressFragment : Fragment() {
         fun processDATA(data: String?) {
             searchDialog.dismiss()
             binding.editTextRoadAddress.setText(data)
+            Log.d("주소", "processDATA: {data}")
         }
     }
 }
