@@ -244,20 +244,6 @@
                 android:paddingVertical="15dp">
 
                 <Button
-                    android:id="@+id/buttonModifyRegist"
-                    style="@style/textview_card_button_white"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_blue_corner_12"
-                    android:minHeight="0dp"
-                    android:text="수정" />
-
-                <Space
-                    android:layout_width="20dp"
-                    android:layout_height="wrap_content" />
-
-                <Button
                     android:id="@+id/buttonCancelRegist"
                     style="@style/textview_card_button_white"
                     android:layout_width="0dp"
