@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentMobileBinding
 import com.ssafy.phonesin.ui.MainActivity
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,17 +60,17 @@ class MobileFragment : Fragment() {
     }
 
     private fun setMobileHomeUi() = with(binding) {
-        rentalCardView.setOnClickListener {
+        rentalCardView.setDebouncingClickListener {
             findNavController().navigate(
                 R.id.action_mobile_to_rentalMobileFragment,
             )
         }
-        returnCardView.setOnClickListener {
+        returnCardView.setDebouncingClickListener {
             findNavController().navigate(
                 R.id.action_mobile_to_returnMobileFragment
             )
         }
-        donateCardView.setOnClickListener {
+        donateCardView.setDebouncingClickListener {
             findNavController().navigate(
                 R.id.action_mobile_to_donateMobileFragment,
             )

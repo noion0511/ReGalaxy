@@ -10,6 +10,7 @@ import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentRentalMoblieBinding
 import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.base.BaseFragment
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 // TODO: Rename parameter arguments, choose names that match
@@ -120,7 +121,7 @@ class RentalMobileFragment :
             rentalPossibleNum.text = "신청 가능 갯수:${count}개"
         }
 
-        mobileAdd.setOnClickListener {
+        mobileAdd.setDebouncingClickListener {
             val temp = currentRentalList() ?: 0
             if (temp == rentalCount) {
                 showToast("최대 갯수 입니다.")
@@ -131,7 +132,7 @@ class RentalMobileFragment :
             }
         }
 
-        postRental.setOnClickListener {
+        postRental.setDebouncingClickListener {
 
             if (rentalMobileViewModel.rentalList.value?.size == 0) {
                 showToast("1개 이상을 추가해주세요")

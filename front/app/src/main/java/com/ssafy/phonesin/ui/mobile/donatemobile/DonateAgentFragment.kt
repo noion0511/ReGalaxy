@@ -20,6 +20,7 @@ import com.ssafy.phonesin.databinding.FragmentDonateAgentBinding
 import com.ssafy.phonesin.ui.mobile.AgentAdapter
 import com.ssafy.phonesin.ui.mobile.MobileViewModel
 import com.ssafy.phonesin.ui.util.base.BaseFragment
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 // TODO: Rename parameter arguments, choose names that match
@@ -126,7 +127,7 @@ class DonateAgentFragment :
 
     private fun setDonateAgentUi() = with(bindingNonNull) {
 
-        searchViewDonateAgent.setOnClickListener {
+        searchViewDonateAgent.setDebouncingClickListener {
             searchViewDonateAgent
         }
 

@@ -1,14 +1,15 @@
 package com.ssafy.phonesin.ui.mypage.modifyinfo
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentMyPageRegistChaBinding
 import com.ssafy.phonesin.ui.MainActivity
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 
 class RegistChaFragment : Fragment() {
     private lateinit var binding: FragmentMyPageRegistChaBinding
@@ -36,7 +37,7 @@ class RegistChaFragment : Fragment() {
 
     private fun setOnClick() = with(binding) {
 
-        buttonSaveCha.setOnClickListener {
+        buttonSaveCha.setDebouncingClickListener {
             findNavController().navigate(R.id.my_page)
         }
 

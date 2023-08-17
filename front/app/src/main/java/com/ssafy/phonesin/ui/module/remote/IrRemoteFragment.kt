@@ -12,6 +12,7 @@ import com.ssafy.phonesin.databinding.FragmentIrRemoteBinding
 import com.ssafy.phonesin.model.DeviceType
 import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.base.BaseFragment
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @RequiresApi(Build.VERSION_CODES.KITKAT)
@@ -102,13 +103,13 @@ class IrRemoteFragment : BaseFragment<FragmentIrRemoteBinding>(R.layout.fragment
 
 
     private fun initSelectDeviceType() {
-        bindingNonNull.layoutChoiceTv.setOnClickListener{
+        bindingNonNull.layoutChoiceTv.setDebouncingClickListener{
             selectedDevice = DeviceType.TV
             bindingNonNull.layoutChoiceAirConditioner.background= ContextCompat.getDrawable(requireContext(), R.drawable.button_normal_big)
             bindingNonNull.layoutChoiceTv.background= ContextCompat.getDrawable(requireContext(), R.drawable.button_pressed_big)
         }
 
-        bindingNonNull.layoutChoiceAirConditioner.setOnClickListener{
+        bindingNonNull.layoutChoiceAirConditioner.setDebouncingClickListener{
             selectedDevice = DeviceType.AIR_CONDITIONER
             bindingNonNull.layoutChoiceTv.background= ContextCompat.getDrawable(requireContext(), R.drawable.button_normal_big)
             bindingNonNull.layoutChoiceAirConditioner.background= ContextCompat.getDrawable(requireContext(), R.drawable.button_pressed_big)
@@ -116,77 +117,77 @@ class IrRemoteFragment : BaseFragment<FragmentIrRemoteBinding>(R.layout.fragment
     }
 
     private fun initPowerButton() {
-        bindingNonNull.powerOnButton.setOnClickListener{
+        bindingNonNull.powerOnButton.setDebouncingClickListener{
             irManager.transmit(38000, getPowerOnCode(selectedDevice))
         }
 
-        bindingNonNull.powerOffButton.setOnClickListener{
+        bindingNonNull.powerOffButton.setDebouncingClickListener{
             irManager.transmit(38000, getPowerOffCode(selectedDevice))
         }
     }
 
     private fun initVolumeButton() {
-        bindingNonNull.volumeUpButton.setOnClickListener{
+        bindingNonNull.volumeUpButton.setDebouncingClickListener{
             irManager.transmit(38000, getSamsungTvVolumeUpCode())
         }
 
-        bindingNonNull.volumeDownButton.setOnClickListener{
+        bindingNonNull.volumeDownButton.setDebouncingClickListener{
             irManager.transmit(38000, getSamsungTvVolumeDownCode())
         }
 
-        bindingNonNull.muteButton.setOnClickListener{
+        bindingNonNull.muteButton.setDebouncingClickListener{
             irManager.transmit(38000, getSamsungTvMuteCode())
         }
     }
 
     private fun initChannelButton() {
-        bindingNonNull.channelUpButton.setOnClickListener{
+        bindingNonNull.channelUpButton.setDebouncingClickListener{
             irManager.transmit(38000, getSamsungTvChannelUpCode())
         }
 
-        bindingNonNull.channelDownButton.setOnClickListener{
+        bindingNonNull.channelDownButton.setDebouncingClickListener{
             irManager.transmit(38000, getSamsungTvChannelDownCode())
         }
     }
 
     private fun initNumberButton() {
-        bindingNonNull.button0.setOnClickListener{
+        bindingNonNull.button0.setDebouncingClickListener{
             irManager.transmit(38000, getSamsungTvNumberCode(0))
         }
 
-        bindingNonNull.button1.setOnClickListener{
+        bindingNonNull.button1.setDebouncingClickListener{
             irManager.transmit(38000, getSamsungTvNumberCode(1))
         }
 
-        bindingNonNull.button2.setOnClickListener{
+        bindingNonNull.button2.setDebouncingClickListener{
             irManager.transmit(38000, getSamsungTvNumberCode(2))
         }
 
-        bindingNonNull.button3.setOnClickListener{
+        bindingNonNull.button3.setDebouncingClickListener{
             irManager.transmit(38000, getSamsungTvNumberCode(3))
         }
 
-        bindingNonNull.button4.setOnClickListener{
+        bindingNonNull.button4.setDebouncingClickListener{
             irManager.transmit(38000, getSamsungTvNumberCode(4))
         }
 
-        bindingNonNull.button5.setOnClickListener{
+        bindingNonNull.button5.setDebouncingClickListener{
             irManager.transmit(38000, getSamsungTvNumberCode(5))
         }
 
-        bindingNonNull.button6.setOnClickListener{
+        bindingNonNull.button6.setDebouncingClickListener{
             irManager.transmit(38000, getSamsungTvNumberCode(6))
         }
 
-        bindingNonNull.button7.setOnClickListener{
+        bindingNonNull.button7.setDebouncingClickListener{
             irManager.transmit(38000, getSamsungTvNumberCode(7))
         }
 
-        bindingNonNull.button8.setOnClickListener{
+        bindingNonNull.button8.setDebouncingClickListener{
             irManager.transmit(38000, getSamsungTvNumberCode(8))
         }
 
-        bindingNonNull.button9.setOnClickListener{
+        bindingNonNull.button9.setDebouncingClickListener{
             irManager.transmit(38000, getSamsungTvNumberCode(9))
         }
     }

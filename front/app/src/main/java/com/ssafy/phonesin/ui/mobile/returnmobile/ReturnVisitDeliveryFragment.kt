@@ -11,6 +11,7 @@ import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentReturnVisitDeliveryBinding
 import com.ssafy.phonesin.ui.mobile.MobileViewModel
 import com.ssafy.phonesin.ui.util.base.BaseFragment
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -90,7 +91,7 @@ class ReturnVisitDeliveryFragment :
         }
         spinnerReturnAddress.adapter = spinnerAdapter
 
-        buttonPostReturnVisitDelivery.setOnClickListener {
+        buttonPostReturnVisitDelivery.setDebouncingClickListener {
             if (editTextReturnAddress.text.toString() == "" && radioButtonVisitDeliveryNewAddress.isChecked) {
                 showToast("주소를 입력하세요!")
             } else {

@@ -8,6 +8,7 @@ import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import com.ssafy.phonesin.databinding.FragmentOnboardingPlanBinding
 import com.ssafy.phonesin.ui.MainActivity
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 
 class OnboardingPlanFragment : Fragment() {
     private lateinit var binding: FragmentOnboardingPlanBinding
@@ -35,7 +36,7 @@ class OnboardingPlanFragment : Fragment() {
     }
 
     private fun setOnClick() = with(binding) {
-        buttonNext.setOnClickListener {
+        buttonNext.setDebouncingClickListener {
             mainActivity.setNav()
         }
     }

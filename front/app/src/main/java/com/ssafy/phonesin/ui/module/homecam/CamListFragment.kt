@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentCamListBinding
 import com.ssafy.phonesin.ui.MainActivity
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -59,7 +60,7 @@ class CamListFragment : Fragment() {
 
     private fun initToolbar() {
         binding.textViewPlus.toolbarBackButtonTitle.text = getString(R.string.module_home_cam)
-        binding.textViewPlus.toolbarBackButton.setOnClickListener {
+        binding.textViewPlus.toolbarBackButton.setDebouncingClickListener {
             findNavController().navigate(R.id.action_camListFragment_to_module)
         }
     }

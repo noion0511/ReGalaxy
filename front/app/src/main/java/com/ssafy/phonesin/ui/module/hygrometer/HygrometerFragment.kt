@@ -35,6 +35,7 @@ import com.ssafy.phonesin.model.Hygrometer
 import com.ssafy.phonesin.model.Location
 import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.base.BaseFragment
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 import java.text.SimpleDateFormat
 
 
@@ -81,7 +82,7 @@ class HygrometerFragment : BaseFragment<FragmentHygrometerBinding>(R.layout.frag
             showToast("온도 센서가 내장되어 있지 않아 관련 서비스가 제공되지 않습니다.")
         }
 
-        bindingNonNull.buttonChart.setOnClickListener {
+        bindingNonNull.buttonChart.setDebouncingClickListener {
             setChartDialog()
         }
 
