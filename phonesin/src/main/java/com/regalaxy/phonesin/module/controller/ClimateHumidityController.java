@@ -2,19 +2,17 @@ package com.regalaxy.phonesin.module.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.regalaxy.phonesin.address.model.LocationDto;
-import com.regalaxy.phonesin.address.model.entity.Address;
-import com.regalaxy.phonesin.member.model.MemberIsChaDto;
 import com.regalaxy.phonesin.module.model.ClimateHumidityDto;
 import com.regalaxy.phonesin.module.model.service.LocationService;
-import com.regalaxy.phonesin.module.model.service.YtwokService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.*;
-import org.springframework.http.*;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

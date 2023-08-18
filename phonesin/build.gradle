@@ -55,7 +55,7 @@ dependencies {
 	implementation 'org.json:json:20210307'
 
 	// Quartz (scheduling)
-	implementation 'org.springframework.boot:spring-boot-starter-quartz:2.7.5'
+//	implementation 'org.springframework.boot:spring-boot-starter-quartz:2.7.5'
 	
 	// Bean Validation API and Hibernate Validator
 	implementation 'javax.validation:validation-api:2.0.1.Final'
