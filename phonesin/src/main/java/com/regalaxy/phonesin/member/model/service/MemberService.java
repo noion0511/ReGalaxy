@@ -157,14 +157,19 @@ public class MemberService {
     public void requestEmailVerification(String email) {
         String code = generateVerificationCode();
 
+        // 이메일이 공백인 경우 오류 발생
+        if (email == "") {
+            throw new IllegalArgumentException("400: 이메일을 입력해주세요.");
+        }
+
         // 이메일이 이미 DB에 존재하는 경우
         if (memberRepository.existsByEmail(email)) {
             Member existingMember = memberRepository.findByEmail(email)
-                    .orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
+                    .orElseThrow(() -> new RuntimeException("404: 유저를 찾을 수 없습니다."));
 
             // 해당 이메일에 대한 사용자 계정이 삭제 상태가 아니라면 에러 메시지 반환
             if (!existingMember.getIsDelete()) {
-                throw new RuntimeException("이미 존재하는 이메일입니다.");
+                throw new RuntimeException("409: 이미 존재하는 이메일입니다.");
             } else {
                 // 삭제된 사용자라면 인증 코드를 업데이트
                 existingMember.setVerificationCode(email, code);
@@ -177,8 +182,12 @@ public class MemberService {
             memberRepository.save(newMember);
         }
 
-        String message = "다음 코드를 입력하여 이메일을 확인해주세요: " + code;
-        sendEmail(email, "이메일 확인 코드", message);
+        try {
+            String message = "다음 코드를 입력하여 이메일을 확인해주세요: " + code;
+            sendEmail(email, "이메일 확인 코드", message);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("400: 이메일 형식이 잘못되었습니다.");
+        }
     }
 
     // 이메일 인증코드 확인

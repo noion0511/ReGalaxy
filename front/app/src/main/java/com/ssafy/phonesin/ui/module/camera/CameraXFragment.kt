@@ -22,6 +22,7 @@ import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentCameraXBinding
 import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.base.BaseFragment
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.text.SimpleDateFormat
@@ -88,7 +89,7 @@ class CameraXFragment : BaseFragment<FragmentCameraXBinding>(R.layout.fragment_c
 
         bindingNonNull.progressBar.progress = 0
 
-        bindingNonNull.buttonTakePicture.setOnClickListener {
+        bindingNonNull.buttonTakePicture.setDebouncingClickListener {
             bindingNonNull.progressBar.progress = 0
             startCountdownAndTakePicture()
         }

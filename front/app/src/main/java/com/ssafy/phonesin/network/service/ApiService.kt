@@ -5,6 +5,8 @@ import com.ssafy.phonesin.model.Address
 import com.ssafy.phonesin.model.AgentAddress
 import com.ssafy.phonesin.model.Climate
 import com.ssafy.phonesin.model.Donation
+import com.ssafy.phonesin.model.DonationCount
+import com.ssafy.phonesin.model.DonationRank
 import com.ssafy.phonesin.model.ErrorResponse
 import com.ssafy.phonesin.model.Location
 import com.ssafy.phonesin.model.PhotoResponse
@@ -74,6 +76,12 @@ interface ApiService {
     @DELETE("/address/delete/{addressId}")
     suspend fun removeAddress(@Path("addressId") addressId: Int): NetworkResponse<String, ErrorResponse>
 
+    @GET("/donation/king")
+    suspend fun getRank(): NetworkResponse<DonationRank, ErrorResponse>
+
     @POST("/check")
-    suspend fun getClimate(@Body location: Location) : NetworkResponse<Climate, ErrorResponse>
+    suspend fun getClimate(@Body location: Location): NetworkResponse<Climate, ErrorResponse>
+
+    @GET("/phone/alldonation")
+    suspend fun getTotalDonationCount(): NetworkResponse<DonationCount, ErrorResponse>
 }

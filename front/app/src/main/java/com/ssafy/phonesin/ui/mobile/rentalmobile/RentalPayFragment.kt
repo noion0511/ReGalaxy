@@ -13,6 +13,7 @@ import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentRentalPayBinding
 import com.ssafy.phonesin.ui.mobile.ViewPagerAdapter
 import com.ssafy.phonesin.ui.util.base.BaseFragment
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,7 +60,7 @@ class RentalPayFragment : BaseFragment<FragmentRentalPayBinding>(R.layout.fragme
         bindingNonNull.textViewPayMoney.text =
             "${(20000 * rentalPayViewModel.currentRentalListSize()!!)}원"
 
-        bindingNonNull.buttonPayComplete.setOnClickListener {
+        bindingNonNull.buttonPayComplete.setDebouncingClickListener {
             rentalPayViewModel.postRental()
             findNavController().navigate(
                 R.id.action_rentalPayFragment_to_rentalFinishFragment,

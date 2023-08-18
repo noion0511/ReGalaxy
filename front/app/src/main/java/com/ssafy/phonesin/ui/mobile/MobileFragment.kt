@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentMobileBinding
 import com.ssafy.phonesin.ui.MainActivity
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -50,21 +52,25 @@ class MobileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            findNavController().navigate(R.id.home)
+        }
+        
         setMobileHomeUi()
     }
 
     private fun setMobileHomeUi() = with(binding) {
-        rentalCardView.setOnClickListener {
+        rentalCardView.setDebouncingClickListener {
             findNavController().navigate(
                 R.id.action_mobile_to_rentalMobileFragment,
             )
         }
-        returnCardView.setOnClickListener {
+        returnCardView.setDebouncingClickListener {
             findNavController().navigate(
                 R.id.action_mobile_to_returnMobileFragment
             )
         }
-        donateCardView.setOnClickListener {
+        donateCardView.setDebouncingClickListener {
             findNavController().navigate(
                 R.id.action_mobile_to_donateMobileFragment,
             )

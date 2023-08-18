@@ -1,5 +1,6 @@
 package com.ssafy.phonesin.ui.mobile
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -36,7 +37,9 @@ class MobileViewModel @Inject constructor(
         viewModelScope.launch {
             when (val addressResponse = addressRepository.getAddress()) {
                 is NetworkResponse.Success -> {
-                    _addressList = addressResponse.body.toMutableList()
+                    val body = addressResponse.body.toMutableList()
+                    if(body.size!=0)
+                        _addressList = body
                 }
 
                 is NetworkResponse.ApiError -> {

@@ -21,6 +21,7 @@ import com.ssafy.phonesin.R
 import com.ssafy.phonesin.common.AppPreferences
 import com.ssafy.phonesin.databinding.FragmentMyPageBinding
 import com.ssafy.phonesin.ui.MainActivity
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 
 class MyPageFragment : Fragment() {
     private lateinit var binding: FragmentMyPageBinding
@@ -61,32 +62,32 @@ class MyPageFragment : Fragment() {
     }
 
     private fun setOnClick() = with(binding) {
-        layoutRental.setOnClickListener {
-            findNavController().navigate(R.id.rentalListFragment)
+        layoutRental.setDebouncingClickListener {
+            findNavController().navigate(R.id.action_my_page_to_rentalListFragment)
         }
 
-        layoutReturn.setOnClickListener {
-            findNavController().navigate(R.id.returnListFragment)
+        layoutReturn.setDebouncingClickListener {
+            findNavController().navigate(R.id.action_my_page_to_returnListFragment)
         }
 
-        layoutDonate.setOnClickListener {
-            findNavController().navigate(R.id.donateListFragment)
+        layoutDonate.setDebouncingClickListener {
+            findNavController().navigate(R.id.action_my_page_to_donateListFragment)
         }
 
-        textViewModifyInfo.setOnClickListener {
+        textViewModifyInfo.setDebouncingClickListener {
             showModifyInfoDialog()
         }
 
-        textViewWithdrawal.setOnClickListener {
+        textViewWithdrawal.setDebouncingClickListener {
             showWithdrawalDialog()
         }
 
-        textViewLogout.setOnClickListener {
+        textViewLogout.setDebouncingClickListener {
             showLogoutDialog()
         }
 
-        textViewNotificationSetting.setOnClickListener {
-            findNavController().navigate(R.id.notificationFragment)
+        textViewNotificationSetting.setDebouncingClickListener {
+            findNavController().navigate(R.id.action_my_page_to_notificationFragment)
         }
     }
 
@@ -94,18 +95,17 @@ class MyPageFragment : Fragment() {
         val logoutDialog = Dialog(requireContext())
         setDialogDefault(logoutDialog, R.layout.dialog_my_logout)
 
-        logoutDialog.findViewById<TextView>(R.id.buttonCancel).setOnClickListener {
+        logoutDialog.findViewById<TextView>(R.id.buttonCancel).setDebouncingClickListener {
             logoutDialog.dismiss()
         }
 
-        logoutDialog.findViewById<Button>(R.id.buttonLogout).setOnClickListener {
-//            logoutDialog.dismiss()
-//            AppPreferences.removeJwtToken()
-//            Toast.makeText(requireContext(), "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
-////            val mainActivity = activity as MainActivity
-////            mainActivity.hideBottomNavi(false)
-////            mainActivity.setNav()
-//            findNavController().navigate(R.id.action_my_page_to_loginFragment)
+        logoutDialog.findViewById<Button>(R.id.buttonLogout).setDebouncingClickListener {
+            logoutDialog.dismiss()
+            AppPreferences.removeJwtToken()
+            Toast.makeText(requireContext(), "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_my_page_to_loginFragment)
+            val mainActivity = activity as MainActivity
+            mainActivity.hideBottomNavi(false)
         }
 
         logoutDialog.show()
@@ -116,15 +116,15 @@ class MyPageFragment : Fragment() {
 
         setDialogDefault(withdrawalDialog, R.layout.diolog_my_withdrawal)
 
-        withdrawalDialog.findViewById<TextView>(R.id.buttonCancel).setOnClickListener {
+        withdrawalDialog.findViewById<TextView>(R.id.buttonCancel).setDebouncingClickListener {
             withdrawalDialog.dismiss()
         }
 
-        withdrawalDialog.findViewById<Button>(R.id.buttonWithdrawal).setOnClickListener {
+        withdrawalDialog.findViewById<Button>(R.id.buttonWithdrawal).setDebouncingClickListener {
             userViewModel.withdrawal()
             withdrawalDialog.dismiss()
             Toast.makeText(requireContext(), "회원 탈퇴 되었습니다.", Toast.LENGTH_SHORT).show()
-            findNavController().navigate(R.id.loginFragment)
+            findNavController().navigate(R.id.action_my_page_to_loginFragment)
         }
 
         withdrawalDialog.show()
@@ -135,14 +135,14 @@ class MyPageFragment : Fragment() {
 
         setDialogDefault(modifyInfoDialog, R.layout.dialog_my_modify_info)
 
-        modifyInfoDialog.findViewById<TextView>(R.id.textViewRegistCha).setOnClickListener {
+        modifyInfoDialog.findViewById<TextView>(R.id.textViewRegistCha).setDebouncingClickListener {
             modifyInfoDialog.dismiss()
-            findNavController().navigate(R.id.registChaFragment)
+            findNavController().navigate(R.id.action_my_page_to_registChaFragment)
         }
 
-        modifyInfoDialog.findViewById<TextView>(R.id.textViewModifyInfo).setOnClickListener {
+        modifyInfoDialog.findViewById<TextView>(R.id.textViewModifyInfo).setDebouncingClickListener {
             modifyInfoDialog.dismiss()
-            findNavController().navigate(R.id.modifyInfoFragment)
+            findNavController().navigate(R.id.action_my_page_to_modifyInfoFragment)
         }
 
         modifyInfoDialog.show()

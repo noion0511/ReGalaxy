@@ -21,6 +21,7 @@ import com.ssafy.phonesin.R
 import com.ssafy.phonesin.databinding.FragmentMyPageAddAddressBinding
 import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.mypage.UserViewModel
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 
 
 class AddAddressFragment : Fragment() {
@@ -53,7 +54,7 @@ class AddAddressFragment : Fragment() {
     private fun setOnClick() = with(binding) {
         editTextRoadAddress.isFocusableInTouchMode = false
 
-        editTextRoadAddress.setOnClickListener {
+        editTextRoadAddress.setDebouncingClickListener {
             val status: Int = NetworkStatus.getConnectivityStatus(requireContext())
             if (status == NetworkStatus.TYPE_MOBILE || status == NetworkStatus.TYPE_WIFI) {
                 showRoadAddressDialog()
@@ -62,11 +63,15 @@ class AddAddressFragment : Fragment() {
             }
         }
 
-        buttonSaveNewAddress.setOnClickListener {
-            val newAddress = "${editTextRoadAddress.text} ${editTextDetailAddress.text}"
-            Log.d("buttonSaveNewAddress", "setOnClick: $newAddress")
-            userViewModel.postAddress(newAddress)
-            findNavController().navigate(R.id.modifyInfoFragment)
+        buttonSaveNewAddress.setDebouncingClickListener {
+            if (editTextRoadAddress.text.toString().isEmpty()) {
+                Toast.makeText(requireContext(), "주소를 입력해주세요.", Toast.LENGTH_SHORT).show()
+            } else {
+                val newAddress = "${editTextRoadAddress.text} ${editTextDetailAddress.text}"
+                Log.d("주소", "setOnClick: $newAddress")
+                userViewModel.postAddress(newAddress)
+                findNavController().navigate(R.id.modifyInfoFragment)
+            }
         }
     }
 
@@ -100,7 +105,7 @@ class AddAddressFragment : Fragment() {
             }
         }
 
-        webView.loadUrl("http://i9d102.p.ssafy.io/address.html")
+        webView.loadUrl("http://i9d102.p.ssafy.io:8080/address.html")
 
         searchDialog.show()
 
@@ -111,6 +116,7 @@ class AddAddressFragment : Fragment() {
         fun processDATA(data: String?) {
             searchDialog.dismiss()
             binding.editTextRoadAddress.setText(data)
+            Log.d("주소", "processDATA: {data}")
         }
     }
 }

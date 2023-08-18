@@ -43,8 +43,6 @@ class UserViewModel @Inject constructor(
         get() = _return
 
 
-
-
     fun postAddress(address: String) {
         viewModelScope.launch {
             addressRepository.postAddress(address)

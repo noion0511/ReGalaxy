@@ -17,6 +17,7 @@ object AppPreferences {
     private const val SHOWED_ON_BOARDING = "showed_onboarding"
     private const val LAST_HYGROMETER = "last_hygrometer"
     private const val LAST_HYGROMETER_DATE = "last_hygrometer_date"
+    private const val NOTIFICATION_SETTING = "notification_setting"
 
     private val gson = Gson()
 
@@ -70,5 +71,11 @@ object AppPreferences {
 
     fun setLastHygrometerDate(date: String) {
         prefs.edit().putString(LAST_HYGROMETER_DATE, date).apply()
+    }
+
+    fun getNotificationSetting() : Boolean = prefs.getBoolean(NOTIFICATION_SETTING, false)
+
+    fun setNotificationSetting(setting: Boolean) {
+        prefs.edit().putBoolean(NOTIFICATION_SETTING, setting).apply()
     }
 }

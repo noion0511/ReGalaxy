@@ -1,6 +1,7 @@
 package com.ssafy.phonesin.ui.mobile.rentalmobile
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
@@ -12,6 +13,7 @@ import com.ssafy.phonesin.databinding.FragmentRentalAddBinding
 import com.ssafy.phonesin.model.RentalBody
 import com.ssafy.phonesin.ui.mobile.MobileViewModel
 import com.ssafy.phonesin.ui.util.base.BaseFragment
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 // TODO: Rename parameter arguments, choose names that match
@@ -82,7 +84,8 @@ class RentalAddFragment :
 
         setAdapter(R.layout.custom_text_style_black)
 
-        if (mobileViewModel.addressList.size == 1 && mobileViewModel.addressList[0].addressId == -1) {
+        if (mobileViewModel.addressList[0].addressId == -1) {
+            Log.e("싸피",mobileViewModel.addressList.toString())
             spinnerAdapter = setAdapter(R.layout.custom_text_style_gray)
 
             radioButtonNewAddress.isChecked = true
@@ -101,7 +104,7 @@ class RentalAddFragment :
         }
         spinnerRentalAddAddress.adapter = spinnerAdapter
 
-        buttonSelectMobile.setOnClickListener {
+        buttonSelectMobile.setDebouncingClickListener {
             if (!checkBoxHomeCam.isChecked && !checkBoxTemperature.isChecked && !checkBoxPicture.isChecked) {
                 showToast("기능을 선택하세요!")
             } else if (editTextRentalAddAddress.text.toString() == "" && radioButtonNewAddress.isChecked) {

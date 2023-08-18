@@ -3,6 +3,7 @@ package com.ssafy.phonesin.ui.module
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ssafy.phonesin.R
@@ -26,6 +27,10 @@ class ModuleFragment : BaseFragment<FragmentModuleBinding>(
     }
 
     override fun init() {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            findNavController().navigate(R.id.home)
+        }
+
         val layoutManager = LinearLayoutManager(requireContext())
         bindingNonNull.recyclerViewModule.layoutManager = layoutManager
 
@@ -66,11 +71,14 @@ class ModuleFragment : BaseFragment<FragmentModuleBinding>(
                             findNavController().navigate(R.id.action_module_to_cameraFragment)
                         }
                     }
+//                    getString(R.string.module_type_cctv_title) -> findNavController().navigate(R.id.action_module_to_homeCamFragment)
+//                    getString(R.string.module_type_temperature_title) -> findNavController().navigate(R.id.action_module_to_hygrometerFragment)
                     getString(R.string.module_type_cctv_title) -> findNavController().navigate(R.id.action_module_to_camListFragment)
                     getString(R.string.module_type_temperature_title) -> findNavController().navigate(
                         R.id.action_module_to_hygrometerFragment
                     )
                     getString(R.string.module_type_remote_title) -> findNavController().navigate(R.id.action_module_to_irRemoteFragment)
+
                 }
             }
         })

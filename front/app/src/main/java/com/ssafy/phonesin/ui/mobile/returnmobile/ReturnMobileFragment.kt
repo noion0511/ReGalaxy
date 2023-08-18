@@ -19,6 +19,7 @@ import com.ssafy.phonesin.ui.MainActivity
 import com.ssafy.phonesin.ui.util.Util.convertCalendarToDate
 import com.ssafy.phonesin.ui.util.Util.convertToDate
 import com.ssafy.phonesin.ui.util.base.BaseFragment
+import com.ssafy.phonesin.ui.util.setDebouncingClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 // TODO: Rename parameter arguments, choose names that match
@@ -99,7 +100,7 @@ class ReturnMobileFragment : BaseFragment<FragmentReturnMobileBinding>(
         calendarReturn.setOnDateChangeListener { _, year, month, dayOfMonth ->
             date = convertToDate(year, month, dayOfMonth)
         }
-        buttonReturnNext.setOnClickListener {
+        buttonReturnNext.setDebouncingClickListener {
             if (!isCheckBox()) {//하나라도 체크 안돼있음
                 showToast("한개 이상을 체크해주세요")
             } else if (editTextReturnContent.text.toString() == "") {
