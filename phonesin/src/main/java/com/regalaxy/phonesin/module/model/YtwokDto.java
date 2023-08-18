@@ -1,6 +1,5 @@
 package com.regalaxy.phonesin.module.model;
 
-import com.regalaxy.phonesin.module.model.entity.Ytwok;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

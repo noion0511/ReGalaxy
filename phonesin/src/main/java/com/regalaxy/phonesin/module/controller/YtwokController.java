@@ -1,19 +1,17 @@
 package com.regalaxy.phonesin.module.controller;
 
 import com.regalaxy.phonesin.module.model.YtwokDto;
-import com.regalaxy.phonesin.module.model.service.QuartzService;
 import com.regalaxy.phonesin.module.model.service.YtwokService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.quartz.SchedulerException;
-import org.springframework.core.io.*;
-import org.springframework.http.*;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @CrossOrigin
@@ -27,7 +25,7 @@ public class YtwokController {
     private static final String FAIL = "fail";
 
     private final YtwokService ytwokService;
-    private final QuartzService quartzService;
+//    private final QuartzService quartzService;
 
     @ApiOperation(value = "이미지업로드")
     @PostMapping("/apply")
@@ -41,7 +39,7 @@ public class YtwokController {
             resultMap.put("message", SUCCESS);
             resultMap.put("status", 201);
 
-            quartzService.start(ytwokDto.getSaveFile(), ytwokDto.getOriginalFile());
+//            quartzService.start(ytwokDto.getSaveFile(), ytwokDto.getOriginalFile());
             return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
         } catch (Exception e) {
             resultMap.put("error", e.toString());
