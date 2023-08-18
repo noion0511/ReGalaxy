@@ -1,0 +1,954 @@
+<!DOCTYPE HTML>
+<!--
+	Projection by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Projection by TEMPLATED</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" th:href="@{/assets/css/list.css}" />
+	<link rel="stylesheet" href="../static/assets/css/list.css" />
+</head>
+
+<body>
+
+	<!-- Header -->
+	<header id="header">
+		<div class="inner">
+			<a href="/" class="logo"><img style="object-fit: cover; width:2em" th:src="@{/images/logo.PNG}" /></a>
+		</div>
+	</header>
+
+	<!-- Banner -->
+	<section id="banner">
+		<div class="inner">
+			<header>
+				<h1><span th:text="${title}"></span> 목록</h1>
+			</header>
+		</div>
+	</section>
+
+
+	<!-- Three -->
+	<section id="three" class="wrapper align-center">
+		<div class="inner">
+			<div class="search flex flex-4" style="justify-content: space-between;">
+				<div>
+					<p id="isRental" th:if="${title=='휴대폰'}">대여중</p>
+					<p id="isY2K" th:if="${title=='휴대폰'}">Y2K</p>
+					<p id="isClimateHumidity" th:if="${title=='휴대폰'}">습온도계</p>
+					<p id="isHomecam" th:if="${title=='휴대폰'}">홈캠</p>
+					<p id="isAccept" th:if="${title=='기증'}" onclick="donationAccept()">수락</p>
+					<p id="isReceive" th:if="${title=='기증'}" onclick="donationReceive()">수령</p>
+					<p id="ready" th:if="${title=='대여'}" onclick="ready()">대기중</p>
+					<p id="success" th:if="${title=='반납'}" onclick="success()">완료</p>
+					<p id="isBlack" th:if="${title=='회원'}" onclick="isBlack()" style="width: 6em;">블랙리스트</p>
+					<p id="isCha" th:if="${title=='회원'}" onclick="isCha()" style="width: 6em;">차상위계층</p>
+					<p id="isBanner" th:if="${title=='공지'}" onclick="notiType(1)" style="width: 6em;">배너용</p>
+					<p id="isBottom" th:if="${title=='공지'}" onclick="notiType(2)" style="width: 6em;">바텀용</p>
+					<p id="isReserve" th:if="${title=='공지'}" onclick="notistatus(1)" style="width: 6em;">예약됨</p>
+					<p id="isProcess" th:if="${title=='공지'}" onclick="notistatus(2)" style="width: 6em;">진행중</p>
+					<p id="isEnd" th:if="${title=='공지'}" onclick="notistatus(3)" style="width: 6em;">종료됨</p>
+				</div>
+				<div>
+					<p th:if="${title=='공지'}" th:onclick="notiApplyModal()">공지 생성</p>
+				</div>
+			</div>
+			<div id="result">
+				<div th:block class="flex flex-4" th:if="${title=='휴대폰'}">
+					<article class="card" th:each="list : ${list}">
+						<header class="flex flex-3" style="justify-content: space-between;">
+							<span> </span>
+							<h3 th:text="${list.phoneId}" style="margin-left:0.5em;">폰아이디</h3>
+							<span class="icon fa-pencil" th:onclick="openModal([[${list.phoneId}]], [[${list.modelName}]], [[${list.serialNumber}]])"></span>
+						</header>
+						<p th:text="${list.serialNumber}"></p>
+						<div class="flex flex-3" style="justify-content: center;">
+							<p th:text="${list.modelName}"></p>
+							<p>/</p>
+							<p th:text="${list.nickname}"></p>
+						</div>
+						<div class="module flex flex-3">
+							<p th:if="${list.isY2K}">Y2K</p>
+							<p th:if="${list.isClimateHumidity}">습온도계</p>
+							<p th:if="${list.isHomecam}">홈캠</p>
+						</div>
+						<p class="rental" th:if="${list.isRental}"> 대여중</p>
+						<p th:if="${!list.isRental}">대여가능</p>
+						<button th:if="${!list.isRental}" class="blackBtn" th:onclick="deletePhone([[${list.phoneId}]])">삭제</button>
+					</article>
+				</div>
+				<div class="flex flex-4" th:if="${title=='기증'}">
+					<article class="card" th:each="list : ${list}">
+						<header>
+							<h3 th:text="${list.donationId}">기증아이디</h3>
+						</header>
+						<p th:text="${list.donationCreatedAt}"></p>
+						<p th:text="${list.donationDeliveryDate}"></p>
+						<p th:if="${list.donationStatus==1}">신청 대기 중</p>
+						<p th:if="${list.donationStatus==2}">수거 중</p>
+						<p th:if="${list.donationStatus==3}">수거 완료</p>
+						<button th:if="${list.donationStatus==1}" class="blackBtn" th:onclick="acceptApply([[${list.donationId}]])">수락</button>
+						<button th:if="${list.donationStatus==2}" class="blackBtn" th:onclick="doApply([[${list.donationId}]])">수령</button>
+					</article>
+				</div>
+				<div class="flex flex-4" th:if="${title=='대여'}">
+					<article class="card" th:each="list : ${list}">
+						<header>
+							<h3 th:text="${list.rentalId}">대여 아이디</h3>
+						</header>
+						<p th:text="${list.applyDate}">신청 날짜</p>
+						<div class="module flex flex-3">
+							<p th:if="${list.isY2K}">Y2K</p>
+							<p th:if="${list.isClimateHumidity}">습온도계</p>
+							<p th:if="${list.isHomecam}">홈캠</p>
+						</div>
+						<div class="flex flex-3" style="justify-content: center;">
+							<button th:if="${list.rentalStatus==1}" class="blackBtn" th:onclick="rentalApply([[${list.rentalId}]])">수락</button>
+							<button th:if="${list.rentalStatus==1}" class="blackBtn" th:onclick="rentalBack([[${list.rentalId}]])">반려</button>
+						</div>
+						<p th:if="${list.rentalStatus==2}">배달 대기 중</p>
+						<p th:if="${list.rentalStatus==3}">배달 중</p>
+						<p th:if="${list.rentalStatus==4}">대여 중</p>
+						<p th:if="${list.rentalStatus==5}">반납 완료</p>
+						<p th:if="${list.rentalStatus==-1}">신청 거절</p>
+					</article>
+				</div>
+				<div class="flex flex-4" th:if="${title=='반납'}">
+					<article class="card" th:each="list : ${list}">
+						<header>
+							<h3 th:text="${list.backId}">반납아이디</h3>
+						</header>
+						<p th:text="${list.createAt}">반납 신청 날짜</p>
+						<p th:if="${list.backStatus==1}">반납 중</p>
+						<p th:if="${list.backStatus==2}">반납 완료</p>
+						<p th:text="${list.review}">리뷰</p>
+					</article>
+				</div>
+				<div class="flex flex-4" th:if="${title=='회원'}">
+					<article class="card" th:each="list : ${list}">
+						<header>
+							<h3 th:text="${list.memberName}">회원 이름</h3>
+						</header>
+						<p th:text="${list.email}">이메일</p>
+						<p th:text="${list.phoneNumber}">폰 번호</p>
+						<p th:text="${list.createdAt}">생성 날짜</p>
+						<p th:if="${list.isCha}">차상위계층</p>
+						<p th:if="${list.isBlackList}">블랙리스트</p>
+						<button th:if="${!list.isBlackList}" class="blackBtn" th:onclick="setBlack([[${list.email}]])">블랙리스트 추가</button>
+					</article>
+				</div>
+				<div class="flex flex-4" th:if="${title=='공지'}">
+					<article class="card" th:each="list : ${list}" th:id="${'cardnoti' + list.noticeId}">
+						<header>
+							<h3 th:text="${list.title}">공지 제목</h3>
+						</header>
+						<img th:src="${'/notice/image/' + list.posterUrl}" style="width: 100px">
+						<div class="module flex flex-3">
+							<p th:if="${list.noticeType == 1}">배너용</p>
+							<p th:if="${list.noticeType == 2}">바텀용</p>
+							<p th:id="${'notist' + list.noticeId}" th:if="${list.status == 1}">예약됨</p>
+							<p th:id="${'notist' + list.noticeId}" th:if="${list.status == 2}">진행중</p>
+							<p th:id="${'notist' + list.noticeId}" th:if="${list.status == 3}">종료됨</p>
+						</div>
+						<div class="flex flex-3" style="justify-content: center;">
+							<button th:id="${'notibtn' + list.noticeId}" th:if="${list.status == 1}" class="blackBtn" th:onclick="noticeProcessing([[${list.noticeId}]])">진행시켜</button>
+							<button th:id="${'notibtn' + list.noticeId}" th:if="${list.status == 2}" class="blackBtn" th:onclick="noticeProcessing([[${list.noticeId}]])">종료시켜</button>
+						</div>
+					</article>
+				</div>
+			</div>
+		</div>
+	</section>
+	<div id='modal'>
+
+	</div>
+
+	<!-- Scripts -->
+	<script th:src="@{/assets/js/jquery.min.js}"></script>
+	<script th:src="@{/assets/js/skel.min.js}"></script>
+	<script th:src="@{/assets/js/util.js}"></script>
+	<script th:src="@{/assets/js/main.js}"></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
+	<script th:inline="javascript">
+        document.getElementById("isRental").onclick = function(){
+            var container = document.getElementById("isRental");
+			phoneActive(container);
+        };
+        document.getElementById("isY2K").onclick = function(){
+            var container = document.getElementById("isY2K");
+			phoneActive(container);
+        };
+        document.getElementById("isClimateHumidity").onclick = function(){
+            var container = document.getElementById("isClimateHumidity");
+			phoneActive(container);
+        };
+        document.getElementById("isHomecam").onclick = function(){
+            var container = document.getElementById("isHomecam");
+			phoneActive(container);
+        };
+
+		function phoneActive(container){
+            if(container.className != 'activeBtn'){
+            	container.classList.add('activeBtn');
+				phoneHtml();
+            }else{
+				container.classList.remove('activeBtn');
+            	phoneHtml();
+            }
+		}
+		function donationAccept(){
+            var container1 = document.getElementById("isAccept");
+            var container2 = document.getElementById("isReceive");
+            if(container1.className != 'activeBtn'){
+            	container1.classList.add('activeBtn');
+				container2.classList.remove('activeBtn');
+				donationHtml();
+            }else{
+				container1.classList.remove('activeBtn');
+				donationHtml();
+            }
+		}
+		function donationReceive(){
+            var container1 = document.getElementById("isAccept");
+            var container2 = document.getElementById("isReceive");
+            if(container2.className != 'activeBtn'){
+            	container2.classList.add('activeBtn');
+				container1.classList.remove('activeBtn');
+				donationHtml();
+            }else{
+				container2.classList.remove('activeBtn');
+				donationHtml();
+            }
+		}
+        function ready(){
+            var container = document.getElementById("ready");
+            if(container.className != 'activeBtn'){
+            	container.classList.add('activeBtn');
+				rentalHtml();
+            }else{
+				container.classList.remove('activeBtn');
+				rentalHtml();
+            }
+        };
+        function success(){
+            var container = document.getElementById("success");
+            if(container.className != 'activeBtn'){
+            	container.classList.add('activeBtn');
+				backHtml();
+            }else{
+				container.classList.remove('activeBtn');
+				backHtml();
+            }
+        };
+        function isBlack(){
+            var container = document.getElementById("isBlack");
+            if(container.className != 'activeBtn'){
+            	container.classList.add('activeBtn');
+				memberHtml();
+            }else{
+				container.classList.remove('activeBtn');
+				memberHtml();
+            }
+        };
+        function isCha(){
+            var container = document.getElementById("isCha");
+            if(container.className != 'activeBtn'){
+            	container.classList.add('activeBtn');
+				memberHtml();
+            }else{
+				container.classList.remove('activeBtn');
+				memberHtml();
+            }
+        };
+
+		function acceptApply(donationId){
+			fetch(`accept/${donationId}`, {
+				method: 'PUT',
+				headers: { 'Content-Type': 'application/json' },
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					setDonationHtml(data);
+				});
+		}
+		function doApply(donationId){
+			fetch(`receive/${donationId}`, {
+				method: 'PUT',
+				headers: { 'Content-Type': 'application/json' },
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					setDonationHtml(data);
+				});
+		}
+
+		function setBlack(email){
+			fetch(`blacklist/${email}`, {
+				method: 'PUT',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					black : document.getElementById("isBlack").className=='activeBtn',
+					cha : document.getElementById("isCha").className=='activeBtn'
+				}),
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					setMemberHtml(data);
+				});
+		}
+
+		function deletePhone(phoneId){
+			fetch(`delete/${phoneId}`, {
+				method: 'DELETE',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					rental : document.getElementById("isRental").className == 'activeBtn',
+					y2K : document.getElementById("isY2K").className=='activeBtn',
+					climateHumidity : document.getElementById("isClimateHumidity").className=='activeBtn',
+					homecam: document.getElementById("isHomecam").className=='activeBtn',
+				}),
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					setPhoneHtml(data);
+				});
+		}
+        function rentalApply(rentalId){
+			fetch(`apply`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					rentalId : rentalId,
+					apply : true,
+					ready : document.getElementById("ready").className=='activeBtn'
+				}),
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					setRentalHtml(data)
+				});
+        };
+        function rentalBack(rentalId){
+			fetch(`apply`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					rentalId : rentalId,
+					apply : false,
+					ready : document.getElementById("ready").className=='activeBtn'
+				}),
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					setRentalHtml(data);
+				});
+        };
+
+		/*<![CDATA[*/
+		function noticeProcessing(noticeId) {
+			let list = /*[[${list}]]*/;
+			const id = noticeId;
+			for (let i = 0; i < list.length; i++) {
+				if (list[i].noticeId == noticeId) {
+					if (list[i].status == 1) {
+						document.getElementById('notist' + noticeId).innerText = '진행중'
+						document.getElementById('notibtn' + noticeId).innerText = '종료시켜'
+						document.getElementById('notibtn' + noticeId).onclick = function noticeEnding() {
+							let list = /*[[${list}]]*/;
+							for (let i = 0; i < list.length; i++) {
+								if (list[i].noticeId == id) {
+									document.getElementById('notist' + noticeId).innerText = '종료됨'
+									document.getElementById('notibtn' + noticeId).style.display = 'none'
+									fetch(`/admin/notice/toend/${noticeId}`, {
+										method: 'PUT'
+									})
+									list[i].status = 3
+								}
+							}
+						}
+						fetch(`/admin/notice/toprocess/${noticeId}`, {
+							method: 'PUT'
+						})
+						list[i].status = 2
+					}
+					else if (list[i].status == 2) {
+						document.getElementById('notist' + noticeId).innerText = '종료됨'
+						document.getElementById('notibtn' + noticeId).style.display = 'none'
+						fetch(`/admin/notice/toend/${noticeId}`, {
+							method: 'PUT'
+						})
+						list[i].status = 3
+					}
+				}
+			}
+		};
+		/*]]>*/
+		
+
+		function notiType(type) {
+			const banner = document.getElementById('isBanner');
+			const bottom = document.getElementById('isBottom');
+			if ((type == 1 && banner.classList.contains('activeBtn')) || (type == 2 && bottom.classList.contains('activeBtn'))) {
+				banner.classList.remove('activeBtn');
+				bottom.classList.remove('activeBtn');
+				localStorage.setItem('type', null);
+			}
+			else if (type == 1) { // banner
+				banner.classList.add('activeBtn');
+				bottom.classList.remove('activeBtn');
+				localStorage.setItem('type', type);
+			} else if (type == 2) { // bottom
+				bottom.classList.add('activeBtn');
+				banner.classList.remove('activeBtn');
+				localStorage.setItem('type', type);
+			}
+			showListUpdate();
+		};
+
+		function notistatus(status) {
+			const reserve = document.getElementById('isReserve');
+			const process = document.getElementById('isProcess');
+			const end = document.getElementById('isEnd');
+
+			if ((status == 1 && reserve.classList.contains('activeBtn')) || (status == 2 && process.classList.contains('activeBtn')) || (status == 3 && end.classList.contains('activeBtn'))) {
+				reserve.classList.remove('activeBtn');
+				process.classList.remove('activeBtn');
+				end.classList.remove('activeBtn');
+				localStorage.setItem('status', null)
+			}
+			else if (status == 1) { // 예정
+				reserve.classList.add('activeBtn');
+				process.classList.remove('activeBtn');
+				end.classList.remove('activeBtn');
+				localStorage.setItem('status', status)
+			} else if (status == 2) { // 진행
+				reserve.classList.remove('activeBtn');
+				process.classList.add('activeBtn');
+				end.classList.remove('activeBtn');
+				localStorage.setItem('status', status)
+			} else if (status == 3) { // 종료
+				reserve.classList.remove('activeBtn');
+				process.classList.remove('activeBtn');
+				end.classList.add('activeBtn');
+				localStorage.setItem('status', status)
+			}
+			showListUpdate();
+		};
+
+
+
+		/*<![CDATA[*/
+		function showListUpdate() {
+			const globalstatus = localStorage.getItem('status');
+			const globaltype = localStorage.getItem('type');
+			const list = /*[[${list}]]*/;
+			list.forEach((noti) => {
+				if (globalstatus == 'null' && globaltype == 'null') {
+					document.getElementById('cardnoti' + noti.noticeId).style.display = '';
+				} else if (globalstatus == 'null') {
+					if (noti.noticeType == globaltype) document.getElementById('cardnoti' + noti.noticeId).style.display = '';
+					else document.getElementById('cardnoti' + noti.noticeId).style.display = 'none';
+				} else if (globaltype == 'null') {
+					if (noti.status == globalstatus) document.getElementById('cardnoti' + noti.noticeId).style.display = '';
+					else document.getElementById('cardnoti' + noti.noticeId).style.display = 'none';
+				} else {
+					if (noti.status == globalstatus && noti.noticeType == globaltype) document.getElementById('cardnoti' + noti.noticeId).style.display = '';
+					else document.getElementById('cardnoti' + noti.noticeId).style.display = 'none';
+				}
+			})
+		};
+		/*]]>*/
+
+
+		
+
+		function phoneHtml() {
+			fetch(`list`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					rental : document.getElementById("isRental").className == 'activeBtn',
+					y2K : document.getElementById("isY2K").className=='activeBtn',
+					climateHumidity : document.getElementById("isClimateHumidity").className=='activeBtn',
+					homecam: document.getElementById("isHomecam").className=='activeBtn',
+				}),
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					setPhoneHtml(data);});
+		};
+
+		function donationHtml(){
+			console.log(document.getElementById("isAccept").className == 'activeBtn');
+			console.log(document.getElementById("isReceive").className == 'activeBtn');
+			fetch(`list`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					accept : document.getElementById("isAccept").className == 'activeBtn',
+					receive : document.getElementById("isReceive").className=='activeBtn',
+				}),
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					setDonationHtml(data);});
+		}
+
+		function rentalHtml(){
+			fetch(`list`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					ready : document.getElementById("ready").className=='activeBtn'
+				}),
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					setRentalHtml(data);
+				});
+		};
+
+		function memberHtml(){
+			fetch(`list`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					black : document.getElementById("isBlack").className=='activeBtn',
+					cha : document.getElementById("isCha").className=='activeBtn'
+				}),
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					setMemberHtml(data);
+				});
+		};
+
+		function openModal(phoneId, modelName, serialNumber){
+			fetch(`model`, {
+				method: 'GET',
+				headers: { 'Content-Type': 'application/json' }
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					var modal = document.getElementById('modal');
+					modal.style.display='block';
+					modal.innerHTML = ``;
+					var html = `
+							<div id='content'>
+								<div class="modalBtndiv">
+									<p id="modalPhoneId">${phoneId}</p>
+									<Button class="modalBtn" onclick="closeModal()">X</Button>
+								</div>
+								<label>serial number</label>
+								<input id='modalSerialNumber' value='${serialNumber}'/><br/>
+								<label>phone model</label>
+								<select class='modalNickname' id="modalModelId">`;
+					data.list.forEach(function(item){
+						if(item.modelName==modelName){
+							html += `
+									<option value="${item.modelId}" selected>${item.modelName}-${item.nickname}</option>`;
+						}
+						else{
+							html += `
+									<option value="${item.modelId}">${item.modelName}-${item.nickname}</option>`;
+						}
+					});
+					html += `
+								</select><br/>
+								<label style="margin:0;">기능</label>
+								<input type="checkbox" id="isY2KCheckBox">Y2K<br/>
+								<input type="checkbox" id="isHomecamCheckBox">홈캠<br/>
+								<input type="checkbox" id="isClimateHumidityCheckBox">습온도계<br/>
+								<Button class="blackBtn" style="margin-top:1em; padding:0em 0.5em 0em 0.5em;" onclick="updatePhone()">수정</Button>
+							</div>`;
+					modal.innerHTML += html;
+				});
+		}
+		
+		function notiApplyModal(){
+			var modal = document.getElementById('modal');
+			modal.style.display='block';
+			modal.innerHTML = ``;
+			var html = `
+					<div id='content'>
+						<form action="/admin/notice/apply" method="post" enctype="multipart/form-data">
+							<div class="modalBtndiv">
+								<Button class="modalBtn" onclick="closeModal()">X</Button>
+							</div>
+							<label>notice title</label>
+							<input type="text" id='noticeTitle' name="title" value=''/><br/>
+							<label>poster image</label>
+							<input type="file" id="noticePoster" name="file" accept="image/png, image/jpeg" />
+							<div class="flex">
+								<input type="radio" id="noticeBanner" name="noticeType" value="1" />
+								<label for="Banner">Banner</label>
+							</div>
+							<div class="flex">
+								<input type="radio" id="noticeBottom" name="noticeType" value="2" />
+								<label for="Bottom">Bottom</label>
+							</div>
+							<Button class="blackBtn" style="margin-top:1em; padding:0em 0.5em 0em 0.5em;" onclick="applyNotice()">생성</Button>
+						</form>
+					</div>`;
+			modal.innerHTML += html;
+		}
+
+		function applyNotice(){
+			const title = document.getElementById("noticeTitle").value
+			const radios = document.getElementsByName("noticeType");
+			const selected = Array.from(radios).find(radio => radio.checked);
+
+			const url = "/admin/notice/apply?title=" + title + "&noticeType=" + selected.value;
+			var myHeaders = new Headers();
+			myHeaders.append("Authorization", "Bearer " + sessionStorage.getItem("accessToken"));
+
+			var formdata = new FormData();
+			formdata.append("file", document.getElementById("noticePoster").files[0]);
+
+			var requestOptions = {
+				method: 'POST',
+				headers: myHeaders,
+				body: formdata,
+				redirect: 'follow'
+			};
+
+			fetch(url, requestOptions)
+					.then(response => response.json())
+					.then(result => setNoticeHtml())
+					.catch(error => console.log('error', error));
+
+			closeModal()
+		}
+
+		function closeModal(){
+			var modal = document.getElementById('modal');
+			modal.style.display='none';
+			modal.innerHTML = ``;
+		}
+
+		function updatePhone(){
+			fetch(`update`, {
+				method: 'PUT',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					phoneId : document.getElementById("modalPhoneId").innerHTML,
+					donationId : 0,
+					serialNumber : document.getElementById("modalSerialNumber").value,
+					modelId : document.getElementById("modalModelId").value,
+					y2K : document.getElementById("isY2KCheckBox").checked,
+					homecam : document.getElementById("isHomecamCheckBox").checked,
+					climateHumidity : document.getElementById("isClimateHumidityCheckBox").checked,
+					searchRental : document.getElementById("isRental").className == 'activeBtn',
+					searchY2K : document.getElementById("isY2K").className=='activeBtn',
+					searchClimateHumidity : document.getElementById("isClimateHumidity").className=='activeBtn',
+					searchHomecam: document.getElementById("isHomecam").className=='activeBtn',
+				}),
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					setPhoneHtml(data);
+				});
+			var modal = document.getElementById('modal');
+			modal.style.display='none';
+			modal.innerHTML = ``;
+			//fetch로 데이터 넘기기
+		}
+
+		//phone
+		function setPhoneHtml(data){
+			document.getElementById('result').innerHTML = ``;
+			var html = `
+					<div class="flex flex-4">`;
+			data.list.forEach(function(item) {
+				html += `
+						<article class="card">
+							<header class="flex flex-3" style="justify-content: space-between;">
+								<span> </span>
+								<h3 style="margin-left:0.5em;">${item.phoneId}</h3>
+								<span class="icon fa-pencil" onclick="openModal(${item.phoneId}, '${item.modelName}', '${item.serialNumber}')"></span>
+							</header>
+							<p>${item.serialNumber}</p>
+							<div class="flex flex-3" style="justify-content: center;">
+								<p>${item.modelName}</p>
+								<p>/</p>
+								<p>${item.nickname}</p>
+							</div>
+							<div class="module flex flex-3">`;
+				if(item.y2K) {
+					html += `
+					<p>Y2K</p>`;
+				}
+				if(item.climateHumidity) {
+					html += `
+					<p>습온도계</p>`;
+				}
+				if(item.homecam) {
+					html += `
+					<p>홈캠</p>`;
+				}
+				html += `</div>`;
+				if(item.rental) {
+					html += `
+							<p class="rental"> 대여중</p>`;
+				}
+				if(!item.rental) {
+					html += `
+							<p> 대여가능</p>
+							<button class="blackBtn" onclick="deletePhone(${item.phoneId})">삭제</button>`;
+				}
+				html += `
+						</article>`;
+			});
+			html += `
+				</div>`;
+			document.getElementById('result').innerHTML += html;
+		}
+
+		//donation
+		function setDonationHtml(data){
+			document.getElementById('result').innerHTML = ``;
+			var html = `
+				<div class="flex flex-4">`;
+			data.list.forEach(function(item) {
+				html += `
+					<article class="card">
+						<header>
+							<h3>${item.donationId}</h3>
+						</header>
+						<p>${item.donationCreatedAt}</p>
+						<p>${item.donationDeliveryDate}</p>`;
+				if(item.donationStatus==1){
+					html += `
+						<p>신청 대기 중</p>
+						<button class="blackBtn" onclick="acceptApply(${item.donationId})">수락</button>`;
+				}else if(item.donationStatus==2){
+					html += `
+						<p>수거 중</p>
+						<button class="blackBtn" onclick="doApply(${item.donationId})">수령</button>`;
+				}else if(item.donationStatus==3){
+					html += `
+						<p>수거 완료</p>`;
+				}
+					html += `							
+							</article>`;
+			});
+			html += `</div>`;
+			document.getElementById('result').innerHTML+=html;
+		}
+
+		//rental
+		function setRentalHtml(data){
+			if(data.back){
+				alert("대여할 휴대폰이 없습니다.");
+			}
+			else{
+				document.getElementById('result').innerHTML = ``;
+				var html = `
+						<div class="flex flex-4">`;
+				data.list.forEach(function(item) {
+					html += `
+							<article class="card">
+								<header>
+									<h3>${item.rentalId}</h3>
+								</header>
+								<p>${item.applyDate}</p>
+								<div class="module flex flex-3">`;
+					if(item.y2K) {
+						html += `
+						<p>Y2K</p>`;
+					}
+					if(item.climateHumidity) {
+						html += `
+						<p>습온도계</p>`;
+					}
+					if(item.homecam) {
+						html += `
+						<p>홈캠</p>`;
+					}
+					html += `</div>
+					<div class="flex flex-3" style="justify-content: center;">`;
+					if(item.rentalStatus == 1) {
+						html += `
+								<button class="blackBtn" onclick="rentalApply(${item.rentalId})">수락</button>
+								<button class="blackBtn" onclick="rentalBack(${item.rentalId})">반려</button>`;
+					}
+					html += `</div>`;
+					if(item.rentalStatus == 2) {
+						html += `
+								<p> 배달 대기 중</p>`;
+					}
+					if(item.rentalStatus == 3) {
+						html += `
+								<p> 배달 중</p>`;
+					}
+					if(item.rentalStatus == 4) {
+						html += `
+								<p> 대여 중</p>`;
+					}
+					if(item.rentalStatus == 5) {
+						html += `
+								<p> 반납 완료</p>`;
+					}
+					if(item.rentalStatus == -1) {
+						html += `
+								<p> 신청 거절</p>`;
+					}
+					html += `
+							</article>`;
+				});
+				html += `
+					</div>`;
+				document.getElementById('result').innerHTML += html;
+			}
+		}
+
+		//return
+		function backHtml(){
+			fetch(`list`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					success : document.getElementById("success").className=='activeBtn'
+				}),
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					document.getElementById('result').innerHTML = ``;
+					var html = `
+							<div class="flex flex-4">`;
+					data.list.forEach(function(item) {
+						html += `
+								<article class="card">
+									<header>
+										<h3>${item.backId}</h3>
+									</header>
+									<p>${item.createAt}</p>`;
+						if(item.backStatus==1) {
+							html += `
+							<p>반납 중</p>`;
+						}
+						if(item.backStatus==2) {
+							html += `
+							<p>반납 완료</p>`;
+						}
+							html += `
+								<p>${item.review}</p>
+							</article>`;
+					});
+					html += `
+						</div>`;
+					document.getElementById('result').innerHTML += html;
+				});
+		};
+		
+		//Member
+		function setMemberHtml(data){
+			document.getElementById('result').innerHTML = ``;
+			var html = `
+					<div class="flex flex-4">`;
+
+			data.list.forEach(function(item) {
+						html += `
+								<article class="card">
+									<header>
+										<h3>${item.memberName}</h3>
+									</header>
+									<p>${item.email}</p>
+									<p>${item.phoneNumber}</p>
+									<p>${item.createdAt}</p>`;
+						if(item.isCha) {
+							html += `
+							<p>차상위계층</p>`;
+						}
+						if(item.isBlackList) {
+							html += `
+							<p>블랙리스트</p>`;
+						}else{
+							html += `
+									<button class="blackBtn" onclick="setBlack(${item.email})">블랙리스트 추가</button>`;
+						}
+						html += `
+							</article>`;
+					});
+					html += `
+						</div>`;
+					document.getElementById('result').innerHTML += html;
+		}
+
+		//Notice
+		function setNoticeHtml(){
+			document.getElementById('result').innerHTML = ``;
+			fetch(`/notice/list`, {
+				method: 'GET',
+				headers: { 'Content-Type': 'application/json' }
+			})
+					.then(response => response.json())
+					.then(data => {
+						var html = `
+		<div class="flex flex-4">`;
+						data.notice.forEach((item) => {
+							html += `
+			<article class="card" id="cardnoti + ${item.noticeId}">
+				<header>
+					<h3>${item.title}</h3>
+				</header>
+				<img src="${'/notice/image/' + item.posterUrl}" style="width: 100px">
+				<div class="module flex flex-3">`;
+
+							if(item.noticeType == 1){
+								html += `<p>배너용</p>`;
+							} else if (item.noticeType == 2){
+								html += `<p>바텀용</p>`;
+							}
+
+							if(item.status == 1){
+								html += `<p id="${'notist' + item.noticeId}">예약됨</p></div>`;
+							} else if (item.status == 2){
+								html += `<p id="${'notist' + item.noticeId}">진행중</p></div>`;
+							} else if (item.status == 3){
+								html += `<p id="${'notist' + item.noticeId}">종료됨</p></div>`;
+							}
+
+							html += `<div class="flex flex-3" style="justify-content: center;">`;
+
+							if(item.status == 1){
+								html += `<button id="${'notibtn' + item.noticeId}" class="blackBtn"
+						onclick="noticeProcessing(${item.noticeId})">진행시켜
+						</button></div>`;
+							} else if (item.status == 2){
+								html += `<button id="${'notibtn' + item.noticeId}" class="blackBtn"
+						onclick="noticeProcessing(${item.noticeId})">종료시켜
+						</button></div>`;
+							}
+
+							html += `</article>`;
+						});
+						html += `</div>`;
+						document.getElementById('result').innerHTML += html;
+					})
+		}
+
+	</script>
+
+</body>
+
+</html>

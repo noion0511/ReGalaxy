@@ -1,0 +1,41 @@
+spring:
+  profiles:
+    active: db
+  jpa:
+    hibernate:
+      ddl-auto: update # 운영시에는 validate 추천
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  jwt:
+    secret: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHa
+  mail:
+    host: ENC(kkMfWJ9U7hqVgAioVQzDgO6DgWCU9bL8)
+    port: 587
+    username: ENC(jD9gTPObek1HMylzFo6gd0K82MG/VGi9DyGUnHeyf8I=)
+    password: ENC(LS+2RH/15dhzu0lF/dLGeqH5E5o2b5ky/uFSGPayvdE=)
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+server:
+  port: 8080
+
+thymeleaf:
+  prefix=classpath: /templates/
+  suffix: .html
+  check-template-location: true
+  cache: false
+  mvc:
+    static-path-pattern: "/static/**"

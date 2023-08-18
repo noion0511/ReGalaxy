@@ -1,0 +1,183 @@
+<!DOCTYPE HTML>
+<!--
+	Projection by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+
+<html>
+	<head>
+		<title>Projection by TEMPLATED</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body>
+
+		<!-- Header -->
+			<header id="header">
+				<div class="inner">
+					<a href="index.html" class="logo"><img style="object-fit: cover; width:2em" src="images/logo.PNG" /></a>
+					<div id="dropdown" style="display: inline-block;" class="c dropdown">
+						<ul>
+							<li class="dropdownBtn" id="login"><button onClick="location.href='admin/member/login'" class="blackBtn">login</button></li>
+							<li class="dropdownBtn" id="logout" style="display: none"><button onClick=logout() class="blackBtn">logout</button></li>
+							<li class="dropdownBtn" id="clickArea">
+								<button class="blackBtn" onclick ="clickshow(this,'list')">admin</button>
+								<ul id="list">
+									<li><a href="admin/phone/list">phone</a></li>
+									<li><a href="admin/donation/list">donation</a></li>
+									<li><a href="admin/rental/list">rental</a></li>
+									<li><a href="admin/back/list">return</a></li>
+									<li><a href="admin/member/list">member</a></li>
+									<li><a href="admin/notice/list">notice</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</header>
+
+		<!-- Banner -->
+			<section id="banner">
+				<div class="inner">
+					<header>
+						<h1>폰고지신 다운로드</h1>
+					</header>
+
+					<div class="flex ">
+
+						<div>
+							<span class="icon fa-mobile"></span>
+							<h3>Phone</h3>
+							<p>donation and rental</p>
+						</div>
+
+						<div>
+							<span class="icon fa-camera"></span>
+							<h3>Y2K Camera</h3>
+							<p>Taking pictures, 10 years ago phone </p>
+						</div>
+
+						<div>
+							<span class="icon fa-video-camera"></span>
+							<h3>Homecam</h3>
+							<p>see the house everywhere</p>
+						</div>
+
+					</div>
+
+					<footer>
+						<a href="/download/phonegojisin" class="button">DOWNLOAD</a>
+					</footer>
+				</div>
+			</section>
+
+
+		<!-- Three -->
+			<section id="three" class="wrapper align-center">
+				<div class="inner">
+					<div class="flex flex-2">
+						<article>
+							<div class="image round">
+								<img src="images/galaxyS7.jpg"/>
+							</div>
+							<header>
+								<h3>See the home anywhere<br/>with old phone</h3>
+							</header>
+							<p>집에 있는 아이들이나 빈 집이 걱정되시나요?<br />당신은 무료로 홈캠을 설치하여 사용할 수 있습니다.<br />어디에 있든 집을 확인하고 안심하세요.</p>
+							<footer>
+								<a href="#" class="button">Learn More</a>
+							</footer>
+						</article>
+						<article>
+							<div class="image round">
+								<img src="images/galaxyS2.jpg"/>
+							</div>
+							<header>
+								<h3>Take a picture<br /> phone from 10 years ago</h3>
+							</header>
+							<p>예전 휴대폰 사진의 감성을 다시 한 번 느껴보세요.<br/>특별한 프레임이 씌워진 사진을 찍어 감상할 수 있습니다.<br/>사진 부스를 만들어 모두 함께 즐겨봐요.</p>
+							<footer>
+								<a href="#" class="button">Learn More</a>
+							</footer>
+						</article>
+					</div>
+				</div>
+			</section>
+
+		<div class="copyright">
+			Made with: <a href="https://templated.co/">Templated.co</a>
+		</div>
+		<form id="index-phone-form" method="get" action="admin/phone/list">
+			<input type="hidden" id="isRental" name="isRental" value="false">
+			<input type="hidden" id="isY2K" name="isY2K" value="false">
+			<input type="hidden" id="isClimateHumidity" name="isClimateHumidity" value="false">
+			<input type="hidden" id="isHomecam" name="isHomecam" value="false">
+		</form>
+
+
+		<script>
+			function clickshow(elem,ID) {
+				 var menu = document.getElementById(ID);
+					menu.style.display = "block";
+			}
+
+			function logout() {
+				alert("로그아웃 되었습니다.")
+				sessionStorage.clear()
+				reload()
+			}
+
+			function reload()
+			{
+				if(sessionStorage.getItem('accessToken') != null) {
+					document.getElementById('login').style.display = "none";
+					document.getElementById('logout').style.display = "";
+					document.getElementById('clickArea').style.display = "";
+				}
+				else{
+					document.getElementById('login').style.display = "";
+					document.getElementById('logout').style.display = "none";
+					document.getElementById('clickArea').style.display = "none";
+				}
+			}
+
+			window.addEventListener('DOMContentLoaded', reload);
+
+			document.addEventListener('mousemove', function(e){
+				var dropdown = document.getElementById("clickArea");
+				if(!dropdown.contains(e.target)){
+					document.getElementById("list").style.display = "none";
+				}
+			});
+
+			document.getElementById('phoneList').onclick = function(){
+				const obj = {
+				  "isRental": false,
+				  "isY2K": false,
+				  "isClimateHumidity": false,
+				  "isHomecam": false
+				};
+				const data = {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': 'Bearer ' + sessionStorage.getItem('accessToken')
+					},
+					body: JSON.stringify(obj)
+				};
+				fetch(`admin/phone/list`, data)
+					.then((response) => response.json())
+					.then((data) => {location.href="list.html"});
+			};
+		</script>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

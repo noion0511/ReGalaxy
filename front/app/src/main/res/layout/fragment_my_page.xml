@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/frameLayoutMyPage"
+    tools:context=".ui.mypage.MyPageFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/textViewMyPageTitle"
+                style="@style/textview_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="25dp"
+                android:text="마이페이지" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_gray_corner_15"
+                android:gravity="start"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textViewMypageName"
+                        style="@style/textview_title_secondary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="김싸피" />
+
+                    <ImageView
+                        android:id="@+id/imageViewIconCha"
+                        android:layout_width="20sp"
+                        android:layout_height="20sp"
+                        android:layout_marginStart="5dp"
+                        android:src="@drawable/icon_cha" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textViewEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/pretendard_bold"
+                    android:text="ssafy123@ssafy.com"
+                    android:textColor="@color/gray"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_gray_corner_15"
+                android:gravity="start"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    style="@style/textview_title_secondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="기기" />
+
+                <LinearLayout
+                    android:id="@+id/layoutRental"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20sp"
+                        android:layout_height="20sp"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/icon_rental" />
+
+                    <TextView
+                        style="@style/textview_content_black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="내 대여 기록" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layoutReturn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20sp"
+                        android:layout_height="20sp"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/icon_return" />
+
+                    <TextView
+                        style="@style/textview_content_black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="내 반납 기록" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layoutDonate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20sp"
+                        android:layout_height="20sp"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/icon_donate" />
+
+                    <TextView
+                        style="@style/textview_content_black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="내 기증 기록" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_gray_corner_15"
+                android:gravity="start"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    style="@style/textview_title_secondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="계정" />
+
+                <TextView
+                    android:id="@+id/textViewModifyInfo"
+                    style="@style/textview_content_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="사용자 정보 변경" />
+
+                <TextView
+                    android:id="@+id/textViewNotificationSetting"
+                    style="@style/textview_content_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="알림 설정" />
+
+                <TextView
+                    android:id="@+id/textViewLogout"
+                    style="@style/textview_content_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="로그아웃" />
+
+                <TextView
+                    android:id="@+id/textViewWithdrawal"
+                    style="@style/textview_content_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="회원 탈퇴" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

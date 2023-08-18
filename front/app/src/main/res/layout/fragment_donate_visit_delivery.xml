@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.mobile.donatemobile.DonateVisitDeliveryFragment">
+
+        <TextView
+            android:id="@+id/textViewDonateVisitDeliveryMessage"
+            style="@style/textview_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/donate_visit_delivery"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/border_mobile_add_layout"
+            android:padding="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewDonateVisitDeliveryMessage">
+
+            <TextView
+                android:id="@+id/textViewDonateVisitDeliveryAddress"
+                style="@style/textview_title_secondary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/address"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <RadioGroup
+                android:id="@+id/radioGroupDonateDelivery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:theme="@style/MyCheckBox"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textViewDonateVisitDeliveryAddress">
+
+                <RadioButton
+                    android:id="@+id/radioButtonDonateVisitDeliveryExistAddress"
+                    style="@style/textview_content_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/exist_address"
+                    android:theme="@style/MyCheckBox" />
+
+                <Spinner
+                    android:id="@+id/spinnerDonateAddress"
+                    style="@style/textview_content_black"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:background="@drawable/edit_text_border_selector"
+                    android:padding="10dp"
+                    android:popupBackground="@color/white" />
+
+                <RadioButton
+                    android:id="@+id/radioButtonDonateVisitDeliveryNewAddress"
+                    style="@style/textview_content_black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/new_address"
+                    android:theme="@style/MyCheckBox" />
+
+                <EditText
+                    android:id="@+id/editTextDonateAddress"
+                    style="@style/textview_content_black"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="20dp"
+                    android:background="@drawable/edit_text_border_selector"
+                    android:hint="@string/hint_edit_address"
+                    android:padding="10dp" />
+
+            </RadioGroup>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/buttonPostDonateVisitDelivery"
+            style="@style/textview_button_white_big"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_black_corner_0"
+            android:text="@string/request"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

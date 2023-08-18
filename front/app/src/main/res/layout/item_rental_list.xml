@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imageViewItemRentalClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/baseline_close_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewItemRentalDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageViewItemRentalClose"
+        tools:text=" - 기간 : 6달" />
+
+    <TextView
+        android:id="@+id/textViewItemRentalAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintStart_toStartOf="@id/textViewItemRentalDate"
+        app:layout_constraintTop_toBottomOf="@id/textViewItemRentalDate"
+        tools:text=" - 주소 : 구미시 진평동 한마음센터 103동" />
+
+    <TextView
+        android:id="@+id/textViewItemRentalPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintStart_toStartOf="@id/textViewItemRentalAddress"
+        app:layout_constraintTop_toBottomOf="@id/textViewItemRentalAddress"
+        tools:text=" - 보증금 : 10,000원" />
+
+    <TextView
+        android:id="@+id/textViewItemRentalFunction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/textViewItemRentalPrice"
+        app:layout_constraintTop_toBottomOf="@id/textViewItemRentalPrice"
+        tools:text=" - 원하는 기능 : 사진" />
+
+    <Button
+        android:id="@+id/buttonChangeOption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/item_rental_change_option"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@id/textViewItemRentalFunction"
+        app:layout_constraintTop_toBottomOf="@id/textViewItemRentalFunction" />
+
+    <ImageView
+        android:id="@+id/imageViewRentalPlus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/plus_circle"
+        app:layout_constraintBottom_toBottomOf="@id/buttonChangeOption"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/buttonChangeOption" />
+
+    <TextView
+        android:id="@+id/textViewRentalCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintBottom_toBottomOf="@id/imageViewRentalPlus"
+        app:layout_constraintEnd_toStartOf="@id/imageViewRentalPlus"
+        app:layout_constraintTop_toTopOf="@id/imageViewRentalPlus"
+        tools:text="1" />
+
+    <ImageView
+        android:id="@+id/imageViewRentalMinus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:src="@drawable/minus_circle"
+        app:layout_constraintBottom_toBottomOf="@id/textViewRentalCount"
+        app:layout_constraintEnd_toStartOf="@id/textViewRentalCount"
+        app:layout_constraintTop_toTopOf="@id/textViewRentalCount" />
+
+
+        <View
+            android:id="@+id/rentalListDivider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="#eeeff1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttonChangeOption" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

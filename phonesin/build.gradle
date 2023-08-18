@@ -17,7 +17,50 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.jetbrains:annotations:24.0.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	// swagger
+	implementation 'io.springfox:springfox-swagger2:2.9.2'
+	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
+
+	// mysql + jpa
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	implementation 'javax.persistence:javax.persistence-api'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	// QueryDSLa
+	implementation 'com.querydsl:querydsl-core'
+	implementation 'com.querydsl:querydsl-jpa'
+
+	// Security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
+	//thymeleaf
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+
+	// email-sender
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+	// Jasypt
+	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.3'
+
+	// JSONObject
+	implementation 'org.json:json:20210307'
+
+	// Quartz (scheduling)
+//	implementation 'org.springframework.boot:spring-boot-starter-quartz:2.7.5'
+	
+	// Bean Validation API and Hibernate Validator
+	implementation 'javax.validation:validation-api:2.0.1.Final'
+	implementation 'org.hibernate.validator:hibernate-validator:6.1.5.Final'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 }
 
 tasks.named('test') {

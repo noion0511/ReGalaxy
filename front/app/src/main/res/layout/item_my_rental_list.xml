@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardViewRentalMobile"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@color/white"
+    app:cardBackgroundColor="@color/white"
+    app:cardUseCompatPadding="true"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="15dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutToggleUp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25dp">
+
+            <TextView
+                android:id="@+id/textViewMobileName"
+                style="@style/textview_card_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Galaxy S3"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/layoutState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imageViewToggle"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/textViewStateRegist"
+                    style="@style/textview_card_state_unselected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="신청" />
+
+                <TextView
+                    style="@style/textview_card_state_unselected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" - " />
+
+                <TextView
+                    android:id="@+id/textViewStateApprove"
+                    style="@style/textview_card_state_unselected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="승인" />
+
+                <TextView
+                    style="@style/textview_card_state_unselected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" - " />
+
+                <TextView
+                    android:id="@+id/textViewStateDelivery"
+                    style="@style/textview_card_state_unselected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="배송" />
+
+                <TextView
+                    style="@style/textview_card_state_unselected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" - " />
+
+                <TextView
+                    android:id="@+id/textViewStateRental"
+                    style="@style/textview_card_state_unselected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="대여" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imageViewToggle"
+                android:layout_width="20sp"
+                android:layout_height="20sp"
+                android:src="@drawable/baseline_keyboard_arrow_down_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/dividerToggle"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:layout_height="1.5dp"
+            android:visibility="gone"
+            app:dividerColor="@color/borderColor"/>
+
+        <LinearLayout
+            android:id="@+id/layoutToggleDown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="start"
+            android:visibility="gone"
+            android:layout_marginHorizontal="25dp">
+
+            <LinearLayout
+                android:id="@+id/layoutProductNum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/textview_card_content_big"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Product No."/>
+
+                <TextView
+                    android:id="@+id/textViewProductNum"
+                    style="@style/textview_card_content_big"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="238562312"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    style="@style/textview_card_content_big"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="대여비용 : "/>
+
+                <TextView
+                    android:id="@+id/textViewRentalCost"
+                    style="@style/textview_card_content_big"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10,000"/>
+
+                <TextView
+                    style="@style/textview_card_content_big"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="원"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutRental"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/textview_card_content_small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="대여 시작일 : "/>
+
+                    <TextView
+                        android:id="@+id/textViewRentalStartDate"
+                        style="@style/textview_card_content_small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2023/08/18"/>
+
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/textview_card_content_small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="대여 종료일 : "/>
+
+                    <TextView
+                        android:id="@+id/textViewRentalEndDate"
+                        style="@style/textview_card_content_small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2023/12/18"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutDelivery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:paddingVertical="15dp">
+
+                <Button
+                    android:id="@+id/buttonTrackingDelivery"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_blue_corner_12"
+                    android:text="배송 정보 조회"
+                    android:minHeight="0dp"
+                    style="@style/textview_card_button_white"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutApprove"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/textview_card_content_small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="신청 기능 : "/>
+
+                    <TextView
+                        android:id="@+id/textViewRentalFunction"
+                        style="@style/textview_card_content_small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="사진 / 홈캠 / 온도계"/>
+
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/textview_card_content_small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="배달 장소 : "/>
+
+                    <TextView
+                        android:id="@+id/textViewRentalAddress"
+                        style="@style/textview_card_content_small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="경상북도 구미시 진평동 291-2"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutRegist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:paddingVertical="15dp">
+
+                <Button
+                    android:id="@+id/buttonCancelRegist"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_blue_corner_12"
+                    android:text="취소"
+                    android:minHeight="0dp"
+                    style="@style/textview_card_button_white"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textViewRentalDate"
+                style="@style/textview_card_content_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="viewEnd"
+                android:text="2023/08/03"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
