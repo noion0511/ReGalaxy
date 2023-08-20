@@ -1,5 +1,12 @@
 # 빌드 및 배포
 
+## Android
+
+minSdk : 18 ( 홈캠 기능 용 : 21 )   
+targetSdk : 33   
+jvmTarget : 1.8
+
+
 ## Spring Server
 JVM : openjdk:8-jdk   
 server : ubuntu 20.04 LTS (GNU/Linux 5.4.0-1018-aws x86_64)   
@@ -9,27 +16,6 @@ Spring boot : 2.7.14
 프로젝트에서 사용한 라이브러리 버전
 ![spring classpath](/exec/resources/classpath.PNG)
 
-application.yml
-
-```
-spring:
-  mail:
-    host: {사용하는 SMTP 서버 주소}
-    port: {사용하는 SMTP 서버 포트번호}
-    username: {사용하는 SMTP 서버 아이디}
-    password: {사용하는 SMTP 서버 앱 비밀번호}
-```
-
-application-db.yml
-
-```
-spring:
-  datasource:
-    driver-class-name: {DB에 맞는 driver}
-    url: {DB URL}
-    username: {계정명}
-    password: {비밀번호}
-```
 
 ### VM option
 -Djasypt.encryptor.password=s1s2a3f4y@
@@ -42,8 +28,27 @@ cd phonesin
 
 ## 주요 계정 및 프로퍼티가 정의된 파일 목록
 
-phonesin/src/main/resources/application.yml
-phonesin/src/main/resources/application-db.yml
+phonesin/src/main/resources/application.yml (MailSender 설정)
+
+```
+spring:
+  mail:
+    host: {사용하는 SMTP 서버 주소}
+    port: {사용하는 SMTP 서버 포트번호}
+    username: {사용하는 SMTP 서버 아이디}
+    password: {사용하는 SMTP 서버 앱 비밀번호}
+```
+
+phonesin/src/main/resources/application-db.yml (DB 설정)
+
+```
+spring:
+  datasource:
+    driver-class-name: {DB에 맞는 driver}
+    url: {DB URL}
+    username: {계정명}
+    password: {비밀번호}
+```
 
 
 # 외부 서비스
