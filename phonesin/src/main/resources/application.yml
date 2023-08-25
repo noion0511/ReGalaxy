@@ -16,7 +16,7 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
   jwt:
-    secret: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHa
+    secret: ENC(P/oD4Zj+gk9uQ2NIVjkxxu4AKpGZZ3oA56g1JLJ2ZDlJ2uf03EyyM1nqrIaheWxjL5nRgr/5mKuXd1r5OSvIvA==)
   mail:
     host: ENC(kkMfWJ9U7hqVgAioVQzDgO6DgWCU9bL8)
     port: 587
