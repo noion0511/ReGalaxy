@@ -4,12 +4,6 @@ spring:
     url: ENC(uNp1I04XLkeakxRobS89LQ5Jimfc8a+9EmdG6wv2U6CbPRnD93eE+8P1XoWqXAPvrzXNBgh0/vg=)
     username: ENC(IShacdOKlJ30vTGX8172PM0nkvr4pzMu)
     password: ENC(PSuKHqKzQVhsx9KV5Bs/7266gSHDz7Mh)
-#    url: jdbc:mysql://stg-yswa-kr-practice-db-master.mariadb.database.azure.com:3306/S09P12D102
-#    username: S09P12D102@stg-yswa-kr-practice-db-master.mariadb.database.azure.com
-#    password: 11jBMoEHvm
-#    url: jdbc:mysql://127.0.0.1:3306/S09P12D102
-#    username: root
-#    password: ssafy
     hikari:
       maximumpoolsize: 150
       connectionTimeout : 30000
